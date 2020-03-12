@@ -10,13 +10,20 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    const ROLE_ADMIN = 1; // admin role
+    const ROLE_MANAGER = 2; // manager role
+    const ROLE_MODERATOR = 3; // manager role
+
+    const STATUS_NO_ACTIVE = 0; // not active
+    const STATUS_ACTIVE = 1; // active
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'username', 'email', 'password', 'is_admin', 'role', 'active'
     ];
 
     /**
@@ -36,4 +43,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // public function username()
+    // {
+    //     return "username";
+    // }
 }
