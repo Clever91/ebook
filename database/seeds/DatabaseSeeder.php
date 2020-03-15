@@ -11,6 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // must be default values
         $this->call(CreateAdminUserSeeder::class);
+
+        // random 
+        $this->call(CreateRandomProductSeeder::class);
     }
 }
