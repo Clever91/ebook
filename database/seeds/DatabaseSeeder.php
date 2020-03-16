@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
 
         // random 
         $this->call(CreateRandomProductSeeder::class);
+        $this->call(CreateRandomCategorySeeder::class);
     }
 }
