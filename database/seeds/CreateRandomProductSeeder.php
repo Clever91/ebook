@@ -33,8 +33,8 @@ class CreateRandomProductSeeder extends Seeder
                 ],
                 'price' => $faker->randomFloat(null, 10000, 99000),
                 'eprice' => $faker->randomFloat(null, 1000, 10000),
-                'ebook' => 1,
-                'status' => 1,
+                'ebook' => Product::HAS_EBOOK,
+                'status' => Product::STATUS_ACTIVE,
                 'created_by' => $admin->id,
             ]);
         }

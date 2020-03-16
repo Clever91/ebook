@@ -10,6 +10,12 @@ class Product extends Model implements TranslatableContract
 {
     use Translatable;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_NO_ACTIVE = 0;
+
+    const HAS_EBOOK = 1;
+    const HAS_NOT_EBOOK = 0;
+
     public $translatedAttributes = ['name', 'description', 'is_default'];
 
     protected $fillable = [
