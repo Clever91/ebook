@@ -18,17 +18,17 @@ class CreateRandomGroupSeeder extends Seeder
         $admin = User::where('is_admin', 1)->first();
 
         foreach (range(1, 20) as $index) {
-            $category = new Group();
+            $group = new Group();
             foreach(config('translatable.locales') as $locale) {
-                $category->translateOrNew($locale)->name = $faker->word() . " - " . $locale;
-                $category->translateOrNew($locale)->is_default = 0;
+                $group->translateOrNew($locale)->name = $faker->word() . " - " . $locale;
+                $group->translateOrNew($locale)->is_default = 0;
                 if ($defaultLang == $locale)
-                    $category->translateOrNew($locale)->is_default = 1;
+                    $group->translateOrNew($locale)->is_default = 1;
             }
-            $category->order_no = $index;
-            $category->status = Group::STATUS_ACTIVE;
-            $category->created_by = $admin->id;
-            $category->save();
+            $group->order_no = $index;
+            $group->status = Group::STATUS_ACTIVE;
+            $group->created_by = $admin->id;
+            $group->save();
         }
     }
 }

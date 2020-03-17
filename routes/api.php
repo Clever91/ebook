@@ -20,6 +20,10 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('login', 'API\DeviceController@login');
         Route::post('languages', 'API\DeviceController@languages');
     });
+    
+    Route::group(['prefix' => 'home'], function() {
+        Route::post('welcome', 'API\HomeController@welcome');
+    });
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
