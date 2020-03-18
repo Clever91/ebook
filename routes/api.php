@@ -23,7 +23,14 @@ Route::group(['prefix' => 'v1'], function() {
     
     Route::group(['prefix' => 'home'], function() {
         Route::post('store', 'API\HomeController@store');
-        Route::post('category_list', 'API\HomeController@categories');
+    });
+
+    Route::group(['prefix' => 'category'], function() {
+        Route::post('category_list', 'API\CategoryController@categories');
+    });
+
+    Route::group(['prefix' => 'product'], function() {
+        Route::post('product_list', 'API\ProductController@products');
     });
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {
