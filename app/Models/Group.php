@@ -13,9 +13,9 @@ class Group extends Model implements TranslatableContract
     const STATUS_ACTIVE = 1;
     const STATUS_NO_ACTIVE = 0;
 
-    const TYPE_CATEGORY = 1; 
-    const TYPE_PRODUCT = 2;
-    const TYPE_AUTHOR = 3;
+    const TYPE_CATEGORY = "C"; 
+    const TYPE_PRODUCT = "P";
+    const TYPE_AUTHOR = "A";
 
     public $translatedAttributes = ['name', 'is_default'];
 

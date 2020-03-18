@@ -22,7 +22,8 @@ Route::group(['prefix' => 'v1'], function() {
     });
     
     Route::group(['prefix' => 'home'], function() {
-        Route::post('welcome', 'API\HomeController@welcome');
+        Route::post('store', 'API\HomeController@store');
+        Route::post('category_list', 'API\HomeController@categories');
     });
 
     Route::middleware('auth:api')->get('/user', function (Request $request) {

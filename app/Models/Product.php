@@ -21,4 +21,9 @@ class Product extends Model implements TranslatableContract
     protected $fillable = [
         'price', 'eprice', 'ebook', 'status', 'updated_by', 'created_by'
     ];
+
+    public function getImageUrl()
+    {
+        return url('/images/no_book.jpg');
+    }
 }
