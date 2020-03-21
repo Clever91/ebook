@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGroupCategoriesTable extends Migration
+class CreateGroupRelationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,25 +13,19 @@ class CreateGroupCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_categories', function (Blueprint $table) {
+        Schema::create('group_relations', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_id')->unsigned();
+            $table->bigInteger('related_id')->unsigned();
             $table->bigInteger('group_id')->unsigned();
+            $table->string('type')->comment('P-product, C-Category, A-Author');
             $table->integer('order_no');
             $table->bigInteger('updated_by')->nullable();
             $table->bigInteger('created_by');
             $table->timestamps();
         });
-        
-        Schema::table('group_categories', function($table) {
-            $table->foreign('group_id')
-                ->references('id')
-                ->on('groups')
-                ->onDelete('cascade');
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories')
-                ->onDelete('cascade');
+
+        Schema::table('group_relations', function($table) {
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 
@@ -42,6 +36,6 @@ class CreateGroupCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_categories');
+        Schema::dropIfExists('group_relations');
     }
 }

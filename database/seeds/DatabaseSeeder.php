@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateRandomProductSeeder::class);
         $this->call(CreateRandomCategorySeeder::class);
         $this->call(CreateRandomGroupSeeder::class);
-        $this->call(RelatedGroupToProductSeeder::class);
-        $this->call(RelatedGroupToCategorySeeder::class);
         $this->call(CreateRandomAuthorSeeder::class);
+        $this->call(CreateRandomGroupRalationSeeder::class);
     }
 }

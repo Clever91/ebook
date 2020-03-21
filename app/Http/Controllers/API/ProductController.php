@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\GroupRelation;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -28,13 +29,16 @@ class ProductController extends BaseController
         $success["limit"] = $this->_limit;
 
         $lang = $this->_lang;
+        $type = GroupRelation::TYPE_PRODUCT;
+
         $query = DB::table('products AS pro')
         ->leftJoin('product_translations AS pt', function ($join) use ($lang) {
             $join->on('pro.id', '=', 'pt.product_id')
             ->where('pt.locale', '=', $lang);
         })
-        ->leftJoin('group_products AS gp', function ($join) {
-            $join->on('pro.id', '=', 'gp.product_id');
+        ->leftJoin('group_relations AS grel', function ($join) use ($type) {
+            $join->on('pro.id', '=', 'grel.related_id')
+                ->where('grel.type', '=', $type);
         })
         ->where('pro.status', '=', Product::STATUS_ACTIVE);
         
@@ -52,7 +56,7 @@ class ProductController extends BaseController
 
         // add group filter
         if (!is_null($group_id)) {
-            $query->where('gp.group_id', $group_id);
+            $query->where('grel.group_id', $group_id);
         }
 
         $query->select(
