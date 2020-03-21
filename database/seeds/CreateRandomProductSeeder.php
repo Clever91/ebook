@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Product;
 use App\User;
 use Illuminate\Database\Seeder;
@@ -14,10 +15,12 @@ class CreateRandomProductSeeder extends Seeder
     public function run()
     {
         $admin = User::where('is_admin', 1)->first();
+        $category = Category::first();
         $faker = Faker\Factory::create();
 
         foreach (range(1, 50) as $index) {
             Product::create([
+                'category_id' => $category->id,
                 'en' => [
                     'name' => $faker->word() . " (en)",
                     'description' => $faker->paragraph() . " (en)",

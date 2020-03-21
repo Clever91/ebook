@@ -15,7 +15,7 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->tinyInteger('order_no');
+            $table->integer('order_no');
             $table->tinyInteger('status')->default(0)->comment("0-not active, 1-active");
             $table->bigInteger('updated_by')->nullable();
             $table->bigInteger('created_by');

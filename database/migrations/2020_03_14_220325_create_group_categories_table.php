@@ -17,7 +17,7 @@ class CreateGroupCategoriesTable extends Migration
             $table->id();
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('group_id')->unsigned();
-            $table->tinyInteger('order_no');
+            $table->integer('order_no');
             $table->bigInteger('updated_by')->nullable();
             $table->bigInteger('created_by');
             $table->timestamps();

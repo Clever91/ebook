@@ -15,6 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('category_id');
             $table->decimal('price', 12, 2, true);
             $table->decimal('eprice', 12, 2, true)->nullable();
             $table->tinyInteger('ebook')->default(0)->comment("0-ebook doesn't exists, 1-ebook exists");

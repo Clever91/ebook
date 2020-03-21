@@ -41,34 +41,8 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function login(Request $request)
+    public function username()
     {
-        $this->validateLogin($request);
-
-        if ($this->hasTooManyLoginAttempts($request)) {
-            $this->fireLockoutEvent($request);
-
-            return $this->sendLockoutResponse($request);
-        }
-
-        if($this->guard()->validate($this->credentials($request))) {
-            if(Auth::attempt([
-                'email' => $request->email, 
-                'password' => $request->password, 
-                'active' => User::STATUS_ACTIVE
-            ])) {
-                return redirect()->intended('home');
-            }  else {
-                $this->incrementLoginAttempts($request);
-                return response()->json([
-                    'error' => 'This account is not activated.'
-                ], 401);
-            }
-        } else {
-            $this->incrementLoginAttempts($request);
-            return response()->json([
-                'error' => 'Credentials do not match our database.'
-            ], 401);
-        }
+        return 'username';
     }
 }

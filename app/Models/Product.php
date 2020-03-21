@@ -19,7 +19,7 @@ class Product extends Model implements TranslatableContract
     public $translatedAttributes = ['name', 'description', 'is_default'];
 
     protected $fillable = [
-        'price', 'eprice', 'ebook', 'status', 'updated_by', 'created_by'
+        'category_id', 'price', 'eprice', 'ebook', 'status', 'updated_by', 'created_by'
     ];
 
     public function getImageUrl()

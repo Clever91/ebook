@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // must be default values
         $this->call(CreateAdminUserSeeder::class);
+        $this->call(CreateDefaultValueSeeder::class);
 
         // random params
         $this->call(CreateRandomProductSeeder::class);
