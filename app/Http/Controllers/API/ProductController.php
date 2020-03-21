@@ -18,6 +18,12 @@ class ProductController extends BaseController
             $category_id = $request->input("category_id");
         }
 
+        // check author_id exists
+        $author_id = null;
+        if ($request->has("author_id")) {
+            $author_id = $request->input("author_id");
+        }
+
         // check group_id exists
         $group_id = null;
         if ($request->has("group_id")) {
@@ -32,6 +38,9 @@ class ProductController extends BaseController
         $type = GroupRelation::TYPE_PRODUCT;
 
         $query = DB::table('products AS pro')
+        ->join('authors AS au', function($join) {
+            $join->on('pro.author_id', '=', 'au.id');
+        })
         ->leftJoin('product_translations AS pt', function ($join) use ($lang) {
             $join->on('pro.id', '=', 'pt.product_id')
             ->where('pt.locale', '=', $lang);
@@ -54,6 +63,11 @@ class ProductController extends BaseController
             $query->where('pro.category_id', $category_id);
         }
 
+        // add author filter
+        if (!is_null($author_id)) {
+            $query->where('pro.author_id', $author_id);
+        }
+
         // add group filter
         if (!is_null($group_id)) {
             $query->where('grel.group_id', $group_id);
@@ -61,7 +75,7 @@ class ProductController extends BaseController
 
         $query->select(
             'pro.id', 'pt.name', 'pt.description', 
-            'pro.price', 'pro.eprice')
+            'au.name AS author', 'pro.price', 'pro.eprice')
             ->orderBy('pt.name');
         
         $success["total"] = $query->count();
