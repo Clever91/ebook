@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use App\Models\Product;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -29,6 +30,15 @@ class CreateRandomCategorySeeder extends Seeder
             $category->status = Category::STATUS_ACTIVE;
             $category->created_by = $admin->id;
             $category->save();
+
+            // change product category
+            $products = Product::take(10)->skip(($index-1) * 10)->get();
+            if ($products->count() > 0) {
+                foreach($products as $product) {
+                    $product->category_id = $category->id;
+                    $product->save();
+                }
+            }
         }
     }
 }

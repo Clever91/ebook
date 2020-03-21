@@ -12,16 +12,16 @@ class ProductController extends BaseController
     public function products(Request $request)
     {
         // check category_id exists
-        // $category_id = null;
-        // if ($request->has("category_id")) {
-        //     $category_id = $request->input("category_id");
-        // }
+        $category_id = null;
+        if ($request->has("category_id")) {
+            $category_id = $request->input("category_id");
+        }
 
-        // check product_id exists
-        // $category_id = null;
-        // if ($request->has("category_id")) {
-        //     $category_id = $request->input("category_id");
-        // }
+        // check group_id exists
+        $group_id = null;
+        if ($request->has("group_id")) {
+            $group_id = $request->input("group_id");
+        }
 
         $success = [];
         $success["page"] = $this->_page;
@@ -33,16 +33,31 @@ class ProductController extends BaseController
             $join->on('pro.id', '=', 'pt.product_id')
             ->where('pt.locale', '=', $lang);
         })
+        ->leftJoin('group_products AS gp', function ($join) {
+            $join->on('pro.id', '=', 'gp.product_id');
+        })
         ->where('pro.status', '=', Product::STATUS_ACTIVE);
         
-        // add text if not null
+        // add text filter
         $txt = $this->_text;
         if (!is_null($txt)) {
             $query->where('pt.name', 'LIKE', '%'.$txt.'%')
                 ->orWhere('pt.description', 'LIKE', '%'.$txt.'%');
         }
 
-        $query->select('pro.id', 'pt.name', 'pt.description', 'pro.price', 'pro.eprice')
+        // add category filter
+        if (!is_null($category_id)) {
+            $query->where('pro.category_id', $category_id);
+        }
+
+        // add group filter
+        if (!is_null($group_id)) {
+            $query->where('gp.group_id', $group_id);
+        }
+
+        $query->select(
+            'pro.id', 'pt.name', 'pt.description', 
+            'pro.price', 'pro.eprice')
             ->orderBy('pt.name');
         
         $success["total"] = $query->count();
