@@ -17,6 +17,9 @@ class User extends Authenticatable
     const STATUS_NO_ACTIVE = 0; // not active
     const STATUS_ACTIVE = 1; // active
 
+    const ADMIN = 1;
+    const NO_ADMIN = 0;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -43,9 +46,4 @@ class User extends Authenticatable
     // protected $casts = [
     //     'email_verified_at' => 'datetime',
     // ];
-
-    public function username()
-    {
-        return "username";
-    }
 }

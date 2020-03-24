@@ -14,13 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
-
 Route::get('/', function() {
     return redirect('login');
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
+Auth::routes(['register' => false]);
+
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    
+    Route::resource('user', 'Admin\UserController');
 });
