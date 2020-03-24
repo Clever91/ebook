@@ -12,6 +12,9 @@ class ProductController extends BaseController
 {
     public function products(Request $request)
     {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+        
         // check category_id exists
         $category_id = null;
         if ($request->has("category_id")) {

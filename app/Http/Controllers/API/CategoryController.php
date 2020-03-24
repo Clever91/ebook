@@ -11,6 +11,9 @@ class CategoryController extends BaseController
 {
     public function categories(Request $request)
     {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+
         $success = [];
         $success["page"] = $this->_page;
         $success["limit"] = $this->_limit;

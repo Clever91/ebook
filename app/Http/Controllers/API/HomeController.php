@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Device;
 use App\Models\Group;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\GroupRelation;
 
@@ -13,13 +11,8 @@ class HomeController extends BaseController
 {
     public function store(Request $request)
     {
-        $device = Device::where([
-            'status' => Device::STATUS_ACTIVE,
-            'token' => $request->input('token'),
-        ])->first();
-        
-        if (is_null($device))
-            return $this->sendError('Device Error', ['error'=>'This token does not exists']); 
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
 
         $success = [];
         $success['items'] = [];

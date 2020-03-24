@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -47,6 +48,19 @@ class BaseController extends Controller
 
         // set language
         App::setLocale($this->_lang);
+    }
+
+    public function authDevice($request)
+    {
+        $device = Device::where([
+            'status' => Device::STATUS_ACTIVE,
+            'token' => $request->input('token'),
+        ])->first();
+        
+        if (is_null($device))
+            return $this->sendError('Device Error', ['error'=>'This token does not exists'], 403);
+            
+        return true;
     }
 
     /**

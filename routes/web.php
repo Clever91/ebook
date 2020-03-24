@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,10 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//web.php
+// Route::fallback(function () {
+//     dd('web');
+//     return abort(404);
+//     // return view('errors.404'); //custom view
+// });

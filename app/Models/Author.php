@@ -13,6 +13,11 @@ class Author extends Model
         'name', 'bio', 'status', 'updated_by', 'created_by'
     ];
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function getImageUrl()
     {
         return url('/images/no_book.jpg');

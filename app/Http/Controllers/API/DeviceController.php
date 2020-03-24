@@ -25,7 +25,7 @@ class DeviceController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error:', $validator->errors());       
+            return $this->sendError('Validation Error:', $validator->errors(), 400);       
         }
 
         $input = $request->all();
@@ -44,7 +44,7 @@ class DeviceController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function check(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'token' => 'required',
@@ -52,7 +52,7 @@ class DeviceController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error', $validator->errors());       
+            return $this->sendError('Validation Error', $validator->errors(), 400);    
         }
 
         $device = Device::where([
@@ -65,22 +65,17 @@ class DeviceController extends BaseController
             $success['token'] =  $device->token; 
             $success['name'] =  $device->name;
 
-            return $this->sendResponse($success, 'Device has logined successfully');
+            return $this->sendResponse($success, 'This device has exists in server');
         } 
         else { 
-            return $this->sendError('Device Error', ['error'=>'This token does not exists']);
+            return $this->sendError('Device Error', ['error'=>'This token does not exists'], 403);
         } 
     }
 
     public function languages(Request $request)
     {
-        $device = Device::where([
-            'status' => Device::STATUS_ACTIVE,
-            'token' => $request->input('token'),
-        ])->first();
-        
-        if (is_null($device))
-            return $this->sendError('Device Error', ['error'=>'This token does not exists']); 
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
 
         $success['languages'] = config('translatable.locales');
     

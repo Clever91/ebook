@@ -17,7 +17,7 @@ Route::group(['prefix' => 'v1'], function() {
     
     Route::group(['prefix' => 'device'], function() {
         Route::post('register', 'API\DeviceController@register');
-        Route::post('login', 'API\DeviceController@login');
+        Route::post('check', 'API\DeviceController@check');
         Route::post('languages', 'API\DeviceController@languages');
     });
     
@@ -33,7 +33,17 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('product_list', 'API\ProductController@products');
     });
 
+    Route::group(['prefix' => 'author'], function() {
+        Route::post('author_list', 'API\AuthorController@authors');
+        Route::post('author_info', 'API\AuthorController@author');
+    });
+
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
     });
 });
+
+// Route::fallback(function () {
+//     // return (new BaseController())->sendError('Url is not found', ['error' => 'Not Found!'], 404);
+//     return response()->json(['error' => 'Not Found!'], 404);
+// });
