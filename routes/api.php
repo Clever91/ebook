@@ -41,9 +41,5 @@ Route::group(['prefix' => 'v1'], function() {
     Route::middleware('auth:api')->get('/user', function (Request $request) {
         return $request->user();
     });
+    
 });
-
-// Route::fallback(function () {
-//     // return (new BaseController())->sendError('Url is not found', ['error' => 'Not Found!'], 404);
-//     return response()->json(['error' => 'Not Found!'], 404);
-// });
