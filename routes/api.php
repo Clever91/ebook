@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['prefix' => 'product'], function() {
         Route::post('product_list', 'API\ProductController@products');
+        Route::post('product_info', 'API\ProductController@product');
     });
 
     Route::group(['prefix' => 'author'], function() {

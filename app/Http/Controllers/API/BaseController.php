@@ -58,7 +58,7 @@ class BaseController extends Controller
         ])->first();
         
         if (is_null($device))
-            return $this->sendError('Device Error', ['error'=>'This token does not exists'], 403);
+            return $this->sendError('Device Error', ['error' => 'This token does not exists'], 403);
             
         return true;
     }
