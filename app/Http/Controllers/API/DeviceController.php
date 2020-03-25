@@ -19,8 +19,10 @@ class DeviceController extends BaseController
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'os' => 'required',
-            'version' => 'required',
+            'model' => 'required',
+            'type' => 'required|in:I,A,D',
+            'os_version' => 'required',
+            'app_version' => 'required',
             'uuid' => 'required|unique:devices'
         ]);
 

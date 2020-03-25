@@ -16,8 +16,10 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('os');
-            $table->string('version');
+            $table->string('model');
+            $table->string('os_version');
+            $table->string('app_version');
+            $table->string('type', 4);
             $table->string('uuid')->unique();
             $table->string('token')->unique();
             $table->tinyInteger('status')->default(0)->comment("0-not active, 1-active");

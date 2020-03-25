@@ -10,6 +10,6 @@ class Device extends Model
     const STATUS_NO_ACTIVE = 0;
 
     protected $fillable = [
-        'name', 'os', 'version', 'status', 'uuid', 'token'
+        'name', 'model', 'os_version', 'app_version', 'type', 'status', 'uuid', 'token'
     ];
 }
