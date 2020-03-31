@@ -14,4 +14,5 @@ return [
     */
 
     'users' => 'Users',
+    'username' => 'Username',
 ];

@@ -18,6 +18,7 @@ Route::group(['prefix' => 'v1'], function() {
     Route::group(['prefix' => 'device'], function() {
         Route::post('register', 'API\DeviceController@register');
         Route::post('check', 'API\DeviceController@check');
+        Route::delete('delete', 'API\DeviceController@delete');
         Route::post('languages', 'API\DeviceController@languages');
     });
     

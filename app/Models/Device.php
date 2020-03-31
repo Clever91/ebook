@@ -12,4 +12,10 @@ class Device extends Model
     protected $fillable = [
         'name', 'model', 'os_version', 'app_version', 'type', 'status', 'uuid', 'token'
     ];
+
+    public function makeNotActive()
+    {
+        $this->status = self::STATUS_NO_ACTIVE;
+        $this->save();
+    }
 }
