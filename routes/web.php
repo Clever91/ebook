@@ -18,6 +18,10 @@ Route::get('/', function() {
     return redirect('login');
 });
 
+Route::get('/auth', function() {
+    return view('auth.firebase');
+});
+
 Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
