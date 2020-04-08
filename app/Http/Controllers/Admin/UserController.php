@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
 {
@@ -26,7 +28,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.user.create')->with([
+            'user' => new User()
+        ]);
     }
 
     /**
@@ -37,8 +41,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $attributes = $request->validate([
+            'name' => 'required|min:3',
+            'username' => 'required|unique:users',
+            'password' => 'required|min:5',
+            'active' => 'required',
+            'role' => 'required',
+        ]);
+        
+        $attributes["active"] = $request->input("active") == "on" ? User::STATUS_ACTIVE : User::STATUS_NO_ACTIVE;
+        $attributes["password"] = Hash::make($attributes["password"]);
+        
+        $user = User::create($attributes);
+
+        if (!is_null($user)) {
+            Session::flash('message', __('app.added_successfully')); 
+            Session::flash('alert-class', 'alert-success'); 
+        }
+
+        return redirect()->route('user.index');
+    }   
 
     /**
      * Display the specified resource.
