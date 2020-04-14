@@ -13,6 +13,7 @@ class BaseController extends Controller
     protected $_limit = 15;
     protected $_offset = 0;
     protected $_text = null;
+    protected $_device = null;
 
     public function __construct(Request $request)
     {
@@ -52,12 +53,12 @@ class BaseController extends Controller
 
     public function authDevice($request)
     {
-        $device = Device::where([
+        $this->_device = Device::where([
             'status' => Device::STATUS_ACTIVE,
             'token' => $request->input('token'),
         ])->first();
         
-        if (is_null($device))
+        if (is_null($this->_device))
             return $this->sendError('Device Error', ['error' => 'This token does not exists'], 403);
             
         return true;

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Customer;
+use App\Models\CustomerDevice;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 
@@ -30,12 +32,41 @@ class FirebaseController extends BaseController
         $user = $this->auth->getUser($uid);
 
         if ($user) {
+            $customer = Customer::where('uid', $user->uid)->first();
+
+            if (is_null($customer)) {
+                // create customer
+                $customer = Customer::create([
+                    'uid' => $user->uid,
+                    'email' => $user->email,
+                    'photo_url' => $user->photoUrl,
+                    'phone_number' => $user->phoneNumber,
+                    'display_name' => $user->displayName,
+                    'status' => Customer::STATUS_ACTIVE,
+                ]);
+            }
+
+            if (!$customer->isActive()) {
+                return $this->sendError('Auth Error', ['error' => 'This user is not active'], 403);
+            }
+
+            // save device
+            if (!is_null($this->_device)) {
+                $custDevice = CustomerDevice::where([
+                    'customer_id' => $customer->id,
+                    'device_id' => $this->_device->id
+                ])->first();
+
+                if (is_null($custDevice)) {
+                    $custDevice = CustomerDevice::create([
+                        'customer_id' => $customer->id,
+                        'device_id' => $this->_device->id
+                    ]);
+                }
+            }
+
             $success["uid"] = $user->uid;
-            $success["email"] = $user->email;
-
-            // create user
-
-            // return user_id
+            $success["user_id"] = $customer->id;
         }
 
         return $this->sendResponse($success, null);
