@@ -65,8 +65,11 @@ class FirebaseController extends BaseController
                 }
             }
 
+            $customer->updateApiToken();
+
             $success["uid"] = $user->uid;
             $success["user_id"] = $customer->id;
+            $success["access_token"] = $customer->getApiToken();
         }
 
         return $this->sendResponse($success, null);
@@ -88,12 +91,6 @@ class FirebaseController extends BaseController
         $this->auth->signInWithEmailAndPassword($email, $password);
         $user = $this->auth->getUserByEmail($email);
 
-        $success = [];
-        if ($user) {
-            $success["uid"] = $user->uid;
-            $success["email"] = $user->email;
-        }
-
-        return $this->sendResponse($success, null);
+        return $this->sendResponse($user, null);
     }
 }
