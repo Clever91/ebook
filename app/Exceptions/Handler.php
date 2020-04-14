@@ -52,8 +52,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($exception instanceof NotFoundHttpException) {
-            if ($request->is('api/*')) {
+        if ($request->is('api/*')) {
+
+            if ($exception instanceof NotFoundHttpException) {
+
                 $response = [
                     'success' => false,
                     'data' => ['error' => 'Url is not found'],
@@ -62,10 +64,9 @@ class Handler extends ExceptionHandler
         
                 return response()->json($response, 404);
             }
-        }
 
-        if ($exception instanceof ModelNotFoundException) {
-            if ($request->is('api/*')) {
+            if ($exception instanceof ModelNotFoundException) {
+
                 $response = [
                     'success' => false,
                     'data' => ['error' => 'Url is not found'],
@@ -73,11 +74,21 @@ class Handler extends ExceptionHandler
                 ];
         
                 return response()->json($response, 404);
+            }
+
+            if (!env('APP_DEBUG')) {
+                $response = [
+                    'success' => false,
+                    'data' => ['error' => 'Server Error'],
+                    'message' => $exception->getMessage()
+                ];  
+                  
+                return response()->json($response, 500);
             }
         }
 
         if ($this->isHttpException($exception)) {
-            
+
             if ($exception->getStatusCode() == 404) {
                 return response()->view('error._404', [], 404);
             }

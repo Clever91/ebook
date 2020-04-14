@@ -176,6 +176,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // add firebase 
+        Kreait\Laravel\Firebase\ServiceProvider::class
+
     ],
 
     /*

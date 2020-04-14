@@ -29,60 +29,65 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
     <script>
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-        apiKey: "AIzaSyBCK4OJ96yNhSCrs8QjveUb3qjunbGOhpU",
-        authDomain: "ebook-27f01.firebaseapp.com",
-        databaseURL: "https://ebook-27f01.firebaseio.com",
-        projectId: "ebook-27f01",
-        storageBucket: "ebook-27f01.appspot.com",
-        messagingSenderId: "396964778551",
-        appId: "1:396964778551:web:24ff3488f28efc3a8a65b2",
-        measurementId: "G-XYTRGQ9995"
-    };
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBCK4OJ96yNhSCrs8QjveUb3qjunbGOhpU",
+            authDomain: "ebook-27f01.firebaseapp.com",
+            databaseURL: "https://ebook-27f01.firebaseio.com",
+            projectId: "ebook-27f01",
+            // storageBucket: "ebook-27f01.appspot.com",
+            // messagingSenderId: "396964778551",
+            // appId: "1:396964778551:web:24ff3488f28efc3a8a65b2",
+            // measurementId: "G-XYTRGQ9995"
+        };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
         
         // Initialize the FirebaseUI Widget using Firebase.
         var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
         var uiConfig = {
-            callbacks: {
-                signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                // User successfully signed in.
-                // Return type determines whether we continue the redirect automatically
-                // or whether we leave that to developer to handle.
-                return true;
-                },
-                uiShown: function() {
-                // The widget is rendered.
-                // Hide the loader.
-                document.getElementById('loader').style.display = 'none';
-                }
-            },
+            // callbacks: {
+            //     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+            //     // User successfully signed in.
+            //     // Return type determines whether we continue the redirect automatically
+            //     // or whether we leave that to developer to handle.
+            //     return true;
+            //     },
+            //     uiShown: function() {
+            //     // The widget is rendered.
+            //     // Hide the loader.
+            //     document.getElementById('loader').style.display = 'none';
+            //     }
+            // },
             // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
             signInFlow: 'popup',
-            signInSuccessUrl: '/home',
+            signInSuccessUrl: '/firebase/success',
             signInOptions: [
                 // Leave the lines as is for the providers you want to offer your users.
                 firebase.auth.GoogleAuthProvider.PROVIDER_ID,
                 firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-                firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-                firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                // firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                // firebase.auth.GithubAuthProvider.PROVIDER_ID,
                 firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                firebase.auth.PhoneAuthProvider.PROVIDER_ID
+                // firebase.auth.PhoneAuthProvider.PROVIDER_ID
             ],
-            provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
-            signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+            // provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+            // signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
             // Terms of service url.
-            tosUrl: '/',
+            // tosUrl: '/',
             // Privacy policy url.
-            privacyPolicyUrl: '/'
+            // privacyPolicyUrl: '/'
         };
 
         // The start method will wait until the DOM is loaded.
         ui.start('#firebaseui-auth-container', uiConfig);
+
+
+        var auth = firebase.auth();
+        var store = firebase.store
 
 
     </script>

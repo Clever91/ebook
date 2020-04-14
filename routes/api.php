@@ -40,8 +40,9 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('author_info', 'API\AuthorController@author');
     });
 
-    Route::middleware('auth:api')->get('/user', function (Request $request) {
-        return $request->user();
+    Route::group(['prefix' => "auth"], function() {
+        Route::post('/', 'API\FirebaseController@index');
+        Route::post('/create', 'API\FirebaseController@create');
     });
     
 });
