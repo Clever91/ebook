@@ -121,7 +121,7 @@ class FirebaseController extends BaseController
         // ];
         
         // $createdUser = $this->auth->createUser($userProperties);
-        $createdUser = $this->auth->createUser($request);
+        $createdUser = $this->auth->createUser($request->all());
 
         return $this->sendResponse($createdUser, null);
     }
