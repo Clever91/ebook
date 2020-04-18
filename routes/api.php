@@ -42,7 +42,8 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['prefix' => "auth"], function() {
         Route::post('/', 'API\FirebaseController@index');
-        Route::post('/create', 'API\FirebaseController@create');
+        Route::post('/sign-in', 'API\FirebaseController@signIn');
+        Route::post('/sign-up', 'API\FirebaseController@signUp');
     });
     
 });
