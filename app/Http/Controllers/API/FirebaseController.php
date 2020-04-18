@@ -94,7 +94,7 @@ class FirebaseController extends BaseController
         return $this->sendResponse($user, null);
     }
 
-    public function singUp(Request $request)
+    public function signUp(Request $request)
     {
         if (($error = $this->authDevice($request)) !== true)
             return $error;
