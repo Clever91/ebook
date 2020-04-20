@@ -65,11 +65,11 @@ class FirebaseController extends BaseController
                 }
             }
 
-            $customer->updateApiToken();
+            $this->_device->updateApiToken();
 
             $success["uid"] = $user->uid;
             $success["user_id"] = $customer->id;
-            $success["access_token"] = $customer->getApiToken();
+            $success["access_token"] = $this->_device->getApiToken();
         }
 
         return $this->sendResponse($success, null);
