@@ -45,5 +45,11 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('/sign-in', 'API\FirebaseController@singIn');
         Route::post('/sign-up', 'API\FirebaseController@signUp');
     });
+
+    Route::group(['prefix' => "wishlist"], function() {
+        Route::post('/', 'API\WishlistController@index');
+        Route::post('/add', 'API\WishlistController@add');
+        Route::delete('/delete', 'API\WishlistController@delete');
+    });
     
 });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -14,6 +15,7 @@ class BaseController extends Controller
     protected $_offset = 0;
     protected $_text = null;
     protected $_device = null;
+    protected $_customer = null;
 
     public function __construct(Request $request)
     {
@@ -60,6 +62,32 @@ class BaseController extends Controller
         
         if (is_null($this->_device))
             return $this->sendError('Device Error', ['error' => 'This token does not exists'], 403);
+            
+        return true;
+    }
+
+    public function authApiDevice($request)
+    {
+        $this->_device = Device::where([
+            'status' => Device::STATUS_ACTIVE,
+            'api_token' => $request->input('access_token'),
+        ])->first();
+        
+        if (is_null($this->_device))
+            return $this->sendError('Device Error', ['error' => 'This access token does not exists'], 403);
+            
+        return true;
+    }
+
+    public function authCustomer($request)
+    {
+        $this->_customer = Customer::find($request->input('user_id'));
+        
+        if (is_null($this->_customer))
+            return $this->sendError('User Error', ['error' => 'This user does not found'], 403);
+        
+        if (!$this->_customer->isActive())
+            return $this->sendError('User Error', ['error' => 'This customer is not active'], 403);
             
         return true;
     }

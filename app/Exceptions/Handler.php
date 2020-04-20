@@ -69,8 +69,8 @@ class Handler extends ExceptionHandler
 
                 $response = [
                     'success' => false,
-                    'data' => ['error' => 'Url is not found'],
-                    'message' => 'Page is not found'
+                    'data' => ['error' => 'Model is not found'],
+                    'message' => 'Model is not found'
                 ];
         
                 return response()->json($response, 404);
