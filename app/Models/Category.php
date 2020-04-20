@@ -19,13 +19,14 @@ class Category extends Model implements TranslatableContract
         'order_no', 'status', 'updated_by', 'created_by'
     ];
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+    }
+    
     public function getImageUrl()
     {
         return url('/images/no_book.jpg');
     }
 
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
-    }
 }

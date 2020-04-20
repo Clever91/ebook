@@ -19,4 +19,12 @@ class Customer extends Model
         return $this->status == self::STATUS_ACTIVE;
     }
 
+    public function displayName()
+    {
+        if (is_null($this->display_name))
+            return "Unknown";
+            
+        return $this->display_name;
+    }
+
 }

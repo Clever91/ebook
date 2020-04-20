@@ -23,34 +23,41 @@ class CommentController extends BaseController
         $commentableId = $request->input('object_id');
         if (is_null($commentableId))
             return $this->sendError('Comment Error', ['error' => 'object_id must not be empty'], 400);
+        
+        $type = $request->input('type');
+        if (is_null($type))
+            return $this->sendError('Comment Error', ['error' => 'type must not be empty'], 400);
+
+        if (!in_array($type, (new Comment())->types()))
+            return $this->sendError('Comment Error', ['error' => 'type format is incorrect'], 400);
 
         $success = [];
         $success["page"] = $this->_page;
         $success["limit"] = $this->_limit;
 
-        // return $this->sendResponse($objectId, null);
-        
-        $query = DB::table('comments AS com')
-            ->join('customers AS cus', function($join) {
-                $join->on('com.customer_id', '=', 'cus.id');
-            });
-            // ->where([
-            //     'com.object_id' => $objectId,
-            //     'com.type' => $type,
-            // ]);
+        $object = null;
+        if ($type == "P") {
+            $object = Product::find($commentableId);
+        } else if ($type == "C") {
+            $object = Category::find($commentableId);
+        } else if ($type == "A") {
+            $object = Author::find($commentableId);
+        }
 
-        $query->select('com.id AS comment_id', DB::raw('IF(cus.display_name, cus.display_name, "Unknown")'), 
-            'com.created_at', 'com.text')
-            ->addSelect(['replies' => Comment::select(DB::raw('COUNT(id) AS "replies"'))
-                ->whereColumn([
-                    'parent_id' => 'comments.id',
-                    'status' => Comment::STATUS_ACTIVE
-                ])
-            ])
-            ->orderByDesc('com.created_at');
-        
-        $success["total"] = $query->count();
-        $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
+        $comments = [];
+        $success["total"] = $object->comments()->count();
+        $success["items"] = $object->comments()
+            ->offset($this->_offset)
+            ->take($this->_limit)
+            ->select('id AS comment_id', 'body AS text', 'created_at AS date')
+            ->get()
+            ->toArray();
+
+        foreach($success["items"] as &$comment) {
+            $reply = Comment::find($comment["comment_id"]);
+            $comment["user_name"] = $reply->customer->displayName();
+            $comment["replies"] = $reply->replies()->count();
+        }
         
         return $this->sendResponse($success, null);
     }
@@ -104,7 +111,7 @@ class CommentController extends BaseController
         if (!is_null($replyId) && !is_null($object)) {
             $reply = Comment::where([
                 'id' => $replyId,
-                'commentable_type' => get_class($object)
+                'commentable_type' => $object->getMorphClass()
             ])->first();
             if (!is_null($reply)) {
                 $comment->parent_id = $reply->id;
