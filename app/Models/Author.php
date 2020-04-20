@@ -18,6 +18,11 @@ class Author extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+    }
+
     public function getImageUrl()
     {
         return url('/images/no_book.jpg');

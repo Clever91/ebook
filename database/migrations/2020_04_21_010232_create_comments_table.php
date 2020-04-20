@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWishlistsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,19 @@ class CreateWishlistsTable extends Migration
      */
     public function up()
     {
-        Schema::create('wishlists', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('customer_id')->unsigned();
-            $table->bigInteger('object_id');
-            $table->string('type', 10)->default('P')->comment('P-Product, C-Category, A-Author, ...');
+            $table->integer('parent_id')->unsigned()->nullable();
+            $table->text('body');
+            $table->integer('commentable_id')->unsigned();
+            $table->string('commentable_type');
+            $table->tinyInteger('status')->default(0)->comment("0-not active, 1-active");
+            $table->bigInteger('updated_by')->nullable();
             $table->timestamps();
         });
 
-        Schema::table('wishlists', function (Blueprint $table) {
-            $table->unique(['customer_id', 'object_id', 'type']);
+        Schema::table('comments', function (Blueprint $table) {
             $table->foreign('customer_id')
                 ->references('id')
                 ->on('customers')
@@ -37,6 +40,6 @@ class CreateWishlistsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('comments');
     }
 }

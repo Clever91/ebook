@@ -27,6 +27,11 @@ class Product extends Model implements TranslatableContract
         return $this->belongsTo(Author::class);
     }
 
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+    }
+
     public function getImageUrl()
     {
         return url('/images/no_book.jpg');

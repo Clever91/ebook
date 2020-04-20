@@ -23,4 +23,9 @@ class Category extends Model implements TranslatableContract
     {
         return url('/images/no_book.jpg');
     }
+
+    public function comments()
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+    }
 }

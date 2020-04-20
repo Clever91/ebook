@@ -51,5 +51,11 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('/add', 'API\WishlistController@add');
         Route::delete('/delete', 'API\WishlistController@delete');
     });
+
+    Route::group(['prefix' => "comment"], function() {
+        Route::post('/comment-list', 'API\CommentController@index');
+        Route::post('/add', 'API\CommentController@add');
+        // Route::delete('/delete', 'API\CommentController@delete');
+    });
     
 });
