@@ -44,7 +44,6 @@ class CommentController extends BaseController
             $object = Author::find($commentableId);
         }
 
-        $comments = [];
         $success["total"] = $object->comments()->count();
         $success["items"] = $object->comments()
             ->offset($this->_offset)
@@ -95,7 +94,7 @@ class CommentController extends BaseController
         $comment = new Comment();
         $comment->customer_id = $this->_customer->id;
         $comment->body = $body;
-        $comment->status = Comment::STATUS_NO_ACTIVE;
+        $comment->status = Comment::STATUS_ACTIVE;
 
         if ($type == "P") {
             $object = Product::find($commentableId);
@@ -134,20 +133,20 @@ class CommentController extends BaseController
         if (($error = $this->authCustomer($request)) !== true)
             return $error;
 
-        $wishlistId = $request->input('wishlist_id');
-        if (is_null($wishlistId))
-            return $this->sendError('Wishlist Error', ['error' => 'wishlist_id must not be empty'], 400);
+        $commentId = $request->input('comment_id');
+        if (is_null($commentId))
+            return $this->sendError('Comment Error', ['error' => 'comment_id must not be empty'], 400);
 
         $success = [];
-        $wishlist = Wishlist::findOrFail($wishlistId);
+        $comment = Comment::findOrFail($commentId);
         
-        if (!is_null($wishlist)) {
-            $wishlist->delete();
+        if (!is_null($comment)) {
+            $comment->delete();
             $success["user_id"] = $this->_customer->id;
 
             return $this->sendResponse($success, null);
         }
 
-        return $this->sendError('Wishlist Error', ['error' => 'Something is wrong'], 201);
+        return $this->sendError('Comment Error', ['error' => 'Something is wrong'], 201);
     }
 }
