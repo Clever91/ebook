@@ -29,7 +29,9 @@ class Product extends Model implements TranslatableContract
 
     public function comments()
     {
-        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
+        return $this->morphMany(Comment::class, 'commentable')
+            ->where('status', Comment::STATUS_ACTIVE)
+            ->whereNull('parent_id');
     }
 
     public function getImageUrl()

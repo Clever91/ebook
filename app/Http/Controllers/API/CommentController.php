@@ -61,6 +61,42 @@ class CommentController extends BaseController
         return $this->sendResponse($success, null);
     }
 
+    public function replies(Request $request)
+    {
+        if (($error = $this->authApiDevice($request)) !== true)
+            return $error;
+
+        if (($error = $this->authCustomer($request)) !== true)
+            return $error;
+
+        $commentId = $request->input('comment_id');
+        if (is_null($commentId))
+            return $this->sendError('Comment Error', ['error' => 'comment_id must not be empty'], 400);
+
+        $success = [];
+        $comment = Comment::findOrFail($commentId);
+
+        $success = [];
+        $success["page"] = $this->_page;
+        $success["limit"] = $this->_limit;
+
+        $success["total"] = $comment->replies()->count();
+        $success["items"] = $comment->replies()
+            ->offset($this->_offset)
+            ->take($this->_limit)
+            ->select('id AS comment_id', 'body AS text', 'created_at AS date')
+            ->get()
+            ->toArray();
+
+        foreach($success["items"] as &$comment) {
+            $reply = Comment::find($comment["comment_id"]);
+            $comment["user_name"] = $reply->customer->displayName();
+            $comment["replies"] = $reply->replies()->count();
+        }
+
+        return $this->sendResponse($success, null);
+    }
+
     public function add(Request $request)
     {
         if (($error = $this->authApiDevice($request)) !== true)
@@ -138,15 +174,16 @@ class CommentController extends BaseController
             return $this->sendError('Comment Error', ['error' => 'comment_id must not be empty'], 400);
 
         $success = [];
+        $success["user_id"] = $this->_customer->id;
         $comment = Comment::findOrFail($commentId);
-        
-        if (!is_null($comment)) {
-            $comment->delete();
-            $success["user_id"] = $this->_customer->id;
 
-            return $this->sendResponse($success, null);
+        if ($comment->replies()->count() > 0) {
+            $comment->body = "";
+            $comment->save();
+        } else {
+            $comment->delete();
         }
 
-        return $this->sendError('Comment Error', ['error' => 'Something is wrong'], 201);
+        return $this->sendResponse($success, null);
     }
 }

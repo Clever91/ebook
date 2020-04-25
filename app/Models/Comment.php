@@ -20,7 +20,7 @@ class Comment extends Model
 
     public function replies()
     {
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->hasMany(Comment::class, 'parent_id')->where('status', self::STATUS_ACTIVE);
     }
     
     public function types()
