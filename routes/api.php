@@ -53,7 +53,7 @@ Route::group(['prefix' => 'v1'], function() {
     });
 
     Route::group(['prefix' => "comment"], function() {
-        Route::post('/comment-list', 'API\CommentController@index');
+        Route::post('/list', 'API\CommentController@index');
         Route::post('/replies', 'API\CommentController@replies');
         Route::post('/add', 'API\CommentController@add');
         Route::delete('/delete', 'API\CommentController@delete');
