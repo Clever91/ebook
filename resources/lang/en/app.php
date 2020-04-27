@@ -15,4 +15,7 @@ return [
 
     'users' => 'Users',
     'username' => 'Username',
+    'create_user' => 'Create user',
+    'create_users' => 'Create users',
+    'all_users_list' => 'All users list',
 ];

@@ -66,7 +66,7 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -209,15 +209,15 @@ return [
     */
 
     'menu' => [
-        [
-            'text' => 'search',
-            'search' => true,
-            'topnav' => true,
-        ],
+        // [
+        //     'text' => 'search',
+        //     'search' => true,
+        //     'topnav' => true,
+        // ],
         [
             'text' => 'blog',
             'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            // 'can'  => 'manage-blog',
         ],
         [
             'text'        => 'pages',
@@ -227,7 +227,7 @@ return [
             'label_color' => 'success',
         ],
         [
-            'text' => 'Users',
+            'text' => 'users',
             'url'  => 'admin/user',
             'icon' => 'fas fa-fw fa-users',
         ],
@@ -292,6 +292,28 @@ return [
         [
             'text'       => 'information',
             'icon_color' => 'aqua',
+        ],
+        ['header' => 'language'],
+        [
+            'text'    => 'languages',
+            'icon'    => 'fas fa-fw fa-globe',
+            'submenu' => [
+                [
+                    'text' => 'Uzbek',
+                    'url'  => '/admin/lang/uz',
+                    // 'icon' => 'far fa-flag-usa',
+                ],
+                [
+                    'text' => 'English',
+                    'url'  => '/admin/lang/en',
+                    // 'icon' => 'far fa-flag-usa',
+                ],
+                [
+                    'text' => 'Russion',
+                    'url'  => '/admin/lang/ru',
+                    // 'icon' => 'far fa-flag-usa',
+                ],
+            ],
         ],
     ],
 

@@ -16,6 +16,12 @@ return [
         'ru',
     ],
 
+    'dt-locales' => [
+        "en" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json",
+        "uz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
+        "ru" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Russian.json"
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Locale separator
@@ -40,7 +46,7 @@ return [
     | and never fallback to the translator one.
     |
     */
-    'locale' => null,
+    'locale' => env('LANG_DEFAULT', 'en'),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,7 +87,7 @@ return [
     | is used first. So "es" will be checked before "es_MX".
     |
     */
-    'fallback_locale' => 'en',
+    'fallback_locale' => env('LANG_DEFAULT', 'en'),
 
     /*
     |--------------------------------------------------------------------------

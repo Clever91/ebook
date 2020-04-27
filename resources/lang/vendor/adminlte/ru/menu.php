@@ -17,4 +17,6 @@ return [
     'important'                     => 'Важно',
     'warning'                       => 'Внимание',
     'information'                   => 'Информация',
+    'language'                      => 'LANG',
+    'languages'                     => 'Языки',
 ];

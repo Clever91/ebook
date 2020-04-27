@@ -54,8 +54,14 @@
 @section('js')
 <script>
 
+var langUrl = '{{ config("translatable.dt-locales")[App::getLocale()] }}';
+
 $(document).ready( function () {
-    $('#users_datatable').DataTable();
+    $('#users_datatable').DataTable({
+        "language": {
+            "url": langUrl,
+        }
+    });
 });
 
 </script>

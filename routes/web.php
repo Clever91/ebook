@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,4 +48,15 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::get('/dashboard', 'HomeController@index')->name('dashboard');
     
     Route::resource('user', 'Admin\UserController');
+
+    Route::get('/lang/{locale}', function ($locale) {
+        if (!in_array($locale, config('translatable.locales'))) {
+            abort(400);
+        }
+    
+        session('locale', $locale);
+        App::setLocale($locale);
+
+        return back();
+    })->name("admin/locale");
 });
