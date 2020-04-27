@@ -21,26 +21,38 @@
         <table id="users_datatable" class="table table-bordered table-striped">
             <thead>
                 <tr>
+                    <th>Name</th>
                     <th>Username</th>
                     <th>Role</th>
                     <th>Updated At</th>
                     <th>Created At</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
+                @foreach ($models as $model)
                 <tr>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->role }}</td>
-                    <td>{{ $user->updated_at }}</td>
-                    <td>{{ $user->created_at }}</td>
+                    <td>{{ $model->name }}</td>
+                    <td>{{ $model->username }}</td>
+                    <td>{{ $model->role }}</td>
+                    <td>{{ $model->updated_at }}</td>
+                    <td>{{ $model->created_at }}</td>
+                    <td>
+                        @if(!$model->isAdmin())
+                        <a href="{{ route('user.edit', $model->id) }}" class="btn btn-info btn-sm">Update</a>
+                        <meta name="csrf-token" content="{{ csrf_token() }}">
+                        <a href="{{ route('user.destroy', $model->id) }}" 
+                            class="btn btn-danger btn-sm jquery-postback" data-method="delete">Delete</a>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="3">Total</th>
-                    <th>{{ $users->count() }}</th>
+                    <th colspan="4">Total</th>
+                    <th>{{ $models->count() }}</th>
+                    <th></th>
                 </tr>
             </tfoot>
         </table>

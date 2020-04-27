@@ -16,5 +16,5 @@
 @stop
 
 @section('js')
-    <script> console.log('Hi!'); </script>
+    {{-- <script type="text/javascript" src="{{ asset('js/app.js') }}"></script> --}}
 @stop

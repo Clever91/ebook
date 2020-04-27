@@ -27,6 +27,35 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
+// const app = new Vue({
+//     el: '#app',
+// });
+
+
+// ~~~~~~~~~~~~~~~~~~~~~ GLOBAL FUNCTION ~~~~~~~~~~~~~~~~~~~~~
+
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$('a.jquery-postback').on('click',function(e) {
+    e.preventDefault(); // does not go through with the link.
+    
+    if (!confirm('Are you sure you want to delete?')) 
+        return;
+
+    var $this = $(this);
+
+    $.post({
+        type: $this.data('method'),
+        url: $this.attr('href')
+    }).done(function (data) {
+        console.log(data);
+        if (!data.status)
+            alert("Этот объект подключен другой объект");
+        
+        location.reload();
+    });
 });

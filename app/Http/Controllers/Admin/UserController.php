@@ -16,8 +16,8 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = User::where('is_admin', User::NO_ADMIN)->get();
-        return view('admin.user.index', compact('users'));
+        $models = User::where('is_admin', User::NO_ADMIN)->get();
+        return view('admin.user.index', compact('models'));
     }
 
     /**
@@ -28,7 +28,7 @@ class UserController extends BaseController
     public function create()
     {
         return view('admin.user.create')->with([
-            'user' => new User()
+            'model' => new User()
         ]);
     }
 
@@ -51,9 +51,9 @@ class UserController extends BaseController
         $attributes["active"] = $request->input("active") == "on" ? User::STATUS_ACTIVE : User::STATUS_NO_ACTIVE;
         $attributes["password"] = Hash::make($attributes["password"]);
         
-        $user = User::create($attributes);
+        $model = User::create($attributes);
 
-        if (!is_null($user)) {
+        if (!is_null($model)) {
             Session::flash('message', __('app.added_successfully')); 
             Session::flash('alert-class', 'alert-success'); 
         }
@@ -80,7 +80,11 @@ class UserController extends BaseController
      */
     public function edit($id)
     {
-        //
+        $model = User::findOrFail($id);
+
+        return view('admin.user.edit')->with([
+            'model' => $model
+        ]);
     }
 
     /**
@@ -92,7 +96,26 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        //
+        $attributes = $request->validate([
+            'name' => 'required|min:3',
+            'username' => 'required',
+            'password' => 'required|min:5',
+            'active' => 'required',
+            'role' => 'required',
+        ]);
+        
+        $attributes["active"] = $request->input("active") == "on" ? User::STATUS_ACTIVE : User::STATUS_NO_ACTIVE;
+        $attributes["password"] = Hash::make($attributes["password"]);
+        
+        $model = User::findOrFail($id);
+        $model->update($attributes);
+
+        if (!is_null($model)) {
+            Session::flash('message', __('app.added_successfully')); 
+            Session::flash('alert-class', 'alert-success'); 
+        }
+
+        return redirect()->route('user.index');
     }
 
     /**
@@ -103,6 +126,10 @@ class UserController extends BaseController
      */
     public function destroy($id)
     {
-        //
+        $model = User::findOrFail($id);
+        $model->makeDeleted();
+
+        return ['status' => true];
+        // return redirect()->route('user.index');
     }
 }

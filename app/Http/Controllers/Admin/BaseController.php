@@ -13,6 +13,8 @@ class BaseController extends Controller
     public function __construct(Request $request)
     {
         $locale = $request->has("locale");
+        // dd(session('locale'));
+        // dd(config('app.locale'));
         if ($locale) {
             if (!in_array($locale, config('translatable.locales'))) {
                 $this->_locale = $locale;

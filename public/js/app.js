@@ -49522,9 +49522,29 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+// const app = new Vue({
+//     el: '#app',
+// });
+// ~~~~~~~~~~~~~~~~~~~~~ GLOBAL FUNCTION ~~~~~~~~~~~~~~~~~~~~~
 
-var app = new Vue({
-  el: '#app'
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+$('a.jquery-postback').on('click', function (e) {
+  e.preventDefault(); // does not go through with the link.
+
+  if (!confirm('Are you sure you want to delete?')) return;
+  var $this = $(this);
+  $.post({
+    type: $this.data('method'),
+    url: $this.attr('href')
+  }).done(function (data) {
+    console.log(data);
+    if (!data.status) alert("Этот объект подключен другой объект");
+    location.reload();
+  });
 });
 
 /***/ }),

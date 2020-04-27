@@ -22,13 +22,16 @@ class User extends Authenticatable
     const ADMIN = 1;
     const NO_ADMIN = 0;
 
+    const DELETED_ACTIVE = 1;
+    const DELETED_NO_ACTIVE = 0;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password', 'is_admin', 'role', 'active'
+        'name', 'username', 'password', 'is_admin', 'role', 'active', 'is_deleted'
     ];
 
     /**
@@ -73,5 +76,21 @@ class User extends Authenticatable
             self::ROLE_MANAGER => __('app.manager'),
             self::ROLE_ADMIN => __('app.admin'),
         ];
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin == self::ADMIN;
+    }
+
+    public function isActive()
+    {
+        return $this->active == self::STATUS_ACTIVE;
+    }
+
+    public function makeDeleted()
+    {
+        $this->is_deleted = self::DELETED_ACTIVE;
+        $this->save();
     }
 }
