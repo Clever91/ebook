@@ -110,10 +110,37 @@ class ProductController extends BaseController
         $success["description"] = $product->description;
         $success["author"] = $product->author->name;
         $success["price"] = $product->price;
+        $success["free"] = false;
         $success["eprice"] = $product->eprice;
+        $success["efree"] = true; // todo: 
         $success["recommended"] = [];
         
         return $this->sendResponse($success, null);
+    }
+
+    public function download(Request $request)
+    {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+
+        $productId = null;
+        if ($request->has('product_id'))
+            $productId = $request->input('product_id');
+
+        if (is_null($productId))
+            return $this->sendError('Product Error', ['error' => 'product_id must not be empty'], 400);
+
+        $product = Product::find($productId);
+
+        if (is_null($product))
+            return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
+
+        // must to check access
+        // it is free or not
+        // it is to buy this user or not
+
+        $path = public_path('book/free_book.epub');
+        return response()->download($path, "free-book");
     }
 
 }
