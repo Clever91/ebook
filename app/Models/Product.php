@@ -34,6 +34,11 @@ class Product extends Model implements TranslatableContract
             ->whereNull('parent_id');
     }
 
+    public function isActive()
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
+
     public function getImageUrl()
     {
         return url('/images/no_book.jpg');

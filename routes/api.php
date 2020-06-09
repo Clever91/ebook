@@ -59,5 +59,10 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('/add', 'API\CommentController@add');
         Route::delete('/delete', 'API\CommentController@delete');
     });
+
+    Route::group(['prefix' => "ebook"], function() {
+        Route::post('/ebook_list', 'API\EbookController@index');
+        Route::post('/order', 'API\EbookController@order');
+    });
     
 });
