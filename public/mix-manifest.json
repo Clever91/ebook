@@ -1,4 +1,11 @@
 {
+    "/js/adminlte.min.js": "/js/adminlte.min.js",
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/bootstrap.bundle.min.js": "/js/bootstrap.bundle.min.js",
+    "/js/dataTables.bootstrap4.min.js": "/js/dataTables.bootstrap4.min.js",
+    "/js/dataTables.responsive.min.js": "/js/dataTables.responsive.min.js",
+    "/js/jquery.dataTables.min.js": "/js/jquery.dataTables.min.js",
+    "/js/jquery.min.js": "/js/jquery.min.js",
+    "/js/responsive.bootstrap4.min.js": "/js/responsive.bootstrap4.min.js"
 }

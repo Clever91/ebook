@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -72,13 +71,13 @@ class User extends Authenticatable
     public function roles()
     {
         return [
-            self::ROLE_MODERATOR => __('app.moderator'),
-            self::ROLE_MANAGER => __('app.manager'),
-            self::ROLE_ADMIN => __('app.admin'),
+            self::ROLE_MODERATOR => "Модератор",
+            self::ROLE_MANAGER => "Менеджер",
+            self::ROLE_ADMIN => "Администратор",
         ];
     }
 
-    public function isAdmin()
+    public function isSuperAdmin()
     {
         return $this->is_admin == self::ADMIN;
     }
