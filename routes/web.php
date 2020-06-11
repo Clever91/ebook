@@ -17,6 +17,33 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
+// ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
+
+Auth::routes(['register' => false]);
+Route::get('/', function() {
+    return redirect('login');
+});
+
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+
+    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+
+    Route::resource('user', 'Admin\UserController');
+
+    Route::get('/lang/{locale}', function ($locale) {
+        if (!in_array($locale, config('translatable.locales'))) {
+            abort(400);
+        }
+    
+        session('locale', $locale);
+        App::setLocale($locale);
+
+        return back();
+    })->name("admin/locale");
+});
+
+
 // ~~~~~~~~~~~~~~~~~~~ Firebase Auth ~~~~~~~~~~~~~~~~~~~
 
 
@@ -31,32 +58,4 @@ Route::group(['prefix' => "firebase"], function() {
     Route::get('/create', 'Auth\FirebaseController@create');  
     Route::get('/success', 'Auth\FirebaseController@success');  
 
-});
-
-
-// ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
-
-Route::get('/', function() {
-    return redirect('login');
-});
-
-Auth::routes(['register' => false]);
-
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-    
-    Route::resource('user', 'Admin\UserController');
-
-    Route::get('/lang/{locale}', function ($locale) {
-        if (!in_array($locale, config('translatable.locales'))) {
-            abort(400);
-        }
-    
-        session('locale', $locale);
-        App::setLocale($locale);
-
-        return back();
-    })->name("admin/locale");
 });
