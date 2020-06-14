@@ -24,16 +24,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            @include('layouts.breadcrumb')
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    @yield('content')
-                </div>
-            </section>
-        <!-- /.content -->
+            @yield('content')
         </div>
         <!-- /.content-wrapper -->
 

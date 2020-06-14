@@ -21,9 +21,9 @@
                             <span class="fas fa-user"></span>
                         </div>
                     </div>
-                    {{-- @error('username')
-                    <span class="error">{{ $message }}</span>
-                    @enderror --}}
+                    @error('username')
+                    <p>Ошибка: <code>{{ $message }}</code></p>
+                    @enderror
                 </div>
                 <div class="input-group mb-3">
                     <input type="password" class="form-control @error('password') is-invalid @enderror" 
@@ -33,9 +33,9 @@
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
-                    {{-- @error('password')
-                    <span class="error">{{ $message }}</span>
-                    @enderror --}}
+                    @error('password')
+                    <p>Ошибка: <code>{{ $message }}</code></p>
+                    @enderror
                 </div>
                 <div class="row">
                     <div class="col-12">

@@ -77,6 +77,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function roleLabel()
+    {
+        return $this->roles()[$this->role];
+    }
+
     public function isSuperAdmin()
     {
         return $this->is_admin == self::ADMIN;

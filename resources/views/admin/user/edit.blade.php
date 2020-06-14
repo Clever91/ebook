@@ -1,75 +1,80 @@
-@extends('adminlte::page')
-
-@section('title', __('app.update_user'))
-
-@section('content_header')
-    <h1>{{ __('app.update_user') }}</h1>
-@stop
+@extends('layouts.admin')
 
 @section('content')
 
-<div class="card card-primary">
-    <div class="card-header">
-        <h3 class="card-title">{{ __('app.update_user') }}</h3>
-    </div>
-    <!-- /.card-header -->
-    <!-- form start -->
-    <form role="form" action="{{ route('user.update', $model->id) }}" method="POST">
-        @method("PATCH")
-        @csrf
-        <div class="card-body">
-            <div class="form-group">
-                <label for="name">{{ __('app.name') }}</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                    id="name" name="name" value="{{ $model->name }}" placeholder="{{ __('app.enter_name') }}">
-                @error('name')
-                    <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="username">{{ __('app.username') }}</label>
-                <input type="text" class="form-control @error('username') is-invalid @enderror" 
-                    id="username" name="username" value="{{ $model->username }}" placeholder="{{ __('app.enter_username') }}">
-                @error('username')
-                    <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label for="password">{{ __('app.password') }}</label>
-                <input type="password" name="password" id="password" value="" 
-                    class="form-control @error('password') is-invalid @enderror">
-                @error('password')
-                    <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                @enderror
-            </div>
-            <div class="form-group">
-                <label>{{ __('app.role') }}</label>
-                <select class="custom-select @error('role') is-invalid @enderror" name="role">
-                    @foreach ($model->roles() as $key => $value)
-                        @if ($model->role == $key)
-                    <option value="{{ $key }}" selected>{{ $value }}</option>
-                        @else
-                    <option value="{{ $key }}">{{ $value }}</option>
-                        @endif
-                    @endforeach
-                </select>
-                @error('role')
-                    <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                @enderror
-            </div>
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input @error('active') is-invalid @enderror" 
-                    id="active" {{ $model->isActive() ? 'checked' : '' }} name="active">
-                <label class="form-check-label" for="active">{{ __('app.active_user') }}</label>
-            </div>
-        </div>
-        <!-- /.card-body -->
+<!-- Content Header (Page header) -->
+@include('layouts.breadcrumb', [
+    'list' => route('user.index'),
+    'title' => 'Изменить пользователь '
+])
 
-        <div class="card-footer">
-            <button type="button" class="btn btn-default">{{ __('app.cancel') }}</button>
-            <button type="submit" class="btn btn-primary">{{ __('app.save') }}</button>
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Изменить пользователь </h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form role="form" action="{{ route('user.update', $model->id) }}" method="POST">
+                @method("PATCH")
+                @csrf
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">Имя</label>
+                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                            id="name" name="name" value="{{ $model->name }}">
+                        @error('name')
+                            <p>Ошибка: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="username">Имя пользователя</label>
+                        <input type="text" class="form-control @error('username') is-invalid @enderror" 
+                            id="username" name="username" value="{{ $model->username }}">
+                        @error('username')
+                            <p>Ошибка: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" name="password" id="password" value="" 
+                            class="form-control @error('password') is-invalid @enderror">
+                        @error('password')
+                            <p>Ошибка: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label>Роль</label>
+                        <select class="custom-select @error('role') is-invalid @enderror" name="role">
+                            @foreach ($model->roles() as $key => $value)
+                                @if ($model->role == $key)
+                            <option value="{{ $key }}" selected>{{ $value }}</option>
+                                @else
+                            <option value="{{ $key }}">{{ $value }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('role')
+                            <p>Ошибка: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input @error('active') is-invalid @enderror" 
+                            id="active" {{ $model->isActive() ? 'checked' : '' }} name="active">
+                        <label class="form-check-label" for="active">Активный</label>
+                    </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    <button type="button" class="btn btn-default">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Изменить</button>
+                </div>
+            </form>
         </div>
-    </form>
-</div>
+    </div>
+</section>
 
 @stop
