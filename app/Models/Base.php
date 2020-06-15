@@ -12,6 +12,14 @@ abstract class Base extends Model
     const DEFAULT = 1;
     const NO_DEFAULT = 0;
 
+    const DELETED = 1;
+    const NO_DELETED = 0;
+
+    public function isActive()
+    {
+        return $this->status == self::STATUS_ACTIVE;
+    }
+
     public function activeLabel()
     {
         return $this->getActive()[$this->status];
@@ -23,6 +31,17 @@ abstract class Base extends Model
             self::STATUS_ACTIVE => "Активно",
             self::STATUS_NO_ACTIVE => "Не активно"
         ];
+    }
+
+    public function isDefault()
+    {
+        return $this->is_default == self::DEFAULT;
+    }
+
+    public function makeDeleted()
+    {
+        $this->deleted = self::DELETED;
+        $this->save();
     }
 
     public static function activeOn($status)

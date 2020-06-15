@@ -12,7 +12,7 @@ class Category extends Base implements TranslatableContract
     public $translatedAttributes = ['name', 'is_default'];
 
     protected $fillable = [
-        'order_no', 'status', 'updated_by', 'created_by'
+        'order_no', 'status', 'deleted', 'updated_by', 'created_by'
     ];
 
     public function comments()

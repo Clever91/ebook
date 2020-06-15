@@ -17,7 +17,8 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $models = Category::orderByDesc('created_at')->paginate($this->_limit);
+        $models = Category::where('deleted', Base::NO_DELETED)->orderByDesc('created_at')
+            ->paginate($this->_limit);
         return view('admin.category.index', compact('models'));
     }
 
@@ -93,24 +94,17 @@ class CategoryController extends BaseController
     {
         $attributes = $request->validate([
             'name' => 'required|min:3',
-            'username' => 'required',
-            'password' => 'required|min:5',
-            'active' => 'required',
-            'role' => 'required',
+            'order_no' => 'required',
+            'status' => 'required',
         ]);
         
-        $attributes["active"] = $request->input("active") == "on" ? User::STATUS_ACTIVE : User::STATUS_NO_ACTIVE;
-        $attributes["password"] = Hash::make($attributes["password"]);
+        $attributes["status"] = Base::activeOn($request->input("status"));
+        $attributes["is_default"] = Base::isDefaultOn($request->input("is_default"));
         
-        $model = User::findOrFail($id);
+        $model = Category::findOrFail($id);
         $model->update($attributes);
 
-        if (!is_null($model)) {
-            Session::flash('message', __('app.added_successfully')); 
-            Session::flash('alert-class', 'alert-success'); 
-        }
-
-        return redirect()->route('user.index');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -124,8 +118,7 @@ class CategoryController extends BaseController
         $model = Category::findOrFail($id);
         $model->makeDeleted();
 
-        return ['status' => true];
-        // return redirect()->route('user.index');
+        return redirect()->route('category.index');
     }
 }
 

@@ -37,6 +37,7 @@
                                         <th>Порядковый номер</th>
                                         <th>Активный</th>
                                         <th>Действия</th>
+                                        <th>Удалить</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,6 +50,13 @@
                                         <td>
                                             <a href="{{ route('category.edit', $model->id) }}" 
                                             class="btn btn-sm btn-info">Изменить</a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('category.destroy', $model->id) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach
