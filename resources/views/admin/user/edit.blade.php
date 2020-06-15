@@ -1,11 +1,13 @@
 @extends('layouts.admin')
 
+@section('title', 'Изменить пользователь')
+
 @section('content')
 
 <!-- Content Header (Page header) -->
 @include('layouts.breadcrumb', [
     'list' => route('user.index'),
-    'title' => 'Изменить пользователь '
+    'title' => 'Изменить пользователь'
 ])
 
 <!-- Main content -->

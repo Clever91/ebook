@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\App;
 
 class BaseController extends Controller
 {
-    private $_locale = "en";
+    protected $_locale = "en";
+    protected $_limit = 15;
 
     public function __construct(Request $request)
     {
+        // set language
         $locale = $request->has("locale");
-        // dd(session('locale'));
-        // dd(config('app.locale'));
         if ($locale) {
             if (!in_array($locale, config('translatable.locales'))) {
                 $this->_locale = $locale;
@@ -22,5 +22,10 @@ class BaseController extends Controller
         }
 
         App::setLocale($this->_locale);
+
+        // set page limit
+        if (env("APP_PAGELIMIT")) {
+            $this->_limit = (int) env("APP_PAGELIMIT"); 
+        }
     }
 }

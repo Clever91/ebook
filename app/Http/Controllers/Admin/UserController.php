@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Base;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $models = User::where('is_admin', User::NO_ADMIN)->get();
+        $models = User::where('is_admin', User::NO_ADMIN)->paginate($this->_limit);
         return view('admin.user.index', compact('models'));
     }
 
@@ -48,15 +49,10 @@ class UserController extends BaseController
             'role' => 'required',
         ]);
         
-        $attributes["active"] = $request->input("active") == "on" ? User::STATUS_ACTIVE : User::STATUS_NO_ACTIVE;
+        $attributes["active"] =  Base::activeOn($request->input("active"));
         $attributes["password"] = Hash::make($attributes["password"]);
         
         $model = User::create($attributes);
-
-        if (!is_null($model)) {
-            Session::flash('message', __('app.added_successfully')); 
-            Session::flash('alert-class', 'alert-success'); 
-        }
 
         return redirect()->route('user.index');
     }   
@@ -109,11 +105,6 @@ class UserController extends BaseController
         
         $model = User::findOrFail($id);
         $model->update($attributes);
-
-        if (!is_null($model)) {
-            Session::flash('message', __('app.added_successfully')); 
-            Session::flash('alert-class', 'alert-success'); 
-        }
 
         return redirect()->route('user.index');
     }

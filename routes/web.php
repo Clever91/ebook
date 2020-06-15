@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
     Route::resource('user', 'Admin\UserController');
+    Route::resource('category', 'Admin\CategoryController');
 
     Route::get('/lang/{locale}', function ($locale) {
         if (!in_array($locale, config('translatable.locales'))) {

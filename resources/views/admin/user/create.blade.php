@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Создать пользователя')
+
 @section('content')
 
 <!-- Content Header (Page header) -->
