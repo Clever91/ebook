@@ -19,44 +19,50 @@ use Illuminate\Support\Facades\Session;
 
 // ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
 
-Auth::routes(['register' => false]);
-Route::get('/', function() {
-    return redirect('login');
-});
+// Route::redirect('/', 'en/admin/dashboard');
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-
-    Route::get('/dashboard', 'HomeController@index')->name('dashboard');
-    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-
-    Route::resource('user', 'Admin\UserController');
-    Route::resource('category', 'Admin\CategoryController');
-
-    Route::get('/lang/{locale}', function ($locale) {
-        if (!in_array($locale, config('translatable.locales'))) {
-            abort(400);
-        }
+// Route::group(['prefix' => App::getLocale()], function () {
     
-        session('locale', $locale);
-        App::setLocale($locale);
+    Auth::routes(['register' => false]);
+    Route::get('/', function() {
+        return redirect('login');
+    });
 
-        return back();
-    })->name("admin/locale");
-});
+    Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    
+        Route::get('/', 'HomeController@index')->name('home');
+        Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+        Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+    
+        Route::resource('user', 'Admin\UserController');
+        Route::resource('category', 'Admin\CategoryController');
+    
+        Route::get('/lang/{locale}', function ($locale) {
+            if (!in_array($locale, config('translatable.locales'))) {
+                abort(400);
+            }
+    
+            session('locale', $locale);
+            App::setLocale($locale);
+    
+            return back();
+        })->name("admin.locale");
+    });
+// });
 
 
 // ~~~~~~~~~~~~~~~~~~~ Firebase Auth ~~~~~~~~~~~~~~~~~~~
 
 
-Route::group(['prefix' => "firebase"], function() {
+// Route::group(['prefix' => "firebase"], function() {
 
-    Route::get('/auth', function() {
-        return view('auth.firebase');
-    });
+//     Route::get('/auth', function() {
+//         return view('auth.firebase');
+//     });
 
-    Route::get('/', 'Auth\FirebaseController@index');
-    Route::get('/check', 'Auth\FirebaseController@check');
-    Route::get('/create', 'Auth\FirebaseController@create');  
-    Route::get('/success', 'Auth\FirebaseController@success');  
+//     Route::get('/', 'Auth\FirebaseController@index');
+//     Route::get('/check', 'Auth\FirebaseController@check');
+//     Route::get('/create', 'Auth\FirebaseController@create');  
+//     Route::get('/success', 'Auth\FirebaseController@success');  
 
-});
+// });

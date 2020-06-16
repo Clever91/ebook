@@ -97,6 +97,25 @@
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
             </div>
         </li>
+        <!-- Language Dropdown Menu -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" data-toggle="dropdown" href="#">
+                <i class="flag-icon flag-icon-{{ config('translatable.getLocales')[App::getLocale()]['icon'] }}"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right p-0">
+                @foreach (config('translatable.getLocales') as $code => $lang)
+                    @if ($code == App::getLocale())
+                    <a href="{{ route('admin.locale', $code) }}" class="dropdown-item active">
+                        <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["label"] }}
+                    </a>
+                    @else
+                    <a href="{{ route('admin.locale', $code) }}" class="dropdown-item">
+                        <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["label"] }}
+                    </a>    
+                    @endif
+                @endforeach 
+            </div>
+        </li>
         <li class="nav-item dropdown user user-menu">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                 <img src="{{ asset('/dist/img/user2-160x160.jpg')}}" class="user-image img-circle elevation-2" alt="User Image">
@@ -125,11 +144,6 @@
                 </li> 
             </ul>
         </li>
-        {{-- <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li> --}}
     </ul>
 </nav>
 <!-- /.navbar -->

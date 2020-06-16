@@ -16,6 +16,21 @@ return [
         'ru',
     ],
 
+    'getLocales' => [
+        'en' => [
+            'icon' => 'us',
+            'label' => 'English'
+        ],
+        'uz' => [
+            'icon' => 'uz',
+            'label' => 'Uzbek'
+        ],
+        'ru' => [
+            'icon' => 'ru',
+            'label' => 'Russion'
+        ],
+    ],
+
     'dt-locales' => [
         "en" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json",
         "uz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
