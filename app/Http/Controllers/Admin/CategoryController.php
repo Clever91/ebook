@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Base;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Lunaweb\Localization\Facades\Localization;
 
 class CategoryController extends BaseController
 {
@@ -48,11 +50,18 @@ class CategoryController extends BaseController
             'status' => 'required',
         ]);
         
-        $attributes["status"] = Base::activeOn($request->input("status"));
-        $attributes["is_default"] = Base::isDefaultOn($request->input("is_default"));
-        $attributes["created_by"] = Auth::user()->id;
-
-        $model = Category::create($attributes);
+        // create default category
+        $category = new Category();
+        foreach(Localization::getLocales() as $lang => $item) {
+            $category->translateOrNew($lang)->name = $request->input('name');
+            $category->translateOrNew($lang)->is_default = 0;
+            if (env("LANG_DEFAULT") == $lang)
+                $category->translateOrNew($lang)->is_default = 1;
+        }
+        $category->order_no = $request->input('order_no');
+        $category->status = Base::activeOn($request->input("status"));;
+        $category->created_by = Auth::user()->id;
+        $category->save();
 
         return redirect()->route('category.index');
     }   
@@ -98,11 +107,11 @@ class CategoryController extends BaseController
             'status' => 'required',
         ]);
         
-        $attributes["status"] = Base::activeOn($request->input("status"));
-        $attributes["is_default"] = Base::isDefaultOn($request->input("is_default"));
-        
         $model = Category::findOrFail($id);
-        $model->update($attributes);
+        $model->translateOrNew($this->_lang)->name = $request->input('name');
+        $model->order_no = $request->input('order_no');
+        $model->status = Base::activeOn($request->input("status"));;
+        $model->save();
 
         return redirect()->route('category.index');
     }

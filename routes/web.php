@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Lunaweb\Localization\Facades\Localization;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,24 +19,25 @@ use Illuminate\Support\Facades\Session;
 */
 
 // ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
- 
-Auth::routes(['register' => false]);
-Route::get('/', function() {
-    return redirect('login');
-});
+Localization::localizedRoutesGroup(function() {
+    Auth::routes(['register' => false]);
+    Route::get('/', function() {
+        return redirect('login');
+    });
 
-Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
-    // globale route
-    Route::get('/', 'Admin\DashboardController@index')->name('home');
-    Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
-    Route::get('/lang/{lang}', 'Admin\LanguageController@index')->name("admin.lang");
-    Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
+        // globale route
+        Route::get('/', 'Admin\DashboardController@index')->name('home');
+        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
+        Route::get('/lang/{lang}', 'Admin\LanguageController@index')->name("admin.lang");
+        Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-    // resource route
-    Route::resource('user', 'Admin\UserController');
-    Route::resource('category', 'Admin\CategoryController');
+        // resource route
+        Route::resource('user', 'Admin\UserController');
+        Route::resource('category', 'Admin\CategoryController');
 
+    });
 });
 
 

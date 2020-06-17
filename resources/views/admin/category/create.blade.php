@@ -31,11 +31,6 @@
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input @error('is_default') is-invalid @enderror" 
-                            id="is_default" checked name="is_default">
-                        <label class="form-check-label" for="is_default">По умолчанию</label>
-                    </div>
                     <div class="form-group">
                         <label for="order_no">Порядковый номер</label>
                         <input type="number" class="form-control @error('order_no') is-invalid @enderror" 
