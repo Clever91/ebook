@@ -1,25 +1,33 @@
-@extends('adminlte::page')
+@extends('layouts.admin')
 
-@section('title', 'Error 404')
-
-@section('content_header')
-    <h1>404 Error Page</h1>
-@stop
+@section('title', 'Ошибка')
 
 @section('content')
 
-<div class="error-page">
-    <h2 class="headline text-warning"> 404</h2>
+<!-- Content Header (Page header) -->
+@include('layouts.breadcrumb', [
+    'list' => route('dashboard'),
+    'title' => 'Главная'
+])
 
-    <div class="error-content">
-        <h3><i class="fas fa-exclamation-triangle text-warning"></i> Oops! Page not found.</h3>
-        <p>
-          We could not find the page you were looking for.
-          Meanwhile, you may <a href="{{ route('dashboard') }}">return to dashboard</a> or try using the search form.
-        </p>
-    </div>
-    <!-- /.error-content -->
-</div>
-<!-- /.error-page -->
+<!-- Main content -->
+<section class="content">
+    <div class="error-page">
+        <h2 class="headline text-warning"> 404</h2>
 
-@stop
+        <div class="error-content">
+            <h3>
+                <i class="fas fa-exclamation-triangle text-warning"></i> К сожалению! Страница не найдена.
+            </h3>
+            <p>
+                Мы не смогли найти страницу, которую вы искали. 
+                Вы можете вернуться <a href="{{ route('dashboard') }}">на панель инструментов</a> 
+            </p>
+        </div>
+        <!-- /.error-content -->
+      </div>
+    <!-- /.error-page -->
+</section>
+<!-- /.content -->
+
+@endsection

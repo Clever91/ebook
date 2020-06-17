@@ -1,27 +1,32 @@
-@extends('adminlte::page')
+@extends('layouts.admin')
 
-@section('title', 'Error 500')
-
-@section('content_header')
-    <h1>500 Error Page</h1>
-@stop
+@section('title', 'Ошибка')
 
 @section('content')
 
-<div class="error-page">
-    <h2 class="headline text-danger">500</h2>
+<!-- Content Header (Page header) -->
+@include('layouts.breadcrumb', [
+    'list' => route('dashboard'),
+    'title' => 'Главная'
+])
 
-    <div class="error-content">
-        <h3>
-            <i class="fas fa-exclamation-triangle text-danger"></i> Oops! Something went wrong.
-        </h3>
+<!-- Main content -->
+<section class="content">
+    <div class="error-page">
+        <h2 class="headline text-danger">500</h2>
 
-        <p>
-            We will work on fixing that right away.
-            Meanwhile, you may <a href="{{ route('dashboard') }}">return to dashboard</a> or try using the search form.
-        </p>
+        <div class="error-content">
+            <h3>
+                <i class="fas fa-exclamation-triangle text-danger"></i> К сожалению! Что-то пошло не так.
+            </h3>
+            <p>
+            Мы будем работать над исправлением этого сразу.
+            Вы можете вернуться <a href="{{ route('dashborad') }}">на панель инструментов</a> 
+            </p>
+        </div>
     </div>
-</div>
-<!-- /.error-page -->
+    <!-- /.error-page -->
+</section>
+<!-- /.content -->
 
-@stop
+@endsection

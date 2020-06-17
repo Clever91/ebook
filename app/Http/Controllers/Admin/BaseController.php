@@ -14,14 +14,14 @@ class BaseController extends Controller
     public function __construct(Request $request)
     {
         // set language
-        $locale = $request->has("locale");
-        if ($locale) {
-            if (!in_array($locale, config('translatable.locales'))) {
-                $this->_locale = $locale;
-            }
-        }
+        // $locale = $request->has("locale");
+        // if ($locale) {
+        //     if (!in_array($locale, config('translatable.locales'))) {
+        //         $this->_locale = $locale;
+        //     }
+        // }
 
-        App::setLocale($this->_locale);
+        // App::setLocale($this->_locale);
 
         // set page limit
         if (env("APP_PAGELIMIT")) {
