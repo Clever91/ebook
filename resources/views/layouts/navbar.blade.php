@@ -105,11 +105,11 @@
             <div class="dropdown-menu dropdown-menu-right p-0">
                 @foreach (config('translatable.getLocales') as $code => $lang)
                     @if ($code == App::getLocale())
-                    <a href="{{ route('admin.locale', $code) }}" class="dropdown-item active">
+                    <a href="{{ route('admin.lang', $code) }}" class="dropdown-item active">
                         <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["label"] }}
                     </a>
                     @else
-                    <a href="{{ route('admin.locale', $code) }}" class="dropdown-item">
+                    <a href="{{ route('admin.lang', $code) }}" class="dropdown-item">
                         <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["label"] }}
                     </a>    
                     @endif
