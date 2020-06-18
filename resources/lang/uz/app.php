@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'welcome_message' => 'You are logged in!',
+    'welcome_message' => 'Siz sitemaga kirdingiz!',
     'users' => 'Users',
     'username' => 'Username',
     'create_user' => 'Create user',

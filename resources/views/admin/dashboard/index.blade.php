@@ -26,7 +26,7 @@
                                 </div>
                             @endif
 
-                            You are logged in!  {{ App::getLocale() }} / {{ session('locale') }}
+                            {{ __('app.welcome_message') }}  {{ App::getLocale() }} / {{ session('locale') }}
                         </div>
                     </div>
                 </div>
