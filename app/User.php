@@ -87,6 +87,11 @@ class User extends Authenticatable
         return $this->is_admin == self::ADMIN;
     }
 
+    public function isAdmin()
+    {
+        return $this->role == self::ROLE_ADMIN;
+    }
+
     public function isActive()
     {
         return $this->active == self::STATUS_ACTIVE;

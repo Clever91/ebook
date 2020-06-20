@@ -18,26 +18,46 @@ use Lunaweb\Localization\Facades\Localization;
 |
 */
 
+Auth::routes(['register' => false]);
+Route::get('/', function() {
+    return redirect('login');
+});
+
+Route::get('/denied', function() {
+    return view('error._denied');
+})->name('denied');
+
 // ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
 Localization::localizedRoutesGroup(function() {
-    Auth::routes(['register' => false]);
-    Route::get('/', function() {
-        return redirect('login');
-    });
+
+    Route::get('/error/404', function() {
+        if (Auth::check())
+            return view('error._404');
+        
+        return view('auth._404');
+    })->name('error404');
+
+    Route::get('/error/500', function() {
+        if (Auth::check())
+            return view('error._500');
+        
+        return view('auth._500');
+    })->name('error500');
 
     Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
-
         // globale route
         Route::get('/', 'Admin\DashboardController@index')->name('home');
-        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
+        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard')->middleware('auth');
         Route::get('/lang/{lang}', 'Admin\LanguageController@index')->name("admin.lang");
         Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
         // resource route
+        // Route::group(['middleware' => ['sadmin', 'admin']], function() {
+        // });
         Route::resource('user', 'Admin\UserController');
         Route::resource('category', 'Admin\CategoryController');
-
     });
+    
 });
 
 

@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
-use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Request;
 
 class LoginController extends Controller
 {
@@ -46,4 +43,28 @@ class LoginController extends Controller
     {
         return 'username';
     }
+
+    // public function login(Request $request)
+    // {   
+    //     $input = $request->all();
+    //     dd($input);
+        
+    //     $this->validate($request, [
+    //         'username' => 'required',
+    //         'password' => 'required',
+    //     ]);
+
+
+    //     if(auth()->attempt(array('username' => $input['username'], 'password' => $input['password'])))
+    //     {
+    //         if (auth()->user()->is_admin == 1) {
+    //             return redirect()->route('admin.user.index');
+    //         } else {
+    //             return redirect()->route('home');
+    //         }
+    //     } else {
+    //         return redirect()->route('login')
+    //             ->with('error','username And Password Are Wrong.');
+    //     }
+    // }
 }
