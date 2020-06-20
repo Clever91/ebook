@@ -54,9 +54,10 @@ Localization::localizedRoutesGroup(function() {
         // resource route
         // Route::group(['middleware' => ['sadmin', 'admin']], function() {
         // });
-        Route::resource('user', 'Admin\UserController');
-        Route::resource('category', 'Admin\CategoryController');
-        Route::resource('group', 'Admin\GroupController');
+        Route::resource('user', 'Admin\UserController')->except('show');
+        Route::resource('category', 'Admin\CategoryController')->except('show');
+        Route::resource('group', 'Admin\GroupController')->except('show');
+        Route::resource('author', 'Admin\AuthorController')->except('show');
     });
     
 });

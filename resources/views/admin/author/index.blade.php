@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
-@section('title', 'Список пользователей')
+@section('title', 'Список автор')
 
 @section('content')
 
 
 <!-- Content Header (Page header) -->
 @include('layouts.breadcrumb', [
-    'list' => route('user.index'),
-    'title' => 'Список пользователей'
+    'list' => route('author.index'),
+    'title' => 'Список автор'
 ])
 
 <!-- Main content -->
@@ -23,8 +23,8 @@
                 <div class="card">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Список пользователей</h3>
-                            <a href="{{ route('user.create') }}" 
+                            <h3 class="card-title">Список автор</h3>
+                            <a href="{{ route('author.create') }}" 
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->
@@ -33,11 +33,11 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Имя</th>
-                                        <th>Имя пользователя</th>
-                                        <th>Роль</th>
+                                        <th>Наименование</th>
+                                        <th>био</th>
                                         <th>Активный</th>
                                         <th>Действия</th>
+                                        <th>Удалить</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,12 +45,18 @@
                                     <tr>
                                         <td>{{ $model->id }}</td>
                                         <td>{{ $model->name }}</td>
-                                        <td>{{ $model->username }}</td>
+                                        <td width="200px">{{ $model->bio }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
-                                        <td>{{ $model->roleLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('user.edit', $model->id) }}" 
+                                            <a href="{{ route('author.edit', $model->id) }}" 
                                             class="btn btn-sm btn-info">Изменить</a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('author.destroy', $model->id) }}" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -58,6 +64,7 @@
                             </table>
                         </div>
                         <!-- /.card-body -->
+
                         <div class="card-footer">
                             {{ $models->links() }}
                         </div>
@@ -72,20 +79,3 @@
 </section>
 @endsection
 
-<!-- page script -->
-
-<!-- DataTables -->
-{{-- <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script> --}}
-
-{{-- <script type="text/javascript">
-    // your inline script
-    $(function () {
-        $("#example1").DataTable({
-            "responsive": true,
-            "autoWidth": false,
-        });
-    });
-</script> --}}

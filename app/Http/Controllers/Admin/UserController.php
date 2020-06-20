@@ -45,7 +45,6 @@ class UserController extends BaseController
             'name' => 'required|min:3',
             'username' => 'required|unique:users',
             'password' => 'required|min:5',
-            'active' => 'required',
             'role' => 'required',
         ]);
         
@@ -55,17 +54,6 @@ class UserController extends BaseController
         $model = User::create($attributes);
 
         return redirect()->route('user.index');
-    }   
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -96,7 +84,6 @@ class UserController extends BaseController
             'name' => 'required|min:3',
             'username' => 'required',
             'password' => 'required|min:5',
-            'active' => 'required',
             'role' => 'required',
         ]);
         

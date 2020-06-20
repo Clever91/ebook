@@ -45,7 +45,6 @@ class GroupController extends BaseController
         $attributes = $request->validate([
             'name' => 'required|min:3',
             'order_no' => 'required',
-            'status' => 'required',
         ]);
         
         // create default category
@@ -76,21 +75,6 @@ class GroupController extends BaseController
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $model = Group::findOrFail($id);
-
-        return view('admin.group.edit')->with([
-            'model' => $model
-        ]);
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -102,7 +86,6 @@ class GroupController extends BaseController
         $attributes = $request->validate([
             'name' => 'required|min:3',
             'order_no' => 'required',
-            'status' => 'required',
         ]);
         
         $model = Group::findOrFail($id);

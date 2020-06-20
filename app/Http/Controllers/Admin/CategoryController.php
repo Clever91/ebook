@@ -47,7 +47,6 @@ class CategoryController extends BaseController
         $attributes = $request->validate([
             'name' => 'required|min:3',
             'order_no' => 'required',
-            'status' => 'required',
         ]);
         
         // create default category
@@ -65,17 +64,6 @@ class CategoryController extends BaseController
 
         return redirect()->route('category.index');
     }   
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -104,7 +92,6 @@ class CategoryController extends BaseController
         $attributes = $request->validate([
             'name' => 'required|min:3',
             'order_no' => 'required',
-            'status' => 'required',
         ]);
         
         $model = Category::findOrFail($id);

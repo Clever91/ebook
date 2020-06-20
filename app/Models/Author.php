@@ -2,15 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Author extends Model
+class Author extends Base
 {
     const STATUS_ACTIVE = 1;
     const STATUS_NO_ACTIVE = 0;
 
     protected $fillable = [
-        'name', 'bio', 'status', 'updated_by', 'created_by'
+        'name', 'bio', 'status', 'deleted', 'updated_by', 'created_by'
     ];
 
     public function products()

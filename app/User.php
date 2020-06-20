@@ -77,6 +77,14 @@ class User extends Authenticatable
         ];
     }
 
+    public function getActives()
+    {
+        return [
+            self::STATUS_ACTIVE => "Активно",
+            self::STATUS_NO_ACTIVE => "Не активно"
+        ];
+    }
+
     public function roleLabel()
     {
         return $this->roles()[$this->role];
@@ -95,6 +103,11 @@ class User extends Authenticatable
     public function isActive()
     {
         return $this->active == self::STATUS_ACTIVE;
+    }
+
+    public function activeLabel()
+    {
+        return $this->getActives()[$this->active];
     }
 
     public function makeDeleted()
