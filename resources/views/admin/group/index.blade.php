@@ -44,7 +44,7 @@
                                     @foreach ($models as $model)
                                     <tr>
                                         <td>{{ $model->id }}</td>
-                                        <td>{{ $model->translate(\App::getLocale())->name }}</td>
+                                        <td>{{ $model->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->order_no }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>

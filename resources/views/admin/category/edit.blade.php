@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="name">Название</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                            id="name" name="name" value="{{ $model->name }}" placeholder="Введите название" required>
+                            id="name" name="name" value="{{ $model->translateorNew(\App::getLocale())->name }}" placeholder="Введите название" required>
                         @error('name')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
