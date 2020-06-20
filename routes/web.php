@@ -56,6 +56,7 @@ Localization::localizedRoutesGroup(function() {
         // });
         Route::resource('user', 'Admin\UserController');
         Route::resource('category', 'Admin\CategoryController');
+        Route::resource('group', 'Admin\GroupController');
     });
     
 });

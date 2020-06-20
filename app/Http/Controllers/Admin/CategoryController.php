@@ -51,17 +51,17 @@ class CategoryController extends BaseController
         ]);
         
         // create default category
-        $category = new Category();
+        $model = new Category();
         foreach(Localization::getLocales() as $lang => $item) {
-            $category->translateOrNew($lang)->name = $request->input('name');
-            $category->translateOrNew($lang)->is_default = 0;
+            $model->translateOrNew($lang)->name = $request->input('name');
+            $model->translateOrNew($lang)->is_default = 0;
             if (env("LANG_DEFAULT") == $lang)
-                $category->translateOrNew($lang)->is_default = 1;
+                $model->translateOrNew($lang)->is_default = 1;
         }
-        $category->order_no = $request->input('order_no');
-        $category->status = Base::activeOn($request->input("status"));;
-        $category->created_by = Auth::user()->id;
-        $category->save();
+        $model->order_no = $request->input('order_no');
+        $model->status = Base::activeOn($request->input("status"));;
+        $model->created_by = Auth::user()->id;
+        $model->save();
 
         return redirect()->route('category.index');
     }   

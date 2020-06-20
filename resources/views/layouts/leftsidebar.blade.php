@@ -72,6 +72,29 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-folder-open"></i>
+                        <p>
+                            Группа
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('group.create') }}" class="nav-link">
+                                <i class="nav-icon fas fa-plus"></i>
+                                <p>Создать</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('group.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Список</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

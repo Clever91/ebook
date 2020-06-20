@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
-@section('title', 'Список категорий')
+@section('title', 'Список группы')
 
 @section('content')
 
 
 <!-- Content Header (Page header) -->
 @include('layouts.breadcrumb', [
-    'list' => route('category.index'),
-    'title' => 'Список категорий'
+    'list' => route('group.index'),
+    'title' => 'Список группы'
 ])
 
 <!-- Main content -->
@@ -23,8 +23,8 @@
                 <div class="card">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Список категорий</h3>
-                            <a href="{{ route('category.create') }}" 
+                            <h3 class="card-title">Список группы</h3>
+                            <a href="{{ route('group.create') }}" 
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->
@@ -44,15 +44,15 @@
                                     @foreach ($models as $model)
                                     <tr>
                                         <td>{{ $model->id }}</td>
-                                        <td>{{ $model->translate(\App::getLocale())->name }} }}</td>
+                                        <td>{{ $model->translate(\App::getLocale())->name }}</td>
                                         <td>{{ $model->order_no }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('category.edit', $model->id) }}" 
+                                            <a href="{{ route('group.edit', $model->id) }}" 
                                             class="btn btn-sm btn-info">Изменить</a>
                                         </td>
                                         <td>
-                                            <form action="{{ route('category.destroy', $model->id) }}" method="POST">
+                                            <form action="{{ route('group.destroy', $model->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-danger">Удалить</button>

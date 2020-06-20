@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use Astrotomic\Translatable\Translatable;
-use Illuminate\Database\Eloquent\Model;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 
-class Group extends Model implements TranslatableContract
+class Group extends Base implements TranslatableContract
 {
     use Translatable;
 
@@ -16,7 +15,7 @@ class Group extends Model implements TranslatableContract
     public $translatedAttributes = ['name', 'is_default'];
 
     protected $fillable = [
-        'order_no', 'status', 'updated_by', 'created_by'
+        'order_no', 'status', 'deleted', 'updated_by', 'created_by'
     ];
 
     public function relations()
