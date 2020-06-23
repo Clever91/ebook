@@ -30,6 +30,7 @@ Route::get('/denied', function() {
 // ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
 Localization::localizedRoutesGroup(function() {
 
+    // error route
     Route::get('/error/404', function() {
         if (Auth::check())
             return view('error._404');
@@ -44,6 +45,7 @@ Localization::localizedRoutesGroup(function() {
         return view('auth._500');
     })->name('error500');
 
+    // admin route
     Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         // globale route
         Route::get('/', 'Admin\DashboardController@index')->name('home');
@@ -58,6 +60,7 @@ Localization::localizedRoutesGroup(function() {
         Route::resource('category', 'Admin\CategoryController')->except('show');
         Route::resource('group', 'Admin\GroupController')->except('show');
         Route::resource('author', 'Admin\AuthorController')->except('show');
+        Route::resource('product', 'Admin\ProductController')->except('show');
     });
     
 });

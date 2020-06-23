@@ -74,7 +74,7 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-book"></i>
+                        <i class="nav-icon fa fa-pencil-alt"></i>
                         <p>
                             Авторы книги
                             <i class="right fas fa-angle-left"></i>
@@ -89,6 +89,29 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('author.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Список</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-book"></i>
+                        <p>
+                            Продукты
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('product.create') }}" class="nav-link">
+                                <i class="nav-icon fas fa-plus"></i>
+                                <p>Создать</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('product.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
                                 <p>Список</p>
                             </a>

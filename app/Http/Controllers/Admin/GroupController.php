@@ -61,17 +61,21 @@ class GroupController extends BaseController
         $model->save();
 
         return redirect()->route('group.index');
-    }   
+    }
 
     /**
-     * Display the specified resource.
+     * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function edit($id)
     {
-        //
+        $model = Group::findOrFail($id);
+
+        return view('admin.group.edit')->with([
+            'model' => $model
+        ]);
     }
 
     /**
