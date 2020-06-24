@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Author;
 use App\Models\Base;
 use App\Models\Category;
+use App\Models\Files;
 use App\Models\Product;
-use GuzzleHttp\Handler\Proxy;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
@@ -156,5 +156,56 @@ class ProductController extends BaseController
         $model->makeDeleted();
 
         return redirect()->route('product.index');
+    }
+
+    public function eform(Request $request, $id)
+    {
+        $model = Product::findOrFail($id);
+
+        if ($request->isMethod('patch')) {
+            // validate
+            // $validatedData = $request->validate([
+            //     'eprice' => 'required',
+            //     'ebook' => 'required|mimes:epub', //|file|mimes:epub|max:10240
+            // ]);
+
+            // check file exists
+            if ($request->hasfile('ebook')) {
+                // get file info
+                $upload = $request->file('ebook');
+                $size = $upload->getSize();
+                $ext = $upload->extension();
+
+                // generate filename
+                $filename = $model->generateFilename($upload->extension());  
+                $upload->move(Files::getPublicFolder(), $filename);
+
+                // save new file
+                $file = new Files();
+                $file->name = $filename;
+                $file->orginal_name = $upload->getClientOriginalName();
+                $file->size = $size;
+                $file->extantion = $ext;
+                if ($file->save()) {
+                    // check if model has already file, so delete it
+                    if (!is_null($model->file)) {
+                        $model->file->deleteFile();
+                        $model->file->delete();
+                    }
+
+                    // update model
+                    $model->file_id = $file->id;
+                    $model->ebook = Product::HAS_EBOOK;
+                    $model->eprice = $request->input('eprice');
+                    $model->save();
+                }
+            }
+
+            return redirect()->route('product.index');
+        }
+
+        return view('admin.product.eform')->with([
+            'model' => $model
+        ]);
     }
 }

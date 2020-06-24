@@ -61,6 +61,10 @@ Localization::localizedRoutesGroup(function() {
         Route::resource('group', 'Admin\GroupController')->except('show');
         Route::resource('author', 'Admin\AuthorController')->except('show');
         Route::resource('product', 'Admin\ProductController')->except('show');
+
+        // custom route
+        Route::get('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform');
+        Route::patch('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform.patch');
     });
     
 });

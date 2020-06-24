@@ -36,11 +36,9 @@
                                         <th>Категория</th>
                                         <th>Автор</th>
                                         <th>Описание</th>
-                                        {{-- <th>Порядковый номер</th> --}}
                                         <th>Цена</th>
-                                        <th>Цена (онлайн)</th>
                                         <th>Активный</th>
-                                        <th>Действия</th>
+                                        <th width="190px">Действия</th>
                                         <th>Удалить</th>
                                     </tr>
                                 </thead>
@@ -51,14 +49,21 @@
                                         <td>{{ $model->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->category->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->author->name }}</td>
-                                        <td>{{ $model->translateorNew(\App::getLocale())->description }}</td>
-                                        {{-- <td>{{ $model->order_no }}</td> --}}
+                                        <td>{{ substr($model->translateorNew(\App::getLocale())->description, 1, 50) }}...</td>
                                         <td>@money_format($model->price)</td>
-                                        <td>@money_format($model->eprice)</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('product.edit', $model->id) }}" 
-                                            class="btn btn-sm btn-info">Изменить</a>
+                                            <a href="{{ route('product.edit', $model->id) }}" class="btn btn-app">
+                                                <i class="fas fa-edit"></i> Изм.
+                                            </a>
+                                            <a href="{{ route('product.eform', $model->id) }}" class="btn btn-app">
+                                                @if ($model->hasEbook())
+                                                <span class="badge bg-teal">@money_format($model->eprice)</span>
+                                                @else
+                                                <span class="badge badge-danger">0</span>
+                                                @endif
+                                                <i class="fas fa-inbox"></i> Электр.
+                                            </a>
                                         </td>
                                         <td>
                                             <form action="{{ route('product.destroy', $model->id) }}" method="POST">

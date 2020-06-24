@@ -28,11 +28,26 @@ class Product extends Base implements TranslatableContract
         return $this->belongsTo(Author::class);
     }
 
+    public function file()
+    {
+        return $this->belongsTo(Files::class);
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')
             ->where('status', Comment::STATUS_ACTIVE)
             ->whereNull('parent_id');
+    }
+
+    public function hasEbook()
+    {
+        return $this->ebook == self::HAS_EBOOK && !is_null($this->file);
+    }
+
+    public function generateFilename($extention = "epub")
+    {
+        return $this->id."_".time().'.'.$extention;
     }
 
     public function getImageUrl()
