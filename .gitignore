@@ -12,3 +12,6 @@ npm-debug.log
 yarn-error.log
 firebase_credentials.json
 .vscode/
+public/uploads/ebooks/*
+public/uploads/products/*
+public/thumbnails/*

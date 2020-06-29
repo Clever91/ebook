@@ -29,33 +29,24 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <!-- form start -->
-                <form role="form" action="{{ route('product.eform.patch', $model->id) }}" 
+                <form role="form" action="{{ route('product.image.patch', $model->id) }}" 
                     method="POST" enctype="multipart/form-data">
                     @method("PATCH")
                     @csrf
                         <div class="form-group">
-                            <label for="eprice">Электронная цена</label>
-                            <input type="text" class="form-control @error('eprice') is-invalid @enderror" 
-                                id="eprice" name="eprice" value="{{ $model->eprice }}" 
-                                placeholder="Введите цена" required>
-                            @error('eprice')
-                                <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="ebook">Электронная книга</label>
+                            <label for="image">Изображение книги</label>
                             <div class="input-group">
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input"
-                                        id="ebook" name="ebook">
-                                    <label class="custom-file-label" for="ebook">Выберите файл</label>
+                                        id="image" name="image">
+                                    <label class="custom-file-label" for="image">Выберите файл</label>
                                 </div>
                                 <div class="input-group-append">
                                     <span class="input-group-text">Загрузить</span>
                                 </div>
                             </div>
-                            @error('ebook')
-                                <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                            @error('image')
+                                <p>Error: <code>{{ $message }}</code></p>
                             @enderror
                         </div>
                     </div>

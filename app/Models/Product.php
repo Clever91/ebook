@@ -15,7 +15,8 @@ class Product extends Base implements TranslatableContract
     public $translatedAttributes = ['name', 'description', 'is_default'];
 
     protected $fillable = [
-        'category_id', 'author_id', 'price', 'eprice', 'ebook', 'status', 'updated_by', 'created_by'
+        'category_id', 'author_id', 'file_id', 'image_id', 
+        'price', 'eprice', 'ebook', 'status', 'updated_by', 'created_by'
     ];
 
     public function category()
@@ -33,6 +34,11 @@ class Product extends Base implements TranslatableContract
         return $this->belongsTo(Files::class);
     }
 
+    public function image()
+    {
+        return $this->belongsTo(Image::class)->where('type', Image::TYPE_PRODUCT);
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')
@@ -43,6 +49,11 @@ class Product extends Base implements TranslatableContract
     public function hasEbook()
     {
         return $this->ebook == self::HAS_EBOOK && !is_null($this->file);
+    }
+
+    public function hasImage()
+    {
+        return !is_null($this->image);
     }
 
     public function generateFilename($extention = "epub")

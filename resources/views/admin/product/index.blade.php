@@ -35,11 +35,10 @@
                                         <th>Наименование</th>
                                         <th>Категория</th>
                                         <th>Автор</th>
-                                        <th>Описание</th>
+                                        {{-- <th>Описание</th> --}}
                                         <th>Цена</th>
                                         <th>Активный</th>
                                         <th width="190px">Действия</th>
-                                        <th>Удалить</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,7 +48,7 @@
                                         <td>{{ $model->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->category->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->author->name }}</td>
-                                        <td>{{ substr($model->translateorNew(\App::getLocale())->description, 1, 50) }}...</td>
+                                        {{-- <td>{{ substr($model->translateorNew(\App::getLocale())->description, 1, 50) }}...</td> --}}
                                         <td>@money_format($model->price)</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
@@ -62,14 +61,22 @@
                                                 @else
                                                 <span class="badge badge-danger">0</span>
                                                 @endif
-                                                <i class="fas fa-inbox"></i> Электр.
+                                                <i class="fas fa-inbox"></i> ebook
                                             </a>
-                                        </td>
-                                        <td>
                                             <form action="{{ route('product.destroy', $model->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                                <a href="{{ route('product.image', $model->id) }}" class="btn btn-app">
+                                                @if ($model->hasImage())
+                                                    <span class="badge bg-purple">1</span>
+                                                @else
+                                                    <span class="badge bg-danger">0</span>
+                                                @endif
+                                                    <i class="fas fa-image"></i> Изоб.
+                                                </a>
+                                                <button type="submit" class="btn btn-app">
+                                                    <i class="fas fa-trash"></i> Удалить
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>

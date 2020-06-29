@@ -62,9 +62,11 @@ Localization::localizedRoutesGroup(function() {
         Route::resource('author', 'Admin\AuthorController')->except('show');
         Route::resource('product', 'Admin\ProductController')->except('show');
 
-        // custom route
+        // custom route of product
         Route::get('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform');
         Route::patch('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform.patch');
+        Route::get('/product/{product}/image', 'Admin\ProductController@image')->name('product.image');
+        Route::patch('/product/{product}/image', 'Admin\ProductController@image')->name('product.image.patch');
     });
     
 });

@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\Base;
 use App\Models\Category;
 use App\Models\Files;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -161,13 +162,11 @@ class ProductController extends BaseController
     public function eform(Request $request, $id)
     {
         $model = Product::findOrFail($id);
-
+        
         if ($request->isMethod('patch')) {
-            // validate
-            // $validatedData = $request->validate([
-            //     'eprice' => 'required',
-            //     'ebook' => 'required|mimes:epub', //|file|mimes:epub|max:10240
-            // ]);
+            // set ebook price if exist file exists
+            if ($request->has('eprice') && $model->hasEbook())
+                $model->eprice = $request->input('eprice');
 
             // check file exists
             if ($request->hasfile('ebook')) {
@@ -175,6 +174,9 @@ class ProductController extends BaseController
                 $upload = $request->file('ebook');
                 $size = $upload->getSize();
                 $ext = $upload->extension();
+
+                // todo: must to check extantion and size image
+                // if ($ext != "epub" || $size ?)
 
                 // generate filename
                 $filename = $model->generateFilename($upload->extension());  
@@ -196,15 +198,64 @@ class ProductController extends BaseController
                     // update model
                     $model->file_id = $file->id;
                     $model->ebook = Product::HAS_EBOOK;
-                    $model->eprice = $request->input('eprice');
-                    $model->save();
                 }
             }
+
+            $model->save();
 
             return redirect()->route('product.index');
         }
 
         return view('admin.product.eform')->with([
+            'model' => $model
+        ]);
+    }
+
+    public function image(Request $request, $id)
+    {
+        $model = Product::findOrFail($id);
+        
+        if ($request->isMethod('patch')) {
+
+            $this->validate($request, [
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            // check image exists
+            if ($request->hasfile('image')) {
+                // get image info
+                $upload = $request->file('image');
+                $size = $upload->getSize();
+                $ext = $upload->extension();
+
+                // generate filename
+                $imagename = $model->generateFilename($upload->extension());  
+                $upload->move(Image::getPublicFolder(), $imagename);
+
+                // save new image
+                $image = new Image();
+                $image->name = $imagename;
+                $image->type = Image::TYPE_PRODUCT;
+                $image->orginal_name = $upload->getClientOriginalName();
+                $image->size = $size;
+                $image->extantion = $ext;
+                if ($image->save()) {
+                    // check if model has already image, so delete it
+                    if (!is_null($model->image)) {
+                        $model->image->deleteImage();
+                        $model->image->delete();
+                    }
+
+                    // update model
+                    $model->image_id = $image->id;
+                    $model->save();
+                }
+            }
+            
+            return redirect()->route('product.index');
+        }
+
+        return view('admin.product.image')->with([
             'model' => $model
         ]);
     }

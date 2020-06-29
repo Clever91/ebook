@@ -178,7 +178,10 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         // add firebase 
-        Kreait\Laravel\Firebase\ServiceProvider::class
+        Kreait\Laravel\Firebase\ServiceProvider::class,
+
+        // image resize
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -232,7 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-
+        'ImageResize' => Intervention\Image\Facades\Image::class,
     ],
 
 ];
