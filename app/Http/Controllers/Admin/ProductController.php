@@ -217,9 +217,11 @@ class ProductController extends BaseController
         
         if ($request->isMethod('patch')) {
 
-            $this->validate($request, [
-                'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]);
+            if (!$model->hasImage()) {
+                $this->validate($request, [
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+                ]);
+            }
 
             // check image exists
             if ($request->hasfile('image')) {
@@ -241,7 +243,7 @@ class ProductController extends BaseController
                 $image->extantion = $ext;
                 if ($image->save()) {
                     // check if model has already image, so delete it
-                    if (!is_null($model->image)) {
+                    if (!is_null($model->hasImage())) {
                         $model->image->deleteImage();
                         $model->image->delete();
                     }
@@ -249,6 +251,11 @@ class ProductController extends BaseController
                     // update model
                     $model->image_id = $image->id;
                     $model->save();
+
+                    // create thumbnails images
+                    // $image->resizeImage(100, 100);
+                    // $image->resizeImage(300, 300);
+                    // $image->resizeImage(600, 600);
                 }
             }
             

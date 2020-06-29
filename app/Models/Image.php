@@ -11,6 +11,9 @@ class Image extends Model
     const TYPE_PRODUCT = "product";
     const TYPE_CATEGORY = "category";
 
+    const PRODUCT_PATH = "uploads/products/";
+    const THUMBNAIL_PATH = "/thumbnails";
+
     protected $fillable = [
         'name', 'type', 'orginal_name', 'size', 'extention'
     ];
@@ -23,7 +26,7 @@ class Image extends Model
     
     public static function getPublicFolder()
     {
-        return public_path('uploads/products/');
+        return public_path(self::PRODUCT_PATH);
     }
 
     public function getImagePath()
@@ -31,22 +34,27 @@ class Image extends Model
         return self::getPublicFolder() . $this->name;
     }
 
-    public function resizeImage($size = "300x300", $type = "product")
+    // public function getImageUrl($size = "300x300")
+    // {
+    //     return self::THUMBNAIL_PATH . "/" . $size . "/" . $this->name;
+    // }
+
+    public function resizeImage($width = 300, $hight = 300)
     {
         // create thumbnails folder if not exists
         $path = public_path('/thumbnails');
         $this->mkdirFolder($path);
         
-        // create products folder if not exists
-        $path .= "/" . $type;
+        // create type folder if not exists
+        $path .= "/" . $this->type;
         $this->mkdirFolder($path);
 
         // create size folder if not exists
-        $path .= "/" . $size;
+        $path .= "/" . $width . "x" . $hight;
         $this->mkdirFolder($path);
 
         $img = ImageResize::make($this->getImagePath());
-        $img->resize(100, 100, function ($constraint) {
+        $img->resize($width, $hight, function ($constraint) {
             $constraint->aspectRatio();
         })->save($path .'/'. $this->name);
     }

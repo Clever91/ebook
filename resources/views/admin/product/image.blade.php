@@ -33,13 +33,29 @@
                     method="POST" enctype="multipart/form-data">
                     @method("PATCH")
                     @csrf
+                        {{-- @if ($model->hasImage())
+                        <div class="form-group">
+                            <div class="input-group">
+                                <img src="{{ $model->image->getImageUrl("100x100") }}" alt="{{ $model->image->orginal_name }}">
+                            </div>
+                        </div>
+                        @endif --}}
+
                         <div class="form-group">
                             <label for="image">Изображение книги</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input"
-                                        id="image" name="image">
-                                    <label class="custom-file-label" for="image">Выберите файл</label>
+                                    <input type="file" class="custom-file-input" name="image" 
+                                        @if ($model->hasImage())
+                                            value="{{ $model->image->getImagePath() }}"
+                                        @endif>
+                                    <label class="custom-file-label" for="image">
+                                        @if ($model->hasImage()) 
+                                           {{ $model->image->name }}
+                                        @else
+                                            Выберите файл
+                                        @endif
+                                    </label>
                                 </div>
                                 <div class="input-group-append">
                                     <span class="input-group-text">Загрузить</span>
@@ -61,5 +77,17 @@
     </div>
 </section>
 <!-- /.content -->
+
+<!-- bs-custom-file-input -->
+<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+
+<script>
+    $('.custom-file-input').on('change',function(){
+        //get the file name
+        var fileName = $(this).val();
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+    })
+</script>
 
 @stop
