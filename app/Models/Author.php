@@ -28,13 +28,4 @@ class Author extends Base
             ->whereNull('parent_id');
     }
 
-    public function hasImage()
-    {
-        return !is_null($this->image);
-    }
-
-    public function getImageUrl()
-    {
-        return url('/images/no_book.jpg');
-    }
 }

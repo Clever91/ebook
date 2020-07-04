@@ -58,6 +58,8 @@ class AuthorController extends BaseController
         $success["id"] = $author->id;
         $success["name"] = $author->name;
         $success["bio"] = $author->bio;
+        $success["small"] = $author->getImage(100, 100);
+        $success["medium"] = $author->getImage(300, 300);
         $success["books"] = [];
 
         $item = [];

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 abstract class Base extends Model
 {
@@ -14,6 +15,8 @@ abstract class Base extends Model
 
     const DELETED = 1;
     const NO_DELETED = 0;
+
+    const NO_IMAGE = "/images/no_image.jpg";
 
     public function isActive()
     {
@@ -57,5 +60,24 @@ abstract class Base extends Model
     public function generateFilename($extention = "epub")
     {
         return $this->id."_".time().'.'.$extention;
+    }
+
+    public function hasImage()
+    {
+        return !is_null($this->image);
+    }
+
+    public function getImage($width = 300, $hight = 300)
+    {
+        $size = $width . "x" . $hight;
+        if ($this->image) {
+            $url = $this->image->getImageUrl($size);
+            if (File::exists($url))
+                return $url;
+            $this->image->resizeImage($width, $hight);
+            return $this->image->getImageUrl($size);
+        }
+
+        return self::NO_IMAGE;
     }
 }

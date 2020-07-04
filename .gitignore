@@ -13,5 +13,7 @@ yarn-error.log
 firebase_credentials.json
 .vscode/
 public/uploads/ebooks/*
-public/uploads/products/*
+public/uploads/product/*
+public/uploads/author/*
+public/uploads/category/*
 public/thumbnails/*

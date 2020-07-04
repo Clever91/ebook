@@ -21,10 +21,5 @@ class Category extends Base implements TranslatableContract
             ->where('status', Comment::STATUS_ACTIVE)
             ->whereNull('parent_id');
     }
-    
-    public function getImageUrl()
-    {
-        return url('/images/no_book.jpg');
-    }
 
 }
