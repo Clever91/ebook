@@ -48,7 +48,13 @@
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input"
                                         id="ebook" name="ebook">
-                                    <label class="custom-file-label" for="ebook">Выберите файл</label>
+                                    <label class="custom-file-label" for="ebook">
+                                        @if ($model->hasEbook()) 
+                                           {{ $model->file->name }}
+                                        @else
+                                            Выберите файл
+                                        @endif
+                                    </label>
                                 </div>
                                 <div class="input-group-append">
                                     <span class="input-group-text">Загрузить</span>
@@ -70,5 +76,17 @@
     </div>
 </section>
 <!-- /.content -->
+
+<!-- bs-custom-file-input -->
+<script src="{{ asset('plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
+
+<script>
+    $('.custom-file-input').on('change',function(){
+        //get the file name
+        var fileName = $(this).val();
+        //replace the "Choose a file" label
+        $(this).next('.custom-file-label').html(fileName);
+    })
+</script>
 
 @stop
