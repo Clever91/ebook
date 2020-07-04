@@ -36,8 +36,7 @@
                                         <th>Наименование</th>
                                         <th>био</th>
                                         <th>Активный</th>
-                                        <th>Действия</th>
-                                        <th>Удалить</th>
+                                        <th width="190px">Действия</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,17 +44,23 @@
                                     <tr>
                                         <td>{{ $model->id }}</td>
                                         <td>{{ $model->name }}</td>
-                                        <td width="200px">{{ $model->bio }}</td>
+                                        <td>{{ $model->bio }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
-                                        <td>
-                                            <a href="{{ route('author.edit', $model->id) }}" 
-                                            class="btn btn-sm btn-info">Изменить</a>
-                                        </td>
                                         <td>
                                             <form action="{{ route('author.destroy', $model->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                                <a href="{{ route('author.image', $model->id) }}" class="btn btn-app">
+                                                @if ($model->hasImage())
+                                                    <span class="badge bg-purple">1</span>
+                                                @else
+                                                    <span class="badge bg-danger">0</span>
+                                                @endif
+                                                    <i class="fas fa-image"></i> Изоб.
+                                                </a>
+                                                <button type="submit" class="btn btn-app">
+                                                    <i class="fas fa-trash"></i> Удалить
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>

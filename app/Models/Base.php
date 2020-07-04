@@ -53,4 +53,9 @@ abstract class Base extends Model
     {
         return $default == "on" ? self::DEFAULT : self::NO_DEFAULT;
     }
+
+    public function generateFilename($extention = "epub")
+    {
+        return $this->id."_".time().'.'.$extention;
+    }
 }

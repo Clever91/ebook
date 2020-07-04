@@ -67,6 +67,10 @@ Localization::localizedRoutesGroup(function() {
         Route::patch('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform.patch');
         Route::get('/product/{product}/image', 'Admin\ProductController@image')->name('product.image');
         Route::patch('/product/{product}/image', 'Admin\ProductController@image')->name('product.image.patch');
+
+        // custom route of author
+        Route::get('/author/{author}/image', 'Admin\AuthorController@image')->name('author.image');
+        Route::patch('/author/{author}/image', 'Admin\AuthorController@image')->name('author.image.patch');
     });
     
 });

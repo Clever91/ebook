@@ -73,11 +73,6 @@ class Product extends Base implements TranslatableContract
         return self::DEFAULT_PRODUCT;
     }
 
-    public function generateFilename($extention = "epub")
-    {
-        return $this->id."_".time().'.'.$extention;
-    }
-
     public function getImageUrl()
     {
         return url('/images/no_book.jpg');

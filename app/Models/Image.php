@@ -9,9 +9,10 @@ use ImageResize;
 class Image extends Model
 {
     const TYPE_PRODUCT = "product";
+    const TYPE_AUTHOR = "author";
     const TYPE_CATEGORY = "category";
 
-    const PRODUCT_PATH = "uploads/products/";
+    const UPLOAD_PATH = "uploads/";
     const THUMBNAIL_PATH = "/thumbnails";
 
     protected $fillable = [
@@ -24,19 +25,20 @@ class Image extends Model
             File::delete($this->getImagePath());
     }
     
-    public static function getPublicFolder()
+    public static function getPublicFolder($type)
     {
-        return public_path(self::PRODUCT_PATH);
+        return public_path(self::UPLOAD_PATH . $type);
     }
 
     public function getImagePath()
     {
-        return self::getPublicFolder() . $this->name;
+        return self::getPublicFolder($this->type) . "/" . $this->name;
     }
 
     public function getOrginalImage()
     {
-        return self::PRODUCT_PATH . $this->name;
+        return "/" . self::UPLOAD_PATH . $this->type
+            . "/" . $this->name;
     }
 
     public function getImageUrl($size = "300x300")
@@ -65,7 +67,7 @@ class Image extends Model
         })->save($path .'/'. $this->name);
     }
 
-    private function mkdirFolder($path)
+    public function mkdirFolder($path)
     {
         // create folder if not exists
         if (!File::exists($path))

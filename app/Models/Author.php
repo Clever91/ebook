@@ -16,11 +16,21 @@ class Author extends Base
         return $this->hasMany(Product::class);
     }
 
+    public function image()
+    {
+        return $this->belongsTo(Image::class)->where('type', Image::TYPE_AUTHOR);
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')
             ->where('status', Comment::STATUS_ACTIVE)
             ->whereNull('parent_id');
+    }
+
+    public function hasImage()
+    {
+        return !is_null($this->image);
     }
 
     public function getImageUrl()

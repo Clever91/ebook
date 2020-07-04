@@ -230,9 +230,13 @@ class ProductController extends BaseController
                 $size = $upload->getSize();
                 $ext = $upload->extension();
 
+                // create folder if not exists
+                $path = Image::getPublicFolder(Image::TYPE_PRODUCT);
+                (new Image)->mkdirFolder($path);
+
                 // generate filename
                 $imagename = $model->generateFilename($upload->extension());  
-                $upload->move(Image::getPublicFolder(), $imagename);
+                $upload->move($path, $imagename);
 
                 // save new image
                 $image = new Image();
@@ -243,7 +247,7 @@ class ProductController extends BaseController
                 $image->extantion = $ext;
                 if ($image->save()) {
                     // check if model has already image, so delete it
-                    if (!is_null($model->hasImage())) {
+                    if ($model->hasImage()) {
                         $model->image->deleteImage();
                         $model->image->delete();
                     }
