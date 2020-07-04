@@ -34,15 +34,21 @@ class Image extends Model
         return self::getPublicFolder() . $this->name;
     }
 
-    // public function getImageUrl($size = "300x300")
-    // {
-    //     return self::THUMBNAIL_PATH . "/" . $size . "/" . $this->name;
-    // }
+    public function getOrginalImage()
+    {
+        return self::PRODUCT_PATH . $this->name;
+    }
+
+    public function getImageUrl($size = "300x300")
+    {
+        return self::THUMBNAIL_PATH . "/" . $this->type 
+            . "/" . $size . "/" . $this->name;
+    }
 
     public function resizeImage($width = 300, $hight = 300)
     {
         // create thumbnails folder if not exists
-        $path = public_path('/thumbnails');
+        $path = public_path(self::THUMBNAIL_PATH);
         $this->mkdirFolder($path);
         
         // create type folder if not exists

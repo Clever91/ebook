@@ -113,6 +113,9 @@ class ProductController extends BaseController
         $success["free"] = false;
         $success["eprice"] = $product->eprice;
         $success["efree"] = true; // todo: 
+        $success["small"] = $product->getImage(100, 100);
+        $success["medium"] = $product->getImage(300, 300);
+        $success["large"] = $product->getImage(600, 600);
         $success["recommended"] = [];
         
         return $this->sendResponse($success, null);

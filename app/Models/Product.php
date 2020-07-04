@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\File;
 
 class Product extends Base implements TranslatableContract
 {
@@ -11,6 +12,8 @@ class Product extends Base implements TranslatableContract
 
     const HAS_EBOOK = 1;
     const HAS_NOT_EBOOK = 0;
+
+    const DEFAULT_PRODUCT = "/images/no_book.jpg";
 
     public $translatedAttributes = ['name', 'description', 'is_default'];
 
@@ -54,6 +57,20 @@ class Product extends Base implements TranslatableContract
     public function hasImage()
     {
         return !is_null($this->image);
+    }
+
+    public function getImage($width = 300, $hight = 300)
+    {
+        $size = $width . "x" . $hight;
+        if ($this->image) {
+            $url = $this->image->getImageUrl($size);
+            if (File::exists($url))
+                return $url;
+            $this->image->resizeImage($width, $hight);
+            return $this->image->getImageUrl($size);
+        }
+
+        return self::DEFAULT_PRODUCT;
     }
 
     public function generateFilename($extention = "epub")

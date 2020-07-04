@@ -33,22 +33,21 @@
                     method="POST" enctype="multipart/form-data">
                     @method("PATCH")
                     @csrf
-                        {{-- @if ($model->hasImage())
-                        <div class="form-group">
-                            <div class="input-group">
-                                <img src="{{ $model->image->getImageUrl("100x100") }}" alt="{{ $model->image->orginal_name }}">
+                        @if ($model->hasImage())
+                        <div class="row">
+                            <div class="col-md-3">
+                                <strong>Исходное изображение:</strong>                        
+                                <br/>
+                                <img src="/{{ $model->image->getOrginalImage() }}" width="300px" />
                             </div>
                         </div>
-                        @endif --}}
+                        @endif
 
                         <div class="form-group">
                             <label for="image">Изображение книги</label>
                             <div class="input-group">
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="image" 
-                                        @if ($model->hasImage())
-                                            value="{{ $model->image->getImagePath() }}"
-                                        @endif>
+                                    <input type="file" class="custom-file-input" name="image">
                                     <label class="custom-file-label" for="image">
                                         @if ($model->hasImage()) 
                                            {{ $model->image->name }}
