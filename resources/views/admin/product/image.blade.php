@@ -38,7 +38,7 @@
                             <div class="col-md-3">
                                 <strong>Исходное изображение:</strong>                        
                                 <br/>
-                                <img src="/{{ $model->image->getOrginalImage() }}" width="300px" />
+                                <img src="{{ $model->image->getOrginalImage() }}" width="300px" />
                             </div>
                         </div>
                         @endif

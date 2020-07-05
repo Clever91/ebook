@@ -58,8 +58,6 @@ class AuthorController extends BaseController
         $success["id"] = $author->id;
         $success["name"] = $author->name;
         $success["bio"] = $author->bio;
-        $success["small"] = $author->getImage(100, 100);
-        $success["medium"] = $author->getImage(300, 300);
         $success["books"] = [];
 
         $item = [];
@@ -78,5 +76,40 @@ class AuthorController extends BaseController
         }
         
         return $this->sendResponse($success, null);
+    }
+
+    public function image(Request $request)
+    {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+
+        $width = null;
+        if ($request->has('width'))
+            $width = intval($request->input('width'));
+
+        if (is_null($width) || $width <= 0)
+            return $this->sendError('Author Error', ['error' => 'width must not be null'], 400);
+        
+        $height = null;
+        if ($request->has('height'))
+            $height = intval($request->input('height'));
+
+        if (is_null($height) || $height <= 0)
+            return $this->sendError('Author Error', ['error' => 'height must not be null'], 400);
+
+        $author_id = null;
+        if ($request->has('author_id'))
+            $author_id = $request->input('author_id');
+
+        if (is_null($author_id))
+            return $this->sendError('Author Error', ['error' => 'author_id must not be empty'], 400);
+
+        $author = Author::find($author_id);
+
+        if (is_null($author))
+            return $this->sendError('Author Error', ['error' => 'Author is not found'], 400);
+
+        $path = public_path($author->getImage($width, $height));
+        return response()->download($path, $author->image->name);
     }
 }

@@ -113,12 +113,47 @@ class ProductController extends BaseController
         $success["free"] = false;
         $success["eprice"] = $product->eprice;
         $success["efree"] = true; // todo: 
-        $success["small"] = $product->getImage(100, 100);
-        $success["medium"] = $product->getImage(300, 300);
-        $success["large"] = $product->getImage(600, 600);
+        // $success["small"] = $product->getImage(100, 100);
+        // $success["medium"] = $product->getImage(300, 300);
+        // $success["large"] = $product->getImage(600, 600);
         $success["recommended"] = [];
         
         return $this->sendResponse($success, null);
+    }
+
+    public function image(Request $request)
+    {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+
+        $width = null;
+        if ($request->has('width'))
+            $width = intval($request->input('width'));
+
+        if (is_null($width) || $width <= 0)
+            return $this->sendError('Product Error', ['error' => 'width must not be null'], 400);
+        
+        $height = null;
+        if ($request->has('height'))
+            $height = intval($request->input('height'));
+
+        if (is_null($height) || $height <= 0)
+            return $this->sendError('Product Error', ['error' => 'height must not be null'], 400);
+
+        $productId = null;
+        if ($request->has('product_id'))
+            $productId = $request->input('product_id');
+
+        if (is_null($productId))
+            return $this->sendError('Product Error', ['error' => 'product_id must not be empty'], 400);
+
+        $product = Product::find($productId);
+
+        if (is_null($product))
+            return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
+
+        $path = public_path($product->getImage($width, $height));
+        return response()->download($path, $product->image->name);
     }
 
     public function download(Request $request)

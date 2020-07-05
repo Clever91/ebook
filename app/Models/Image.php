@@ -61,7 +61,11 @@ class Image extends Model
         $path .= "/" . $width . "x" . $hight;
         $this->mkdirFolder($path);
 
-        $img = ImageResize::make($this->getImagePath());
+        $real_path = $this->getImagePath();
+        if (!File::exists($real_path) || !File::isReadable($real_path))
+            $real_path = public_path(Base::NO_IMAGE);
+
+        $img = ImageResize::make($real_path);
         $img->resize($width, $hight, function ($constraint) {
             $constraint->aspectRatio();
         })->save($path .'/'. $this->name);
