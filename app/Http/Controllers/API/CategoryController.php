@@ -39,4 +39,44 @@ class CategoryController extends BaseController
         
         return $this->sendResponse($success, null);
     }
+
+    public function image(Request $request)
+    {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+
+        $width = null;
+        if ($request->has('width'))
+            $width = intval($request->input('width'));
+
+        if (is_null($width) || $width <= 0)
+            return $this->sendError('Category Error', ['error' => 'width must not be null'], 400);
+        
+        $height = null;
+        if ($request->has('height'))
+            $height = intval($request->input('height'));
+
+        if (is_null($height) || $height <= 0)
+            return $this->sendError('Category Error', ['error' => 'height must not be null'], 400);
+
+        $category_id = null;
+        if ($request->has('category_id'))
+            $category_id = $request->input('category_id');
+
+        if (is_null($category_id))
+            return $this->sendError('Category Error', ['error' => 'category_id must not be empty'], 400);
+
+        $category = Category::find($category_id);
+
+        if (is_null($category))
+            return $this->sendError('Category Error', ['error' => 'Category is not found'], 400);
+
+        $image_name = "no_image";
+        if ($category->hasImage()) {
+            $image_name = $category->image->name;
+        }
+
+        $path = public_path($category->getImage($width, $height));
+        return response()->download($path, $image_name);
+    }
 }

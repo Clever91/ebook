@@ -28,6 +28,7 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['prefix' => 'category'], function() {
         Route::post('category_list', 'API\CategoryController@categories');
+        Route::post('image', 'API\CategoryController@image');
     });
 
     Route::group(['prefix' => 'product'], function() {
