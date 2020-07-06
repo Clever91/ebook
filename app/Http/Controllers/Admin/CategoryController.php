@@ -6,9 +6,7 @@ use App\Models\Base;
 use App\Models\Category;
 use App\Models\Image;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Lunaweb\Localization\Facades\Localization;
 
 class CategoryController extends BaseController

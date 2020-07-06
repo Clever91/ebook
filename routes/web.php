@@ -50,7 +50,6 @@ Localization::localizedRoutesGroup(function() {
         // globale route
         Route::get('/', 'Admin\DashboardController@index')->name('home');
         Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard')->middleware('auth');
-        Route::get('/lang/{lang}', 'Admin\LanguageController@index')->name("admin.lang");
         Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
         // resource route
@@ -79,6 +78,9 @@ Localization::localizedRoutesGroup(function() {
         // custom image route
         Route::get('/category/{category}/image', 'Admin\CategoryController@image')->name('category.image');
         Route::patch('/category/{category}/image', 'Admin\CategoryController@image')->name('category.image.patch');
+
+        Route::get('/ebook/index', 'Admin\EbookController@index')->name('admin.ebook.index');
+        Route::get('/order/index', 'Admin\OrderController@index')->name('admin.order.index');
     });
     
 });

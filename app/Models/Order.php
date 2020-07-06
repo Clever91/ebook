@@ -21,4 +21,30 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function stateLabel()
+    {
+        return $this->getState()[$this->state];
+    }
+
+    public function stateHTML()
+    {
+        $title = $this->getState()[$this->state];
+
+        switch($this->state) {
+            case self::STATE_NEW:
+                return "<span class='badge badge-primary'>{$title}</span>";
+            case self::STATE_PAYED:
+                return "<span class='badge badge-success'>{$title}</span>";
+        }
+
+        return "None";
+    }
+
+    public static function getState()
+    {
+        return [
+            self::STATE_NEW => "Новый",
+            self::STATE_PAYED => "Оплачено",
+        ];
+    }
 }

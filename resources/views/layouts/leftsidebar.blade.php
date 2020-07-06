@@ -118,6 +118,29 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fa fa-shopping-basket"></i>
+                        <p>
+                            Заказы
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.ebook.index') }}" class="nav-link">
+                                <i class="nav-icon fa fa-list-alt"></i>
+                                <p>Электронная книга</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.order.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-list"></i>
+                                <p>Заказы книги</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 @if (auth()->user()->isAdmin())
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
