@@ -11,6 +11,7 @@ class Image extends Model
     const TYPE_PRODUCT = "product";
     const TYPE_AUTHOR = "author";
     const TYPE_CATEGORY = "category";
+    const TYPE_GROUP = "group";
 
     const UPLOAD_PATH = "uploads/";
     const THUMBNAIL_PATH = "/thumbnails";

@@ -8,7 +8,7 @@ class Author extends Base
     const STATUS_NO_ACTIVE = 0;
 
     protected $fillable = [
-        'name', 'bio', 'status', 'deleted', 'updated_by', 'created_by'
+        'name', 'bio', 'image_id', 'status', 'deleted', 'updated_by', 'created_by'
     ];
 
     public function products()

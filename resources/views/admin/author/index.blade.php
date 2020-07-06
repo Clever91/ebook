@@ -50,6 +50,9 @@
                                             <form action="{{ route('author.destroy', $model->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
+                                                <a href="{{ route('author.edit', $model->id) }}" class="btn btn-app">
+                                                    <i class="fas fa-edit"></i> Изменить.
+                                                </a>
                                                 <a href="{{ route('author.image', $model->id) }}" class="btn btn-app">
                                                 @if ($model->hasImage())
                                                     <span class="badge bg-purple">1</span>

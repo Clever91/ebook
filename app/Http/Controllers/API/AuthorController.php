@@ -109,7 +109,12 @@ class AuthorController extends BaseController
         if (is_null($author))
             return $this->sendError('Author Error', ['error' => 'Author is not found'], 400);
 
+        $image_name = "no_image";
+        if ($author->hasImage()) {
+            $image_name = $author->image->name;
+        }
+
         $path = public_path($author->getImage($width, $height));
-        return response()->download($path, $author->image->name);
+        return response()->download($path, $image_name);
     }
 }

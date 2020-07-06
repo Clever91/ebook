@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Base;
 use App\Models\Group;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
@@ -113,5 +114,60 @@ class GroupController extends BaseController
         $model->makeDeleted();
 
         return redirect()->route('group.index');
+    }
+
+    public function image(Request $request, $id)
+    {
+        $model = Group::findOrFail($id);
+        
+        if ($request->isMethod('patch')) {
+
+            if (!$model->hasImage()) {
+                $this->validate($request, [
+                    'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+                ]);
+            }
+
+            // check image exists
+            if ($request->hasfile('image')) {
+                // get image info
+                $upload = $request->file('image');
+                $size = $upload->getSize();
+                $ext = $upload->extension();
+
+                // create folder if not exists
+                $path = Image::getPublicFolder(Image::TYPE_GROUP);
+                (new Image)->mkdirFolder($path);
+
+                // generate filename
+                $imagename = $model->generateFilename($upload->extension());
+                $upload->move($path, $imagename);
+
+                // save new image
+                $image = new Image();
+                $image->name = $imagename;
+                $image->type = Image::TYPE_GROUP;
+                $image->orginal_name = $upload->getClientOriginalName();
+                $image->size = $size;
+                $image->extantion = $ext;
+                if ($image->save()) {
+                    // check if model has already image, so delete it
+                    if ($model->hasImage()) {
+                        $model->image->deleteImage();
+                        $model->image->delete();
+                    }
+                    
+                    // update model
+                    $model->image_id = $image->id;
+                    $model->save();
+                }
+            }
+            
+            return redirect()->route('group.index');
+        }
+
+        return view('admin.group.image')->with([
+            'model' => $model
+        ]);
     }
 }

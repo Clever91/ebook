@@ -152,8 +152,13 @@ class ProductController extends BaseController
         if (is_null($product))
             return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
 
+        $image_name = "no_image";
+        if ($product->hasImage()) {
+            $image_name = $product->image->name;
+        }
+
         $path = public_path($product->getImage($width, $height));
-        return response()->download($path, $product->image->name);
+        return response()->download($path, $image_name);
     }
 
     public function download(Request $request)

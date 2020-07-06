@@ -15,11 +15,16 @@ class Group extends Base implements TranslatableContract
     public $translatedAttributes = ['name', 'is_default'];
 
     protected $fillable = [
-        'order_no', 'status', 'deleted', 'updated_by', 'created_by'
+        'order_no', 'status', 'image_id', 'deleted', 'updated_by', 'created_by'
     ];
 
     public function relations()
     {
         return $this->hasMany(GroupRelation::class, 'group_id', 'id');
+    }
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class)->where('type', Image::TYPE_GROUP);
     }
 }
