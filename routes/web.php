@@ -75,6 +75,10 @@ Localization::localizedRoutesGroup(function() {
         // custom image route
         Route::get('/group/{group}/image', 'Admin\GroupController@image')->name('group.image');
         Route::patch('/group/{group}/image', 'Admin\GroupController@image')->name('group.image.patch');
+
+        // custom image route
+        Route::get('/category/{category}/image', 'Admin\CategoryController@image')->name('category.image');
+        Route::patch('/category/{category}/image', 'Admin\CategoryController@image')->name('category.image.patch');
     });
     
 });

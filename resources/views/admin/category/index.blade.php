@@ -36,8 +36,7 @@
                                         <th>Наименование</th>
                                         <th>Порядковый номер</th>
                                         <th>Активный</th>
-                                        <th>Действия</th>
-                                        <th>Удалить</th>
+                                        <th width="280px">Действия</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -48,14 +47,23 @@
                                         <td>{{ $model->order_no }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('category.edit', $model->id) }}" 
-                                            class="btn btn-sm btn-info">Изменить</a>
-                                        </td>
-                                        <td>
                                             <form action="{{ route('category.destroy', $model->id) }}" method="POST">
+                                                <a href="{{ route('category.edit', $model->id) }}" class="btn btn-app">
+                                                    <i class="fas fa-edit"></i> Изменить.
+                                                </a>
                                                 @method('DELETE')
                                                 @csrf
-                                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                                <a href="{{ route('category.image', $model->id) }}" class="btn btn-app">
+                                                @if ($model->hasImage())
+                                                    <span class="badge bg-purple">1</span>
+                                                @else
+                                                    <span class="badge bg-danger">0</span>
+                                                @endif
+                                                    <i class="fas fa-image"></i> Изоб.
+                                                </a>
+                                                <button type="submit" class="btn btn-app">
+                                                    <i class="fas fa-trash"></i> Удалить
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
