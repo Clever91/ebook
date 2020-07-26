@@ -28,4 +28,10 @@ class Author extends Base
             ->whereNull('parent_id');
     }
 
+    public function relations()
+    {
+        return $this->hasMany(GroupRelation::class, 'related_id', 'id')
+            ->where('type', GroupRelation::TYPE_AUTHOR);
+    }
+
 }

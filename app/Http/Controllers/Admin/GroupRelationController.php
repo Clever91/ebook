@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Author;
+use App\Models\Category;
 use App\Models\Group;
 use App\Models\GroupRelation;
 use App\Models\Product;
@@ -14,8 +16,13 @@ class GroupRelationController extends BaseController
     {
         $relation = null;
         $groups = Group::where(['status' => Group::STATUS_ACTIVE])->get();
+
         if ($type == GroupRelation::TYPE_PRODUCT)
             $relation = Product::findOrFail($id);
+        else if ($type == GroupRelation::TYPE_CATEGORY)
+            $relation = Category::findOrFail($id);
+        else if ($type == GroupRelation::TYPE_AUTHOR)
+            $relation = Author::findOrFail($id);
 
         $related = GroupRelation::where([
             'type' => $type,
@@ -44,6 +51,10 @@ class GroupRelationController extends BaseController
 
         if ($type == GroupRelation::TYPE_PRODUCT)
             $relation = Product::findOrFail($id);
+        else if ($type == GroupRelation::TYPE_CATEGORY)
+            $relation = Category::findOrFail($id);
+        else if ($type == GroupRelation::TYPE_AUTHOR)
+            $relation = Author::findOrFail($id);
 
         if (is_null($relation))
             return back();
@@ -80,6 +91,13 @@ class GroupRelationController extends BaseController
             if (!in_array($related->id, $new_related))
                 $related->delete();
 
-        return redirect()->route('product.index');
+        if ($type == GroupRelation::TYPE_PRODUCT)
+            return redirect()->route('product.index');
+        else if ($type == GroupRelation::TYPE_CATEGORY)
+            return redirect()->route('category.index');
+        else if ($type == GroupRelation::TYPE_AUTHOR)
+            return redirect()->route('author.index');
+        
+        return back();
     }
 }

@@ -36,6 +36,7 @@
                                         <th>Наименование</th>
                                         <th>Порядковый номер</th>
                                         <th>Активный</th>
+                                        <th width="150px">Прикреплять</th>
                                         <th width="280px">Действия</th>
                                     </tr>
                                 </thead>
@@ -46,6 +47,16 @@
                                         <td>{{ $model->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->order_no }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
+                                        <td>
+                                            <a href="{{ route('admin.relation.index', [$model->id, 'C']) }}" class="btn btn-sm btn-success">
+                                                <i class="fas fa-paperclip"></i> Прикреплять 
+                                                @if ($model->relations->count())
+                                                <span class="badge bg-warning">{{ $model->relations->count() }}</span>
+                                                @else
+                                                <span class="badge bg-danger">{{ $model->relations->count() }}</span>
+                                                @endif
+                                            </a>
+                                        </td>
                                         <td>
                                             <form action="{{ route('category.destroy', $model->id) }}" method="POST">
                                                 <a href="{{ route('category.edit', $model->id) }}" class="btn btn-app">
