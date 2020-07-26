@@ -81,6 +81,10 @@ Localization::localizedRoutesGroup(function() {
 
         Route::get('/ebook/index', 'Admin\EbookController@index')->name('admin.ebook.index');
         Route::get('/order/index', 'Admin\OrderController@index')->name('admin.order.index');
+
+        // group relation
+        Route::get('/relation/{relation}/{type}/index', 'Admin\GroupRelationController@index')->name('admin.relation.index');
+        Route::post('/relation/{relation}/{type}/store', 'Admin\GroupRelationController@store')->name('admin.relation.store');
     });
     
 });

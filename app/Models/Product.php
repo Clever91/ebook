@@ -47,6 +47,12 @@ class Product extends Base implements TranslatableContract
             ->whereNull('parent_id');
     }
 
+    public function relations()
+    {
+        return $this->hasMany(GroupRelation::class, 'related_id', 'id')
+            ->where('type', GroupRelation::TYPE_PRODUCT);
+    }
+
     public function hasEbook()
     {
         return $this->ebook == self::HAS_EBOOK && !is_null($this->file);
