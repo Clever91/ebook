@@ -73,7 +73,6 @@ class EbookController extends BaseController
         $order->save();
         
         $success = [];
-        $success["order_id"] = $order->id;
         $success["order"] = [];
 
         $total = 0;
@@ -83,6 +82,10 @@ class EbookController extends BaseController
             
             // check if product is active
             if (!$product->isActive())
+                continue;
+
+            // check this has ebook
+            if (!$product->hasEbook())
                 continue;
 
             $ebook = OrderEbook::where([
@@ -126,8 +129,11 @@ class EbookController extends BaseController
         if ($anyAvalible) {
             $order->total = $total;
             $order->save();
+            
+            $success["order_id"] = $order->id;
         } else {
             $order->delete();
+            return $this->sendError('Order Error', ['error' => 'any products are not valid'], 200);
         }
 
         return $this->sendResponse($success, null);

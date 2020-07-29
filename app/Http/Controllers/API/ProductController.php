@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\GroupRelation;
+use App\Models\OrderEbook;
 use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 
@@ -163,7 +164,10 @@ class ProductController extends BaseController
 
     public function download(Request $request)
     {
-        if (($error = $this->authDevice($request)) !== true)
+        if (($error = $this->authApiDevice($request)) !== true)
+            return $error;
+
+        if (($error = $this->authCustomer($request)) !== true)
             return $error;
 
         $productId = null;
@@ -178,12 +182,24 @@ class ProductController extends BaseController
         if (is_null($product))
             return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
 
-        // must to check access
-        // it is free or not
-        // it is to buy this user or not
+        // check this has ebook
+        if (!$product->hasEbook())
+            return $this->sendError('Product Error', ['error' => 'This product has not ebook'], 400);
 
-        $path = public_path('book/free_book.epub');
-        return response()->download($path, "free-book");
+        // must to check this product is payed
+        $ebook = OrderEbook::where([
+            'customer_id' => $this->_customer->id,
+            'product_id' => $product->id,
+            'state' => OrderEbook::STATE_PAYED
+        ])->first();
+
+        if (is_null($ebook))
+            return $this->sendError('Product Error', ['error' => 'This product is not payed'], 200);
+
+        // this is default image for test
+        // $path = public_path('book/free_book.epub');
+        $path = $product->file->getFilePath();
+        return response()->download($path, $product->name);
     }
 
 }

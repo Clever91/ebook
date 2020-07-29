@@ -68,6 +68,13 @@ class BaseController extends Controller
 
     public function authApiDevice($request)
     {
+        $access_token = null;
+        if ($request->has('access_token'))
+            $access_token = trim($request->input('access_token'));
+        
+        if (empty($access_token) || is_null($access_token))
+            return $this->sendError('Device Error', ['error' => 'This access token must not empty'], 403);
+
         $this->_device = Device::where([
             'status' => Device::STATUS_ACTIVE,
             'api_token' => $request->input('access_token'),
@@ -87,7 +94,7 @@ class BaseController extends Controller
             return $this->sendError('User Error', ['error' => 'This user does not found'], 403);
         
         if (!$this->_customer->isActive())
-            return $this->sendError('User Error', ['error' => 'This customer is not active'], 403);
+            return $this->sendError('User Error', ['error' => 'This user is not active'], 403);
             
         return true;
     }
