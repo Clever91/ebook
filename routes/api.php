@@ -67,5 +67,9 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('/ebook_list', 'API\EbookController@index');
         Route::post('/order', 'API\EbookController@order');
     });
+
+    Route::group(['prefix' => "payment"], function() {
+        Route::post('/pay', 'API\PaymentController@pay');
+    });
     
 });

@@ -73,6 +73,7 @@ class EbookController extends BaseController
         $order->save();
         
         $success = [];
+        $success["order_id"] = $order->id;
         $success["order"] = [];
 
         $total = 0;

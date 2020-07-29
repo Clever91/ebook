@@ -21,6 +21,11 @@ class Order extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function ebooks()
+    {
+        return $this->hasMany(OrderEbook::class);
+    }
+
     public function stateLabel()
     {
         return $this->getState()[$this->state];
