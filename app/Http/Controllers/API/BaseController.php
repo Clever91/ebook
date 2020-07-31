@@ -55,6 +55,24 @@ class BaseController extends Controller
 
     public function authDevice($request)
     {
+
+        // access auth with access_token
+        $access_token = null;
+        if ($request->has('access_token')) {
+            $access_token = trim($request->input('access_token'));
+
+            if (!empty($access_token) && !is_null($access_token)) {
+                $this->_device = Device::where([
+                    'status' => Device::STATUS_ACTIVE,
+                    'api_token' => $access_token,
+                ])->first();
+
+                if (!is_null($this->_device))
+                    return true;
+            }
+        }
+
+        // else check token for device
         $this->_device = Device::where([
             'status' => Device::STATUS_ACTIVE,
             'token' => $request->input('token'),
