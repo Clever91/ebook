@@ -70,6 +70,7 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::group(['prefix' => "payment"], function() {
         Route::post('/pay', 'API\PaymentController@pay');
+        Route::post('/list', 'API\PaymentController@list');
     });
     
 });

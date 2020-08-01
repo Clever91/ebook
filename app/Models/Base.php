@@ -47,6 +47,11 @@ abstract class Base extends Model
         $this->save();
     }
 
+    public function isDeleted()
+    {
+        return $this->deleted ==self::DELETED;
+    }
+
     public static function activeOn($status)
     {
         return $status == "on" ? self::STATUS_ACTIVE : self::STATUS_NO_ACTIVE;

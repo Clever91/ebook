@@ -9,9 +9,6 @@ class Group extends Base implements TranslatableContract
 {
     use Translatable;
 
-    const STATUS_ACTIVE = 1;
-    const STATUS_NO_ACTIVE = 0;
-
     public $translatedAttributes = ['name', 'is_default'];
 
     protected $fillable = [
@@ -26,5 +23,14 @@ class Group extends Base implements TranslatableContract
     public function image()
     {
         return $this->belongsTo(Image::class)->where('type', Image::TYPE_GROUP);
+    }
+
+    public function deleteRelations()
+    {
+        $relations = $this->relations()->get();
+
+        foreach($relations as $relation) {
+            $relation->delete();
+        }
     }
 }

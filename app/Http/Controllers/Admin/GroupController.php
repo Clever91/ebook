@@ -112,6 +112,7 @@ class GroupController extends BaseController
     {
         $model = Group::findOrFail($id);
         $model->makeDeleted();
+        $model->deleteRelations();
 
         return redirect()->route('group.index');
     }

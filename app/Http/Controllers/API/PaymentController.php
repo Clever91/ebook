@@ -43,4 +43,23 @@ class PaymentController extends BaseController
             
         return $this->sendResponse($success, null);
     }
+    
+    public function list(Request $request)
+    {
+        if (($error = $this->authDevice($request)) !== true)
+            return $error;
+
+        $success = [];
+        $success["items"] = [];
+
+        $item["id"] = 1;
+        $item["name"] = "Payme";
+        array_push($success["items"], $item);
+
+        $item["id"] = 1;
+        $item["name"] = "Click";
+        array_push($success["items"], $item);
+        
+        return $this->sendResponse($success, null);
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Lunaweb\Localization\Facades\Localization;
 
 class BaseController extends Controller
 {

@@ -15,7 +15,10 @@ class GroupRelationController extends BaseController
     public function index(Request $request, $id, $type)
     {
         $relation = null;
-        $groups = Group::where(['status' => Group::STATUS_ACTIVE])->get();
+        $groups = Group::where([
+            'status' => Group::STATUS_ACTIVE,
+            'deleted' => Group::NO_DELETED,
+        ])->get();
 
         if ($type == GroupRelation::TYPE_PRODUCT)
             $relation = Product::findOrFail($id);
