@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\Base;
 use App\Models\GroupRelation;
 use App\Models\OrderEbook;
 use App\Models\Product;
@@ -53,13 +54,21 @@ class ProductController extends BaseController
             $join->on('pro.id', '=', 'grel.related_id')
                 ->where('grel.type', '=', $type);
         })
-        ->where('pro.status', '=', Product::STATUS_ACTIVE);
+        ->where([
+            [ 'pro.status', '=', Base::STATUS_ACTIVE ],
+            [ 'pro.deleted', '=', Base::NO_DELETED ],
+        ]);
         
         // add text filter
         $txt = $this->_text;
         if (!is_null($txt)) {
-            $query->where('pt.name', 'LIKE', '%'.$txt.'%')
-                ->orWhere('pt.description', 'LIKE', '%'.$txt.'%');
+            $query->where('pt.name', 'LIKE', '%'.$txt.'%');
+            // or like
+            $query->orWhere([
+                [ 'pro.status', '=', Base::STATUS_ACTIVE ],
+                [ 'pro.deleted', '=', Base::NO_DELETED ],
+                [ 'pt.description', 'LIKE', '%'.$txt.'%' ]
+            ]);
         }
 
         // add category filter
@@ -105,6 +114,9 @@ class ProductController extends BaseController
         if (is_null($product))
             return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
 
+        if (!$product->isActive() || $product->isDeleted())
+            return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
+
         $success = [];
         $success["id"] = $product->id;
         $success["name"] = $product->name;
@@ -113,10 +125,7 @@ class ProductController extends BaseController
         $success["price"] = $product->price;
         $success["free"] = false;
         $success["eprice"] = $product->eprice;
-        $success["efree"] = true; // todo: 
-        // $success["small"] = $product->getImage(100, 100);
-        // $success["medium"] = $product->getImage(300, 300);
-        // $success["large"] = $product->getImage(600, 600);
+        $success["efree"] = false;
         $success["recommended"] = [];
         
         return $this->sendResponse($success, null);

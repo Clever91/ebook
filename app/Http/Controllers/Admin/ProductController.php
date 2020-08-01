@@ -134,12 +134,11 @@ class ProductController extends BaseController
         $model = Product::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->translateOrNew($this->_lang)->description = $request->input('description');
-        $model->ebook = 0;
         $model->price = $request->input('price');
-        $model->eprice = $request->input('eprice');
         $model->category_id = $request->input('category_id');
         $model->author_id = $request->input('author_id');
-        $model->status = Base::activeOn($request->input("status"));;
+        $model->status = Base::activeOn($request->input("status"));
+        $model->updated_by = Auth::user()->id;
         $model->save();
 
         return redirect()->route('product.index');

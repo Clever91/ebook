@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Author;
+use App\Models\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,13 +20,21 @@ class AuthorController extends BaseController
         $success["limit"] = $this->_limit;
         
         $query = DB::table('authors AS au')
-            ->where('au.status', '=', Author::STATUS_ACTIVE);
+            ->where([
+                'au.status' => Base::STATUS_ACTIVE,
+                'au.deleted' => Base::NO_DELETED,
+            ]);
         
         // make filter by text
         $txt = $this->_text;
         if (!is_null($txt)) {
             $query->where('au.name', 'LIKE', '%'.$txt.'%');
-            $query->orWhere('au.bio', 'LIKE', '%'.$txt.'%');
+            // or like 
+            $query->orWhere([
+                [ 'au.status', '=', Base::STATUS_ACTIVE ],
+                [ 'au.deleted', '=', Base::NO_DELETED ],
+                [ 'au.bio', 'LIKE', '%'.$txt.'%' ]
+            ]);
         }
 
         $query->select('au.id', 'au.name')
@@ -52,6 +61,9 @@ class AuthorController extends BaseController
         $author = Author::find($authorId);
 
         if (is_null($author))
+            return $this->sendError('Author Error', ['error' => 'Author is not found'], 400);
+
+        if (!$author->isActive() || $author->isDeleted())
             return $this->sendError('Author Error', ['error' => 'Author is not found'], 400);
 
         $success = [];

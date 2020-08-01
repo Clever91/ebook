@@ -6,6 +6,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Models\Base;
 
 class CategoryController extends BaseController
 {
@@ -24,7 +25,10 @@ class CategoryController extends BaseController
             $join->on('cat.id', '=', 'ct.category_id')
             ->where('ct.locale', '=', $lang);
         })
-        ->where('cat.status', '=', Category::STATUS_ACTIVE);
+        ->where([
+            [ 'cat.status', '=', Base::STATUS_ACTIVE ],
+            [ 'cat.deleted', '=', Base::NO_DELETED ]
+        ]);
         
         // add text if not null
         $txt = $this->_text;

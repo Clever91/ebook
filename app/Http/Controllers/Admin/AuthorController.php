@@ -94,6 +94,7 @@ class AuthorController extends BaseController
         $model->name = $request->input('name');
         $model->bio = $request->input('bio');
         $model->status = Base::activeOn($request->input("status"));
+        $model->updated_by = Auth::user()->id;
         $model->save();
 
         return redirect()->route('author.index');

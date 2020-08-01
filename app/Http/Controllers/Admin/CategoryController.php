@@ -96,7 +96,8 @@ class CategoryController extends BaseController
         $model = Category::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->order_no = $request->input('order_no');
-        $model->status = Base::activeOn($request->input("status"));;
+        $model->status = Base::activeOn($request->input("status"));
+        $model->updated_by = Auth::user()->id;
         $model->save();
 
         return redirect()->route('category.index');

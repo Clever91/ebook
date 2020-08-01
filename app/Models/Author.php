@@ -4,9 +4,6 @@ namespace App\Models;
 
 class Author extends Base
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_NO_ACTIVE = 0;
-
     protected $fillable = [
         'name', 'bio', 'image_id', 'status', 'deleted', 'updated_by', 'created_by'
     ];

@@ -26,7 +26,7 @@
                     <div class="form-group">
                         <label for="name">Название</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror" 
-                            id="name" name="name" value="{{ $model->name }}" placeholder="Введите название" required>
+                            id="name" name="name" value="{{ $model->translateOrNew(\App::getLocale())->name }}" placeholder="Введите название" required>
                         @error('name')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
@@ -71,7 +71,7 @@
                         <label for="description">Описания</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" 
                             id="description" name="description" placeholder="Введите название"
-                            rows="4" cols="6" required>{{ $model->description }}</textarea>
+                            rows="4" cols="6" required>{{ $model->translateOrNew(\App::getLocale())->description }}</textarea>
                         @error('description')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
