@@ -119,8 +119,8 @@ class ProductController extends BaseController
 
         $success = [];
         $success["id"] = $product->id;
-        $success["name"] = $product->name;
-        $success["description"] = $product->description;
+        $success["name"] = $product->translateOrNew($this->_lang)->name;
+        $success["description"] = $product->translateOrNew($this->_lang)->description;
         $success["author"] = $product->author->name;
         $success["price"] = $product->price;
         $success["free"] = false;

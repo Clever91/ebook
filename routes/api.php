@@ -34,7 +34,7 @@ Route::group(['prefix' => 'v1'], function() {
     Route::group(['prefix' => 'product'], function() {
         Route::post('product_list', 'API\ProductController@products');
         Route::post('product_info', 'API\ProductController@product');
-        Route::post('download', 'API\ProductController@download'); //todo: this ish for test
+        Route::post('download', 'API\ProductController@download');
         Route::post('image', 'API\ProductController@image');
     });
 

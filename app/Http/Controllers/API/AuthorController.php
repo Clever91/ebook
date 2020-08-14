@@ -78,8 +78,8 @@ class AuthorController extends BaseController
         $products = $author->products()->take($limit)->skip($offset)->get();
         foreach($products as $product) {
             $item['id'] = $product->id;
-            $item['name'] = $product->name;
-            $item['description'] = $product->description;
+            $item['name'] = $product->translateOrNew($this->_lang)->name;
+            $item['description'] = $product->translateOrNew($this->_lang)->description;
             $item['author'] = $author->name;
             $item['price'] = $product->price;
             $item['eprice'] = $product->eprice;

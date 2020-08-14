@@ -88,6 +88,7 @@ class EbookController extends BaseController
             if (!$product->hasEbook())
                 continue;
 
+            // agar kitob olingan bo'lsa
             $ebook = OrderEbook::where([
                 'customer_id' => $this->_customer->id,
                 'product_id' => $product->id,
@@ -97,20 +98,12 @@ class EbookController extends BaseController
             // check if customer already buyed this product
             if (!is_null($ebook))
                 continue;
-
-            $ebook = OrderEbook::where([
-                'customer_id' => $this->_customer->id,
-                'product_id' => $product->id,
-                'state' => OrderEbook::STATE_ORDERED
-            ])->first();
             
-            if (is_null($ebook)) {
-                // create order
-                $ebook = new OrderEbook();
-                $ebook->order_id = $order->id;
-                $ebook->customer_id = $this->_customer->id;
-                $ebook->product_id = $product->id;
-            }
+            // create order
+            $ebook = new OrderEbook();
+            $ebook->order_id = $order->id;
+            $ebook->customer_id = $this->_customer->id;
+            $ebook->product_id = $product->id;
             $ebook->price = $product->eprice;
             $ebook->discount = 0; // discount
             if ($ebook->save()) {
