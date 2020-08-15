@@ -79,6 +79,10 @@ class EbookController extends BaseController
         $anyAvalible = false;
         foreach($productIds as $id) {
             $product = Product::find(trim($id));
+
+            // check if product has exists
+            if (!is_null($product))
+                continue;
             
             // check if product is active
             if (!$product->isActive())
