@@ -84,6 +84,12 @@ class AuthorController extends BaseController
             $item['price'] = $product->price;
             $item['eprice'] = $product->eprice;
 
+            $customer_id = null;
+            if (!is_null($this->_customer)) {
+                $customer_id = $this->_customer->id;
+            }
+            $item["bought"] = $product->isBought($customer_id);
+
             array_push($success["books"], $item);
         }
         

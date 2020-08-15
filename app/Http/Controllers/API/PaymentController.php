@@ -31,6 +31,11 @@ class PaymentController extends BaseController
         $success = [];
         if ($is_test) {
             foreach($order->ebooks as $book) {
+
+                // qayta olmasligi bitta kitobni olmasligi uchun
+                if ($book->product->isBought($this->_customer->id) == 1)
+                    continue;
+                
                 $book->state = OrderEbook::STATE_PAYED;
                 $book->save();
             }
