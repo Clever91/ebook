@@ -92,8 +92,15 @@ class EbookController extends BaseController
             if (!$product->hasEbook())
                 continue;
 
+            // agar kitob olingan bo'lsa
+            $ebook = OrderEbook::where([
+                'customer_id' => $this->_customer->id,
+                'product_id' => $product->id,
+                'state' => OrderEbook::STATE_PAYED
+            ])->first();
+
             // check if customer already buyed this product
-            if ($product->isBought($this->_customer->id) == 1);
+            if (!is_null($ebook))
                 continue;
             
             // create order
