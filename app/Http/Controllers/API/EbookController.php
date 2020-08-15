@@ -81,7 +81,7 @@ class EbookController extends BaseController
             $product = Product::find(trim($id));
 
             // check if product has exists
-            if (!is_null($product))
+            if (is_null($product))
                 continue;
             
             // check if product is active
