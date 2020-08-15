@@ -102,6 +102,12 @@ class HomeController extends BaseController
                     $item["item"][$index]["price"] = (float) $gropro->product->price;
                     $item["item"][$index]["eprice"] = (float) $gropro->product->eprice;
                     $item["item"][$index]["order_no"] = $gropro->order_no;
+                    
+                    // tekshirish kerak auth bo'lganini
+                    $item["item"][$index]["bought"] = false;
+                    if (!is_null($this->_customer)) {
+                        $item["item"][$index]["bought"] = $gropro->product->isBought($this->_customer->id);
+                    }
                     $index++;
                 }
 

@@ -57,4 +57,18 @@ class Product extends Base implements TranslatableContract
     {
         return $this->ebook == self::HAS_EBOOK && !is_null($this->file);
     }
+
+    public function isBought($customer_id)
+    {
+        if (is_null($customer_id))
+            return 0;
+
+        $ebook = OrderEbook::where([
+            'customer_id' => $customer_id,
+            'product_id' => $this->id,
+            'state' => OrderEbook::STATE_PAYED
+        ])->first();
+
+        return is_null($ebook) ? 0 : 1;
+    }
 }

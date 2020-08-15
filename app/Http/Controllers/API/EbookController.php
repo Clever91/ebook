@@ -126,7 +126,7 @@ class EbookController extends BaseController
             $success["order_id"] = $order->id;
         } else {
             $order->delete();
-            return $this->sendError('Order Error', ['error' => 'any products are not valid'], 200);
+            return $this->sendError('Order Error', ['error' => 'Any products are not valid'], 200);
         }
 
         return $this->sendResponse($success, null);

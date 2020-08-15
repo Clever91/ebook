@@ -42,13 +42,26 @@ class ProductController extends BaseController
         $lang = $this->_lang;
         $type = GroupRelation::TYPE_PRODUCT;
 
+        // ager access_token bilan auth qilgan bo'lsa, demak olingan kitoblarni berish kerak
+        $customer_id = null;
+        if (!is_null($this->_customer)) {
+            $customer_id = $this->_customer->id;
+        }
+
         $query = DB::table('products AS pro')
         ->join('authors AS au', function($join) {
             $join->on('pro.author_id', '=', 'au.id');
         })
         ->leftJoin('product_translations AS pt', function ($join) use ($lang) {
             $join->on('pro.id', '=', 'pt.product_id')
-            ->where('pt.locale', '=', $lang);
+                ->where('pt.locale', '=', $lang);
+        })
+        ->leftJoin('order_ebooks AS oe', function ($join) use ($customer_id) {
+            $join->on('pro.id', '=', 'oe.product_id')
+                ->where([
+                    'oe.customer_id' => $customer_id,
+                    'oe.state' => OrderEbook::STATE_PAYED
+                ]);
         })
         ->leftJoin('group_relations AS grel', function ($join) use ($type) {
             $join->on('pro.id', '=', 'grel.related_id')
@@ -88,7 +101,8 @@ class ProductController extends BaseController
 
         $query->select(
             'pro.id', 'pt.name', 'pt.description', 
-            'au.name AS author', 'pro.price', 'pro.eprice')
+            'au.name AS author', 'pro.price', 'pro.eprice',
+            DB::raw("IF (oe.id IS NULL, false, true) AS 'bought'"))
             ->orderBy('pt.name');
         
         $success["total"] = $query->count();
@@ -123,9 +137,14 @@ class ProductController extends BaseController
         $success["description"] = $product->translateOrNew($this->_lang)->description;
         $success["author"] = $product->author->name;
         $success["price"] = $product->price;
-        $success["free"] = false;
         $success["eprice"] = $product->eprice;
-        $success["efree"] = false;
+
+        $customer_id = null;
+        if (!is_null($this->_customer)) {
+            $customer_id = $this->_customer->id;
+        }
+
+        $success["bought"] = $product->isBought($customer_id);
         $success["recommended"] = [];
         
         return $this->sendResponse($success, null);

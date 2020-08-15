@@ -46,7 +46,10 @@ class PaymentController extends BaseController
     
     public function list(Request $request)
     {
-        if (($error = $this->authDevice($request)) !== true)
+        if (($error = $this->authApiDevice($request)) !== true)
+            return $error;
+
+        if (($error = $this->authCustomer($request)) !== true)
             return $error;
 
         $success = [];
@@ -54,10 +57,14 @@ class PaymentController extends BaseController
 
         $item["id"] = 1;
         $item["name"] = "Payme";
+        $item["type"] = "payme";
+        $item["state"] = true;
         array_push($success["items"], $item);
 
         $item["id"] = 1;
         $item["name"] = "Click";
+        $item["type"] = "click";
+        $item["state"] = true;
         array_push($success["items"], $item);
         
         return $this->sendResponse($success, null);
