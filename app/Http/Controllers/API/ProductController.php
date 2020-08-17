@@ -138,6 +138,7 @@ class ProductController extends BaseController
         $success["author"] = $product->author->name;
         $success["price"] = $product->price;
         $success["eprice"] = $product->eprice;
+        $success["ebook"] = $product->hasEbook();
 
         $customer_id = null;
         if (!is_null($this->_customer)) {
