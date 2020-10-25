@@ -74,3 +74,8 @@ Route::group(['prefix' => 'v1'], function() {
     });
     
 });
+
+// bot
+Route::group(['prefix' => 'bot'], function() {
+    Route::post('/', 'Bot\BotController@index');
+});

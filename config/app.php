@@ -1,5 +1,7 @@
 <?php
 
+use Telegram\Bot\Laravel\Facades\Telegram;
+
 return [
 
     /*
@@ -181,7 +183,10 @@ return [
         Kreait\Laravel\Firebase\ServiceProvider::class,
 
         // image resize
-        Intervention\Image\ImageServiceProvider::class
+        Intervention\Image\ImageServiceProvider::class,
+
+        // add telegram
+        // Telegram\Bot\Laravel\TelegramServiceProvider::class,
 
     ],
 
@@ -236,6 +241,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'ImageResize' => Intervention\Image\Facades\Image::class,
+        
     ],
 
 ];
