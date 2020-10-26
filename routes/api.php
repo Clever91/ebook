@@ -77,5 +77,7 @@ Route::group(['prefix' => 'v1'], function() {
 
 // bot
 Route::group(['prefix' => 'bot'], function() {
+    Route::get('/getme', 'Bot\BotController@getMe');
+    Route::get('/getinfo', 'Bot\BotController@getInfo');
     Route::post('/', 'Bot\BotController@index');
 });

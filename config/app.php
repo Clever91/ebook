@@ -185,9 +185,6 @@ return [
         // image resize
         Intervention\Image\ImageServiceProvider::class,
 
-        // add telegram
-        // Telegram\Bot\Laravel\TelegramServiceProvider::class,
-
     ],
 
     /*
