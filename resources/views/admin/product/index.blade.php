@@ -38,7 +38,7 @@
                                         {{-- <th>Описание</th> --}}
                                         <th>Цена</th>
                                         <th>Активный</th>
-                                        <th width="150px">Прикреплять</th>
+                                        <th width="90px">Прикреплять</th>
                                         <th width="190px">Действия</th>
                                     </tr>
                                 </thead>
@@ -53,13 +53,16 @@
                                         <td>@money_format($model->price)</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="btn btn-sm btn-success">
+                                            <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="btn btn-app">
                                                 <i class="fas fa-paperclip"></i> Прикреплять 
                                                 @if ($model->relations->count())
                                                 <span class="badge bg-warning">{{ $model->relations->count() }}</span>
                                                 @else
                                                 <span class="badge bg-danger">{{ $model->relations->count() }}</span>
                                                 @endif
+                                            </a><br>
+                                            <a href="{{ route('admin.telegram.index', $model->id) }}" class="btn btn-app">
+                                                <i class="fas fa-bullhorn"></i> Отправить
                                             </a>
                                         </td>
                                         <td>
