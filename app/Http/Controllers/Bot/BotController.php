@@ -48,7 +48,7 @@ class BotController extends Controller
         $response = Telegram::getWebhookUpdates();
         $message = $response->getMessage();
         $callback = $response->getCallbackQuery();
-        // $this->log($message);
+        $this->log($message);
 
         if (!is_null($message)) {
             $command = $message->getText();
@@ -72,7 +72,7 @@ class BotController extends Controller
 
                         // add group_id when own bot is added to group
                         $username = $new_member->getUsername();
-                        if ($username == "cleveruzbek_bot") {
+                        if ($username == env("TELEGRAM_BOT_USERNAME")) {
 
                             // save group_id
                             // $this->log($new_member->isBot());
@@ -111,7 +111,7 @@ class BotController extends Controller
 
                         // remove group_id when own bot is removed from group
                         $username = $left_member->getUsername();
-                        if ($username == "cleveruzbek_bot") {
+                        if ($username == env("TELEGRAM_BOT_USERNAME")) {
                         
                             // delete group_id
                             $chatGroup = ChatGroup::where(['chat_id' => $chat_id])->first();

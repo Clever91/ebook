@@ -25,12 +25,15 @@
                             @foreach ($result as $item)
                                 @if ($item["success"])
                             <div class="callout callout-success">  
-                                @else
-                            <div class="callout callout-danger">
-                                @endif
                                 <h5>{{ $item["name"] }}</h5>
                                 <p>{{ $item["caption"] }}</p>
                             </div>
+                                @else
+                            <div class="callout callout-danger">
+                                <h5>{{ $item["name"] }}</h5>
+                                <p>{{ $item["message"] }}</p>
+                            </div>
+                                @endif
                             @endforeach
                         </div>
                         <!-- /.card-body -->

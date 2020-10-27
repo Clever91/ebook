@@ -6,6 +6,8 @@ use App\Models\Bot\ChatGroup;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
+use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramController extends BaseController
@@ -35,18 +37,30 @@ class TelegramController extends BaseController
 
         // make ready params
         $thumbnail = $product->image->getImageUrl("500x500");
-        $url = $request->getHttpHost() . "" . $thumbnail;
+        $url = "https://".$request->getHttpHost() . "" . $thumbnail;
         $caption = $request->input('caption');
 
         $result = [];
         $models = ChatGroup::offset($offset)->take($limit)->get();
         foreach($models as $model) {
             try {
+
+                $btn = Keyboard::button([
+                    'text' => 'Сделать заказ',
+                    'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")
+                ]);
+
+                $reply_markup = Keyboard::make([
+                    'inline_keyboard' => [[ $btn ]],
+                ]);
+
                 // send message
                 Telegram::sendPhoto([
                     'chat_id' => $model->chat_id,
-                    'photo' => $url,
-                    'caption' => $caption
+                    'photo' => new InputFile($url),
+                    'caption' => $caption,
+                    'parse_mode' => "Markdown",
+                    'reply_markup' => $reply_markup
                 ]);
 
                 $item = [];
@@ -56,7 +70,7 @@ class TelegramController extends BaseController
                 array_push($result, $item);
 
             } catch (Exception $e) {
-                dd($e->getMessage());
+                // dd($e->getMessage());
                 Telegram::sendMessage([
                     'chat_id' => 122420625, 
                     'text' => $e->getMessage()
@@ -65,7 +79,7 @@ class TelegramController extends BaseController
                 $item = [];
                 $item["success"] = false;
                 $item["name"] = $model->title;
-                $item["caption"] = $caption;
+                $item["message"] = $e->getMessage();
                 array_push($result, $item);
             }
         }
