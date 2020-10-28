@@ -35,11 +35,26 @@
                             </div>
                                 @endif
                             @endforeach
+                            @if (empty($result))
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <h5><i class="icon fas fa-check"></i> Успех</h5>
+                                Сообщение успешно отправлено всей группе телеграмм
+                            </div>
+                            <br>
+                            <a href="{{ route('product.index') }}" class="btn btn-primary">Перейти к списку товаров</a>
+                            @endif
                         </div>
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            {{--  --}}
+                            @if (!empty($result))
+                            <form id="next" role="form" action="{{ route('admin.telegram.send', $product->id) }}" method="POST">
+                                @method("POST")
+                                @csrf
+                                <input type="hidden" name="page" value="{{ $page + 1 }}">
+                            </form>
+                            @endif
                         </div>
                     </div>
                     <!-- /.card -->
@@ -51,12 +66,11 @@
     </div>
 </section>
 
-{{-- <script>
-    var page = "{{ $page }}";
+<script>
     setTimeout(function() { 
-        window.location = "{{ route('/telegram/{$id}/send') }} }}"
-    }, 3000);
-</script> --}}
+        $("#next").submit();
+    }, 1000);
+</script>
 
 @endsection
 

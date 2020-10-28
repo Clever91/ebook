@@ -32,8 +32,8 @@
             <!-- /.card-header -->
             <div class="card-body pad">
                 <!-- form start -->
-                <form role="form" action="{{ route('admin.telegram.send', $model->id) }}" method="GET">
-                    @method("GET")
+                <form role="form" action="{{ route('admin.telegram.send', $model->id) }}" method="POST">
+                    @method("POST")
                     @csrf
                         <div class="form-group">
                             <label for="image">Пришлю изображение</label>

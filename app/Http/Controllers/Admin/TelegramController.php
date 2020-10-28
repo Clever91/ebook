@@ -24,19 +24,21 @@ class TelegramController extends BaseController
 
     public function send(Request $request, $id)
     {
-        // make 500 x 500 image for telegram
-        $product = Product::findOrFail($id);
-        $product->image->resizeImage(500, 500);
-
         $page = 0;
         if ($request->has('page'))
-            $page = $request->input('page');
-
-        $limit = 20;
+        $page = $request->input('page');
+        
+        $limit = 5;
         $offset = $page * $limit;
-
+        
         // make ready params
+        $product = Product::findOrFail($id);
         $thumbnail = $product->image->getImageUrl("500x500");
+        if (!file_exists($thumbnail)) {
+            // make 500 x 500 image for telegram
+            $product->image->resizeImage(500, 500);
+        }
+
         $url = "https://".$request->getHttpHost() . "" . $thumbnail;
         $caption = $request->input('caption');
 
@@ -47,7 +49,7 @@ class TelegramController extends BaseController
 
                 $btn = Keyboard::button([
                     'text' => 'Сделать заказ',
-                    'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")
+                    'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")."?start=start-command",
                 ]);
 
                 $reply_markup = Keyboard::make([
@@ -87,6 +89,7 @@ class TelegramController extends BaseController
         return view('admin.telegram.send')->with([
             'page' => $page,
             'result' => $result,
+            'product' => $product
         ]);
     }
 }
