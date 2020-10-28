@@ -4,9 +4,13 @@ namespace App\Http\Controllers\Bot;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bot\ChatGroup;
+use App\Models\Bot\ChatPost;
+use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
 use Telegram\Bot\Api;
+use Telegram\Bot\FileUpload\InputFile;
+use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class BotController extends Controller
@@ -57,7 +61,7 @@ class BotController extends Controller
             $contact = $message->getContact();
             $new_member = $message->getNewChatParticipant();
             $left_member = $message->getLeftChatParticipant();
-            // $this->log($participant);
+            // $this->log($command);
 
             if (!is_null($chat)) {
                 $chat_id = $chat->getId();
@@ -65,6 +69,7 @@ class BotController extends Controller
                 $title = $chat->getTitle();
                 $all_admin = $chat->getAllMembersAreAdministrators();
 
+                // $this->log($type);
                 if ($type == "group" || $type == "supergroup") {
                     
                     // check if new bot added to group
@@ -122,6 +127,46 @@ class BotController extends Controller
 
                     }
 
+                } else if ($type == "private") {
+
+                    // $this->log($chat_id);
+                    if (strtolower($command) == "/start start-command") {
+
+                        $post = ChatPost::orderByDesc("created_at")->first();
+                        // $this->log($post->id);
+                        if (!is_null($post)) {
+                            $product = Product::find($post->product_id);
+                            $thumbnail = $product->image->getImageUrl("500x500");
+                            $url = "https://".$request->getHttpHost() . "" . $thumbnail;
+                            $caption = $post->caption;
+
+
+                            // send message
+                            try {
+                                $btn = Keyboard::button([
+                                    'text' => 'Сделать заказ',
+                                    'callback_data' => "{p:".$product->id.";}"
+                                ]);
+
+                                $reply_markup = Keyboard::make([
+                                    'inline_keyboard' => [[ $btn ]],
+                                ]);
+
+                                // send message
+                                Telegram::sendPhoto([
+                                    'chat_id' => $chat_id,
+                                    'photo' => new InputFile($url),
+                                    'caption' => $caption,
+                                    'parse_mode' => "Markdown",
+                                    'reply_markup' => $reply_markup
+                                ]);
+    
+                            } catch (Exception $e) {
+                                $this->log($e->getMessage());
+                            }
+                        }
+
+                    }
                 }
             }
         }

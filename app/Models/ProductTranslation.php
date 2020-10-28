@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ProductTranslation extends Model
 {
     protected $fillable = [
-        'project_id', 'locale', 'is_default', 'name', 'description'
+        'product_id', 'locale', 'is_default', 'name', 'description'
     ];
 
     public function products()

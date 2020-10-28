@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Bot\ChatGroup;
+use App\Models\Bot\ChatPost;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -26,8 +28,8 @@ class TelegramController extends BaseController
     {
         $page = 0;
         if ($request->has('page'))
-        $page = $request->input('page');
-        
+            $page = $request->input('page');
+
         $limit = 5;
         $offset = $page * $limit;
         
@@ -41,6 +43,16 @@ class TelegramController extends BaseController
 
         $url = "https://".$request->getHttpHost() . "" . $thumbnail;
         $caption = $request->input('caption');
+
+        // write post log, only one time
+        if ($page == 0) {
+            ChatPost::create([
+                'product_id' => $product->id,
+                'thumbnail' => $thumbnail,
+                'caption' => $caption,
+                'user_id' => Auth::user()->id
+            ]);  
+        }
 
         $result = [];
         $models = ChatGroup::offset($offset)->take($limit)->get();
