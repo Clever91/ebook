@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Bot;
 
+use Exception;
+use App\Helpers\Bot\BotKeyboard;
+use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
 use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatPost;
 use App\Models\Product;
-use Exception;
 use Illuminate\Http\Request;
-use Telegram\Bot\Api;
 use Telegram\Bot\FileUpload\InputFile;
-use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class BotController extends Controller
@@ -52,16 +52,91 @@ class BotController extends Controller
         $response = Telegram::getWebhookUpdates();
         $message = $response->getMessage();
         $callback = $response->getCallbackQuery();
-        $this->log($message);
 
-        if (!is_null($message)) {
+        if (!is_null($callback)) {
+
+            $data = $callback->getData();
+            $message = $callback->getMessage();
+            $from = $callback->getFrom();
+
+            if (!is_null($message)) {
+
+                $chat = $message->getChat();
+                $message_id = $message->getMessageId();
+                $caption = $message->getCaption();
+                // $reply_markup = $message->getReplyMarkup();
+
+                if (!is_null($chat) && $chat->getType() == "private") {
+                    
+                    $chat_id = $from->getId();
+                    $decode = json_decode($data);
+
+                    if ($decode->btn == "add") {
+
+                        $number = intval($decode->num) + 1;
+                        $product_id = $decode->pro;
+
+                        $product = Product::find($product_id);
+                        if (!is_null($product)) {
+                            try {
+                                
+                                $reply_markup = BotKeyboard::product($product->id, $number);
+                                
+                                // edit message reply markup
+                                Telegram::editMessageCaption([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id,
+                                    'inline_message_id' => $message_id,
+                                    'caption' => $caption,
+                                    'parse_mode' => "Markdown",
+                                    'reply_markup' => $reply_markup
+                                ]);
+    
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        } else {
+                            TelegramLog::log("Product is not found: " . $decode->pro);
+                        }
+                        
+                    } else if ($decode->btn == "sub") {
+                        
+                        $number = intval($decode->num) - 1;
+                        $product_id = $decode->pro;
+
+                        $product = Product::find($product_id);
+                        if (!is_null($product)) {
+                            try {
+                                
+                                $reply_markup = BotKeyboard::product($product->id, $number);
+                                
+                                // edit message reply markup
+                                Telegram::editMessageCaption([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id,
+                                    'inline_message_id' => $message_id,
+                                    'caption' => $caption,
+                                    'parse_mode' => "Markdown",
+                                    'reply_markup' => $reply_markup
+                                ]);
+    
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        } else {
+                            TelegramLog::log("Product is not found: " . $decode->pro);
+                        }
+                    }
+                }
+            }
+
+        } else if (!is_null($message)) {
             $command = $message->getText();
             $chat = $message->getChat();
             $from = $message->getFrom();
             $contact = $message->getContact();
             $new_member = $message->getNewChatParticipant();
             $left_member = $message->getLeftChatParticipant();
-            // $this->log($command);
 
             if (!is_null($chat)) {
                 $chat_id = $chat->getId();
@@ -69,7 +144,6 @@ class BotController extends Controller
                 $title = $chat->getTitle();
                 $all_admin = $chat->getAllMembersAreAdministrators();
 
-                // $this->log($type);
                 if ($type == "group" || $type == "supergroup") {
                     
                     // check if new bot added to group
@@ -80,7 +154,6 @@ class BotController extends Controller
                         if ($username == env("TELEGRAM_BOT_USERNAME")) {
 
                             // save group_id
-                            // $this->log($new_member->isBot());
                             $chatGroup = ChatGroup::where(['chat_id' => $chat_id])->first();
     
                             if (is_null($chatGroup)) {
@@ -105,7 +178,7 @@ class BotController extends Controller
                                     ]);
     
                                 } catch (Exception $e) {
-                                    $this->log($e->getMessage());
+                                    TelegramLog::log($e->getMessage());
                                 }
                             }
                         }
@@ -129,29 +202,24 @@ class BotController extends Controller
 
                 } else if ($type == "private") {
 
-                    // $this->log($chat_id);
-                    if (strtolower($command) == "/start start-command") {
+                    // agar tavarni posti bo'lsa
+                    if (strpos($command, "product")) {
 
-                        $post = ChatPost::orderByDesc("created_at")->first();
-                        // $this->log($post->id);
-                        if (!is_null($post)) {
-                            $product = Product::find($post->product_id);
+                        $str = explode("-", $command);
+                        $product_id = $str[1];
+                        $product = Product::find($product_id);
+
+                        if (!is_null($product)) {
+                            $post = ChatPost::where(['product_id' => $product->id])
+                                ->orderByDesc("created_at")->first();
                             $thumbnail = $product->image->getImageUrl("500x500");
                             $url = "https://".$request->getHttpHost() . "" . $thumbnail;
                             $caption = $post->caption;
-
-
-                            // send message
+    
                             try {
-                                $btn = Keyboard::button([
-                                    'text' => 'Сделать заказ',
-                                    'callback_data' => "{p:".$product->id.";}"
-                                ]);
-
-                                $reply_markup = Keyboard::make([
-                                    'inline_keyboard' => [[ $btn ]],
-                                ]);
-
+    
+                                $reply_markup = BotKeyboard::product($product->id, 1);
+    
                                 // send message
                                 Telegram::sendPhoto([
                                     'chat_id' => $chat_id,
@@ -162,23 +230,18 @@ class BotController extends Controller
                                 ]);
     
                             } catch (Exception $e) {
-                                $this->log($e->getMessage());
+                                TelegramLog::log($e->getMessage());
                             }
+                        } else {
+                            TelegramLog::log("Product is not found: " . $command);
                         }
-
                     }
                 }
             }
         }
 
-        return ;
-    }
-
-    private function log($msg = "")
-    {
-        Telegram::sendMessage([
-            'chat_id' => 122420625, 
-            'text' => json_encode($msg)
-        ]);
+        // header ( 'Content-Type:application/json' );
+        // echo '{"ok":true, "retry_after": 1}';
+        return ["ok" => true];
     }
 }

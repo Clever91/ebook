@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Exception;
+use App\Helpers\Log\TelegramLog;
 use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatPost;
 use App\Models\Product;
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\FileUpload\InputFile;
@@ -61,7 +62,7 @@ class TelegramController extends BaseController
 
                 $btn = Keyboard::button([
                     'text' => 'Сделать заказ',
-                    'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")."?start=start-command",
+                    'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")."?start=product-" . $product->id,
                 ]);
 
                 $reply_markup = Keyboard::make([
@@ -85,10 +86,7 @@ class TelegramController extends BaseController
 
             } catch (Exception $e) {
                 // dd($e->getMessage());
-                Telegram::sendMessage([
-                    'chat_id' => 122420625, 
-                    'text' => $e->getMessage()
-                ]);
+                TelegramLog::log($e->getMessage());
 
                 $item = [];
                 $item["success"] = false;
