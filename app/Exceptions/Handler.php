@@ -40,8 +40,13 @@ class Handler extends ExceptionHandler
     public function report(Throwable $exception)
     {
         // send error exception to telegram
-        $msg = get_class($exception).", line: ".$exception->getLine().": ".$exception->getMessage();
-        TelegramLog::log($msg);
+        $msg = " *Error*: " . get_class($exception) 
+        . "\n *Code*: " . $exception->getCode() 
+        . "\n *Message*: " . $exception->getMessage() 
+        . "\n *Line*: " . $exception->getLine()
+        . "\n *File*: " . $exception->getFile();
+
+        TelegramLog::handler($msg, -388129393);
 
         parent::report($exception);
     }
