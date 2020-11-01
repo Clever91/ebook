@@ -71,7 +71,7 @@ class BotController extends Controller
                     $chat_id = $from->getId();
                     $decode = json_decode($data);
 
-                    if ($decode->btn == "add") {
+                    if (isset($decode->btn) && $decode->btn == "add") {
 
                         $number = intval($decode->num) + 1;
                         $product_id = $decode->pro;
@@ -99,16 +99,59 @@ class BotController extends Controller
                             TelegramLog::log("Product is not found: " . $decode->pro);
                         }
                         
-                    } else if ($decode->btn == "sub") {
+                    } else if (isset($decode->btn) && $decode->btn == "sub") {
                         
-                        $number = intval($decode->num) - 1;
+                        $number = intval($decode->num);
+                        if ($number > 1) {
+                            $number -= 1;
+                            $product_id = $decode->pro;
+    
+                            $product = Product::find($product_id);
+                            if (!is_null($product)) {
+                                try {
+                                    
+                                    $reply_markup = BotKeyboard::product($product->id, $number);
+                                    
+                                    // edit message reply markup
+                                    Telegram::editMessageCaption([
+                                        'chat_id' => $chat_id,
+                                        'message_id' => $message_id,
+                                        'inline_message_id' => $message_id,
+                                        'caption' => $caption,
+                                        'parse_mode' => "Markdown",
+                                        'reply_markup' => $reply_markup
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            } else {
+                                TelegramLog::log("Product is not found: " . $decode->pro);
+                            }
+                        } else {
+
+                            $message = "Вы должны заказать минимум товара 1";
+
+                            try {
+                                $params = BotKeyboard::alert($callback, $message);
+                                
+                                Telegram::answerCallbackQuery($params);
+
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+
+                        }
+                    } else if (isset($decode->add)) {
+
+                        $number = intval($decode->num);
                         $product_id = $decode->pro;
 
                         $product = Product::find($product_id);
                         if (!is_null($product)) {
                             try {
                                 
-                                $reply_markup = BotKeyboard::product($product->id, $number);
+                                $reply_markup = BotKeyboard::delivery($product->id, $number);
                                 
                                 // edit message reply markup
                                 Telegram::editMessageCaption([
@@ -123,8 +166,28 @@ class BotController extends Controller
                             } catch (Exception $e) {
                                 TelegramLog::log($e->getMessage());
                             }
-                        } else {
-                            TelegramLog::log("Product is not found: " . $decode->pro);
+                        }
+                    } else if (isset($decode->back)) {
+
+                        $number = intval($decode->num);
+                        $product_id = $decode->pro;
+
+                        try {
+                                
+                            $reply_markup = BotKeyboard::product($product_id, $number);
+                            
+                            // edit message reply markup
+                            Telegram::editMessageCaption([
+                                'chat_id' => $chat_id,
+                                'message_id' => $message_id,
+                                'inline_message_id' => $message_id,
+                                'caption' => $caption,
+                                'parse_mode' => "Markdown",
+                                'reply_markup' => $reply_markup
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
                         }
                     }
                 }

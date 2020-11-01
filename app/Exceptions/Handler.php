@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\Log\TelegramLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -38,6 +39,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
+        // send error exception to telegram
+        TelegramLog::log(get_class($exception) . ": " . $exception->getMessage());
+
         parent::report($exception);
     }
 
