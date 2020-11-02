@@ -7,7 +7,7 @@ use Telegram\Bot\Laravel\Facades\Telegram;
 
 class TelegramLog
 {
-    public static function log($arr, $chat_id = 122420625)
+    public static function log($arr, $chat_id = -388129393)
     {
         try {
 

@@ -7,6 +7,8 @@ use App\Helpers\Bot\BotKeyboard;
 use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
 use App\Models\Bot\ChatGroup;
+use App\Models\Bot\ChatOrder;
+use App\Models\Bot\ChatOrderDetail;
 use App\Models\Bot\ChatPost;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -76,10 +78,31 @@ class BotController extends Controller
                         $number = intval($decode->num) + 1;
                         $product_id = $decode->pro;
 
-                        $product = Product::find($product_id);
-                        if (!is_null($product)) {
+                        try {
+                            $reply_markup = BotKeyboard::product($product_id, $number);
+                            
+                            // edit message reply markup
+                            Telegram::editMessageCaption([
+                                'chat_id' => $chat_id,
+                                'message_id' => $message_id,
+                                'inline_message_id' => $message_id,
+                                'caption' => $caption,
+                                'parse_mode' => "Markdown",
+                                'reply_markup' => $reply_markup
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                        
+                    } else if (isset($decode->btn) && $decode->btn == "sub") {
+                        
+                        $number = intval($decode->num);
+                        if ($number > 1) {
+                            $number -= 1;
+                            $product_id = $decode->pro;
+    
                             try {
-                                
                                 $reply_markup = BotKeyboard::product($product->id, $number);
                                 
                                 // edit message reply markup
@@ -94,39 +117,6 @@ class BotController extends Controller
     
                             } catch (Exception $e) {
                                 TelegramLog::log($e->getMessage());
-                            }
-                        } else {
-                            TelegramLog::log("Product is not found: " . $decode->pro);
-                        }
-                        
-                    } else if (isset($decode->btn) && $decode->btn == "sub") {
-                        
-                        $number = intval($decode->num);
-                        if ($number > 1) {
-                            $number -= 1;
-                            $product_id = $decode->pro;
-    
-                            $product = Product::find($product_id);
-                            if (!is_null($product)) {
-                                try {
-                                    
-                                    $reply_markup = BotKeyboard::product($product->id, $number);
-                                    
-                                    // edit message reply markup
-                                    Telegram::editMessageCaption([
-                                        'chat_id' => $chat_id,
-                                        'message_id' => $message_id,
-                                        'inline_message_id' => $message_id,
-                                        'caption' => $caption,
-                                        'parse_mode' => "Markdown",
-                                        'reply_markup' => $reply_markup
-                                    ]);
-        
-                                } catch (Exception $e) {
-                                    TelegramLog::log($e->getMessage());
-                                }
-                            } else {
-                                TelegramLog::log("Product is not found: " . $decode->pro);
                             }
                         } else {
 
@@ -149,6 +139,40 @@ class BotController extends Controller
 
                         $product = Product::find($product_id);
                         if (!is_null($product)) {
+
+                            // check already exists
+                            $order = ChatOrder::where([
+                                "chat_id" => $chat_id,
+                                "state" => ChatOrder::STATE_DRAF
+                            ])->first();
+
+                            if (is_null($order)) {
+                                // create new order
+                                $order = ChatOrder::create([
+                                    "chat_id" => $chat_id,
+                                    "state" => ChatOrder::STATE_DRAF
+                                ]);
+
+                                if (!is_null($order)) {
+                                    // create detail
+                                    $detail = ChatOrderDetail::create([
+                                        "chat_order_id" => $order->id,
+                                        "product_id" => $product->id,
+                                        "price" => $product->price,
+                                        "quantity" => $number,
+                                    ]);
+                                }
+                            } else {
+                                $detail = ChatOrderDetail::where([
+                                    "chat_order_id" => $order->id,
+                                    "product_id" => $product->id,
+                                ])->first();
+                                if (!is_null($detail)) {
+                                    $detail->quantity = $number;
+                                    $detail->save();
+                                }
+                            }
+
                             try {
                                 
                                 $reply_markup = BotKeyboard::delivery($product->id, $number);
@@ -205,7 +229,7 @@ class BotController extends Controller
                 $chat_id = $chat->getId();
                 $type = $chat->getType();
                 $title = $chat->getTitle();
-                $all_admin = $chat->getAllMembersAreAdministrators();
+                $all_admin = 1; //
 
                 if ($type == "group" || $type == "supergroup") {
                     
