@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Bot;
 
+use App\Models\Bot\ChatOrder;
 use Telegram\Bot\Keyboard\Keyboard;
 
 class BotKeyboard {
@@ -51,17 +52,17 @@ class BotKeyboard {
     {
         $express24 = Keyboard::button([
             'text' => 'Express24',
-            'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"del":"1"}'
+            'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_EXPRESS24.'"}'
         ]);
 
         $pochta = Keyboard::button([
             'text' => 'Почта',
-            'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"del":"2"}'
+            'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_MAIL.'"}'
         ]);
 
         $pickup = Keyboard::button([
             'text' => 'Самовывоз',
-            'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"del":"3"}'
+            'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
         ]);
 
         $back = Keyboard::button([
@@ -75,6 +76,42 @@ class BotKeyboard {
                 [ $pochta ],
                 [ $pickup ],
                 [ $back ]
+            ],
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function contact()
+    {
+        $contact = Keyboard::button([
+            'text' => '📞 Отправьте свой номер телефона',
+            'request_contact' => true
+        ]);
+
+        $reply_markup = Keyboard::make([
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true,
+            'keyboard' => [
+                [ $contact ]
+            ],
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function location()
+    {
+        $location = Keyboard::button([
+            'text' => '📍 Отправьте свое местоположение',
+            'request_location' => true
+        ]);
+
+        $reply_markup = Keyboard::make([
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true,
+            'keyboard' => [
+                [ $location ]
             ],
         ]);
 

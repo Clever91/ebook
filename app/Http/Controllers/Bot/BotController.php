@@ -191,7 +191,7 @@ class BotController extends Controller
                                 TelegramLog::log($e->getMessage());
                             }
                         }
-                    } else if (isset($decode->back)) {
+                    } else if (isset($decode->back) && $decode->back == "1") {
 
                         $number = intval($decode->num);
                         $product_id = $decode->pro;
@@ -213,6 +213,64 @@ class BotController extends Controller
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
+                    } else if (isset($decode->del)) {
+
+                        $product_id = $decode->pro;
+                        $type = $decode->del;
+
+                        // get chat order
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+
+                        if (!is_null($order)) {
+
+                            $order->delivery_type = $type;
+                            $order->save();
+
+                            if ($type == ChatOrder::DELIVERY_PICKUP) {
+
+                                $text = "Отправьте номер телефона, по которому будет оформлен ваш заказ";
+    
+                                try {
+                                    $reply_markup = BotKeyboard::contact();
+                                    
+                                    // edit message reply markup
+                                    Telegram::sendMessage([
+                                        "chat_id" => $chat_id,
+                                        "text" => $text,
+                                        "reply_markup" => $reply_markup
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+
+                            } else {
+
+                                $text = "Отправьте свое местоположение, по которому будет сделан ваш заказ";
+                                //, или напишите адрес с ключевым словом #address";
+                                
+                                try {
+                                    $reply_markup = BotKeyboard::location();
+                                    
+                                    // edit message reply markup
+                                    Telegram::sendMessage([
+                                        "chat_id" => $chat_id,
+                                        "text" => $text,
+                                        "reply_markup" => $reply_markup
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            }
+
+                        } else {
+                            TelegramLog::log("Order is not found: chat_id = " . $chat_id);
+                        }
+
                     }
                 }
             }
