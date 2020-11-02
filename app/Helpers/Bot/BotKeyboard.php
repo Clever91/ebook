@@ -117,6 +117,23 @@ class BotKeyboard {
 
         return $reply_markup;
     }
+
+    public static function check_code()
+    {
+        $location = Keyboard::button([
+            'text' => '⏱ Я не получил код, пожалуйста, пришлите код еще раз'
+        ]);
+
+        $reply_markup = Keyboard::make([
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true,
+            'keyboard' => [
+                [ $location ]
+            ],
+        ]);
+
+        return $reply_markup;
+    }
 }
 
 ?>

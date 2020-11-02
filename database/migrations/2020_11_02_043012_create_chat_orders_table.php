@@ -15,7 +15,7 @@ class CreateChatOrdersTable extends Migration
     {
         Schema::create('chat_orders', function (Blueprint $table) {
             $table->id();
-            $table->string("chat_id", 200)->unique();
+            $table->string("chat_id", 200);
             $table->tinyInteger("delivery_type")->nullable()->comment("1-mail, 2-express24, 3-pickup");
             $table->tinyInteger("payment_type")->nullable()->comment("1-payme, 2-click, 3-cash");
             $table->decimal("delivery_price", 8, 0)->default(0);

@@ -55,6 +55,8 @@ class BotController extends Controller
         $message = $response->getMessage();
         $callback = $response->getCallbackQuery();
 
+        // TelegramLog::log($response);
+
         if (!is_null($callback)) {
 
             $data = $callback->getData();
@@ -231,7 +233,7 @@ class BotController extends Controller
 
                             if ($type == ChatOrder::DELIVERY_PICKUP) {
 
-                                $text = "Отправьте номер телефона, по которому будет оформлен ваш заказ";
+                                $text = "Отправьте номер телефона, по которому будет оформлен ваш заказ, или отправьте номер телефона с ключевым словом #phone";
     
                                 try {
                                     $reply_markup = BotKeyboard::contact();
@@ -249,8 +251,7 @@ class BotController extends Controller
 
                             } else {
 
-                                $text = "Отправьте свое местоположение, по которому будет сделан ваш заказ";
-                                //, или напишите адрес с ключевым словом #address";
+                                $text = "Отправьте свое местоположение, по которому будет сделан ваш заказ, или напишите адрес с ключевым словом #address";
                                 
                                 try {
                                     $reply_markup = BotKeyboard::location();
@@ -280,6 +281,7 @@ class BotController extends Controller
             $chat = $message->getChat();
             $from = $message->getFrom();
             $contact = $message->getContact();
+            $location = $message->getLocation();
             $new_member = $message->getNewChatParticipant();
             $left_member = $message->getLeftChatParticipant();
 
@@ -348,7 +350,7 @@ class BotController extends Controller
                 } else if ($type == "private") {
 
                     // agar tavarni posti bo'lsa
-                    if (strpos($command, "product")) {
+                    if (strpos($command, "product") !== false) {
 
                         $str = explode("-", $command);
                         $product_id = $str[1];
@@ -379,6 +381,199 @@ class BotController extends Controller
                             }
                         } else {
                             TelegramLog::log("Product is not found: " . $command);
+                        }
+                    } else if (strpos($command, "#code") !== false) {
+
+                        $str = explode(" ", $command);
+                        $code = 0;
+                        if (isset($str[1])) {
+                            $code = intval($str[1]);
+                        }
+
+                        if ($code > 0) {
+                            // check code
+                            $order = ChatOrder::where([
+                                "chat_id" => $chat_id,
+                                "state" => ChatOrder::STATE_DRAF
+                            ])->first();
+                            if (!is_null($order)) {
+    
+                                if ($code == $order->code) {
+
+                                    // zakaz list
+                                    TelegramLog::log("list");
+                                } else {
+
+                                    $text = "Код неверен, пожалуйста, проверьте код и отправьте его снова";
+                                    try {
+                                                    
+                                        Telegram::sendMessage([
+                                            "chat_id" => $chat_id,
+                                            "text" => $text,
+                                            "parse_mode" => "Markdown"
+                                        ]);
+            
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }        
+                                }
+                            }
+
+                        } else {
+                         
+                            $text = "Пожалуйста, отправьте код в правильном формате, например: _#code 9999_";
+                            try {
+                                            
+                                Telegram::sendMessage([
+                                    "chat_id" => $chat_id,
+                                    "text" => $text,
+                                    "parse_mode" => "Markdown"
+                                ]);
+    
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        }
+
+                    } else if (strpos($command, "⏱") !== false) {
+
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+                        if (!is_null($order)) {
+
+                            // reset code
+                            $order->code = rand(1000, 9999);
+                            if ($order->save()) {
+    
+                                //@todo send sms to user phone number
+                                try {
+                                    
+                                    Telegram::sendMessage([
+                                        "chat_id" => $chat_id,
+                                        "text" => "#demo code: " . $order->code,
+                                        "parse_mode" => "Markdown"
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+    
+                                // send code 
+                                $text = "
+                                Мы снова отправили подтверждающий код на ваш номер телефона. Введите правильный формат, например: _#code 9999_";
+    
+                                try {
+                                    $reply_markup = BotKeyboard::check_code();
+                                    
+                                    Telegram::sendMessage([
+                                        "chat_id" => $chat_id,
+                                        "text" => $text,
+                                        "parse_mode" => "Markdown",
+                                        "reply_markup" => $reply_markup
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+    
+                            }
+                        }
+                    }
+
+                    // get location
+                    if (!is_null($location)) {
+
+                        // save location
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+                        if (!is_null($order)) {
+
+                            $order->lat = $location->getLatitude();
+                            $order->long = $location->getLongitude();
+                            $order->save();
+
+                            $text = "Отправьте номер телефона, по которому будет оформлен ваш заказ, или отправьте номер телефона с ключевым словом #phone";
+    
+                            try {
+                                $reply_markup = BotKeyboard::contact();
+                                
+                                // edit message reply markup
+                                Telegram::sendMessage([
+                                    "chat_id" => $chat_id,
+                                    "text" => $text,
+                                    "reply_markup" => $reply_markup
+                                ]);
+    
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        }
+                    }
+
+                    if (!is_null($contact)) {
+
+                        // save contact
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+                        if (!is_null($order)) {
+
+                            $order->phone = $contact->getPhone();
+                            if ($order->save()) {
+
+                                $old_order_count = ChatOrder::where([
+                                    [ "chat_id", "=", $chat_id ],
+                                    [ "state", "!=", ChatOrder::STATE_DRAF ]
+                                ])->count();
+
+                                if ($old_order_count > 0) {
+
+                                    // zakaz list
+                                    TelegramLog::log("list");
+                                } else {
+
+                                    $order->code = rand(1000, 9999);
+                                    if ($order->save()) {
+
+                                        //@todo send sms to user phone number
+                                        try {
+                                            
+                                            Telegram::sendMessage([
+                                                "chat_id" => $chat_id,
+                                                "text" => "#demo code: " . $order->code,
+                                            ]);
+                
+                                        } catch (Exception $e) {
+                                            TelegramLog::log($e->getMessage());
+                                        }
+
+                                        // send code 
+                                        $text = "Мы отправили подтверждающий код на ваш номер телефона. Введите этот код для подтверждения заказа с ключевым словом #code";
+            
+                                        try {
+                                            $reply_markup = BotKeyboard::check_code();
+                                            
+                                            Telegram::sendMessage([
+                                                "chat_id" => $chat_id,
+                                                "text" => $text,
+                                                "reply_markup" => $reply_markup
+                                            ]);
+                
+                                        } catch (Exception $e) {
+                                            TelegramLog::log($e->getMessage());
+                                        }
+
+                                    }
+                                }
+                                
+
+                            }
+
                         }
                     }
                 }
