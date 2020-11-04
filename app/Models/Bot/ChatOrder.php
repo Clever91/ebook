@@ -24,4 +24,9 @@ class ChatOrder extends Model
         "lat", "long"
     ];
 
+    public function details()
+    {
+        return $this->hasMany(ChatOrderDetail::class);
+    }
+
 }

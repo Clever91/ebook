@@ -134,6 +134,43 @@ class BotKeyboard {
 
         return $reply_markup;
     }
+
+    public static function totalCheck()
+    {
+        $payme = Keyboard::button([
+            'text' => 'Payme',
+            'callback_data' => 'payme'
+        ]);
+
+        $click = Keyboard::button([
+            'text' => 'Click',
+            'callback_data' => 'click'
+        ]);
+
+        $cash = Keyboard::button([
+            'text' => 'Наличные',
+            'callback_data' => 'cash'
+        ]);
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => [
+                [ $payme ],
+                [ $click ],
+                [ $cash ],
+            ],
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function hideKeyboard()
+    {
+        $reply_markup = Keyboard::make([
+            'remove_keyboard' => true
+        ]);
+
+        return $reply_markup;
+    }
 }
 
 ?>
