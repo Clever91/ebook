@@ -57,13 +57,34 @@ class BotController extends Controller
         $response = Telegram::getWebhookUpdates();
         $message = $response->getMessage();
         $callback = $response->getCallbackQuery();
+        $preCheckQuery = $response->getPreCheckoutQuery();
 
-        // TelegramLog::log($response);
+        TelegramLog::log($response);
 
         // set russion language
         App::setLocale("ru");
 
-        if (!is_null($callback)) {
+        if (!is_null($preCheckQuery)) {
+
+            $id = $preCheckQuery->getId();
+            $from = $preCheckQuery->getFrom();
+            $total = $preCheckQuery->getTotalAmount();
+            $payload = $preCheckQuery->getInvoicePayload();
+            $info = $preCheckQuery->getOrderInfo();
+            $name = $info->getName();
+            $phone = $info->getPhoneNumber();
+
+            try {
+                Telegram::answerPreCheckoutQuery([
+                    "pre_checkout_query_id" => $id,
+                    "ok" => true,
+                    // "error_message" => ""
+                ]);
+            } catch (Exception $e) {
+                TelegramLog::log($e->getMessage());
+            }
+
+        } else if (!is_null($callback)) {
 
             $data = $callback->getData();
             $message = $callback->getMessage();
@@ -278,6 +299,99 @@ class BotController extends Controller
                             TelegramLog::log("Order is not found: chat_id = " . $chat_id);
                         }
 
+                    } else if (isset($decode->pay)) {
+
+                        $type = $decode->type;
+                        
+                        if ($type == "cash") {
+                            
+                            // create order
+                        } else {
+                            
+                            $bot_token = env("CLICK_BOT_TOKEN");
+                            if ($type == "payme")
+                                $bot_token = env("PAYME_BOT_TOKEN");
+
+                            try {
+                                // check order exists
+                                $order = ChatOrder::where([
+                                    "chat_id" => $chat_id,
+                                    "state" => ChatOrder::STATE_DRAF
+                                ])->first();
+
+                                if (!is_null($order)) {
+
+                                    $invoice_payload = $type . ':' . $order->id;
+
+                                    $details = ChatOrderDetail::where([
+                                        "chat_order_id" => $order->id
+                                    ])->get();
+
+                                    if (!is_null($details)) {
+
+                                        $title = "";
+                                        $desc = "";
+                                        $image_url = "";
+                                        $prices = [];
+                                        $delivery = env("TELEGRAM_DELIVERY_PRICE") * 100;
+                                        // $delivery = GlobalFunc::moneyFormat(env("TELEGRAM_DELIVERY_PRICE"));
+
+                                        foreach($details as $detail) {
+                                            $title = $detail->product->translateOrNew(App::getLocale())->name;
+                                            $desc = $detail->product->translateOrNew(App::getLocale())->description;
+                                            $thumbnail = $detail->product->image->getImageUrl("500x500");
+                                            $image_url = "https://".$request->getHttpHost() . "" . $thumbnail;
+
+                                            // telegram characters limit
+                                            if (strlen($title) > 30)
+                                                $title = substr($title, 0, 30);
+                                            if (strlen($desc))
+                                                $desc = substr($desc, 0, 250);
+
+                                            $prices[] = [
+                                                'label' => $title,
+                                                'amount' => (int) ($detail->price * $detail->quantity) * 100
+                                            ];
+                                        }
+                                        $prices[] = [
+                                            'label' => "Доставка", 
+                                            'amount' => $delivery
+                                        ];
+
+                                        $invoice = [];
+                                        $invoice['chat_id'] = $chat_id;
+                                        $invoice['title'] = $title;
+                                        $invoice['description'] = $desc;
+                                        $invoice['is_flexible'] = false;
+                                        $invoice['payload'] = $invoice_payload;
+                                        $invoice['photo_url'] = $image_url;
+                                        $invoice['photo_width'] = 500;
+                                        $invoice['photo_height'] = 500;
+                                        $invoice['provider_token'] = $bot_token;
+                                        $invoice['currency'] = 'UZS';
+                                        $invoice['prices'] = $prices;
+                                        $invoice['provider_data'] = json_encode($prices);
+                                        $invoice['start_parameter'] = "bookmedianashr_payment";
+                                        $invoice['need_name'] = true;
+                                        $invoice['need_phone_number'] = true;
+
+                                        $response = Telegram::sendInvoice($invoice);            
+                                        TelegramLog::log($response);
+                                    } else {
+
+                                        // show alert and go to product page
+                                    }
+                                    
+                                } else {
+
+                                    // show alert and go to product page
+                                }
+    
+    
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        }
                     }
                 }
             }
@@ -411,7 +525,7 @@ class BotController extends Controller
     
                                 if ($code == $order->code) {
 
-                                    $delivery = 15000;
+                                    $delivery = GlobalFunc::moneyFormat(env("TELEGRAM_DELIVERY_PRICE"));
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
@@ -454,7 +568,7 @@ class BotController extends Controller
                                             'parse_mode' => "HTML",
                                             'reply_markup' => $reply_markup
                                         ]);
-            
+
                                     } catch (Exception $e) {
                                         TelegramLog::log($e->getMessage());
                                     }
@@ -562,7 +676,7 @@ class BotController extends Controller
 
                                     if ($old_order_count > 0) {
 
-                                        $delivery = 15000;
+                                        $delivery = GlobalFunc::moneyFormat(env("TELEGRAM_DELIVERY_PRICE"));
                                         $text = Lang::get("bot.your_order");
 
                                         $total = 0;

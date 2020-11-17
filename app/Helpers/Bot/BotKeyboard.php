@@ -139,17 +139,17 @@ class BotKeyboard {
     {
         $payme = Keyboard::button([
             'text' => 'Payme',
-            'callback_data' => 'payme'
+            'callback_data' => '{"pay":true,"type":"payme"}'
         ]);
 
         $click = Keyboard::button([
             'text' => 'Click',
-            'callback_data' => 'click'
+            'callback_data' => '{"pay":true,"type":"click"}'
         ]);
 
         $cash = Keyboard::button([
             'text' => 'Наличные',
-            'callback_data' => 'cash'
+            'callback_data' => '{"pay":true,"type":"cash"}'
         ]);
 
         $reply_markup = Keyboard::make([
