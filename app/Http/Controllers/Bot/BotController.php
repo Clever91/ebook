@@ -541,8 +541,8 @@ class BotController extends Controller
                             if ($order->save()) {
                                 Telegram::sendMessage([
                                     'chat_id' => $chat_id,
-                                    'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id."*",
-                                    'parse_mode' => "MarkdownV2"
+                                    'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
+                                    'parse_mode' => "Markdown"
                                 ]);
                             }
                         }
@@ -749,7 +749,6 @@ class BotController extends Controller
                                     if ($old_order_count > 0) {
 
                                         $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
-                                        // $delivery = GlobalFunc::moneyFormat(env("TELEGRAM_DELIVERY_PRICE"));
                                         $text = Lang::get("bot.your_order");
 
                                         $total = 0;
@@ -907,8 +906,53 @@ class BotController extends Controller
 
                                 if ($old_order_count > 0) {
 
-                                    // zakaz list
-                                    TelegramLog::log("list");
+                                    $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                    $text = Lang::get("bot.your_order");
+
+                                    $total = 0;
+                                    $total_with_delivery = $delivery;
+                                    foreach($order->details as $index => $detail) {
+                                        $amount = $detail->price * $detail->quantity;
+                                        $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                        . GlobalFunc::moneyFormat($detail->price) ."</i> x "
+                                        . $detail->quantity ." = <i>" 
+                                        .GlobalFunc::moneyFormat($amount)."</i>\n";
+                                        
+                                        // calculate total
+                                        $total += $amount;
+                                        $total_with_delivery += $amount;
+                                    }
+
+                                    $text .= "\n";
+                                    $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
+                                    $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery) 
+                                    . "</i> " . Lang::get("bot.in_tashkent");
+                                    $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
+
+                                    try {
+                                        
+                                        // hide keyboard
+                                        $reply_markup = BotKeyboard::hideKeyboard();
+            
+                                        $response = Telegram::sendMessage([
+                                            'chat_id' => $chat_id,
+                                            'text' => Lang::get("bot.success_code"),
+                                            'reply_markup' => $reply_markup
+                                        ]);
+
+                                        // send message
+                                        $reply_markup = BotKeyboard::totalCheck();
+            
+                                        Telegram::sendMessage([
+                                            'chat_id' => $chat_id,
+                                            'text' => $text,
+                                            'parse_mode' => "HTML",
+                                            'reply_markup' => $reply_markup
+                                        ]);
+
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }
                                 } else {
 
                                     $order->code = rand(1000, 9999);
