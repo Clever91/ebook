@@ -228,6 +228,15 @@ class BotController extends Controller
                             } catch (Exception $e) {
                                 TelegramLog::log($e->getMessage());
                             }
+                        } else {
+                            try {
+                                Telegram::sendMessage([
+                                    'chat_id' => $chat_id,
+                                    'text' => Lang::get('bot.this_product_is_not_active')
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
                         }
                     } else if (isset($decode->back) && $decode->back == "1") {
 
@@ -278,6 +287,7 @@ class BotController extends Controller
                                     Telegram::sendMessage([
                                         "chat_id" => $chat_id,
                                         "text" => $text,
+                                        "parse_mode" => "Markdown",
                                         "reply_markup" => $reply_markup
                                     ]);
         
@@ -427,6 +437,15 @@ class BotController extends Controller
                                 TelegramLog::log($e->getMessage());
                             }
                         }
+                    }
+                } else {
+                    try {
+                        Telegram::sendMessage([
+                            'chat_id' => $chat->getId(),
+                            'text' => Lang::get('bot.this_bot_work_only_private_chat')
+                        ]);
+                    } catch (Exception $e) {
+                        Telegram::log($e->getMessage());
                     }
                 }
             }
