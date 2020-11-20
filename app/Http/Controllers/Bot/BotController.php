@@ -459,6 +459,7 @@ class BotController extends Controller
             $message_id = $message->getMessageId();
             $new_member = $message->getNewChatParticipant();
             $left_member = $message->getLeftChatParticipant();
+            $success_payment = $message->getSuccessfulPayment();
 
             if (!is_null($chat)) {
                 $chat_id = $chat->getId();
@@ -528,8 +529,24 @@ class BotController extends Controller
 
                 } else if ($type == "private") {
 
-                    // agar tavarni posti bo'lsa
-                    if (strpos($command, "product") !== false) {
+                    // check payment is successful
+                    if (!is_null($success_payment)) {
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+                        if (!is_null($order)) {
+                            $order->paid = ChatOrder::PAID_SUCCESS;
+                            $order->state = ChatOrder::STATE_NEW;
+                            if ($order->save()) {
+                                Telegram::sendMessage([
+                                    'chat_id' => $chat_id,
+                                    'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id."*",
+                                    'parse_mode' => "MarkdownV2"
+                                ]);
+                            }
+                        }
+                    } else if (strpos($command, "product") !== false) {
 
                         $str = explode("-", $command);
                         $product_id = $str[1];

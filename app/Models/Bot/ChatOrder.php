@@ -14,9 +14,12 @@ class ChatOrder extends Model
     const PAYMENT_CLICK = 2;
     const PAYMENT_CASH = 3;
 
-    const STATE_DRAF = 0;
-    const STATE_NEW = 1;
-    const STATE_COMPLATE = 5;
+    const STATE_DRAF = "D"; // Draf
+    const STATE_NEW = "N"; // New
+    const STATE_COMPLATE = "C"; // Complated
+
+    const PAID_NOT = 0;
+    const PAID_SUCCESS = 1;
 
     protected $fillable = [
         "chat_id", "delivery_type", "payment_type", "delivery_price",
