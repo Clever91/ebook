@@ -7,7 +7,7 @@ class GlobalFunc
 {
     public static function moneyFormat($number, $currency = "сум")
     {
-        return number_format($number, 0) . " " . $currency;
+        return number_format((float) $number, 0) . " " . $currency;
     }
 }
 

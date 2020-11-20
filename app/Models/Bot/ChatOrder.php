@@ -29,4 +29,16 @@ class ChatOrder extends Model
         return $this->hasMany(ChatOrderDetail::class);
     }
 
+    public function deleteDetails()
+    {
+        if (empty($this->details))
+            return true;
+
+        foreach($this->details as $detail) {
+            $detail->delete();
+        }
+
+        return true;
+    }
+
 }
