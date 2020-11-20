@@ -3,6 +3,7 @@
 namespace App\Helpers\Bot;
 
 use App\Models\Bot\ChatOrder;
+use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\Keyboard\Keyboard;
 
 class BotKeyboard {
@@ -19,7 +20,7 @@ class BotKeyboard {
     public static function product($product_id, $number = 1)
     {
         $add = Keyboard::button([
-            'text' => 'Сделать заказ',
+            'text' => Lang::get('bot.make_order'),
             'callback_data' => '{"add":"1","pro":'.$product_id.',"num":'.$number.'}'
         ]);
 
@@ -56,17 +57,17 @@ class BotKeyboard {
         ]);
 
         $pochta = Keyboard::button([
-            'text' => 'Почта',
+            'text' => Lang::get('bot.delivery_mail'),
             'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_MAIL.'"}'
         ]);
 
         $pickup = Keyboard::button([
-            'text' => 'Самовывоз',
+            'text' => Lang::get('bot.delivery_pickup'),
             'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
         ]);
 
         $back = Keyboard::button([
-            'text' => '⬅️ Назад',
+            'text' => '⬅️ '.Lang::get('bot.btn_back'),
             'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"back":"1"}'
         ]);
 
@@ -85,7 +86,7 @@ class BotKeyboard {
     public static function contact()
     {
         $contact = Keyboard::button([
-            'text' => '📞 Отправьте свой номер телефона',
+            'text' => Lang::get('bot.send_your_phone_number'),
             'request_contact' => true
         ]);
 
@@ -103,7 +104,7 @@ class BotKeyboard {
     public static function location()
     {
         $location = Keyboard::button([
-            'text' => '📍 Отправьте свое местоположение',
+            'text' => Lang::get('bot.send_your_location'),
             'request_location' => true
         ]);
 
@@ -121,7 +122,7 @@ class BotKeyboard {
     public static function check_code()
     {
         $location = Keyboard::button([
-            'text' => '⏱ Я не получил код, пожалуйста, пришлите код еще раз'
+            'text' => Lang::get('bot.not_revieced_code')
         ]);
 
         $reply_markup = Keyboard::make([
@@ -148,7 +149,7 @@ class BotKeyboard {
         ]);
 
         $cash = Keyboard::button([
-            'text' => 'Наличные',
+            'text' => Lang::get('bot.payment_cash'),
             'callback_data' => '{"pay":true,"type":"cash"}'
         ]);
 
