@@ -759,138 +759,120 @@ class BotController extends Controller
     
                             }
                         }
-                    } else if (strpos($command, "#phone") !== false) {
 
-                        $str = explode(" ", $command);
-                        $phone = "";
-                        if (isset($str[1])) {
-                            $phone = $str[1];
-                        }
+                    // if phone number format
+                    } else if (preg_match("/^[0-9]{9}$/", $command)) {
 
-                        if (!empty($phone) && preg_match("/^[0-9]{9}$/", $phone)) {
-                            // save contact
-                            $order = ChatOrder::where([
-                                "chat_id" => $chat_id,
-                                "state" => ChatOrder::STATE_DRAF
-                            ])->first();
-                            if (!is_null($order)) {
+                        // get phone
+                        $phone = $command;
 
-                                $order->phone = "+998" . $phone;
-                                if ($order->save()) {
+                        // save contact
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+                        if (!is_null($order)) {
 
-                                    $old_order_count = ChatOrder::where([
-                                        [ "chat_id", "=", $chat_id ],
-                                        [ "state", "!=", ChatOrder::STATE_DRAF ]
-                                    ])->count();
+                            $order->phone = "+998" . $phone;
+                            if ($order->save()) {
 
-                                    if ($old_order_count > 0) {
+                                $old_order_count = ChatOrder::where([
+                                    [ "chat_id", "=", $chat_id ],
+                                    [ "state", "!=", ChatOrder::STATE_DRAF ]
+                                ])->count();
 
-                                        $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
-                                        $text = Lang::get("bot.your_order");
+                                if ($old_order_count > 0) {
 
-                                        $total = 0;
-                                        $total_with_delivery = $delivery;
-                                        foreach($order->details as $index => $detail) {
-                                            $amount = $detail->price * $detail->quantity;
-                                            $text .= ($index+1) .". ". $detail->product->name ."  <i>"
-                                            . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-                                            . $detail->quantity ." = <i>" 
-                                            .GlobalFunc::moneyFormat($amount)."</i>\n";
-                                            
-                                            // calculate total
-                                            $total += $amount;
-                                            $total_with_delivery += $amount;
-                                        }
+                                    $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                    $text = Lang::get("bot.your_order");
 
-                                        $text .= "\n";
-                                        $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
-                                        $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery) 
-                                        . "</i> " . Lang::get("bot.in_tashkent");
-                                        $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
-
-                                        try {
+                                    $total = 0;
+                                    $total_with_delivery = $delivery;
+                                    foreach($order->details as $index => $detail) {
+                                        $amount = $detail->price * $detail->quantity;
+                                        $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                        . GlobalFunc::moneyFormat($detail->price) ."</i> x "
+                                        . $detail->quantity ." = <i>" 
+                                        .GlobalFunc::moneyFormat($amount)."</i>\n";
                                         
-                                            // hide keyboard
-                                            $reply_markup = BotKeyboard::hideKeyboard();
-                
-                                            Telegram::sendMessage([
-                                                'chat_id' => $chat_id,
-                                                'text' => Lang::get("bot.success_code"),
-                                                'reply_markup' => $reply_markup
-                                            ]);
-    
-                                            // send message
-                                            $reply_markup = BotKeyboard::totalCheck();
-                
-                                            $response = Telegram::sendMessage([
-                                                'chat_id' => $chat_id,
-                                                'text' => $text,
-                                                'parse_mode' => "HTML",
-                                                'reply_markup' => $reply_markup
-                                            ]);
+                                        // calculate total
+                                        $total += $amount;
+                                        $total_with_delivery += $amount;
+                                    }
 
-                                            // save message ID, after successful payment remove inline keyboard
-                                            $order->message_id = $response->getMessageId();
-                                            $order->save();
+                                    $text .= "\n";
+                                    $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
+                                    $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery) 
+                                    . "</i> " . Lang::get("bot.in_tashkent");
+                                    $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
+
+                                    try {
+                                    
+                                        // hide keyboard
+                                        $reply_markup = BotKeyboard::hideKeyboard();
+            
+                                        Telegram::sendMessage([
+                                            'chat_id' => $chat_id,
+                                            'text' => Lang::get("bot.success_code"),
+                                            'reply_markup' => $reply_markup
+                                        ]);
+
+                                        // send message
+                                        $reply_markup = BotKeyboard::totalCheck();
+            
+                                        $response = Telegram::sendMessage([
+                                            'chat_id' => $chat_id,
+                                            'text' => $text,
+                                            'parse_mode' => "HTML",
+                                            'reply_markup' => $reply_markup
+                                        ]);
+
+                                        // save message ID, after successful payment remove inline keyboard
+                                        $order->message_id = $response->getMessageId();
+                                        $order->save();
+            
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }
+
+                                } else {
+
+                                    $order->code = rand(1000, 9999);
+                                    if ($order->save()) {
+
+                                        //@todo send sms to user phone number
+                                        try {
+                                            
+                                            Telegram::sendMessage([
+                                                "chat_id" => $chat_id,
+                                                "text" => "#demo code: " . $order->code,
+                                            ]);
                 
                                         } catch (Exception $e) {
                                             TelegramLog::log($e->getMessage());
                                         }
 
-                                    } else {
-
-                                        $order->code = rand(1000, 9999);
-                                        if ($order->save()) {
-
-                                            //@todo send sms to user phone number
-                                            try {
-                                                
-                                                Telegram::sendMessage([
-                                                    "chat_id" => $chat_id,
-                                                    "text" => "#demo code: " . $order->code,
-                                                ]);
-                    
-                                            } catch (Exception $e) {
-                                                TelegramLog::log($e->getMessage());
-                                            }
-
-                                            // send code 
-                                            $text = Lang::get("bot.send_code");
-                
-                                            try {
-                                                $reply_markup = BotKeyboard::check_code();
-                                                
-                                                Telegram::sendMessage([
-                                                    "chat_id" => $chat_id,
-                                                    "text" => $text,
-                                                    "reply_markup" => $reply_markup
-                                                ]);
-                    
-                                            } catch (Exception $e) {
-                                                TelegramLog::log($e->getMessage());
-                                            }
-
-                                        }
-                                    }
-                                    
-                                }
-
-                            }
-
-                        } else {
-                         
-                            $text = Lang::get("bot.resend_phone");
-                            try {
+                                        // send code 
+                                        $text = Lang::get("bot.send_code");
+            
+                                        try {
+                                            $reply_markup = BotKeyboard::check_code();
                                             
-                                Telegram::sendMessage([
-                                    "chat_id" => $chat_id,
-                                    "text" => $text,
-                                    "parse_mode" => "Markdown"
-                                ]);
-    
-                            } catch (Exception $e) {
-                                TelegramLog::log($e->getMessage());
+                                            Telegram::sendMessage([
+                                                "chat_id" => $chat_id,
+                                                "text" => $text,
+                                                "reply_markup" => $reply_markup
+                                            ]);
+                
+                                        } catch (Exception $e) {
+                                            TelegramLog::log($e->getMessage());
+                                        }
+
+                                    }
+                                }
+                                
                             }
+
                         }
 
                     }
