@@ -492,13 +492,10 @@ class BotController extends Controller
 
         } else if (!is_null($message)) {
 
-            // TelegramLog::log($message);
-            // if (empty($message))
-            //     return ["ok" => true];
-
             $command = $message->getText();
             $chat = $message->getChat();
             $from = $message->getFrom();
+            $sender_chat = $message->getSenderChat();
             $contact = $message->getContact();
             $location = $message->getLocation();
             $message_id = $message->getMessageId();
@@ -509,11 +506,10 @@ class BotController extends Controller
             if (!is_null($chat)) {
                 $chat_id = $chat->getId();
                 $type = $chat->getType();
-                $title = $chat->getTitle();
+                $title = $chat->getTitle(); // this username for channel
                 $all_admin = 1; //
 
-                // TelegramLog::log($message);
-                // TelegramLog::log($left_member);
+                TelegramLog::log($type);
 
                 if ($type == "group" || $type == "supergroup") {
                     
@@ -540,7 +536,8 @@ class BotController extends Controller
                                         'chat_id' => $chat_id,
                                         'title' => $title,
                                         'all_admin' => $all_admin,
-                                        'from_id' => $from_id
+                                        'from_id' => $from_id,
+                                        'type' => $type
                                     ]);
 
                                     // TelegramLog::log($response);
@@ -575,6 +572,27 @@ class BotController extends Controller
                             }
                         }
 
+                    }
+
+                } else if ($type == "channel") {
+                    
+                    // save channel ID
+                    $chatGroup = ChatGroup::where(['chat_id' => $chat_id])->first();
+    
+                    if (is_null($chatGroup)) {
+
+                        try {
+                            // create new 
+                            $response = ChatGroup::create([
+                                'chat_id' => $chat_id,
+                                'title' => $title,
+                                'all_admin' => $all_admin,
+                                'type' => $type
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
                     }
 
                 } else if ($type == "private") {
