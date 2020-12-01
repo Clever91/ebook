@@ -44,4 +44,9 @@ class ChatOrder extends Model
         return true;
     }
 
+    public function isPickUp()
+    {
+        return $this->delivery_type == self::DELIVERY_PICKUP;
+    }
+
 }

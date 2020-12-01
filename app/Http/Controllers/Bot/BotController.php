@@ -332,8 +332,12 @@ class BotController extends Controller
 
                             if (!is_null($order)) {
 
+                                $delivery = 0;
+                                if (!$order->isPickUp())
+                                    $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+
                                 $order->payment_type = ChatOrder::PAYMENT_CASH;
-                                $order->delivery_price = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                $order->delivery_price = $delivery;
                                 $order->state = ChatOrder::STATE_NEW;
                                 if ($order->save()) {
 
@@ -391,7 +395,13 @@ class BotController extends Controller
                                     $order->payment_type = ChatOrder::PAYMENT_PAYME;
                                     if ($type == "click")
                                         $order->payment_type = ChatOrder::PAYMENT_CLICK;
-                                    $order->delivery_price = (float) env("TELEGRAM_DELIVERY_PRICE");
+
+                                    // check delivery type
+                                    $delivery = 0;
+                                    if (!$order->isPickUp())
+                                        $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+
+                                    $order->delivery_price = $delivery;
                                     $order->save();
 
                                     // start invoice
@@ -408,8 +418,7 @@ class BotController extends Controller
                                         $image_url = "";
                                         $total = 0;
                                         $prices = [];
-                                        $delivery = (float) env("TELEGRAM_DELIVERY_PRICE") * 100;
-                                        // $delivery = GlobalFunc::moneyFormat(env("TELEGRAM_DELIVERY_PRICE"));
+                                        $delivery = $delivery * 100;
 
                                         foreach($details as $detail) {
                                             $title = $detail->product->translateOrNew(App::getLocale())->name;
@@ -456,13 +465,11 @@ class BotController extends Controller
                                             TelegramLog::log($e->getMessage());
                                         }
                                     } else {
-
-                                        // show alert and go to product page
+                                        TelegramLog::log("Chat Order Detail is not found: " . $chat_id);
                                     }
                                     
                                 } else {
-
-                                    // show alert and go to product page
+                                    TelegramLog::log("Chat Order is not found: " . $chat_id);
                                 }
     
     
@@ -568,15 +575,33 @@ class BotController extends Controller
                             "chat_id" => $chat_id,
                             "state" => ChatOrder::STATE_DRAF
                         ])->first();
+
                         if (!is_null($order)) {
                             $order->paid = ChatOrder::PAID_SUCCESS;
                             $order->state = ChatOrder::STATE_NEW;
                             if ($order->save()) {
-                                Telegram::sendMessage([
-                                    'chat_id' => $chat_id,
-                                    'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
-                                    'parse_mode' => "Markdown"
-                                ]);
+
+                                try {
+                                    // $reply_markup = BotKeyboard::hideKeyboard();
+                                    
+                                    // edit message reply markup
+                                    Telegram::editMessageReplyMarkup([
+                                        'chat_id' => $chat_id,
+                                        'message_id' => $order->message_id,
+                                        'inline_message_id' => $order->message_id,
+                                        'reply_markup' => false
+                                    ]);
+
+                                    Telegram::sendMessage([
+                                        'chat_id' => $chat_id,
+                                        'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
+                                        'parse_mode' => "Markdown",
+                                        'reply_to_message_id' => $order->message_id
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
                             }
                         }
                     } else if (strpos($command, "product") !== false) {
@@ -626,8 +651,11 @@ class BotController extends Controller
 
                                 if ($code == $order->code) {
 
-                                    $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
-                                    // $delivery = GlobalFunc::moneyFormat(env("TELEGRAM_DELIVERY_PRICE"));
+                                    // check delivery type
+                                    $delivery = 0;
+                                    if (!$order->isPickUp())
+                                        $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
@@ -780,7 +808,11 @@ class BotController extends Controller
 
                                 if ($old_order_count > 0) {
 
-                                    $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                    // check delivery type
+                                    $delivery = 0;
+                                    if (!$order->isPickUp())
+                                        $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                        
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
@@ -926,7 +958,10 @@ class BotController extends Controller
 
                                 if ($old_order_count > 0) {
 
-                                    $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                    $delivery = 0;
+                                    if (!$order->isPickUp())
+                                        $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
+
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
