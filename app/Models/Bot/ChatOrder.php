@@ -24,7 +24,7 @@ class ChatOrder extends Model
     protected $fillable = [
         "chat_id", "delivery_type", "payment_type", "delivery_price",
         "amount", "state", "status", "paid", "phone", "code", "updated_by",
-        "lat", "long"
+        "lat", "long", "message_id"
     ];
 
     public function details()

@@ -625,7 +625,7 @@ class BotController extends Controller
                                         // hide keyboard
                                         $reply_markup = BotKeyboard::hideKeyboard();
             
-                                        $response = Telegram::sendMessage([
+                                        Telegram::sendMessage([
                                             'chat_id' => $chat_id,
                                             'text' => Lang::get("bot.success_code"),
                                             'reply_markup' => $reply_markup
@@ -634,12 +634,16 @@ class BotController extends Controller
                                         // send message
                                         $reply_markup = BotKeyboard::totalCheck();
             
-                                        Telegram::sendMessage([
+                                        $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
                                             'text' => $text,
                                             'parse_mode' => "HTML",
                                             'reply_markup' => $reply_markup
                                         ]);
+
+                                        // save message ID, after successful payment remove inline keyboard
+                                        $order->message_id = $response->getMessageId();
+                                        $order->save();
 
                                     } catch (Exception $e) {
                                         TelegramLog::log($e->getMessage());
@@ -776,7 +780,7 @@ class BotController extends Controller
                                             // hide keyboard
                                             $reply_markup = BotKeyboard::hideKeyboard();
                 
-                                            $response = Telegram::sendMessage([
+                                            Telegram::sendMessage([
                                                 'chat_id' => $chat_id,
                                                 'text' => Lang::get("bot.success_code"),
                                                 'reply_markup' => $reply_markup
@@ -785,12 +789,16 @@ class BotController extends Controller
                                             // send message
                                             $reply_markup = BotKeyboard::totalCheck();
                 
-                                            Telegram::sendMessage([
+                                            $response = Telegram::sendMessage([
                                                 'chat_id' => $chat_id,
                                                 'text' => $text,
                                                 'parse_mode' => "HTML",
                                                 'reply_markup' => $reply_markup
                                             ]);
+
+                                            // save message ID, after successful payment remove inline keyboard
+                                            $order->message_id = $response->getMessageId();
+                                            $order->save();
                 
                                         } catch (Exception $e) {
                                             TelegramLog::log($e->getMessage());
@@ -934,7 +942,7 @@ class BotController extends Controller
                                         // hide keyboard
                                         $reply_markup = BotKeyboard::hideKeyboard();
             
-                                        $response = Telegram::sendMessage([
+                                        Telegram::sendMessage([
                                             'chat_id' => $chat_id,
                                             'text' => Lang::get("bot.success_code"),
                                             'reply_markup' => $reply_markup
@@ -943,12 +951,16 @@ class BotController extends Controller
                                         // send message
                                         $reply_markup = BotKeyboard::totalCheck();
             
-                                        Telegram::sendMessage([
+                                        $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
                                             'text' => $text,
                                             'parse_mode' => "HTML",
                                             'reply_markup' => $reply_markup
                                         ]);
+
+                                        // save message ID, after successful payment remove inline keyboard
+                                        $order->message_id = $response->getMessageId();
+                                        $order->save();
 
                                     } catch (Exception $e) {
                                         TelegramLog::log($e->getMessage());
