@@ -333,12 +333,45 @@ class BotController extends Controller
                             if (!is_null($order)) {
 
                                 $order->payment_type = ChatOrder::PAYMENT_CASH;
-                                $order->save();
+                                $order->delivery_price = (float) env("TELEGRAM_DELIVERY_PRICE");
+                                $order->state = ChatOrder::STATE_NEW;
+                                if ($order->save()) {
 
-                                // go
+                                    $details = ChatOrderDetail::where([
+                                        "chat_order_id" => $order->id
+                                    ])->get();
+
+                                    $total = 0;
+                                    foreach($details as $detail) {
+                                        $total += $detail->price * $detail->quantity;
+                                    }
+                                    $order->amount = $total;
+                                    $order->save();
+
+                                    try {
+                                        // $reply_markup = BotKeyboard::hideKeyboard();
+                                        
+                                        // edit message reply markup
+                                        Telegram::editMessageReplyMarkup([
+                                            'chat_id' => $chat_id,
+                                            'message_id' => $order->message_id,
+                                            'inline_message_id' => $order->message_id,
+                                            'reply_markup' => false
+                                        ]);
+
+                                        Telegram::sendMessage([
+                                            'chat_id' => $chat_id,
+                                            'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
+                                            'parse_mode' => "Markdown",
+                                            'reply_to_message_id' => $order->message_id
+                                        ]);
+            
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }
+                                }
                             }
                             
-                            // create order
                         } else {
                             
                             $bot_token = env("CLICK_BOT_TOKEN");
