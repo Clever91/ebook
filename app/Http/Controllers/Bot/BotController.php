@@ -491,6 +491,11 @@ class BotController extends Controller
             }
 
         } else if (!is_null($message)) {
+
+            // TelegramLog::log($message);
+            // if (empty($message))
+            //     return ["ok" => true];
+
             $command = $message->getText();
             $chat = $message->getChat();
             $from = $message->getFrom();
@@ -506,6 +511,9 @@ class BotController extends Controller
                 $type = $chat->getType();
                 $title = $chat->getTitle();
                 $all_admin = 1; //
+
+                // TelegramLog::log($message);
+                // TelegramLog::log($left_member);
 
                 if ($type == "group" || $type == "supergroup") {
                     
@@ -528,14 +536,16 @@ class BotController extends Controller
     
                                 try {
                                     // create new 
-                                    ChatGroup::create([
+                                    $response = ChatGroup::create([
                                         'chat_id' => $chat_id,
                                         'title' => $title,
                                         'all_admin' => $all_admin,
                                         'from_id' => $from_id
                                     ]);
 
-                                    $text = Lang::get("bot.thanks");
+                                    // TelegramLog::log($response);
+
+                                    $text = Lang::get("bot.thanks", ['fullname' => $fullname]);
     
                                     // send message
                                     Telegram::sendMessage([
@@ -812,7 +822,7 @@ class BotController extends Controller
                                     $delivery = 0;
                                     if (!$order->isPickUp())
                                         $delivery = (float) env("TELEGRAM_DELIVERY_PRICE");
-                                        
+
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;

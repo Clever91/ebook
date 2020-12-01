@@ -83,5 +83,5 @@ Route::group(['prefix' => 'bot'], function() {
     Route::post('/remove', 'Bot\BotController@removeWebhook');
     Route::post('/set', 'Bot\BotController@setWebhook');
     Route::post('/', 'Bot\BotController@index');
-    Route::get('/', 'Bot\BotController@index'); // FOR TEST
+    // Route::get('/', 'Bot\BotController@index'); // FOR TEST
 });
