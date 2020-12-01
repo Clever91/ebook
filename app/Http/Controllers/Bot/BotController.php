@@ -611,13 +611,10 @@ class BotController extends Controller
                         } else {
                             TelegramLog::log("Product is not found: " . $command);
                         }
-                    } else if (strpos($command, "#code") !== false) {
+                    } else if (preg_match("/^[0-9]{4}$/", $command)) {
 
-                        $str = explode(" ", $command);
-                        $code = 0;
-                        if (isset($str[1])) {
-                            $code = intval($str[1]);
-                        }
+                        // get code
+                        $code = (int) $command;
 
                         if ($code > 0) {
                             // check code
@@ -773,7 +770,7 @@ class BotController extends Controller
                         ])->first();
                         if (!is_null($order)) {
 
-                            $order->phone = "+998" . $phone;
+                            $order->phone = "998" . $phone;
                             if ($order->save()) {
 
                                 $old_order_count = ChatOrder::where([
