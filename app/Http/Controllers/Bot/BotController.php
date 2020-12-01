@@ -509,7 +509,7 @@ class BotController extends Controller
                 $title = $chat->getTitle(); // this username for channel
                 $all_admin = 1; //
 
-                TelegramLog::log($type);
+                // TelegramLog::log($response);
 
                 if ($type == "group" || $type == "supergroup") {
                     
@@ -532,7 +532,7 @@ class BotController extends Controller
     
                                 try {
                                     // create new 
-                                    $response = ChatGroup::create([
+                                    $model = ChatGroup::create([
                                         'chat_id' => $chat_id,
                                         'title' => $title,
                                         'all_admin' => $all_admin,
@@ -540,7 +540,21 @@ class BotController extends Controller
                                         'type' => $type
                                     ]);
 
-                                    // TelegramLog::log($response);
+                                    if ($model) {
+                                        try {
+                                            $group_id = env("TELEGRAM_ORDER_GROUP");
+                                            $text = 'This ['. $username . '](http://t.me/'.$username.') bot just added new '. $type .' (*'.$title.'*) by '.$fullname;
+
+                                            Telegram::sendMessage([
+                                                'chat_id' => $group_id,
+                                                'text' => $text,
+                                                'parse_mode' => "Markdown"
+                                            ]);
+
+                                        } catch (Exception $e) {
+                                            TelegramLog::log($e->getMessage());
+                                        }
+                                    } 
 
                                     $text = Lang::get("bot.thanks", ['fullname' => $fullname]);
     
@@ -580,15 +594,32 @@ class BotController extends Controller
                     $chatGroup = ChatGroup::where(['chat_id' => $chat_id])->first();
     
                     if (is_null($chatGroup)) {
-
                         try {
                             // create new 
-                            $response = ChatGroup::create([
+                            $model = ChatGroup::create([
                                 'chat_id' => $chat_id,
                                 'title' => $title,
                                 'all_admin' => $all_admin,
                                 'type' => $type
                             ]);
+
+                            if ($model) {
+                                try {
+                                    $fullname = "admin";
+                                    $username = env("TELEGRAM_BOT_USERNAME");
+                                    $group_id = env("TELEGRAM_ORDER_GROUP");
+                                    $text = 'This ['. $username . '](http://t.me/'.$username.') bot just added new '. $type .' (*'.$title.'*) by '.$fullname;
+
+                                    Telegram::sendMessage([
+                                        'chat_id' => $group_id,
+                                        'text' => $text,
+                                        'parse_mode' => "Markdown"
+                                    ]);
+
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            }
 
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
