@@ -3,6 +3,7 @@
 namespace App\Models\Bot;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Lang;
 
 class ChatOrder extends Model
 {
@@ -47,6 +48,44 @@ class ChatOrder extends Model
     public function isPickUp()
     {
         return $this->delivery_type == self::DELIVERY_PICKUP;
+    }
+
+    public function deliveryLabel()
+    {
+        return $this->deliveryTypes()[$this->delivery_type];
+    }
+
+    public function deliveryTypes()
+    {
+        return [
+            self::DELIVERY_EXPRESS24 => 'Express24',
+            self::DELIVERY_MAIL => Lang::get('bot.delivery_mail'),
+            self::DELIVERY_PICKUP => Lang::get('bot.delivery_pickup'),
+        ];
+    }
+
+    public function paymentLabel()
+    {
+        return $this->paymentTypes()[$this->delivery_type];
+    }
+
+    public function paymentTypes()
+    {
+        return [
+            self::PAYMENT_CASH => Lang::get('bot.payment_cash'),
+            self::PAYMENT_CLICK => 'Click',
+            self::PAYMENT_PAYME => 'Payme',
+        ];
+    }
+
+    public function isPaid()
+    {
+        return $this->paid == self::PAID_SUCCESS;
+    }
+
+    public function getLatLng()
+    {
+        return $this->lat . ", " . $this->long;
     }
 
 }
