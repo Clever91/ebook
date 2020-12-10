@@ -9,6 +9,11 @@ class GlobalFunc
     {
         return number_format((float) $number, 0) . " " . $currency;
     }
+
+    public static function removePlus($phone) 
+    {
+        return preg_replace('/\D+/', '', $phone);
+    }
 }
 
 

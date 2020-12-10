@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bot;
 use Exception;
 use App\Helpers\Bot\BotKeyboard;
 use App\Helpers\Common\GlobalFunc;
+use App\Helpers\Common\Sms;
 use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
 use App\Models\Bot\ChatGroup;
@@ -885,17 +886,20 @@ class BotController extends Controller
                             if ($order->save()) {
     
                                 //@todo #remove send sms to user phone number
-                                try {
+                                // try {
                                     
-                                    Telegram::sendMessage([
-                                        "chat_id" => $chat_id,
-                                        "text" => "#demo code: " . $order->code,
-                                        "parse_mode" => "Markdown"
-                                    ]);
+                                //     Telegram::sendMessage([
+                                //         "chat_id" => $chat_id,
+                                //         "text" => "#demo code: " . $order->code,
+                                //         "parse_mode" => "Markdown"
+                                //     ]);
         
-                                } catch (Exception $e) {
-                                    TelegramLog::log($e->getMessage());
-                                }
+                                // } catch (Exception $e) {
+                                //     TelegramLog::log($e->getMessage());
+                                // }
+                                // send sms for client
+                                $txt = "Code: " . $order->code;
+                                Sms::send($order->phone, $txt);
     
                                 // send code 
                                 $text = Lang::get("bot.resend_code");
@@ -1002,16 +1006,19 @@ class BotController extends Controller
                                     if ($order->save()) {
 
                                         //@todo send sms to user phone number
-                                        try {
+                                        // try {
                                             
-                                            Telegram::sendMessage([
-                                                "chat_id" => $chat_id,
-                                                "text" => "#demo code: " . $order->code,
-                                            ]);
+                                        //     Telegram::sendMessage([
+                                        //         "chat_id" => $chat_id,
+                                        //         "text" => "#demo code: " . $order->code,
+                                        //     ]);
                 
-                                        } catch (Exception $e) {
-                                            TelegramLog::log($e->getMessage());
-                                        }
+                                        // } catch (Exception $e) {
+                                        //     TelegramLog::log($e->getMessage());
+                                        // }
+                                        // send sms for client
+                                        $txt = "Code: " . $order->code;
+                                        Sms::send($order->phone, $txt);
 
                                         // send code 
                                         $text = Lang::get("bot.send_code");
@@ -1080,7 +1087,9 @@ class BotController extends Controller
                         ])->first();
                         if (!is_null($order)) {
 
-                            $order->phone = $contact->getPhoneNumber();
+                            // remove plus if exists
+                            $phone = GlobalFunc::removePlus($contact->getPhoneNumber());
+                            $order->phone = $phone;
                             if ($order->save()) {
 
                                 $old_order_count = ChatOrder::where([
@@ -1150,16 +1159,20 @@ class BotController extends Controller
                                     if ($order->save()) {
 
                                         //@todo send sms to user phone number
-                                        try {
+                                        // try {
                                             
-                                            Telegram::sendMessage([
-                                                "chat_id" => $chat_id,
-                                                "text" => "#demo code: " . $order->code,
-                                            ]);
+                                        //     Telegram::sendMessage([
+                                        //         "chat_id" => $chat_id,
+                                        //         "text" => "#demo code: " . $order->code,
+                                        //     ]);
                 
-                                        } catch (Exception $e) {
-                                            TelegramLog::log($e->getMessage());
-                                        }
+                                        // } catch (Exception $e) {
+                                        //     TelegramLog::log($e->getMessage());
+                                        // }
+
+                                        // send sms for client
+                                        $txt = "Code: " . $order->code;
+                                        Sms::send($order->phone, $txt);
 
                                         // send code 
                                         $text = Lang::get("bot.send_code");
