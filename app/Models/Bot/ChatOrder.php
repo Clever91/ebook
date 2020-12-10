@@ -2,6 +2,7 @@
 
 namespace App\Models\Bot;
 
+use App\Helpers\Common\GlobalFunc;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
 
@@ -66,7 +67,7 @@ class ChatOrder extends Model
 
     public function paymentLabel()
     {
-        return $this->paymentTypes()[$this->delivery_type];
+        return $this->paymentTypes()[$this->payment_type];
     }
 
     public function paymentTypes()
@@ -86,6 +87,31 @@ class ChatOrder extends Model
     public function getLatLng()
     {
         return $this->lat . ", " . $this->long;
+    }
+
+    public function telegramOrderList()
+    {
+        $text = Lang::get("bot.new_order") . "<b>" . $this->id . "</b> \n\n";
+        $text .= Lang::get("bot.client_phone") . "<b>" . $this->phone . "</b>\n";
+        $text .= Lang::get("bot.delivery_type") . "<b>" . $this->deliveryLabel() . "</b>\n";
+        $text .= Lang::get("bot.payment_type") . "<b>". $this->paymentLabel() . "</b>\n"; 
+        $text .= Lang::get("bot.location") . "<b>". $this->getLatLng() . "</b>\n\n";
+
+        foreach($this->details as $index => $detail) {
+            // $amount = $detail->price * $detail->quantity;
+            $text .= ($index+1) .". ". $detail->product->name ." <i>"
+            . GlobalFunc::moneyFormat($detail->price) ."</i> x "
+            . $detail->quantity ."\n";
+        }
+
+        $text .= "\n";
+        $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($this->amount) . "</i>\n";
+        $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($this->delivery_price) . "</i>\n";
+        $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($this->amount + $this->delivery_price) ."</i>\n\n";
+
+        $text .= Lang::get("bot.order_paid") . " " . ($this->isPaid() ? "✅" : "⛔️");
+
+        return $text;
     }
 
 }
