@@ -49,7 +49,7 @@
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
                                             <a href="{{ route('admin.relation.index', [$model->id, 'C']) }}" class="btn btn-sm btn-success">
-                                                <i class="fas fa-paperclip"></i> Прикреплять 
+                                                <i class="fas fa-paperclip"></i> Доб. группу 
                                                 @if ($model->relations->count())
                                                 <span class="badge bg-warning">{{ $model->relations->count() }}</span>
                                                 @else
