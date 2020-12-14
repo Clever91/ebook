@@ -802,7 +802,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck();
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery);
             
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
@@ -962,7 +962,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck();
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery);
             
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
@@ -1131,7 +1131,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck();
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery);
             
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,

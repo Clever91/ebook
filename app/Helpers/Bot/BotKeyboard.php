@@ -2,6 +2,7 @@
 
 namespace App\Helpers\Bot;
 
+use App\Helpers\Common\ClickHelper;
 use App\Models\Bot\ChatOrder;
 use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -136,15 +137,28 @@ class BotKeyboard {
         return $reply_markup;
     }
 
-    public static function totalCheck()
+    public static function totalCheck($amount = 0)
     {
-        $payme = Keyboard::button([
-            'text' => 'Payme',
+        $click_url = ClickHelper::followingLink($amount);
+        $payme_url = ClickHelper::followingLink($amount);
+
+        $payme_app = Keyboard::button([
+            'text' => 'Payme (с приложением)',
+            'url' => $payme_url
+        ]);
+
+        $payme_telegram = Keyboard::button([
+            'text' => 'Payme (с телеграммой)',
             'callback_data' => '{"pay":true,"type":"payme"}'
         ]);
 
-        $click = Keyboard::button([
-            'text' => 'Click',
+        $click_app = Keyboard::button([
+            'text' => 'Click (с приложением)',
+            'url' => $click_url
+        ]);
+
+        $click_telegram = Keyboard::button([
+            'text' => 'Click (с телеграммой)',
             'callback_data' => '{"pay":true,"type":"click"}'
         ]);
 
@@ -155,8 +169,10 @@ class BotKeyboard {
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => [
-                [ $payme ],
-                [ $click ],
+                [ $payme_app ],
+                [ $payme_telegram ],
+                [ $click_app ],
+                [ $click_telegram ],
                 [ $cash ],
             ],
         ]);

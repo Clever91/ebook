@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\Log\TelegramLog;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -26,6 +27,23 @@ Route::get('/', function() {
 Route::get('/denied', function() {
     return view('error._denied');
 })->name('denied');
+
+
+// ~~~~~~~~~~~~~~~~~~~ Payment Callback ~~~~~~~~~~~~~~~~~~~
+
+Route::group(['prefix' => 'pay'], function () {
+
+    // payme prepare
+    Route::get('/payme/prepare', function(Request $request) {
+        TelegramLog::log($request->all());
+    })->name('payme.prepare');
+
+    // payme complete
+    Route::get('/payme/complete', function(Request $request) {
+        TelegramLog::log($request->all());
+    })->name('payme.complete');
+
+});
 
 // ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
 Localization::localizedRoutesGroup(function() {
