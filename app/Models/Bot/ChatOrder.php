@@ -89,6 +89,11 @@ class ChatOrder extends Model
         return $this->lat . ", " . $this->long;
     }
 
+    public function amountWithDelivery()
+    {
+        return $this->amount + $this->delivery_price;
+    }
+
     public function telegramOrderList()
     {
         $text = Lang::get("bot.new_order") . "<b>" . $this->id . "</b> \n\n";
@@ -107,7 +112,7 @@ class ChatOrder extends Model
         $text .= "\n";
         $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($this->amount) . "</i>\n";
         $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($this->delivery_price) . "</i>\n";
-        $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($this->amount + $this->delivery_price) ."</i>\n\n";
+        $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($this->amountWithDelivery()) ."</i>\n\n";
 
         $text .= Lang::get("bot.order_paid") . " " . ($this->isPaid() ? "✅" : "⛔️");
 

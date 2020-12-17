@@ -15,35 +15,30 @@ class ClickHelper
     const RETURN_URL = "https://bookmedianashr.uz/pay/payme/complete";
     const API_ENDPOINT = "https://api.click.uz/v2/merchant/";
 
-    public static function followingLink($amount)
+    public static function followingLink($amount, $order_id)
     {
         return "https://my.click.uz/services/pay?service_id=".
             self::SERVICE_ID."&merchant_id=".
             self::MERCHANT_ID."&amount=".
-            $amount."&transaction_param=998900354477&return_url=".
+            $amount."&transaction_param=".
+            $order_id."&return_url=".
             self::RETURN_URL;
     }
 
-    public static function createInvoice($phone, $amount = 0, $order_id)
+    public static function checkSign($data, $merchant_prepare_id = null)
     {
-        $auth = self::MERCHANT_USER_ID . sha1(time() . self::SECRET_KEY) . time();
-        // Digest authentication...
-        $response = Http::withHeaders([
-                'Auth' => $auth,
-                'Accept' => 'application/json',
-                'Content-Type' => 'application/json',
-            ])->post(self::API_ENDPOINT, [
-                'service_id' => self::SERVICE_ID,
-                'amount' => $amount,
-                'phone_number' => $phone,
-                'merchant_trans_id' => $order_id,
-            ]);
-        
-        if ($response->successful()) {
-            TelegramLog::log($response->json());
-        } else if ($response->failed()) {
-            TelegramLog::log($response->json());
+        if (!isset($data['service_id']) || self::SERVICE_ID != $data['service_id']) {
+            return false;
         }
+
+        $sign_string = md5($data['click_trans_id'] . self::SERVICE_ID . self::SECRET_KEY .
+         $data['merchant_trans_id'] . $merchant_prepare_id . $data['amount'] . $data['action'] . $data['sign_time']);
+
+        if ($sign_string != $data['sign_string']) {
+            return false;
+        }
+
+        return true;
     }
 
 }

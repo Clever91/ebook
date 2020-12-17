@@ -137,10 +137,10 @@ class BotKeyboard {
         return $reply_markup;
     }
 
-    public static function totalCheck($amount = 0)
+    public static function totalCheck($amount, $order_id)
     {
-        $click_url = ClickHelper::followingLink($amount);
-        $payme_url = ClickHelper::followingLink($amount);
+        $click_url = ClickHelper::followingLink($amount, $order_id);
+        $payme_url = ClickHelper::followingLink($amount, $order_id);
 
         $payme_app = Keyboard::button([
             'text' => 'Payme (с приложением)',

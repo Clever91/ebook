@@ -803,7 +803,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery);
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order->id);
             
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
@@ -812,6 +812,9 @@ class BotController extends Controller
                                             'reply_markup' => $reply_markup
                                         ]);
 
+                                        // save total and delivery price
+                                        $order->amount = $total;
+                                        $order->delivery_price = $delivery;
                                         // save message ID, after successful payment remove inline keyboard
                                         $order->message_id = $response->getMessageId();
                                         $order->save();
@@ -963,7 +966,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery);
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order->id);
             
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
@@ -972,6 +975,9 @@ class BotController extends Controller
                                             'reply_markup' => $reply_markup
                                         ]);
 
+                                        // save total and delivery price
+                                        $order->amount = $total;
+                                        $order->delivery_price = $delivery;
                                         // save message ID, after successful payment remove inline keyboard
                                         $order->message_id = $response->getMessageId();
                                         $order->save();
@@ -1120,14 +1126,6 @@ class BotController extends Controller
                                     . "</i> " . Lang::get("bot.in_tashkent");
                                     $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
 
-                                    // create invoice
-                                    try {
-                                        ClickHelper::createInvoice($order->phone, $total_with_delivery, $order->id);
-                                    } catch (Exception $e) {
-                                        TelegramLog::log($e->getMessage());
-                                    }
-
-
                                     try {
                                         
                                         // hide keyboard
@@ -1140,7 +1138,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery);
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order->id);
             
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
@@ -1149,6 +1147,9 @@ class BotController extends Controller
                                             'reply_markup' => $reply_markup
                                         ]);
 
+                                        // save total and delivery price
+                                        $order->amount = $total;
+                                        $order->delivery_price = $delivery;
                                         // save message ID, after successful payment remove inline keyboard
                                         $order->message_id = $response->getMessageId();
                                         $order->save();
