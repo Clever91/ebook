@@ -164,6 +164,7 @@ Route::group(['prefix' => 'pay'], function () {
 
     // payme complete
     Route::match(['get', 'post'], '/payme/complete', function(Request $request) {
+        TelegramLog::log("complete action");
         TelegramLog::log(request()->all());
     })->name('payme.complete');
 
