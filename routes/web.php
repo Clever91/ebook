@@ -29,8 +29,9 @@ Route::get('/denied', function() {
 
 Route::group(['prefix' => 'pay'], function () {
 
-    Route::match(['get', 'post'], 'click/prepare', 'Bot\ClickController@prepare')->name('click.prepare');
-    Route::match(['get', 'post'], 'click/complete', 'Bot\ClickController@complete')->name('click.complete');
+    Route::match(['get', 'post'], '/click/prepare', 'Bot\ClickController@prepare')->name('click.prepare');
+    Route::match(['get', 'post'], '/click/complete', 'Bot\ClickController@complete')->name('click.complete');
+    Route::get('/click/success', 'Bot\ClickController@success')->name('click.success');
 
 });
 

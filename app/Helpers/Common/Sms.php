@@ -90,7 +90,7 @@ class Sms
             $array = json_decode($result, true);
 
             // send log for check 
-            TelegramLog::log($array);
+            // TelegramLog::log($array);
 
             // ~~~~~~~~~~~~~~~~~~~~~~ CHECk SMS STATUS ~~~~~~~~~~~~~~~~~~~~~~
         

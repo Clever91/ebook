@@ -50,7 +50,7 @@ class ClickHelper
     public static function run()
     {
         $data = request()->all();
-        TelegramLog::log($data);
+        // TelegramLog::log($data);
 
         if (empty($data))
             return ClickTransaction::getResponse($data, -8);

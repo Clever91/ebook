@@ -867,20 +867,9 @@ class BotController extends Controller
                             $order->code = rand(1000, 9999);
                             if ($order->save()) {
     
-                                //@todo #remove send sms to user phone number
-                                // try {
-                                    
-                                //     Telegram::sendMessage([
-                                //         "chat_id" => $chat_id,
-                                //         "text" => "#demo code: " . $order->code,
-                                //         "parse_mode" => "Markdown"
-                                //     ]);
-        
-                                // } catch (Exception $e) {
-                                //     TelegramLog::log($e->getMessage());
-                                // }
                                 // send sms for client
-                                $txt = "Code: " . $order->code;
+                                $txt = "Tasdiqlash kodi
+                                Confirmation code: " . $order->code;
                                 Sms::send($order->phone, $txt);
     
                                 // send code 
@@ -990,19 +979,9 @@ class BotController extends Controller
                                     $order->code = rand(1000, 9999);
                                     if ($order->save()) {
 
-                                        //@todo send sms to user phone number
-                                        // try {
-                                            
-                                        //     Telegram::sendMessage([
-                                        //         "chat_id" => $chat_id,
-                                        //         "text" => "#demo code: " . $order->code,
-                                        //     ]);
-                
-                                        // } catch (Exception $e) {
-                                        //     TelegramLog::log($e->getMessage());
-                                        // }
                                         // send sms for client
-                                        $txt = "Code: " . $order->code;
+                                        $txt = "Tasdiqlash kodi
+                                        Confirmation code: " . $order->code;
                                         Sms::send($order->phone, $txt);
 
                                         // send code 
@@ -1161,20 +1140,9 @@ class BotController extends Controller
                                     $order->code = rand(1000, 9999);
                                     if ($order->save()) {
 
-                                        //@todo send sms to user phone number
-                                        // try {
-                                            
-                                        //     Telegram::sendMessage([
-                                        //         "chat_id" => $chat_id,
-                                        //         "text" => "#demo code: " . $order->code,
-                                        //     ]);
-                
-                                        // } catch (Exception $e) {
-                                        //     TelegramLog::log($e->getMessage());
-                                        // }
-
                                         // send sms for client
-                                        $txt = "Code: " . $order->code;
+                                        $txt = "Tasdiqlash kodi
+                                        Confirmation code: " . $order->code;
                                         Sms::send($order->phone, $txt);
 
                                         // send code 
