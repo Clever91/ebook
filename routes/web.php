@@ -1,15 +1,8 @@
 <?php
 
-use App\Helpers\Common\ClickHelper;
-use App\Helpers\Log\TelegramLog;
-use App\Models\Bot\ChatOrder;
-use App\Models\Helpers\ClickTransaction;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Lunaweb\Localization\Facades\Localization;
-use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,137 +29,8 @@ Route::get('/denied', function() {
 
 Route::group(['prefix' => 'pay'], function () {
 
-    // payme prepare
-    Route::match(['get', 'post'], '/payme/prepare', function(Request $request) {
-        if (request()->isMethod('post')) {
-            $data = request()->all();
-            TelegramLog::log($data);
-    
-            if (empty($data))
-                return ClickTransaction::getResponse($data, -8);
-
-            if ($data['error'] != 0) {
-                return ClickTransaction::getResponse($data, -8);
-            }
-            
-            if ($data['action'] == ClickTransaction::ACTION_PREPARE) {
-                if (!ClickHelper::checkSign($data)) {
-                    return ClickTransaction::getResponse($data, -1);
-                }
-    
-                $order = ChatOrder::find($data['merchant_trans_id']);
-                if (is_null($order)) {
-                    return ClickTransaction::getResponse($data, -5);
-                }
-
-                $model = ClickTransaction::create($data);
-                if (!is_null($model)) {
-                    return ClickTransaction::getResponse($data, 0, $model->id);
-                }
-
-                return ClickTransaction::getResponse($data, -6);
-            } else if ($data['action'] == ClickTransaction::ACTION_COMPLETE) {
-
-                if (!ClickHelper::checkSign($data, $data['merchant_prepare_id'])) {
-                    return ClickTransaction::getResponse($data, -1);
-                }
-
-                $model = ClickTransaction::find($data['merchant_prepare_id']);
-                if (is_null($model)) {
-                    return ClickTransaction::getResponse($data, -6);
-                }
-
-                $order = ChatOrder::find($data['merchant_trans_id']);
-                if (is_null($order)) {
-                    $model->error = -5;
-                    $model->error_note = ClickTransaction::getErrorNote(-5);
-                    $model->save();
-                    return ClickTransaction::getResponse($data, -5);
-                }
-
-                $amount = $order->amountWithDelivery();
-                if ($amount != $data['amount']) {
-                    $model->error = -2;
-                    $model->error_note = ClickTransaction::getErrorNote(-2);
-                    $model->save();
-                    return ClickTransaction::getResponse($data, -2);
-                }
-
-                // check ClickTransaction::ACTION_CANCEL
-
-                if ($model->action == ClickTransaction::ACTION_COMPLETE) {
-                    $model->error = -4;
-                    $model->error_note = ClickTransaction::getErrorNote(-4);
-                    $model->save();
-                    return ClickTransaction::getResponse($data, -4);
-                }
-
-                $model->action = ClickTransaction::ACTION_COMPLETE;
-                $model->error = 0;
-                $model->error_note = ClickTransaction::getErrorNote(0);
-                if ($model->save()) {
-                    $order->paid = ChatOrder::PAID_SUCCESS;
-                    $order->state = ChatOrder::STATE_NEW;
-                    if ($order->save()) {
-
-                        // try {
-                        //     // edit message reply markup
-                        //     Telegram::editMessageReplyMarkup([
-                        //         'chat_id' => $order->chat_id,
-                        //         'message_id' => $order->message_id,
-                        //         'inline_message_id' => $order->message_id,
-                        //         'reply_markup' => false
-                        //     ]);
-                        //     Telegram::sendMessage([
-                        //         'chat_id' => $order->chat_id,
-                        //         'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
-                        //         'parse_mode' => "Markdown",
-                        //         'reply_to_message_id' => $order->message_id
-                        //     ]);
-                        // } catch (Exception $e) {
-                        //     TelegramLog::log($e->getMessage());
-                        // }
-
-                        // // ~~~~~~~~~~~~~~~~~ send group check
-
-                        // $group_id = env("TELEGRAM_ORDER_GROUP");
-                        // $text = $order->telegramOrderList();
-
-                        // try {
-                        //     $response = Telegram::sendMessage([
-                        //         'chat_id' => $group_id,
-                        //         'text' => $text,
-                        //         'parse_mode' => "HTML"
-                        //     ]);
-                        //     if (!$order->isPickUp()) {
-                        //         $response = Telegram::sendLocation([
-                        //             'chat_id' => $group_id,
-                        //             'latitude' => $order->lat,
-                        //             'longitude' => $order->long,
-                        //             'reply_to_message_id' => $response->getMessageId()
-                        //         ]);
-                        //     }
-                        // } catch (Exception $e) {
-                        //     TelegramLog::log($e->getMessage());
-                        // }
-
-                        return ClickTransaction::getResponse($data, 0, null, $order->id);
-                    }
-                    return ClickTransaction::getResponse($data, -7);
-                }
-            } else {
-                return ClickTransaction::getResponse($data, -3);
-            }
-            
-        }
-        return $request->route('home');
-    })->name('payme.prepare');
-
-    // payme complete
-    Route::match(['get', 'post'], '/payme/complete', function(Request $request) {
-        TelegramLog::log("complete action");
-        TelegramLog::log(request()->all());
-    })->name('payme.complete');
+    Route::match(['get', 'post'], 'click/prepare', 'Bot\ClickController@prepare')->name('click.prepare');
+    Route::match(['get', 'post'], 'click/complete', 'Bot\ClickController@complete')->name('click.complete');
 
 });
 

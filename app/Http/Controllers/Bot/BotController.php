@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Bot;
 
 use Exception;
 use App\Helpers\Bot\BotKeyboard;
-use App\Helpers\Common\ClickHelper;
 use App\Helpers\Common\GlobalFunc;
 use App\Helpers\Common\Sms;
 use App\Helpers\Log\TelegramLog;
