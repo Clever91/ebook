@@ -227,7 +227,7 @@ class BotController extends Controller
                             Telegram::answerCallbackQuery([
                                 "callback_query_id" => $callback_id,
                                 "text" => Lang::get('bot.empty_cart'),
-                                "show_alert" => false
+                                "show_alert" => true
                             ]);
 
                             if (isset($decode->remove) || isset($decode->cart)) {
@@ -572,7 +572,19 @@ class BotController extends Controller
                                 TelegramLog::log($e->getMessage());
                             }
                         }
-                    } else if (isset($decode->home) || (isset($decode->back) && $decode->back == 0)) {
+                    } else if (isset($decode->home) || (isset($decode->back) && $decode->back == 0) || isset($decode->clear)) {
+
+                        // clear all data
+                        if (isset($decode->clear)) {
+                            $order = ChatOrder::where([
+                                "chat_id" => $chat_id,
+                                "state" => ChatOrder::STATE_DRAF
+                            ])->first();
+                            if (!is_null($order)) {
+                                $order->delete();
+                                $order->deleteDetails();
+                            }
+                        }
 
                         $text = Lang::get("bot.select_category");
                         $categories = Category::where('status', Category::STATUS_ACTIVE)
@@ -594,7 +606,7 @@ class BotController extends Controller
                         }
 
                         try {
-                            if (isset($decode->home)) {
+                            if (isset($decode->home) || isset($decode->clear)) {
                                 // edit message reply markup
                                 Telegram::editMessageReplyMarkup([
                                     'chat_id' => $chat_id,
