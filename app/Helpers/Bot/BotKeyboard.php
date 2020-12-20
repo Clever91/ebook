@@ -157,26 +157,26 @@ class BotKeyboard {
         return $reply_markup;
     }
 
-    public static function delivery($product_id, $number = 1, $back = 5)
+    public static function delivery($back = 3)
     {
         $express24 = Keyboard::button([
             'text' => 'Express24',
-            'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_EXPRESS24.'"}'
+            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_EXPRESS24.'"}'
         ]);
 
         $pochta = Keyboard::button([
             'text' => Lang::get('bot.delivery_mail'),
-            'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_MAIL.'"}'
+            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_MAIL.'"}'
         ]);
 
         $pickup = Keyboard::button([
             'text' => Lang::get('bot.delivery_pickup'),
-            'callback_data' => '{"pro":'.$product_id.',"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
+            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
         ]);
 
         $back = Keyboard::button([
             'text' => '⬅️ '.Lang::get('bot.btn_back'),
-            'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"back":'.$back.'}'
+            'callback_data' => '{"back":'.$back.'}'
         ]);
 
         $reply_markup = Keyboard::make([
