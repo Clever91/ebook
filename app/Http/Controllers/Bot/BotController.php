@@ -88,6 +88,7 @@ class BotController extends Controller
 
         } else if (!is_null($callback)) {
 
+            $callback_id = $callback->getId();
             $data = $callback->getData();
             $message = $callback->getMessage();
             $from = $callback->getFrom();
@@ -160,83 +161,150 @@ class BotController extends Controller
                             }
 
                         }
-                    } else if (isset($decode->add)) {
+                    } else if (isset($decode->add) || isset($decode->remove) || isset($decode->cart)) {
+                        // check already exists
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
 
-                        $product_id = $decode->pro;
-                        $number = intval($decode->num);
-
-                        $product = Product::find($product_id);
-                        if (!is_null($product)) {
-
-                            // check already exists
-                            $order = ChatOrder::where([
-                                "chat_id" => $chat_id,
-                                "state" => ChatOrder::STATE_DRAF
-                            ])->first();
-
-                            if (is_null($order)) {
-                                // create new order
-                                $order = ChatOrder::create([
-                                    "chat_id" => $chat_id,
-                                    "state" => ChatOrder::STATE_DRAF
-                                ]);
-
-                                if (!is_null($order)) {
-                                    // create detail
-                                    $detail = ChatOrderDetail::create([
+                        if (isset($decode->remove)) {
+                            $detail = ChatOrderDetail::find($decode->remove);
+                            if (!is_null($detail)) {
+                                $detail->delete();
+                            }
+                        } else if (isset($decode->pro) && isset($decode->num)){
+                            $product_id = $decode->pro;
+                            $number = intval($decode->num);
+                            $product = Product::find($product_id);
+                            if (!is_null($product)) {
+                                if (is_null($order)) {
+                                    // create new order
+                                    $order = ChatOrder::create([
+                                        "chat_id" => $chat_id,
+                                        "state" => ChatOrder::STATE_DRAF
+                                    ]);
+                                    if (!is_null($order)) {
+                                        // create detail
+                                        $detail = ChatOrderDetail::create([
+                                            "chat_order_id" => $order->id,
+                                            "product_id" => $product->id,
+                                            "price" => $product->price,
+                                            "quantity" => $number,
+                                        ]);
+                                    }
+                                } else {
+                                    $detail = ChatOrderDetail::where([
                                         "chat_order_id" => $order->id,
                                         "product_id" => $product->id,
-                                        "price" => $product->price,
-                                        "quantity" => $number,
-                                    ]);
+                                    ])->first();
+                                    if (is_null($detail)) {
+                                        // create detail
+                                        $detail = ChatOrderDetail::create([
+                                            "chat_order_id" => $order->id,
+                                            "product_id" => $product->id,
+                                            "price" => $product->price,
+                                            "quantity" => $number,
+                                        ]);
+                                    } else {
+                                        $detail->quantity += $number;
+                                        $detail->save();
+                                    }
                                 }
                             } else {
-
-                                // delete old order and create new
-                                $order->delete();
-                                $order->deleteDetails();
-
-                                $order = ChatOrder::create([
-                                    "chat_id" => $chat_id,
-                                    "state" => ChatOrder::STATE_DRAF
-                                ]);
-
-                                // create detail
-                                $detail = ChatOrderDetail::create([
-                                    "chat_order_id" => $order->id,
-                                    "product_id" => $product->id,
-                                    "price" => $product->price,
-                                    "quantity" => $number,
-                                ]);
+                                try {
+                                    Telegram::sendMessage([
+                                        'chat_id' => $chat_id,
+                                        'text' => Lang::get('bot.this_product_is_not_active')
+                                    ]);
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
                             }
+                        }
 
+                        if (is_null($order) || $order->details->count() < 1) {
+                            Telegram::answerCallbackQuery([
+                                "callback_query_id" => $callback_id,
+                                "text" => Lang::get('bot.empty_cart'),
+                                "show_alert" => false
+                            ]);
+
+                            if (isset($decode->cart)) {
+                                $text = Lang::get("bot.select_category");
+                                $categories = Category::where('status', Category::STATUS_ACTIVE)
+                                    ->orderBy('order_no')->get();
+            
+                                try {
+                                    $reply_markup = BotKeyboard::categories($categories);
+                                    // edit message reply markup
+                                    Telegram::sendMessage([
+                                        "chat_id" => $chat_id,
+                                        "text" => $text,
+                                        "parse_mode" => "Markdown",
+                                        "reply_markup" => $reply_markup
+                                    ]);
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            }
+                        } else {
+                            // cart list
                             try {
-                                
-                                $reply_markup = BotKeyboard::delivery($product->id, $number);
-                                
+                                $details = $order->details;
+                                $text = Lang::get("bot.your_cart");
+                                foreach($details as $index => $detail) {
+                                    $amount = $detail->price * $detail->quantity;
+                                    $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                    . GlobalFunc::moneyFormat($detail->price) ."</i> x "
+                                    . $detail->quantity ." = <i>" 
+                                    .GlobalFunc::moneyFormat($amount)."</i>\n";
+                                }
+                                $reply_markup = BotKeyboard::cart($details);
                                 // edit message reply markup
-                                Telegram::editMessageCaption([
-                                    'chat_id' => $chat_id,
-                                    'message_id' => $message_id,
-                                    'inline_message_id' => $message_id,
-                                    'caption' => $caption,
-                                    'parse_mode' => "Markdown",
-                                    'reply_markup' => $reply_markup
+                                Telegram::sendMessage([
+                                    "chat_id" => $chat_id,
+                                    "text" => $text,
+                                    "parse_mode" => "HTML",
+                                    "reply_markup" => $reply_markup
                                 ]);
     
                             } catch (Exception $e) {
                                 TelegramLog::log($e->getMessage());
                             }
-                        } else {
-                            try {
-                                Telegram::sendMessage([
-                                    'chat_id' => $chat_id,
-                                    'text' => Lang::get('bot.this_product_is_not_active')
-                                ]);
-                            } catch (Exception $e) {
-                                TelegramLog::log($e->getMessage());
-                            }
                         }
+
+                        // clear kayboard
+                        try {
+                            // remove message reply markup
+                            Telegram::editMessageReplyMarkup([
+                                'chat_id' => $chat_id,
+                                'message_id' => $message_id,
+                                'inline_message_id' => $message_id,
+                                'parse_mode' => "Markdown",
+                                'reply_markup' => false
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+
+                        // try {
+                            
+                        //     $reply_markup = BotKeyboard::delivery($product->id, $number);
+                            
+                        //     // edit message reply markup
+                        //     Telegram::editMessageCaption([
+                        //         'chat_id' => $chat_id,
+                        //         'message_id' => $message_id,
+                        //         'inline_message_id' => $message_id,
+                        //         'caption' => $caption,
+                        //         'parse_mode' => "Markdown",
+                        //         'reply_markup' => $reply_markup
+                        //     ]);
+
+                        // } catch (Exception $e) {
+                        //     TelegramLog::log($e->getMessage());
+                        // }
                     } else if (isset($decode->back) && $decode->back == 5) {
 
                         $product_id = $decode->pro;

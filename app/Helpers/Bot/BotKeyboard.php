@@ -122,6 +122,41 @@ class BotKeyboard {
         return $reply_markup;
     }
 
+    public static function cart($details, $back = 2)
+    {
+        $keyboard = [];
+        $home = Keyboard::button([
+            'text' => Lang::get('bot.btn_home'),
+            'callback_data' => '{"home":"1"}'
+        ]);
+
+        $clear = Keyboard::button([
+            'text' => Lang::get('bot.clear_cart'),
+            'callback_data' => '{"clear":1}'
+        ]);
+        $keyboard[] = [ $clear, $home ];
+
+        foreach($details as $detail) {
+            $btn = Keyboard::button([
+                'text' => $detail->product->name . " ❌",
+                'callback_data' => '{"remove":'.$detail->id.'}'
+            ]);
+            $keyboard[] = [ $btn ];
+        }
+
+        $makeOrder = Keyboard::button([
+            'text' => Lang::get('bot.make_order'),
+            'callback_data' => '{"order":"1"}'
+        ]);
+        $keyboard[] = [ $makeOrder ];
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
     public static function delivery($product_id, $number = 1, $back = 5)
     {
         $express24 = Keyboard::button([
