@@ -21,7 +21,7 @@ class BotKeyboard {
     public static function product($product_id, $number = 1)
     {
         $add = Keyboard::button([
-            'text' => Lang::get('bot.make_order'),
+            'text' => Lang::get('bot.add_to_cart'),
             'callback_data' => '{"add":"1","pro":'.$product_id.',"num":'.$number.'}'
         ]);
 
@@ -35,6 +35,11 @@ class BotKeyboard {
             'callback_data' => '{"btn":"add","num":'.$number.',"pro":'.$product_id.'}'
         ]);
 
+        $home = Keyboard::button([
+            'text' => Lang::get('bot.btn_home'),
+            'callback_data' => '{"home":"1"}'
+        ]);
+
         $show = Keyboard::button([
             'text' => $number,
             'callback_data' => '{"num":"'.$number.'"}'
@@ -43,14 +48,81 @@ class BotKeyboard {
         $reply_markup = Keyboard::make([
             'inline_keyboard' => [
                 [ $minus, $show, $plus ],
-                [ $add ]
+                [ $add ],
+                [ $home ],
             ],
         ]);
 
         return $reply_markup;
     }
 
-    public static function delivery($product_id, $number = 1)
+    public static function categories($categories)
+    {
+        $keyboard = [];
+        foreach($categories as $category) {
+            if ($category->products->count()) {
+                $btn = Keyboard::button([
+                    'text' => $category->name,
+                    'callback_data' => '{"cat":'.$category->id.'}'
+                ]);
+                $keyboard[] = [ $btn ];
+            }
+        }
+
+        $cart = Keyboard::button([
+            'text' => Lang::get('bot.btn_cart'),
+            'callback_data' => '{"cart":"1"}'
+        ]);
+        $keyboard[] = [ $cart ];
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function products($products, $back = 1)
+    {
+        // $item = [];
+        $keyboard = [];
+        foreach($products as $index => $product) {
+            
+            $btn = Keyboard::button([
+                'text' => $product->name,
+                'callback_data' => '{"pro":'.$product->id.'}'
+            ]);
+            // $item[] = $btn;
+            
+            // if ($index % 2 != 0) {
+            //     $keyboard[] = $item;
+            //     $item = [];
+            // }
+            $keyboard[] = [ $btn ];
+        }
+
+        // back
+        $back = Keyboard::button([
+            'text' => Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":'.$back.'}'
+        ]);
+        $keyboard[] = [ $back ];
+
+        // cart
+        $cart = Keyboard::button([
+            'text' => Lang::get('bot.btn_cart'),
+            'callback_data' => '{"cart":"1"}'
+        ]);
+        $keyboard[] = [ $cart ];
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function delivery($product_id, $number = 1, $back = 5)
     {
         $express24 = Keyboard::button([
             'text' => 'Express24',
@@ -69,7 +141,7 @@ class BotKeyboard {
 
         $back = Keyboard::button([
             'text' => '⬅️ '.Lang::get('bot.btn_back'),
-            'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"back":"1"}'
+            'callback_data' => '{"pro":'.$product_id.',"num":'.$number.',"back":'.$back.'}'
         ]);
 
         $reply_markup = Keyboard::make([
@@ -188,6 +260,7 @@ class BotKeyboard {
 
         return $reply_markup;
     }
+    
 }
 
 ?>

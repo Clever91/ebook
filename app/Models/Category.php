@@ -20,6 +20,11 @@ class Category extends Base implements TranslatableContract
         return $this->belongsTo(Image::class)->where('type', Image::TYPE_CATEGORY);
     }
 
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable')

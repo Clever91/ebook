@@ -12,6 +12,7 @@ use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatOrder;
 use App\Models\Bot\ChatOrderDetail;
 use App\Models\Bot\ChatPost;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -107,20 +108,18 @@ class BotController extends Controller
 
                         $product_id = $decode->pro;
                         $number = intval($decode->num) + 1;
-
                         try {
                             $reply_markup = BotKeyboard::product($product_id, $number);
-                            
                             // edit message reply markup
-                            Telegram::editMessageCaption([
+                            // Telegram::editMessageCaption([
+                            Telegram::editMessageReplyMarkup([
                                 'chat_id' => $chat_id,
                                 'message_id' => $message_id,
                                 'inline_message_id' => $message_id,
-                                'caption' => $caption,
+                                // 'caption' => $caption,
                                 'parse_mode' => "Markdown",
                                 'reply_markup' => $reply_markup
                             ]);
-
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
@@ -136,11 +135,10 @@ class BotController extends Controller
                                 $reply_markup = BotKeyboard::product($product_id, $number);
                                 
                                 // edit message reply markup
-                                Telegram::editMessageCaption([
+                                Telegram::editMessageReplyMarkup([
                                     'chat_id' => $chat_id,
                                     'message_id' => $message_id,
                                     'inline_message_id' => $message_id,
-                                    'caption' => $caption,
                                     'parse_mode' => "Markdown",
                                     'reply_markup' => $reply_markup
                                 ]);
@@ -239,7 +237,7 @@ class BotController extends Controller
                                 TelegramLog::log($e->getMessage());
                             }
                         }
-                    } else if (isset($decode->back) && $decode->back == "1") {
+                    } else if (isset($decode->back) && $decode->back == 5) {
 
                         $product_id = $decode->pro;
                         $number = intval($decode->num);
@@ -504,7 +502,141 @@ class BotController extends Controller
                                 TelegramLog::log($e->getMessage());
                             }
                         }
+                    } else if (isset($decode->home) || (isset($decode->back) && $decode->back == 0)) {
+
+                        $text = Lang::get("bot.select_category");
+                        $categories = Category::where('status', Category::STATUS_ACTIVE)
+                            ->orderBy('order_no')->get();
+    
+                        try {
+                            $reply_markup = BotKeyboard::categories($categories);
+                            
+                            // edit message reply markup
+                            Telegram::sendMessage([
+                                "chat_id" => $chat_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+
+                        try {
+                            if (isset($decode->home)) {
+                                // edit message reply markup
+                                Telegram::editMessageReplyMarkup([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id,
+                                    'inline_message_id' => $message_id,
+                                    // 'caption' => $caption,
+                                    'parse_mode' => "Markdown",
+                                    'reply_markup' => false
+                                ]);
+                            } else if ($decode->back == 0) {
+                                // delete message
+                                Telegram::deleteMessage([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id
+                                ]);
+                            }
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                    } else if (isset($decode->cat)) {
+
+                        $text = Lang::get("bot.select_product");
+                        $products = Product::where([
+                            'status' => Product::STATUS_ACTIVE,
+                            'category_id' => $decode->cat,
+                        ])->get();
+    
+                        try {
+                            $reply_markup = BotKeyboard::products($products, 0);
+                            
+                            // edit message reply markup
+                            Telegram::sendMessage([
+                                "chat_id" => $chat_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+
+                        try {
+                            // delete message
+                            Telegram::deleteMessage([
+                                'chat_id' => $chat_id,
+                                'message_id' => $message_id
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                    } else if (isset($decode->pro)) {
+                        $product = Product::find($decode->pro);
+
+                        if (!is_null($product)) {
+                            $number = 1;
+                            $thumbnail = "/public/images/no_image.jpg";
+                            if (!is_null($product->image)) {
+                                $thumbnail = $product->image->getImageUrl("500x500");
+                                $url = "https://".$request->getHttpHost() . "" . $thumbnail;
+                                $caption = "*Название:* ".$product->name."\n\n";
+                                $caption .= "*Описание: *" . $product->description . "\n\n";
+                                $caption .= "*Цена:* ". GlobalFunc::moneyFormat($product->price);
+        
+                                try {
+                                    $reply_markup = BotKeyboard::product($product->id, $number);
+                                    // send message
+                                    Telegram::sendPhoto([
+                                        'chat_id' => $chat_id,
+                                        'photo' => new InputFile($url),
+                                        'caption' => $caption,
+                                        'parse_mode' => "Markdown",
+                                        'reply_markup' => $reply_markup
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            } else {
+                                $text = "*Название:* ".$product->name."\n\n";
+                                $text .= "*Описание: *" . $product->description . "\n\n";
+                                $text .= "*Цена:* ".GlobalFunc::moneyFormat($product->price);
+        
+                                try {
+                                    $reply_markup = BotKeyboard::product($product->id, $number);
+                                    // send message
+                                    Telegram::sendMessage([
+                                        'chat_id' => $chat_id,
+                                        'text' => $text,
+                                        'parse_mode' => "Markdown",
+                                        'reply_markup' => $reply_markup
+                                    ]);
+        
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            }
+
+                            try {
+                                // delete message
+                                Telegram::deleteMessage([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        } else {
+                            TelegramLog::log("Product is not found: " . $decode->pro);
+                        }
                     }
+
                 } else {
                     try {
                         Telegram::sendMessage([
@@ -1022,6 +1154,25 @@ class BotController extends Controller
                             TelegramLog::log($e->getMessage());
                         }  
 
+                    } else if ($command == "/start") {
+                        $text = Lang::get("bot.select_category");
+                        $categories = Category::where('status', Category::STATUS_ACTIVE)
+                            ->orderBy('order_no')->get();
+    
+                        try {
+                            $reply_markup = BotKeyboard::categories($categories);
+                            
+                            // edit message reply markup
+                            Telegram::sendMessage([
+                                "chat_id" => $chat_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
                     }
 
                     // get location

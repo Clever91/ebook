@@ -13,6 +13,9 @@ class Product extends Base implements TranslatableContract
     const HAS_EBOOK = 1;
     const HAS_NOT_EBOOK = 0;
 
+    const STATUS_ACTIVE = 1;
+    const STATUS_NO_ACTIVE = 0;
+
     public $translatedAttributes = ['name', 'description', 'is_default'];
 
     protected $fillable = [
