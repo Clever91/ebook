@@ -230,7 +230,7 @@ class BotController extends Controller
                                 "show_alert" => false
                             ]);
 
-                            if (isset($decode->cart)) {
+                            if (isset($decode->remove) || isset($decode->cart)) {
                                 $text = Lang::get("bot.select_category");
                                 $categories = Category::where('status', Category::STATUS_ACTIVE)
                                     ->orderBy('order_no')->get();
@@ -251,6 +251,7 @@ class BotController extends Controller
                         } else {
                             // cart list
                             try {
+                                $total = 0;
                                 $details = $order->details;
                                 $text = Lang::get("bot.your_cart");
                                 foreach($details as $index => $detail) {
@@ -259,7 +260,9 @@ class BotController extends Controller
                                     . GlobalFunc::moneyFormat($detail->price) ."</i> x "
                                     . $detail->quantity ." = <i>" 
                                     .GlobalFunc::moneyFormat($amount)."</i>\n";
+                                    $total += $amount;
                                 }
+                                $text .= "\n".Lang::get('bot.total')." ".GlobalFunc::moneyFormat($total);
                                 $reply_markup = BotKeyboard::cart($details);
                                 // edit message reply markup
                                 Telegram::sendMessage([
@@ -274,7 +277,6 @@ class BotController extends Controller
                             }
                         }
 
-                        // clear kayboard
                         try {
                             // remove message reply markup
                             Telegram::editMessageReplyMarkup([
