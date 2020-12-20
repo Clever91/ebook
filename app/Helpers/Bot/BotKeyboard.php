@@ -249,23 +249,23 @@ class BotKeyboard {
         $click_url = ClickHelper::followingLink($amount, $order_id);
         $payme_url = ClickHelper::followingLink($amount, $order_id);
 
-        $payme_app = Keyboard::button([
-            'text' => 'Payme (с приложением)',
+        $payme = Keyboard::button([
+            'text' => 'Payme',
             'url' => $payme_url
         ]);
 
-        $payme_telegram = Keyboard::button([
-            'text' => 'Payme (с телеграммой)',
-            'callback_data' => '{"pay":true,"type":"payme"}'
-        ]);
+        // $payme_telegram = Keyboard::button([
+        //     'text' => 'Payme (с телеграммой)',
+        //     'callback_data' => '{"pay":true,"type":"payme"}'
+        // ]);
 
-        $click_app = Keyboard::button([
-            'text' => 'Click (с приложением)',
+        $click = Keyboard::button([
+            'text' => 'Click',
             'url' => $click_url
         ]);
 
         $click_telegram = Keyboard::button([
-            'text' => 'Click (с телеграммой)',
+            'text' => 'Telegram',
             'callback_data' => '{"pay":true,"type":"click"}'
         ]);
 
@@ -276,9 +276,8 @@ class BotKeyboard {
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => [
-                [ $payme_app ],
-                [ $payme_telegram ],
-                [ $click_app ],
+                [ $payme ],
+                [ $click ],
                 [ $click_telegram ],
                 [ $cash ],
             ],

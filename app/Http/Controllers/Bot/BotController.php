@@ -485,24 +485,22 @@ class BotController extends Controller
 
                                     if (!empty($details)) {
 
-                                        $title = "";
-                                        $desc = "";
+                                        $title = "BookMarket24.uz";
+                                        $desc = "Мы всегда стараемся быть лучшими";
                                         $image_url = "";
                                         $total = 0;
                                         $prices = [];
                                         $delivery = $delivery * 100;
 
                                         foreach($details as $detail) {
-                                            $title = $detail->product->translateOrNew(App::getLocale())->name;
-                                            $desc = $detail->product->translateOrNew(App::getLocale())->description;
-                                            $thumbnail = $detail->product->image->getImageUrl("500x500");
-                                            $image_url = "https://".$request->getHttpHost() . "" . $thumbnail;
-
+                                            if (!is_null($detail->product->image)) {
+                                                $thumbnail = $detail->product->image->getImageUrl("500x500");
+                                                $image_url = "https://".$request->getHttpHost() . "" . $thumbnail;
+                                            }
                                             $prices[] = [
                                                 'label' => $title,
                                                 'amount' => (float) ($detail->price * $detail->quantity) * 100
                                             ];
-
                                             $total += $detail->price * $detail->quantity;
                                         }
                                         $prices[] = [
@@ -524,13 +522,11 @@ class BotController extends Controller
                                         $invoice['prices'] = $prices;
                                         $invoice['provider_data'] = json_encode($prices);
                                         $invoice['start_parameter'] = "bookmarket24_payment";
-                                        $invoice['need_name'] = true;
-                                        $invoice['need_phone_number'] = true;
+                                        // $invoice['need_name'] = true;
+                                        // $invoice['need_phone_number'] = true;
 
                                         try {
                                             $response = Telegram::sendInvoice($invoice);            
-                                            // TelegramLog::log($response);
-
                                             $order->amount = $total;
                                             $order->save();
                                         } catch (Exception $e) {
@@ -539,12 +535,9 @@ class BotController extends Controller
                                     } else {
                                         TelegramLog::log("Chat Order Detail is not found: " . $chat_id);
                                     }
-                                    
                                 } else {
                                     TelegramLog::log("Chat Order is not found: " . $chat_id);
                                 }
-    
-    
                             } catch (Exception $e) {
                                 TelegramLog::log($e->getMessage());
                             }
