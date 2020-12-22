@@ -18,21 +18,35 @@ class TelegramController extends BaseController
     public function index(Request $request, $id)
     {
         $model = Product::findOrFail($id);
+        $groups = ChatGroup::all();
 
         if (!$model->hasImage())
             return back();
 
-        return view('admin.telegram.index', compact('model'));
+        return view('admin.telegram.index')->with([
+            'model' => $model,
+            'groups' => $groups,
+        ]);
     }
 
     public function send(Request $request, $id)
     {
+        // dd($request->all());
         $page = 0;
         if ($request->has('page'))
             $page = $request->input('page');
 
-        $limit = 5;
+        $limit = 4;
         $offset = $page * $limit;
+
+        $ids = [];
+        $group_ids = null;
+        if ($request->has('group_ids')) {
+            $ids = $request->input('group_ids');
+            if (!is_array($ids))
+                $ids = explode(",", $ids);
+            $group_ids = implode(",", $ids);
+        }
         
         // make ready params
         $product = Product::findOrFail($id);
@@ -57,9 +71,10 @@ class TelegramController extends BaseController
 
         $result = [];
         $models = ChatGroup::offset($offset)->take($limit)->get();
+        if (!is_null($group_ids))
+            $models = ChatGroup::whereIn('id', $ids)->offset($offset)->take($limit)->get();
         foreach($models as $model) {
             try {
-
                 $btn = Keyboard::button([
                     'text' => 'Сделать заказ',
                     'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")."?start=product-" . $product->id,
@@ -99,7 +114,9 @@ class TelegramController extends BaseController
         return view('admin.telegram.send')->with([
             'page' => $page,
             'result' => $result,
-            'product' => $product
+            'product' => $product,
+            'group_ids' => $group_ids,
+            'caption' => $caption,
         ]);
     }
 }

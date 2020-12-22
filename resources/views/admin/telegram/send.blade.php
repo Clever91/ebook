@@ -53,6 +53,10 @@
                                 @method("POST")
                                 @csrf
                                 <input type="hidden" name="page" value="{{ $page + 1 }}">
+                                @if (!is_null($group_ids))
+                                <input type="hidden" name="group_ids" value="{{ $group_ids }}">
+                                @endif
+                                <input type="hidden" name="caption" value="{{ $caption }}">
                             </form>
                             @endif
                         </div>

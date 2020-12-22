@@ -71,7 +71,7 @@
                         <label for="description">Описания</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" 
                             id="description" name="description" placeholder="Введите название"
-                            rows="4" cols="6" required>{{ old("description") }}</textarea>
+                            rows="4" cols="6" maxlength="1020" required>{{ old("description") }}</textarea>
                         @error('description')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
