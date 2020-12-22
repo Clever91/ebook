@@ -28,10 +28,11 @@ Route::get('/denied', function() {
 // ~~~~~~~~~~~~~~~~~~~ Payment Callback ~~~~~~~~~~~~~~~~~~~
 
 Route::group(['prefix' => 'pay'], function () {
-
+    // click
     Route::match(['get', 'post'], '/click/prepare', 'Bot\ClickController@prepare')->name('click.prepare');
     Route::match(['get', 'post'], '/click/complete', 'Bot\ClickController@complete')->name('click.complete');
-    Route::get('/click/success', 'Bot\ClickController@success')->name('click.success');
+    // payme
+    Route::post('/payme/complete', 'Bot\PaymeController@complete')->name('payme.complete');
 
 });
 

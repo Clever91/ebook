@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Bot;
 
 use App\Helpers\Common\ClickHelper;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Redirect;
 
 class ClickController extends Controller
 {
@@ -14,10 +13,6 @@ class ClickController extends Controller
             return ClickHelper::run();
         }
 
-        // success payed
-        if (request()->isMethod('get'))
-            return redirect()->route('click.success');
-
         return redirect('login');
     }
 
@@ -26,17 +21,8 @@ class ClickController extends Controller
         if (request()->isMethod('post')) {
             return ClickHelper::run();
         }
-        
-        // success payed
-        if (request()->isMethod('get'))
-            return redirect()->route('click.success');
 
         return redirect('login');
     }
 
-    public function success()
-    {
-        $url = "https://t.me/" . env('TELEGRAM_BOT_USERNAME');
-        return view('click.success')->with('url', $url);
-    }
 }

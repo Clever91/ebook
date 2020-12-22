@@ -18,7 +18,7 @@ class ClickHelper
     const SECRET_KEY = 'lnNJ1ytZgTc';
     const MERCHANT_USER_ID = 18345;
     const PREPARE_URL = "https://bookmedianashr.uz/pay/payme/prepare";
-    const RETURN_URL = "https://bookmedianashr.uz/pay/payme/complete";
+    // const RETURN_URL = "https://bookmedianashr.uz/pay/payme/complete";
     const API_ENDPOINT = "https://api.click.uz/v2/merchant/";
 
     public static function followingLink($amount, $order_id)
@@ -26,9 +26,7 @@ class ClickHelper
         return "https://my.click.uz/services/pay?service_id=".
             self::SERVICE_ID."&merchant_id=".
             self::MERCHANT_ID."&amount=".
-            $amount."&transaction_param=".
-            $order_id."&return_url=".
-            self::RETURN_URL;
+            $amount."&transaction_param=".$order_id;
     }
 
     public static function checkSign($data, $merchant_prepare_id = null)
