@@ -3,6 +3,7 @@
 namespace App\Helpers\Bot;
 
 use App\Helpers\Common\ClickHelper;
+use App\Helpers\Common\PaymeHelper;
 use App\Models\Bot\ChatOrder;
 use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -247,7 +248,7 @@ class BotKeyboard {
     public static function totalCheck($amount, $order_id)
     {
         $click_url = ClickHelper::followingLink($amount, $order_id);
-        $payme_url = ClickHelper::followingLink($amount, $order_id);
+        $payme_url = PaymeHelper::followingLink($amount, $order_id);
 
         $payme = Keyboard::button([
             'text' => 'Payme',

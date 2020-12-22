@@ -2,13 +2,11 @@
 
 namespace App\Helpers\Common;
 
-use Illuminate\Support\Facades\Http;
 use App\Helpers\Log\TelegramLog;
 use App\Models\Bot\ChatOrder;
 use App\Models\Helpers\ClickTransaction;
 use Exception;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ClickHelper
@@ -17,8 +15,8 @@ class ClickHelper
     const MERCHANT_ID = 12320;
     const SECRET_KEY = 'lnNJ1ytZgTc';
     const MERCHANT_USER_ID = 18345;
-    const PREPARE_URL = "https://bookmedianashr.uz/pay/payme/prepare";
-    // const RETURN_URL = "https://bookmedianashr.uz/pay/payme/complete";
+    // const PREPARE_URL = "https://bookmedianashr.uz/pay/click/prepare";
+    // const RETURN_URL = "https://bookmedianashr.uz/pay/click/complete";
     const API_ENDPOINT = "https://api.click.uz/v2/merchant/";
 
     public static function followingLink($amount, $order_id)
