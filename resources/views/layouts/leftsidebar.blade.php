@@ -165,6 +165,11 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item has-treeview">
+                    <a href="{{ route('admin.settings') }}" class="nav-link">
+                        <i class="nav-icon fas fa-tools"></i> Настройка
+                    </a>
+                </li>
                 @endif
             </ul>
         </nav>

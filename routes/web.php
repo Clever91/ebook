@@ -97,6 +97,10 @@ Localization::localizedRoutesGroup(function() {
 
         Route::get('/telegram/{product}/index', 'Admin\TelegramController@index')->name('admin.telegram.index');
         Route::post('/telegram/{product}/send', 'Admin\TelegramController@send')->name('admin.telegram.send');
+
+        // setting
+        Route::get('/settings', 'Admin\SettingController@index')->name('admin.settings');
+        Route::post('/settings', 'Admin\SettingController@store')->name('admin.settings.store');
     });
     
 });
