@@ -10,7 +10,7 @@ class ChatGroupController extends Controller
 {
     public function index()
     {
-        $models = ChatGroup::paginate(10);
+        $models = ChatGroup::orderByDesc('id')->paginate(10);
         return view('admin.chatGroup.index', compact('models'));
     }
 }
