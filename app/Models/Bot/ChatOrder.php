@@ -53,6 +53,8 @@ class ChatOrder extends Model
 
     public function deliveryLabel()
     {
+        if (empty($this->delivery_type))
+            return "Нет";
         return $this->deliveryTypes()[$this->delivery_type];
     }
 
@@ -67,6 +69,8 @@ class ChatOrder extends Model
 
     public function paymentLabel()
     {
+        if (empty($this->payment_type))
+            return "Нет";
         return $this->paymentTypes()[$this->payment_type];
     }
 
