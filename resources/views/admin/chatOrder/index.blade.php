@@ -35,10 +35,10 @@
                                         <th>Телефон</th>
                                         <th>Сумма </th>
                                         <th>Доставка</th>
+                                        <th>Состояние</th>
                                         <th>Тип доставки</th>
                                         <th>Способ оплаты</th>
-                                        <th>Состояние</th>
-                                        <th>Оплаченный заказ</th>
+                                        <th>Оплачен</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,10 +49,10 @@
                                         <td>{{ $model->phone }}</td>
                                         <td>@money_format($model->amount)</td>
                                         <td>@money_format($model->delivery_price)</td>
+                                        <td>{!! $model->stateHtml() !!}</td>
                                         <td>{{ $model->deliveryLabel() }}</td>
                                         <td>{{ $model->paymentLabel() }}</td>
-                                        <td>{{ $model->stateLabel() }}</td>
-                                        <td>{{ $model->isPaidLabel() }}</td>
+                                        <td>{!! $model->isPaidHtml() !!}</td>
                                     </tr>
                                     @endforeach
                                 </tbody>

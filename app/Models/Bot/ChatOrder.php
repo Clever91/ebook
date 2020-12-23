@@ -83,9 +83,18 @@ class ChatOrder extends Model
         ];
     }
 
-    public function stateLabel()
+    public function stateHtml()
     {
-        return $this->states()[$this->state];
+        $label = $this->states()[$this->state];
+        switch($this->state) {
+            case self::STATE_NEW:
+                return '<span class="badge bg-primary">'.$label.'</span>';
+            case self::STATE_DRAF:
+                return '<span class="badge bg-danger">'.$label.'</span>';
+            case self::STATE_COMPLATE:
+                return '<span class="badge bg-success">'.$label.'</span>';
+        }
+        return "Нет";
     }
 
     public function states()
@@ -97,9 +106,11 @@ class ChatOrder extends Model
         ];
     }
 
-    public function isPaidLabel()
+    public function isPaidHtml()
     {
-        return $this->paid == self::PAID_SUCCESS ? "Да" : "Нет";
+        if ($this->paid == self::PAID_SUCCESS)
+            return '<span class="badge bg-success">Да</span>';
+        return '<span class="badge bg-danger">Нет</span>';
     }
 
     public function isPaid()
