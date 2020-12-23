@@ -79,6 +79,25 @@ class ChatOrder extends Model
         ];
     }
 
+    public function stateLabel()
+    {
+        return $this->states()[$this->state];
+    }
+
+    public function states()
+    {
+        return [
+            self::STATE_DRAF => "Черновой",
+            self::STATE_NEW => "Новый",
+            self::STATE_COMPLATE => "Завершено",
+        ];
+    }
+
+    public function isPaidLabel()
+    {
+        return $this->paid == self::PAID_SUCCESS ? "Да" : "Нет";
+    }
+
     public function isPaid()
     {
         return $this->paid == self::PAID_SUCCESS;

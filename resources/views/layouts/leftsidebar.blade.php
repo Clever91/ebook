@@ -139,6 +139,12 @@
                                 <p>Заказы книги</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.chat.order.index') }}" class="nav-link">
+                                <i class="nav-icon fab fa-telegram-plane"></i>
+                                <p>Чат заказов</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 @if (auth()->user()->isAdmin())

@@ -104,6 +104,7 @@ Localization::localizedRoutesGroup(function() {
 
         // telegram group
         Route::get('/chat/groups', 'Admin\ChatGroupController@index')->name('admin.chat.groups');
+        Route::get('/chat/order/index', 'Admin\ChatOrderController@index')->name('admin.chat.order.index');
     });
     
 });
