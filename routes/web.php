@@ -101,6 +101,9 @@ Localization::localizedRoutesGroup(function() {
         // setting
         Route::get('/settings', 'Admin\SettingController@index')->name('admin.settings');
         Route::post('/settings', 'Admin\SettingController@store')->name('admin.settings.store');
+
+        // telegram group
+        Route::get('/chat/groups', 'Admin\ChatGroupController@index')->name('admin.chat.groups');
     });
     
 });

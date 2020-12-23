@@ -166,6 +166,11 @@
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
+                    <a href="{{ route('admin.chat.groups') }}" class="nav-link">
+                        <i class="nav-icon fab fa-telegram"></i> Чат-группы
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
                     <a href="{{ route('admin.settings') }}" class="nav-link">
                         <i class="nav-icon fas fa-tools"></i> Настройка
                     </a>
