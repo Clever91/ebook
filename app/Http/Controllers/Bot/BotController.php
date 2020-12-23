@@ -8,6 +8,7 @@ use App\Helpers\Common\GlobalFunc;
 use App\Helpers\Common\Sms;
 use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Setting;
 use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatOrder;
 use App\Models\Bot\ChatOrderDetail;
@@ -73,8 +74,8 @@ class BotController extends Controller
             $total = $preCheckQuery->getTotalAmount();
             $payload = $preCheckQuery->getInvoicePayload();
             $info = $preCheckQuery->getOrderInfo();
-            $name = $info->getName();
-            $phone = $info->getPhoneNumber();
+            // $name = $info->getName();
+            // $phone = $info->getPhoneNumber();
 
             try {
                 Telegram::answerPreCheckoutQuery([
@@ -338,7 +339,7 @@ class BotController extends Controller
                                     TelegramLog::log($e->getMessage());
                                 }
                             } else {
-                                $text = Lang::get("bot.send_location");                                
+                                $text = Lang::get("bot.send_location");                              
                                 try {
                                     $reply_markup = BotKeyboard::location();
                                     // edit message reply markup
@@ -399,8 +400,6 @@ class BotController extends Controller
                                     $order->save();
 
                                     try {
-                                        // $reply_markup = BotKeyboard::hideKeyboard();
-                                        
                                         // edit message reply markup
                                         Telegram::editMessageReplyMarkup([
                                             'chat_id' => $chat_id,
@@ -408,14 +407,34 @@ class BotController extends Controller
                                             'inline_message_id' => $order->message_id,
                                             'reply_markup' => false
                                         ]);
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }
 
-                                        Telegram::sendMessage([
-                                            'chat_id' => $chat_id,
-                                            'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
-                                            'parse_mode' => "Markdown",
+                                    try {
+                                        $text = Lang::get('bot.thank_you_your_order_accepted') ." <b>". $order->id ."</b>";
+                                        if ($order->isPickUp())
+                                            $text .= "\n\n" .Lang::get("bot.our_geolocation");
+                                            
+                                        $response = Telegram::sendMessage([
+                                            'chat_id' => $order->chat_id,
+                                            'text' => $text,
+                                            'parse_mode' => "HTML",
                                             'reply_to_message_id' => $order->message_id
                                         ]);
-            
+                                        
+                                        if ($order->isPickUp()) {
+                                            $lat = Setting::get('shop_lat');
+                                            $lng = Setting::get('shop_lng');
+                                            // send location
+                                            Telegram::sendLocation([
+                                                "chat_id" => $order->chat_id,
+                                                "latitude" => $lat,
+                                                "longitude" => $lng,
+                                                "horizontal_accuracy" => 50,
+                                                "reply_to_message_id" => $response->getMessageId()
+                                            ]);
+                                        }
                                     } catch (Exception $e) {
                                         TelegramLog::log($e->getMessage());
                                     }
@@ -865,8 +884,6 @@ class BotController extends Controller
                             if ($order->save()) {
 
                                 try {
-                                    // $reply_markup = BotKeyboard::hideKeyboard();
-                                    
                                     // edit message reply markup
                                     Telegram::editMessageReplyMarkup([
                                         'chat_id' => $chat_id,
@@ -874,14 +891,34 @@ class BotController extends Controller
                                         'inline_message_id' => $order->message_id,
                                         'reply_markup' => false
                                     ]);
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
 
-                                    Telegram::sendMessage([
-                                        'chat_id' => $chat_id,
-                                        'text' => Lang::get('bot.thank_you_your_order_accepted') ."*". $order->id ."*",
-                                        'parse_mode' => "Markdown",
+                                try {
+                                    $text = Lang::get('bot.thank_you_your_order_accepted') ." <b>". $order->id ."</b>";
+                                    if ($order->isPickUp())
+                                        $text .= "\n\n" .Lang::get("bot.our_geolocation");
+                                        
+                                    $response = Telegram::sendMessage([
+                                        'chat_id' => $order->chat_id,
+                                        'text' => $text,
+                                        'parse_mode' => "HTML",
                                         'reply_to_message_id' => $order->message_id
                                     ]);
-        
+                                    
+                                    if ($order->isPickUp()) {
+                                        $lat = Setting::get('shop_lat');
+                                        $lng = Setting::get('shop_lng');
+                                        // send location
+                                        Telegram::sendLocation([
+                                            "chat_id" => $order->chat_id,
+                                            "latitude" => $lat,
+                                            "longitude" => $lng,
+                                            "horizontal_accuracy" => 50,
+                                            "reply_to_message_id" => $response->getMessageId()
+                                        ]);
+                                    }
                                 } catch (Exception $e) {
                                     TelegramLog::log($e->getMessage());
                                 }
