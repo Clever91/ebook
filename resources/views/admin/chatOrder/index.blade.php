@@ -46,6 +46,7 @@
                                     <tr>
                                         <td>{{ $model->id }}</td>
                                         <td>{{ $model->chat_id }}</td>
+                                        <td>{{ $model->phone }}</td>
                                         <td>@money_format($model->amount)</td>
                                         <td>@money_format($model->delivery_price)</td>
                                         <td>{{ $model->deliveryLabel() }}</td>
