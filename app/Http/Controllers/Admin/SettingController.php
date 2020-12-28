@@ -20,15 +20,22 @@ class SettingController extends Controller
         $data = $this->validate($request, $rules);
 
         $validSettings = array_keys($rules);
-
-        foreach ($data as $key => $val) {
-            if (in_array($key, $validSettings)) {
-                Setting::add($key, $val, Setting::getDataType($key));
-                Session::flash('status', 'Параметры настройки успешно сохранены');
-                Session::flash('alert-class', 'alert-success');
+        // dd($data, $validSettings);
+        foreach ($validSettings as $key) {
+            if (in_array($key, array_keys($data))) {
+                Setting::add($key, $data[$key], Setting::getDataType($key));
+            } else if (in_array($key, $this->getPayments())) {
+                Setting::add($key, "off", Setting::getDataType($key));
             }
         }
 
-        return redirect()->back()->with('status', 'Настройки сохранены.');
+        Session::flash('status', 'Параметры настройки успешно сохранены');
+        Session::flash('alert-class', 'alert-success');
+        return redirect()->route('admin.settings');
+    }
+
+    private function getPayments()
+    {
+        return ['payme', 'click', 'telegram'];
     }
 }

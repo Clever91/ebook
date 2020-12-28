@@ -43,7 +43,7 @@ return [
         'elements' => [
             [
                 'type' => 'text',
-                'data' => 'string',
+                'data' => 'float',
                 'name' => 'shop_lat',
                 'label' => 'Широта магазина',
                 'rules' => 'required',
@@ -52,7 +52,7 @@ return [
             ],
             [
                 'type' => 'text',
-                'data' => 'string',
+                'data' => 'float',
                 'name' => 'shop_lng',
                 'label' => 'Долгота магазина',
                 'rules' => 'required',
@@ -75,6 +75,41 @@ return [
                 'rules' => 'required',
                 'class' => '',
                 'value' => 10000
+            ],
+        ]
+    ],
+    'payment' => [
+        'title' => 'Онлайн платеж',
+        'desc' => 'Настройка параметров оплаты',
+        'icon' => 'fas fa-credit-card',
+
+        'elements' => [
+            [
+                'type' => 'checkbox',
+                'data' => 'string',
+                'name' => 'payme',
+                'label' => 'Payme',
+                'rules' => '',
+                'class' => '',
+                'value' => "on"
+            ],
+            [
+                'type' => 'checkbox',
+                'data' => 'string',
+                'name' => 'click',
+                'label' => 'Click Evolution',
+                'rules' => '',
+                'class' => '',
+                'value' => "on"
+            ],
+            [
+                'type' => 'checkbox',
+                'data' => 'string',
+                'name' => 'telegram',
+                'label' => 'Telegram',
+                'rules' => '',
+                'class' => '',
+                'value' => "on"
             ],
         ]
     ],
