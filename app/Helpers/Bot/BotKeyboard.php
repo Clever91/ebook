@@ -4,6 +4,7 @@ namespace App\Helpers\Bot;
 
 use App\Helpers\Common\ClickHelper;
 use App\Helpers\Common\PaymeHelper;
+use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
 use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -249,44 +250,50 @@ class BotKeyboard {
         $click_url = ClickHelper::followingLink($amount, $order_id);
         $payme_url = PaymeHelper::followingLink($amount, $order_id);
 
-        $payme = Keyboard::button([
-            'text' => 'Payme',
-            'url' => $payme_url
-        ]);
+        $keyboard = [];
+        if (Setting::get("payme") == "on") {
+            $payme = Keyboard::button([
+                'text' => 'Payme',
+                'url' => $payme_url
+            ]);
+            array_push($keyboard, [ $payme ]);
+        }
 
         // $payme_telegram = Keyboard::button([
         //     'text' => 'Payme (с телеграммой)',
         //     'callback_data' => '{"pay":true,"type":"payme"}'
         // ]);
 
-        $click = Keyboard::button([
-            'text' => 'Click',
-            'url' => $click_url
-        ]);
+        if (Setting::get("click") == "on") {
+            $click = Keyboard::button([
+                'text' => 'Click',
+                'url' => $click_url
+            ]);
+            array_push($keyboard, [ $click ]);
+        }
 
-        $click_telegram = Keyboard::button([
-            'text' => 'Telegram',
-            'callback_data' => '{"pay":true,"type":"click"}'
-        ]);
+        if (Setting::get("telegram") == "on") {
+            $click_telegram = Keyboard::button([
+                'text' => 'Telegram',
+                'callback_data' => '{"pay":true,"type":"click"}'
+            ]);
+            array_push($keyboard, [ $click_telegram ]);
+        }
 
         $cash = Keyboard::button([
             'text' => Lang::get('bot.payment_cash'),
             'callback_data' => '{"pay":true,"type":"cash"}'
         ]);
+        array_push($keyboard, [ $cash ]);
 
         $backBtn = Keyboard::button([
             'text' => '⬅️ '.Lang::get('bot.btn_back'),
             'callback_data' => '{"back":'.$back.'}'
         ]);
+        array_push($keyboard, [ $backBtn ]);
 
         $reply_markup = Keyboard::make([
-            'inline_keyboard' => [
-                [ $payme ],
-                [ $click ],
-                [ $click_telegram ],
-                [ $cash ],
-                [ $backBtn ],
-            ],
+            'inline_keyboard' => $keyboard,
         ]);
 
         return $reply_markup;
