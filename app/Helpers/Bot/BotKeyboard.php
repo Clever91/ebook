@@ -88,13 +88,13 @@ class BotKeyboard {
         // $item = [];
         $keyboard = [];
         foreach($products as $index => $product) {
-            
+
             $btn = Keyboard::button([
                 'text' => $product->name,
                 'callback_data' => '{"pro":'.$product->id.'}'
             ]);
             // $item[] = $btn;
-            
+
             // if ($index % 2 != 0) {
             //     $keyboard[] = $item;
             //     $item = [];
@@ -126,16 +126,15 @@ class BotKeyboard {
     public static function cart($details, $back = 2)
     {
         $keyboard = [];
-        $home = Keyboard::button([
-            'text' => Lang::get('bot.btn_home'),
-            'callback_data' => '{"home":"1"}'
+        $makeOrder = Keyboard::button([
+            'text' => Lang::get('bot.make_order'),
+            'callback_data' => '{"order":"1"}'
         ]);
-
         $clear = Keyboard::button([
             'text' => Lang::get('bot.clear_cart'),
             'callback_data' => '{"clear":1}'
         ]);
-        $keyboard[] = [ $clear, $home ];
+        $keyboard[] = [ $clear, $makeOrder ];
 
         foreach($details as $detail) {
             $btn = Keyboard::button([
@@ -145,11 +144,11 @@ class BotKeyboard {
             $keyboard[] = [ $btn ];
         }
 
-        $makeOrder = Keyboard::button([
-            'text' => Lang::get('bot.make_order'),
-            'callback_data' => '{"order":"1"}'
+        $home = Keyboard::button([
+            'text' => Lang::get('bot.btn_home'),
+            'callback_data' => '{"home":"1"}'
         ]);
-        $keyboard[] = [ $makeOrder ];
+        $keyboard[] = [ $home ];
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
@@ -245,7 +244,7 @@ class BotKeyboard {
         return $reply_markup;
     }
 
-    public static function totalCheck($amount, $order_id)
+    public static function totalCheck($amount, $order_id, $back = 7)
     {
         $click_url = ClickHelper::followingLink($amount, $order_id);
         $payme_url = PaymeHelper::followingLink($amount, $order_id);
@@ -275,12 +274,18 @@ class BotKeyboard {
             'callback_data' => '{"pay":true,"type":"cash"}'
         ]);
 
+        $backBtn = Keyboard::button([
+            'text' => '⬅️ '.Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":'.$back.'}'
+        ]);
+
         $reply_markup = Keyboard::make([
             'inline_keyboard' => [
                 [ $payme ],
                 [ $click ],
                 [ $click_telegram ],
                 [ $cash ],
+                [ $backBtn ],
             ],
         ]);
 
@@ -295,7 +300,7 @@ class BotKeyboard {
 
         return $reply_markup;
     }
-    
+
 }
 
 ?>

@@ -353,14 +353,19 @@ class BotController extends Controller
                                     TelegramLog::log($e->getMessage());
                                 }
                             }
+
                             // edit message reply markup
-                            Telegram::editMessageReplyMarkup([
-                                'chat_id' => $chat_id,
-                                'message_id' => $message_id,
-                                'inline_message_id' => $message_id,
-                                'parse_mode' => "HTML",
-                                'reply_markup' => false
-                            ]);
+                            try {
+                                Telegram::editMessageReplyMarkup([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id,
+                                    'inline_message_id' => $message_id,
+                                    'parse_mode' => "HTML",
+                                    'reply_markup' => false
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
                         } else {
                             TelegramLog::log("Order is not found: chat_id = " . $chat_id);
                         }
@@ -716,6 +721,32 @@ class BotController extends Controller
                                 'inline_message_id' => $message_id,
                                 'parse_mode' => "Markdown",
                                 'reply_markup' => $reply_markup
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                    } else if (isset($decode->back) && $decode->back == 7) {
+                        $text = Lang::get("bot.send_phone");
+                        try {
+                            $reply_markup = BotKeyboard::contact();
+                            // edit message reply markup
+                            Telegram::sendMessage([
+                                "chat_id" => $chat_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                        // edit message reply markup
+                        try {
+                            Telegram::editMessageReplyMarkup([
+                                'chat_id' => $chat_id,
+                                'message_id' => $message_id,
+                                'inline_message_id' => $message_id,
+                                'reply_markup' => false
                             ]);
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
@@ -1292,10 +1323,8 @@ class BotController extends Controller
                             $order->save();
 
                             $text = Lang::get("bot.send_phone");
-
                             try {
                                 $reply_markup = BotKeyboard::contact();
-
                                 // edit message reply markup
                                 Telegram::sendMessage([
                                     "chat_id" => $chat_id,
