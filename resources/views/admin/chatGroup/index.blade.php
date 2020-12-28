@@ -47,6 +47,7 @@
                                         <td>{{ $model->type }}</td>
                                         <td>{{ $model->from_id }}</td>
                                         <td>
+                                            @if ($model->isChannel())
                                             <form action="{{ route('admin.chat.groups.destroy', $model->id) }}" method="POST">
                                                 @method("DELETE")
                                                 @csrf
@@ -54,6 +55,7 @@
                                                     <i class="fas fa-trash"></i> Удалить
                                                 </button>
                                             </form>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
