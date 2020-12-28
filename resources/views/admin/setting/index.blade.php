@@ -21,9 +21,9 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
+                        @if (Session::has('status'))
+                            <div class="alert {{ Session::get('alert-class', 'alert-info') }}">
+                                {{ Session::has('status') }}
                             </div>
                         @endif
 
@@ -36,7 +36,7 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">
-                                                <i class="{{ Arr::get($fields, 'icon', 'fas fa-question') }}"></i> {{ $fields['title'] }} 
+                                                <i class="{{ Arr::get($fields, 'icon', 'fas fa-question') }}"></i> {{ $fields['title'] }}
                                             </h3>
                                         </div>
                                         <!-- /.card-header -->

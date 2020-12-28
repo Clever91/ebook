@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Setting;
+use Illuminate\Support\Facades\Session;
 
 class SettingController extends Controller
 {
@@ -23,6 +24,8 @@ class SettingController extends Controller
         foreach ($data as $key => $val) {
             if (in_array($key, $validSettings)) {
                 Setting::add($key, $val, Setting::getDataType($key));
+                Session::flash('status', 'Параметры настройки успешно сохранены');
+                Session::flash('alert-class', 'alert-success');
             }
         }
 

@@ -61,5 +61,22 @@ return [
             ],
         ]
     ],
+    'delivery' => [
+        'title' => 'Доставка',
+        'desc' => 'Настройка доставки с сайта',
+        'icon' => 'fas fa-truck',
+
+        'elements' => [
+            [
+                'type' => 'number',
+                'data' => 'float',
+                'name' => 'delivery_price',
+                'label' => 'Стоимость доставки',
+                'rules' => 'required',
+                'class' => '',
+                'value' => 10000
+            ],
+        ]
+    ],
 ]
 ?>
