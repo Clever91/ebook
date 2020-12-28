@@ -13,4 +13,12 @@ class ChatGroupController extends Controller
         $models = ChatGroup::orderByDesc('id')->paginate(10);
         return view('admin.chatGroup.index', compact('models'));
     }
+
+    public function destroy($id)
+    {
+        $model = ChatGroup::findOrFail($id);
+        $model->delete();
+
+        return redirect()->route('admin.chat.groups');
+    }
 }

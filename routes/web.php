@@ -43,14 +43,14 @@ Localization::localizedRoutesGroup(function() {
     Route::get('/error/404', function() {
         if (Auth::check())
             return view('error._404');
-        
+
         return view('auth._404');
     })->name('error404');
 
     Route::get('/error/500', function() {
         if (Auth::check())
             return view('error._500');
-        
+
         return view('auth._500');
     })->name('error500');
 
@@ -104,9 +104,10 @@ Localization::localizedRoutesGroup(function() {
 
         // telegram group
         Route::get('/chat/groups', 'Admin\ChatGroupController@index')->name('admin.chat.groups');
+        Route::delete('/chat/groups/{id}/destroy', 'Admin\ChatGroupController@destroy')->name('admin.chat.groups.destroy');
         Route::get('/chat/order/index', 'Admin\ChatOrderController@index')->name('admin.chat.order.index');
     });
-    
+
 });
 
 
@@ -121,7 +122,7 @@ Route::group(['prefix' => "firebase"], function() {
 
     Route::get('/', 'Auth\FirebaseController@index');
     Route::get('/check', 'Auth\FirebaseController@check');
-    Route::get('/create', 'Auth\FirebaseController@create');  
-    Route::get('/success', 'Auth\FirebaseController@success');  
+    Route::get('/create', 'Auth\FirebaseController@create');
+    Route::get('/success', 'Auth\FirebaseController@success');
 
 });

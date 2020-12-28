@@ -35,6 +35,7 @@
                                         <th>Наименование</th>
                                         <th>Тип</th>
                                         <th>Кто добавил</th>
+                                        <th>Действия</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -45,6 +46,15 @@
                                         <td>{{ $model->title }}</td>
                                         <td>{{ $model->type }}</td>
                                         <td>{{ $model->from_id }}</td>
+                                        <td>
+                                            <form action="{{ route('admin.chat.groups.destroy', $model->id) }}" method="POST">
+                                                @method("DELETE")
+                                                @csrf
+                                                <button type="submit" class="btn btn-app">
+                                                    <i class="fas fa-trash"></i> Удалить
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
