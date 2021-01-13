@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
@@ -16,7 +16,7 @@ class Files extends Model
         if (File::exists($this->getFilePath()))
             File::delete($this->getFilePath());
     }
-    
+
     public static function getPublicFolder()
     {
         return public_path('uploads/ebooks/');

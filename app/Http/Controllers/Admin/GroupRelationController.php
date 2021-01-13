@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\Group;
-use App\Models\GroupRelation;
-use App\Models\Product;
+use App\Models\Admin\Author;
+use App\Models\Admin\Category;
+use App\Models\Admin\Group;
+use App\Models\Admin\GroupRelation;
+use App\Models\Admin\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -100,7 +100,7 @@ class GroupRelationController extends BaseController
             return redirect()->route('category.index');
         else if ($type == GroupRelation::TYPE_AUTHOR)
             return redirect()->route('author.index');
-        
+
         return back();
     }
 }

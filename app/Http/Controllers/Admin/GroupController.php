@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Base;
-use App\Models\Group;
-use App\Models\Image;
+use App\Models\Admin\Group;
+use App\Models\Admin\Image;
+use App\Models\Helpers\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
@@ -47,7 +47,7 @@ class GroupController extends BaseController
             'name' => 'required|min:3',
             'order_no' => 'required',
         ]);
-        
+
         // create default category
         $model = new Group();
         foreach(Localization::getLocales() as $lang => $item) {
@@ -92,7 +92,7 @@ class GroupController extends BaseController
             'name' => 'required|min:3',
             'order_no' => 'required',
         ]);
-        
+
         $model = Group::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->order_no = $request->input('order_no');
@@ -121,7 +121,7 @@ class GroupController extends BaseController
     public function image(Request $request, $id)
     {
         $model = Group::findOrFail($id);
-        
+
         if ($request->isMethod('patch')) {
 
             if (!$model->hasImage()) {
@@ -158,13 +158,13 @@ class GroupController extends BaseController
                         $model->image->deleteImage();
                         $model->image->delete();
                     }
-                    
+
                     // update model
                     $model->image_id = $image->id;
                     $model->save();
                 }
             }
-            
+
             return redirect()->route('group.index');
         }
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
+use App\Models\Helpers\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
-use ImageResize;
+use ImageResize as ImageResize;
 
 class Image extends Model
 {
@@ -25,7 +26,7 @@ class Image extends Model
         if (File::exists($this->getImagePath()))
             File::delete($this->getImagePath());
     }
-    
+
     public static function getPublicFolder($type)
     {
         return public_path(self::UPLOAD_PATH . $type);
@@ -44,7 +45,7 @@ class Image extends Model
 
     public function getImageUrl($size = "300x300")
     {
-        return self::THUMBNAIL_PATH . "/" . $this->type 
+        return self::THUMBNAIL_PATH . "/" . $this->type
             . "/" . $size . "/" . $this->name;
     }
 
@@ -53,7 +54,7 @@ class Image extends Model
         // create thumbnails folder if not exists
         $path = public_path(self::THUMBNAIL_PATH);
         $this->mkdirFolder($path);
-        
+
         // create type folder if not exists
         $path .= "/" . $this->type;
         $this->mkdirFolder($path);

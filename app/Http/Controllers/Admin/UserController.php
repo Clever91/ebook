@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Base;
+use App\Models\Helpers\Base;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,10 +48,10 @@ class UserController extends BaseController
             'password' => 'required|min:5',
             'role' => 'required',
         ]);
-        
+
         $attributes["active"] =  Base::activeOn($request->input("active"));
         $attributes["password"] = Hash::make($attributes["password"]);
-        
+
         $model = User::create($attributes);
 
         return redirect()->route('user.index');
@@ -87,10 +87,10 @@ class UserController extends BaseController
             'password' => 'required|min:5',
             'role' => 'required',
         ]);
-        
+
         $attributes["active"] = $request->input("active") == "on" ? User::STATUS_ACTIVE : User::STATUS_NO_ACTIVE;
         $attributes["password"] = Hash::make($attributes["password"]);
-        
+
         $model = User::findOrFail($id);
         $model->update($attributes);
 

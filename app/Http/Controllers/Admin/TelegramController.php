@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Exception;
 use App\Helpers\Log\TelegramLog;
+use App\Models\Admin\Product;
 use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatPost;
-use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Telegram\Bot\FileUpload\InputFile;
@@ -47,7 +47,7 @@ class TelegramController extends BaseController
                 $ids = explode(",", $ids);
             $group_ids = implode(",", $ids);
         }
-        
+
         // make ready params
         $product = Product::findOrFail($id);
         $thumbnail = $product->image->getImageUrl("500x500");
@@ -66,7 +66,7 @@ class TelegramController extends BaseController
                 'thumbnail' => $thumbnail,
                 'caption' => $caption,
                 'user_id' => Auth::user()->id
-            ]);  
+            ]);
         }
 
         $result = [];

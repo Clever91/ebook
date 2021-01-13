@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -23,7 +23,7 @@ class Customer extends Model
     {
         if (is_null($this->display_name))
             return "Unknown";
-            
+
         return $this->display_name;
     }
 

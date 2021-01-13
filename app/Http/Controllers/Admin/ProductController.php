@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Author;
-use App\Models\Base;
-use App\Models\Category;
-use App\Models\Files;
-use App\Models\Image;
-use App\Models\Product;
+use App\Models\Admin\Author;
+use App\Models\Admin\Category;
+use App\Models\Admin\Files;
+use App\Models\Admin\Image;
+use App\Models\Admin\Product;
+use App\Models\Helpers\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
@@ -65,7 +65,7 @@ class ProductController extends BaseController
             'author_id' => 'required',
             'price' => 'required',
         ]);
-        
+
         // create default product
         $model = new Product();
         foreach(Localization::getLocales() as $lang => $item) {
@@ -85,8 +85,8 @@ class ProductController extends BaseController
         $model->save();
 
         return redirect()->route('product.index');
-    }  
-    
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -161,10 +161,10 @@ class ProductController extends BaseController
     public function eform(Request $request, $id)
     {
         $model = Product::findOrFail($id);
-        
+
         if ($request->isMethod('patch')) {
             // set ebook price if exist file exists
-            if ($request->has('eprice') && $model->hasEbook())
+            if ($request->has('eprice'))
                 $model->eprice = $request->input('eprice');
 
             // check file exists
@@ -178,7 +178,7 @@ class ProductController extends BaseController
                 // if ($ext != "epub" || $size ?)
 
                 // generate filename
-                $filename = $model->generateFilename($upload->extension());  
+                $filename = $model->generateFilename($upload->extension());
                 $upload->move(Files::getPublicFolder(), $filename);
 
                 // save new file
@@ -196,7 +196,6 @@ class ProductController extends BaseController
 
                     // update model
                     $model->file_id = $file->id;
-                    $model->ebook = Product::HAS_EBOOK;
                 }
             }
 
@@ -213,7 +212,7 @@ class ProductController extends BaseController
     public function image(Request $request, $id)
     {
         $model = Product::findOrFail($id);
-        
+
         if ($request->isMethod('patch')) {
 
             if (!$model->hasImage()) {
@@ -234,7 +233,7 @@ class ProductController extends BaseController
                 (new Image)->mkdirFolder($path);
 
                 // generate filename
-                $imagename = $model->generateFilename($upload->extension());  
+                $imagename = $model->generateFilename($upload->extension());
                 $upload->move($path, $imagename);
 
                 // save new image
@@ -261,7 +260,7 @@ class ProductController extends BaseController
                     // $image->resizeImage(600, 600);
                 }
             }
-            
+
             return redirect()->route('product.index');
         }
 

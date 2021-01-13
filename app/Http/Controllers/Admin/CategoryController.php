@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Base;
-use App\Models\Category;
-use App\Models\Image;
 use Illuminate\Http\Request;
+use App\Models\Admin\Category;
+use App\Models\Admin\Image;
+use App\Models\Helpers\Base;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
 
@@ -47,7 +47,7 @@ class CategoryController extends BaseController
             'name' => 'required|min:3',
             'order_no' => 'required',
         ]);
-        
+
         // create default category
         $model = new Category();
         foreach(Localization::getLocales() as $lang => $item) {
@@ -62,7 +62,7 @@ class CategoryController extends BaseController
         $model->save();
 
         return redirect()->route('category.index');
-    }   
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -92,7 +92,7 @@ class CategoryController extends BaseController
             'name' => 'required|min:3',
             'order_no' => 'required',
         ]);
-        
+
         $model = Category::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->order_no = $request->input('order_no');
@@ -120,7 +120,7 @@ class CategoryController extends BaseController
     public function image(Request $request, $id)
     {
         $model = Category::findOrFail($id);
-        
+
         if ($request->isMethod('patch')) {
 
             if (!$model->hasImage()) {
@@ -157,13 +157,13 @@ class CategoryController extends BaseController
                         $model->image->deleteImage();
                         $model->image->delete();
                     }
-                    
+
                     // update model
                     $model->image_id = $image->id;
                     $model->save();
                 }
             }
-            
+
             return redirect()->route('category.index');
         }
 

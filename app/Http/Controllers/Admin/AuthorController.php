@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use ImageResize;
-use App\Models\Author;
-use App\Models\Base;
-use App\Models\Image;
+use App\Models\Admin\Author;
+use App\Models\Admin\Image;
+use App\Models\Helpers\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
@@ -48,7 +47,7 @@ class AuthorController extends BaseController
             'name' => 'required|min:3',
             'bio' => 'required',
         ]);
-        
+
         // create default category
         $model = new Author();
         $model->name = $request->input('name');
@@ -58,8 +57,8 @@ class AuthorController extends BaseController
         $model->save();
 
         return redirect()->route('author.index');
-    }   
-    
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -89,7 +88,7 @@ class AuthorController extends BaseController
             'bio' => 'required',
         ]);
 
-        
+
         $model = Author::findOrFail($id);
         $model->name = $request->input('name');
         $model->bio = $request->input('bio');
@@ -117,7 +116,7 @@ class AuthorController extends BaseController
     public function image(Request $request, $id)
     {
         $model = Author::findOrFail($id);
-        
+
         if ($request->isMethod('patch')) {
 
             if (!$model->hasImage()) {
@@ -154,7 +153,7 @@ class AuthorController extends BaseController
                         $model->image->deleteImage();
                         $model->image->delete();
                     }
-                    
+
                     // update model
                     $model->image_id = $image->id;
                     $model->save();
@@ -165,7 +164,7 @@ class AuthorController extends BaseController
                     // $image->resizeImage(300, 300);
                 }
             }
-            
+
             return redirect()->route('author.index');
         }
 

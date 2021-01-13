@@ -23,7 +23,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Список продукты</h3>
-                            <a href="{{ route('product.create') }}" 
+                            <a href="{{ route('product.create') }}"
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->
@@ -54,7 +54,7 @@
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
                                             <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="btn btn-app">
-                                                <i class="fas fa-paperclip"></i> Доб. группу 
+                                                <i class="fas fa-paperclip"></i> Доб. группу
                                                 @if ($model->relations->count())
                                                 <span class="badge bg-warning">{{ $model->relations->count() }}</span>
                                                 @else
@@ -70,7 +70,7 @@
                                                 <i class="fas fa-edit"></i> Изм.
                                             </a>
                                             <a href="{{ route('product.eform', $model->id) }}" class="btn btn-app">
-                                                @if ($model->hasEbook())
+                                                @if (true)
                                                 <span class="badge bg-teal">@money_format($model->eprice)</span>
                                                 @else
                                                 <span class="badge badge-danger">0</span>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Order;
+use App\Models\Admin\Order;
 use Illuminate\Http\Request;
 
 class EbookController extends BaseController

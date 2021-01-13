@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
+
+use App\Models\Helpers\Base;
 
 class Author extends Base
 {

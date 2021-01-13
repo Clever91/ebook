@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +22,7 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id')->where('status', self::STATUS_ACTIVE);
     }
-    
+
     public function types()
     {
         return [
