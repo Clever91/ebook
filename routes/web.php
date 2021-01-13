@@ -32,7 +32,7 @@ Route::group(['prefix' => 'pay'], function () {
     Route::match(['get', 'post'], '/click/prepare', 'Bot\ClickController@prepare')->name('click.prepare');
     Route::match(['get', 'post'], '/click/complete', 'Bot\ClickController@complete')->name('click.complete');
     // payme
-    Route::post('/payme/complete', 'Bot\PaymeController@complete')->name('payme.complete');
+    Route::match(['get', 'post'],'/payme/complete', 'Bot\PaymeController@complete')->name('payme.complete');
 
 });
 

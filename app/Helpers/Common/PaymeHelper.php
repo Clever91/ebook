@@ -13,7 +13,7 @@ class PaymeHelper
 
     public static function followingLink($amount, $order_id)
     {
-        $encode = base64_encode('m='.self::MERCHANT_KEY.';ac.order_id='.$order_id.';a='.($amount * 100));
+        $encode = base64_encode('m='.self::MERCHANT_KEY.';ac.order_id='.$order_id.';a='.($amount * 100).';c='.self::RETURN_URL);
         return self::URL . "/" . $encode;
     }
 
