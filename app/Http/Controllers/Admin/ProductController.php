@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\Author;
+use App\Models\Admin\Book;
 use App\Models\Admin\Category;
+use App\Models\Admin\Ebook;
 use App\Models\Admin\Files;
 use App\Models\Admin\Image;
 use App\Models\Admin\Product;
@@ -76,14 +78,23 @@ class ProductController extends BaseController
             if (env("LANG_DEFAULT") == $lang)
                 $model->translateOrNew($lang)->is_default = 1;
         }
-        $model->ebook = 0;
-        $model->price = $request->input('price');
-        $model->eprice = $request->input('eprice');
         $model->category_id = $request->input('category_id');
         $model->author_id = $request->input('author_id');
         $model->status = Base::activeOn($request->input("status"));;
         $model->created_by = Auth::user()->id;
-        $model->save();
+        if ($model->save()) {
+            $book = $model->book();
+            if (is_null($book)) {
+                $book = new Book();
+                $book->product_id = $model->id;
+                $book->status = Product::STATUS_ACTIVE;
+                $book->created_by = Auth::user()->id;
+            } else {
+                $book->updated_by = Auth::user()->id;
+            }
+            $book->price = $request->input('price', 0);
+            $book->save();
+        }
 
         return redirect()->route('product.index');
     }
@@ -98,13 +109,13 @@ class ProductController extends BaseController
     {
         $model = Product::findOrFail($id);
         $categories = Category::where([
-            'status' => Base::STATUS_ACTIVE,
-            'deleted' => Base::NO_DELETED
+            'status' => Category::STATUS_ACTIVE,
+            'deleted' => Category::NO_DELETED
         ])->get();
 
         $authors = Author::where([
-            'status' => Base::STATUS_ACTIVE,
-            'deleted' => Base::NO_DELETED
+            'status' => Author::STATUS_ACTIVE,
+            'deleted' => Author::NO_DELETED
         ])->get();
 
         return view('admin.product.edit')->with([
@@ -135,12 +146,15 @@ class ProductController extends BaseController
         $model = Product::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->translateOrNew($this->_lang)->description = $request->input('description');
-        $model->price = $request->input('price');
         $model->category_id = $request->input('category_id');
         $model->author_id = $request->input('author_id');
         $model->status = Base::activeOn($request->input("status"));
         $model->updated_by = Auth::user()->id;
-        $model->save();
+        if ($model->save()) {
+            $book = $model->book();
+            $book->price = $request->input('price', 0);
+            $book->save();
+        }
 
         return redirect()->route('product.index');
     }
@@ -165,8 +179,18 @@ class ProductController extends BaseController
 
         if ($request->isMethod('patch')) {
             // set ebook price if exist file exists
-            if ($request->has('eprice'))
-                $model->eprice = $request->input('eprice');
+            $ebook = $model->ebook();
+            if ($request->has('eprice')) {
+                if (is_null($ebook)) {
+                    $ebook = new Ebook();
+                    $ebook->product_id = $model->id;
+                    $ebook->created_by = Auth::user()->id;
+                } else {
+                    $ebook->updated_by = Auth::user()->id;
+                }
+                $ebook->status = Base::STATUS_ACTIVE;
+                $ebook->price = $request->input('eprice');
+            }
 
             // check file exists
             if ($request->hasfile('ebook')) {
@@ -190,17 +214,19 @@ class ProductController extends BaseController
                 $file->extension = $ext;
                 if ($file->save()) {
                     // check if model has already file, so delete it
-                    if (!is_null($model->file)) {
-                        $model->file->deleteFile();
-                        $model->file->delete();
+                    if (!is_null($ebook->file)) {
+                        $ebook->file->deleteFile();
+                        $ebook->file->delete();
                     }
 
                     // update model
-                    $model->file_id = $file->id;
+                    $ebook->file_id = $file->id;
                 }
             }
 
-            $model->save();
+            // save if file exists
+            if ($request->hasfile('ebook') || !is_null($ebook))
+                $ebook->save();
 
             return redirect()->route('product.index');
         }

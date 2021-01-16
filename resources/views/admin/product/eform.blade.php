@@ -29,14 +29,14 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <!-- form start -->
-                <form role="form" action="{{ route('product.eform.patch', $model->id) }}" 
+                <form role="form" action="{{ route('product.eform.patch', $model->id) }}"
                     method="POST" enctype="multipart/form-data">
                     @method("PATCH")
                     @csrf
                         <div class="form-group">
                             <label for="eprice">Электронная цена</label>
-                            <input type="text" class="form-control @error('eprice') is-invalid @enderror" 
-                                id="eprice" name="eprice" value="{{ $model->eprice }}" 
+                            <input type="text" class="form-control @error('eprice') is-invalid @enderror"
+                                id="eprice" name="eprice" value="{{ $model->ebookPrice() }}"
                                 placeholder="Введите цена" required>
                             @error('eprice')
                                 <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
@@ -49,8 +49,8 @@
                                     <input type="file" class="custom-file-input"
                                         id="ebook" name="ebook">
                                     <label class="custom-file-label" for="ebook">
-                                        @if ($model->hasEbook()) 
-                                           {{ $model->file->name }}
+                                        @if ($model->ebook())
+                                           {{ $model->ebook()->file->name }}
                                         @else
                                             Выберите файл
                                         @endif
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <!-- /.card-body -->
-            
+
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Сохранить</button>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Models\Helpers;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 abstract class Base extends Model
@@ -44,6 +45,7 @@ abstract class Base extends Model
     public function makeDeleted()
     {
         $this->deleted = self::DELETED;
+        $this->updated_by = Auth::user()->id;
         $this->save();
     }
 
