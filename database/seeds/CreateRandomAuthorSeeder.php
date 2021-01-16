@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Author;
-use App\Models\Product;
 use App\User;
+use App\Models\Admin\Author;
+use App\Models\Admin\Product;
 use Illuminate\Database\Seeder;
 
 class CreateRandomAuthorSeeder extends Seeder

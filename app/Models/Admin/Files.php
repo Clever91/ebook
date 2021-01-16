@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 class Files extends Model
 {
     protected $fillable = [
-        'name', 'orginal_name', 'size', 'extention'
+        'name', 'orginal_name', 'size', 'extension'
     ];
 
     public function deleteFile()

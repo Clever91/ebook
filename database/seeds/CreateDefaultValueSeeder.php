@@ -1,8 +1,10 @@
 <?php
 
-use App\Models\Author;
-use App\Models\Category;
 use App\User;
+use App\Models\Admin\Author;
+use App\Models\Admin\Category;
+use App\Models\Admin\Files;
+use App\Models\Admin\Product;
 use Illuminate\Database\Seeder;
 
 class CreateDefaultValueSeeder extends Seeder
@@ -16,7 +18,8 @@ class CreateDefaultValueSeeder extends Seeder
     {
         $defaultLang = config('app.locale');
         $admin = User::where('is_admin', 1)->first();
-        
+        $faker = Faker\Factory::create();
+
         // create default category
         $category = new Category();
         foreach(config('translatable.locales') as $locale) {
@@ -33,16 +36,32 @@ class CreateDefaultValueSeeder extends Seeder
         // create default author
         Author::create([
             'name' => "Народное",
-            'bio' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, 
-                when an unknown printer took a galley of type and scrambled it to make a type 
-                specimen book. It has survived not only five centuries, but also the leap into 
-                electronic typesetting, remaining essentially unchanged. It was popularised 
-                in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, 
-                and more recently with desktop publishing software like Aldus PageMaker including 
+            'bio' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                when an unknown printer took a galley of type and scrambled it to make a type
+                specimen book. It has survived not only five centuries, but also the leap into
+                electronic typesetting, remaining essentially unchanged. It was popularised
+                in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                and more recently with desktop publishing software like Aldus PageMaker including
                 versions of Lorem Ipsum.",
             'status' => Author::STATUS_ACTIVE,
             'created_by' => $admin->id
         ]);
+
+        // create default epub file
+        $file = new Files();
+        $file->name = $faker->word();
+        $file->orginal_name = "default_book.epub";
+        $file->size = 477980;
+        $file->extension = "epub";
+        $file->save();
+
+        // create default audio file
+        $file = new Files();
+        $file->name = $faker->word();
+        $file->orginal_name = "default_audio.mp3";
+        $file->size = 4077980;
+        $file->extension = "mp3";
+        $file->save();
     }
 }

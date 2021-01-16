@@ -16,7 +16,7 @@ class ProductController extends BaseController
     {
         if (($error = $this->authDevice($request)) !== true)
             return $error;
-        
+
         // check category_id exists
         $category_id = null;
         if ($request->has("category_id")) {
@@ -71,7 +71,7 @@ class ProductController extends BaseController
             [ 'pro.status', '=', Base::STATUS_ACTIVE ],
             [ 'pro.deleted', '=', Base::NO_DELETED ],
         ]);
-        
+
         // add text filter
         $txt = $this->_text;
         if (!is_null($txt)) {
@@ -100,18 +100,18 @@ class ProductController extends BaseController
         }
 
         $query->select(
-            'pro.id', 'pt.name', 'pt.description', 
+            'pro.id', 'pt.name', 'pt.description',
             'au.name AS author', 'pro.price', 'pro.eprice',
             DB::raw("IF (oe.id IS NULL, false, true) AS 'bought'"))
             ->orderBy('pt.name');
-        
+
         $success["total"] = $query->count();
         $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
-        
+
         return $this->sendResponse($success, null);
     }
 
-    public function product(Request $request) 
+    public function product(Request $request)
     {
         if (($error = $this->authDevice($request)) !== true)
             return $error;
@@ -147,7 +147,7 @@ class ProductController extends BaseController
 
         $success["bought"] = $product->isBought($customer_id);
         $success["recommended"] = [];
-        
+
         return $this->sendResponse($success, null);
     }
 
@@ -162,7 +162,7 @@ class ProductController extends BaseController
 
         if (is_null($width) || $width <= 0)
             return $this->sendError('Product Error', ['error' => 'width must not be null'], 400);
-        
+
         $height = null;
         if ($request->has('height'))
             $height = intval($request->input('height'));
@@ -225,8 +225,8 @@ class ProductController extends BaseController
         if (is_null($ebook))
             return $this->sendError('Product Error', ['error' => 'This product is not payed'], 200);
 
-        // this is default image for test
-        // $path = public_path('book/free_book.epub');
+        // this is default epub for test
+        // $path = public_path('default/free_book.epub');
         $path = $product->file->getFilePath();
         return response()->download($path, $product->name);
     }

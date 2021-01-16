@@ -186,7 +186,7 @@ class ProductController extends BaseController
                 $file->name = $filename;
                 $file->orginal_name = $upload->getClientOriginalName();
                 $file->size = $size;
-                $file->extantion = $ext;
+                $file->extension = $ext;
                 if ($file->save()) {
                     // check if model has already file, so delete it
                     if (!is_null($model->file)) {

@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Category;
-use App\Models\Product;
 use App\User;
+use App\Models\Admin\Category;
+use App\Models\Admin\Product;
 use Illuminate\Database\Seeder;
 
 class CreateRandomCategorySeeder extends Seeder

@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Group;
+use App\Models\Admin\Group;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +17,7 @@ class CreateRandomGroupSeeder extends Seeder
         $defaultLang = config('app.locale');
         $admin = User::where('is_admin', 1)->first();
 
-        foreach (range(1, 20) as $index) {
+        foreach (range(1, 10) as $index) {
             $group = new Group();
             foreach(config('translatable.locales') as $locale) {
                 $group->translateOrNew($locale)->name = $faker->word() . " - " . $locale;

@@ -18,7 +18,7 @@ class CreateFileTables extends Migration
             $table->string('name');
             $table->string('orginal_name');
             $table->string('size')->comment('size of file bytes');
-            $table->string('extantion');
+            $table->string('extension');
             $table->timestamps();
         });
     }

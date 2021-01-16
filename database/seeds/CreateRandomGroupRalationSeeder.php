@@ -1,11 +1,11 @@
 <?php
 
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\Group;
-use App\Models\GroupRelation;
-use App\Models\Product;
 use App\User;
+use App\Models\Admin\Author;
+use App\Models\Admin\Category;
+use App\Models\Admin\Group;
+use App\Models\Admin\GroupRelation;
+use App\Models\Admin\Product;
 use Illuminate\Database\Seeder;
 
 class CreateRandomGroupRalationSeeder extends Seeder
@@ -17,10 +17,10 @@ class CreateRandomGroupRalationSeeder extends Seeder
      */
     public function run()
     {
-        $limit = 10;
+        $limit = 5;
         $admin = User::where('is_admin', 1)->first();
         $groups = Group::where('status', Group::STATUS_ACTIVE)->take(15)->skip(0)->get();
-        
+
         foreach($groups as $index => $group) {
 
             // create group category relation
@@ -60,7 +60,7 @@ class CreateRandomGroupRalationSeeder extends Seeder
             }
 
             // create group product relation
-            if (3 <= $index && $index <= 6) {
+            if (3 <= $index && $index <= 10) {
                 $products = Product::where('status', Product::STATUS_ACTIVE)
                     ->take($limit)->skip(($index - 3) * 15)->get();
 
