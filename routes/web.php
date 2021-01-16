@@ -69,6 +69,7 @@ Localization::localizedRoutesGroup(function() {
         Route::resource('group', 'Admin\GroupController')->except('show');
         Route::resource('author', 'Admin\AuthorController')->except('show');
         Route::resource('product', 'Admin\ProductController')->except('show');
+        Route::resource('goods', 'Admin\GoodsController')->except('show');
 
         // custom image route
         Route::get('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform');

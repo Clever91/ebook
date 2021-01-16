@@ -17,4 +17,9 @@ class Book extends Model
 
     protected $fillable = ['product_id', 'price', 'leftover', 'cover',
     'paper_size', 'letter', 'color', 'status', 'updated_by', 'created_by'];
+
+    public function product()
+    {
+        return $this->hasOne(Product::class, 'id', 'product_id');
+    }
 }

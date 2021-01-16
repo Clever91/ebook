@@ -44,6 +44,32 @@ class Product extends Base implements TranslatableContract
             ->where('type', GroupRelation::TYPE_PRODUCT);
     }
 
+    public function book()
+    {
+        return Book::where('product_id', $this->id)->first();
+    }
+
+    public function ebook()
+    {
+        return Ebook::where('product_id', $this->id)->first();
+    }
+
+    public function bookPrice()
+    {
+        if (!is_null($this->book()))
+            return $this->book()->price;
+
+        return 0;
+    }
+
+    public function ebookPrice()
+    {
+        if (!is_null($this->ebook()))
+            return $this->ebook()->price;
+
+        return 0;
+    }
+
     public function isBought($customer_id)
     {
         if (is_null($customer_id))

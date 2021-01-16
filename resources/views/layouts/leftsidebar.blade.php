@@ -97,7 +97,7 @@
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fa fa-book"></i>
+                        <i class="nav-icon fas fa-dumpster"></i>
                         <p>
                             Продукты
                             <i class="right fas fa-angle-left"></i>
@@ -105,15 +105,15 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('product.create') }}" class="nav-link">
-                                <i class="nav-icon fas fa-plus"></i>
-                                <p>Создать</p>
+                            <a href="{{ route('product.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>Книги</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('product.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-list"></i>
-                                <p>Список</p>
+                            <a href="{{ route('goods.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-horse"></i>
+                                <p>Товар</p>
                             </a>
                         </li>
                     </ul>

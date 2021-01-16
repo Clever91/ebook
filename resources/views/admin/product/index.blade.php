@@ -50,7 +50,7 @@
                                         <td>{{ $model->category->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->author->name }}</td>
                                         {{-- <td>{{ substr($model->translateorNew(\App::getLocale())->description, 1, 50) }}...</td> --}}
-                                        <td>@money_format($model->price)</td>
+                                        <td>@money_format($model->bookPrice())</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
                                             <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="btn btn-app">
@@ -70,8 +70,8 @@
                                                 <i class="fas fa-edit"></i> Изм.
                                             </a>
                                             <a href="{{ route('product.eform', $model->id) }}" class="btn btn-app">
-                                                @if (true)
-                                                <span class="badge bg-teal">@money_format($model->eprice)</span>
+                                                @if ($model->ebook())
+                                                <span class="badge bg-teal">@money_format($model->ebookPrice())</span>
                                                 @else
                                                 <span class="badge badge-danger">0</span>
                                                 @endif

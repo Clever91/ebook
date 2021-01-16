@@ -10,6 +10,7 @@ use App\Models\Admin\Product;
 use App\Models\Helpers\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Lunaweb\Localization\Facades\Localization;
 
 class ProductController extends BaseController
@@ -21,8 +22,8 @@ class ProductController extends BaseController
      */
     public function index()
     {
-        $models = Product::where('deleted', Base::NO_DELETED)->orderByDesc('created_at')
-            ->paginate($this->_limit);
+        $models = Product::where('deleted', Product::NO_DELETED)
+            ->orderByDesc('created_at')->paginate($this->_limit);
         return view('admin.product.index', compact('models'));
     }
 
@@ -34,13 +35,13 @@ class ProductController extends BaseController
     public function create()
     {
         $categories = Category::where([
-            'status' => Base::STATUS_ACTIVE,
-            'deleted' => Base::NO_DELETED
+            'status' => Category::STATUS_ACTIVE,
+            'deleted' => Category::NO_DELETED
         ])->get();
 
         $authors = Author::where([
-            'status' => Base::STATUS_ACTIVE,
-            'deleted' => Base::NO_DELETED
+            'status' => Author::STATUS_ACTIVE,
+            'deleted' => Author::NO_DELETED
         ])->get();
 
         return view('admin.product.create')->with([
