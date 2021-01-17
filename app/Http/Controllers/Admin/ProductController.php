@@ -88,6 +88,11 @@ class ProductController extends BaseController
                 $book = new Book();
                 $book->product_id = $model->id;
                 $book->status = Product::STATUS_ACTIVE;
+                $book->leftover = $request->input('leftover', null);
+                $book->cover = $request->input('cover');
+                $book->letter = $request->input('letter');
+                $book->paper_size = $request->input('paper_size', null);
+                $book->color = $request->input('color', null);
                 $book->created_by = Auth::user()->id;
             } else {
                 $book->updated_by = Auth::user()->id;
@@ -118,6 +123,8 @@ class ProductController extends BaseController
             'deleted' => Author::NO_DELETED
         ])->get();
 
+        // dd($model->book());
+
         return view('admin.product.edit')->with([
             'model' => $model,
             'categories' => $categories,
@@ -141,6 +148,7 @@ class ProductController extends BaseController
             'author_id' => 'required',
             'price' => 'required',
         ]);
+        // dd($request->all());
 
         // update product
         $model = Product::findOrFail($id);
@@ -152,6 +160,11 @@ class ProductController extends BaseController
         $model->updated_by = Auth::user()->id;
         if ($model->save()) {
             $book = $model->book();
+            $book->leftover = $request->input('leftover', null);
+            $book->cover = $request->input('cover');
+            $book->letter = $request->input('letter');
+            $book->paper_size = $request->input('paper_size', null);
+            $book->color = $request->input('color', null);
             $book->price = $request->input('price', 0);
             $book->save();
         }

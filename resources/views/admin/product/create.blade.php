@@ -10,6 +10,10 @@
     'title' => 'Создать продукт'
 ])
 
+@php
+use App\Models\Admin\Book;
+@endphp
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -25,7 +29,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name">Название</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                             id="name" name="name" value="{{ old("name") }}" placeholder="Введите название" required>
                         @error('name')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
@@ -33,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="category_id">Категория</label>
-                        <select class="form-control select2bs4 @error('category_id') is-invalid @enderror" 
+                        <select class="form-control select2bs4 @error('category_id') is-invalid @enderror"
                             name="category_id" style="width: 100%;" required>
                             <option>Выберите категория</option>
                             @foreach ($categories as $cat)
@@ -52,7 +56,7 @@
                     </div>
                     <div class="form-group">
                         <label for="author_id">Автор</label>
-                        <select class="form-control select2bs4 @error('author_id') is-invalid @enderror" 
+                        <select class="form-control select2bs4 @error('author_id') is-invalid @enderror"
                             name="author_id" style="width: 100%;" required>
                             <option>Выберите автор</option>
                             @foreach ($authors as $author)
@@ -69,7 +73,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Описания</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" 
+                        <textarea class="form-control @error('description') is-invalid @enderror"
                             id="description" name="description" placeholder="Введите название"
                             rows="4" cols="6" maxlength="1020" required>{{ old("description") }}</textarea>
                         @error('description')
@@ -78,21 +82,100 @@
                     </div>
                     <div class="form-group">
                         <label for="price">Цена</label>
-                        <input type="text" class="form-control @error('price') is-invalid @enderror" 
-                            id="price" name="price" value="{{ old("price") }}" 
+                        <input type="text" class="form-control @error('price') is-invalid @enderror"
+                            id="price" name="price" value="{{ old("price") }}"
                             placeholder="Введите цена" required>
                         @error('price')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>
+                    {{-- ~~~~~~~~~~~~~~~~~~~ Optional params ~~~~~~~~~~~~~~~~~~~ --}}
+                    <div class="form-group">
+                        <label for="leftover">Остатки</label>
+                        <input type="text" class="form-control @error('leftover') is-invalid @enderror"
+                            id="leftover" name="leftover" value="{{ old("leftover") }}"
+                            placeholder="Введите остаток">
+                        @error('leftover')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="cover">Обложка книги</label>
+                        <select class="form-control select2bs4 @error('cover') is-invalid @enderror"
+                            name="cover" style="width: 100%;" required>
+                            {{-- <option>Выберите обложка</option> --}}
+                            @foreach (Book::coverTypes() as $cover => $val)
+                                @if (old('cover') == $cover)
+                            <option value="{{ $cover }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $cover }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('cover')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="letter">Письмо из книги</label>
+                        <select class="form-control select2bs4 @error('letter') is-invalid @enderror"
+                            name="letter" style="width: 100%;" required>
+                            {{-- <option>Выберите обложка</option> --}}
+                            @foreach (Book::letterTypes() as $letter => $val)
+                                @if (old('letter') == $letter)
+                            <option value="{{ $letter }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $letter }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('letter')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="paper_size">Размер страницы</label>
+                        <select class="form-control select2bs4 @error('paper_size') is-invalid @enderror"
+                            name="paper_size" style="width: 100%;">
+                            <option value="">Выберите размер страницы</option>
+                            @foreach (Book::paperSizeTypes() as $val)
+                                @if (old('paper_size') == $val)
+                            <option value="{{ $val }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $val }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('paper_size')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Цвет книги</label>
+                        <select class="form-control select2bs4 @error('color') is-invalid @enderror"
+                            name="color" style="width: 100%;">
+                            <option value="">Выберите цвет</option>
+                            @foreach (Book::colorTypes() as $color => $val)
+                                @if (old('color') == $val)
+                            <option value="{{ $color }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $color }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('color')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    {{-- ~~~~~~~~~~~~~~~~~~~ Optional params ~~~~~~~~~~~~~~~~~~~ --}}
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror" 
+                        <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror"
                             id="status" checked name="status">
                         <label class="form-check-label" for="status">Активный</label>
                     </div>
                 </div>
                 <!-- /.card-body -->
-        
+
                 <div class="card-footer">
                     <button type="submit" class="btn btn-info">Сохранить</button>
                 </div>

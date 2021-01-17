@@ -10,6 +10,11 @@
     'title' => 'Изменить продукт'
 ])
 
+@php
+use App\Models\Admin\Book;
+$book = $model->book();
+@endphp
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -79,12 +84,91 @@
                     <div class="form-group">
                         <label for="price">Цена</label>
                         <input type="text" class="form-control @error('price') is-invalid @enderror"
-                            id="price" name="price" value="{{ $model->bookPrice() }}"
+                            id="price" name="price" value="{{ $book->price }}"
                             placeholder="Введите цена" required>
                         @error('price')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>
+                    {{-- ~~~~~~~~~~~~~~~~~~~ Optional params ~~~~~~~~~~~~~~~~~~~ --}}
+                    <div class="form-group">
+                        <label for="leftover">Остатки</label>
+                        <input type="text" class="form-control @error('leftover') is-invalid @enderror"
+                            id="leftover" name="leftover" value="{{ $book->leftover }}"
+                            placeholder="Введите остаток">
+                        @error('leftover')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="cover">Обложка книги</label>
+                        <select class="form-control select2bs4 @error('cover') is-invalid @enderror"
+                            name="cover" style="width: 100%;" required>
+                            {{-- <option>Выберите обложка</option> --}}
+                            @foreach (Book::coverTypes() as $cover => $val)
+                                @if ($book->cover == $cover)
+                            <option value="{{ $cover }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $cover }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('cover')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="letter">Письмо из книги</label>
+                        <select class="form-control select2bs4 @error('letter') is-invalid @enderror"
+                            name="letter" style="width: 100%;" required>
+                            {{-- <option>Выберите обложка</option> --}}
+                            @foreach (Book::letterTypes() as $letter => $val)
+                                @if ($book->letter == $letter)
+                            <option value="{{ $letter }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $letter }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('letter')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="paper_size">Размер страницы</label>
+                        <select class="form-control select2bs4 @error('paper_size') is-invalid @enderror"
+                            name="paper_size" style="width: 100%;">
+                            <option value="">Выберите размер страницы</option>
+                            @foreach (Book::paperSizeTypes() as $val)
+                                @if ($book->paper_size == $val)
+                            <option value="{{ $val }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $val }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('paper_size')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="color">Цвет книги</label>
+                        <select class="form-control select2bs4 @error('color') is-invalid @enderror"
+                            name="color" style="width: 100%;">
+                            <option value="">Выберите цвет</option>
+                            @foreach (Book::colorTypes() as $color => $val)
+                                @if ($book->color === $color)
+                            <option value="{{ $color }}" selected>{{ $val }}</option>
+                                @else
+                            <option value="{{ $color }}">{{ $val }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        @error('color')
+                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
+                        @enderror
+                    </div>
+                    {{-- ~~~~~~~~~~~~~~~~~~~ Optional params ~~~~~~~~~~~~~~~~~~~ --}}
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror"
                             id="status" @if ($model->isActive()) checked @endif name="status">
