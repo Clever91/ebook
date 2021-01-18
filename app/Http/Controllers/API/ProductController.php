@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Base;
-use App\Models\GroupRelation;
-use App\Models\OrderEbook;
-use App\Models\Product;
+use App\Models\Helpers\Base;
+use App\Models\Admin\GroupRelation;
+use App\Models\Admin\OrderEbook;
+use App\Models\Admin\Product;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController

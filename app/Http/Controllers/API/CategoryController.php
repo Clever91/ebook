@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Category;
+use App\Models\Admin\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Base;
+use App\Models\Helpers\Base;
 
 class CategoryController extends BaseController
 {
@@ -18,7 +18,7 @@ class CategoryController extends BaseController
         $success = [];
         $success["page"] = $this->_page;
         $success["limit"] = $this->_limit;
-        
+
         $lang = $this->_lang;
         $query = DB::table('categories AS cat')
         ->leftJoin('category_translations AS ct', function ($join) use ($lang) {
@@ -29,7 +29,7 @@ class CategoryController extends BaseController
             [ 'cat.status', '=', Base::STATUS_ACTIVE ],
             [ 'cat.deleted', '=', Base::NO_DELETED ]
         ]);
-        
+
         // add text if not null
         $txt = $this->_text;
         if (!is_null($txt))
@@ -37,10 +37,10 @@ class CategoryController extends BaseController
 
         $query->select('cat.id', 'ct.name', 'cat.order_no')
         ->orderBy('cat.order_no');
-        
+
         $success["total"] = $query->count();
         $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
-        
+
         return $this->sendResponse($success, null);
     }
 
@@ -55,7 +55,7 @@ class CategoryController extends BaseController
 
         if (is_null($width) || $width <= 0)
             return $this->sendError('Category Error', ['error' => 'width must not be null'], 400);
-        
+
         $height = null;
         if ($request->has('height'))
             $height = intval($request->input('height'));

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Group;
+use App\Models\Admin\Group;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Base;
-use App\Models\GroupRelation;
-use Illuminate\Support\Facades\App;
+use App\Models\Helpers\Base;
+use App\Models\Admin\GroupRelation;
 
 class HomeController extends BaseController
 {
@@ -24,7 +23,7 @@ class HomeController extends BaseController
             'status' => Base::STATUS_ACTIVE,
             'deleted' => Base::NO_DELETED,
         ])->orderBy('order_no')->get();
-        
+
         foreach($groups as $group) {
             $item = [];
             $categories = $group->relations()
@@ -33,7 +32,7 @@ class HomeController extends BaseController
                 ->where('type', GroupRelation::TYPE_AUTHOR)->get();
             $products = $group->relations()
                 ->where('type', GroupRelation::TYPE_PRODUCT)->get();
-            
+
             if ($categories->count()) {
                 $item["group_id"] = $group->id;
                 $item["name"] = $group->translateOrNew($this->_lang)->name;
@@ -102,8 +101,8 @@ class HomeController extends BaseController
                     $item["item"][$index]["price"] = (float) $gropro->product->price;
                     $item["item"][$index]["eprice"] = (float) $gropro->product->eprice;
                     $item["item"][$index]["order_no"] = $gropro->order_no;
-                    
-                    // tekshirish kerak auth bo'lganini, agar bo'lgan bo'lsa 
+
+                    // tekshirish kerak auth bo'lganini, agar bo'lgan bo'lsa
                     // demak olgan kitoblarini berishimiz kerak
                     $customer_id = null;
                     if (!is_null($this->_customer)) {
@@ -116,7 +115,7 @@ class HomeController extends BaseController
                 array_push($success['items'], $item);
             }
         }
-    
+
         return $this->sendResponse($success, null);
     }
 }

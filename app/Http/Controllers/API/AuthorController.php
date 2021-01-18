@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Author;
-use App\Models\Base;
+use App\Models\Admin\Author;
+use App\Models\Admin\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,18 +18,18 @@ class AuthorController extends BaseController
         $success = [];
         $success["page"] = $this->_page;
         $success["limit"] = $this->_limit;
-        
+
         $query = DB::table('authors AS au')
             ->where([
                 'au.status' => Base::STATUS_ACTIVE,
                 'au.deleted' => Base::NO_DELETED,
             ]);
-        
+
         // make filter by text
         $txt = $this->_text;
         if (!is_null($txt)) {
             $query->where('au.name', 'LIKE', '%'.$txt.'%');
-            // or like 
+            // or like
             $query->orWhere([
                 [ 'au.status', '=', Base::STATUS_ACTIVE ],
                 [ 'au.deleted', '=', Base::NO_DELETED ],
@@ -39,14 +39,14 @@ class AuthorController extends BaseController
 
         $query->select('au.id', 'au.name')
             ->orderBy('au.name');
-        
+
         $success["total"] = $query->count();
         $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
-        
+
         return $this->sendResponse($success, null);
     }
 
-    public function author(Request $request) 
+    public function author(Request $request)
     {
         if (($error = $this->authDevice($request)) !== true)
             return $error;
@@ -92,7 +92,7 @@ class AuthorController extends BaseController
 
             array_push($success["books"], $item);
         }
-        
+
         return $this->sendResponse($success, null);
     }
 
@@ -107,7 +107,7 @@ class AuthorController extends BaseController
 
         if (is_null($width) || $width <= 0)
             return $this->sendError('Author Error', ['error' => 'width must not be null'], 400);
-        
+
         $height = null;
         if ($request->has('height'))
             $height = intval($request->input('height'));

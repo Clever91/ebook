@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Order;
-use App\Models\OrderEbook;
-use App\Models\Product;
+use App\Models\Admin\Order;
+use App\Models\Admin\OrderEbook;
+use App\Models\Admin\Product;
 use Illuminate\Support\Facades\DB;
 
 class EbookController extends BaseController
@@ -24,7 +24,7 @@ class EbookController extends BaseController
         $success["limit"] = $this->_limit;
 
         $lang = $this->_lang;
-        
+
         $query = DB::table('order_ebooks AS oe')
             ->join('products AS pro', function($join) {
                 $join->on('oe.product_id', '=', 'pro.id');
@@ -42,10 +42,10 @@ class EbookController extends BaseController
         $query->select(
             'pro.id', 'pt.name', 'pt.description', 'au.name AS author')
             ->orderBy('pt.name');
-        
+
         $success["total"] = $query->count();
         $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
-        
+
         return $this->sendResponse($success, null);
     }
 
@@ -71,7 +71,7 @@ class EbookController extends BaseController
         $order->state = Order::STATE_NEW;
         $order->type = Order::TYPE_EBOOK;
         $order->save();
-        
+
         $success = [];
         $success["order"] = [];
 
@@ -83,7 +83,7 @@ class EbookController extends BaseController
             // check if product has exists
             if (is_null($product))
                 continue;
-            
+
             // check if product is active
             if (!$product->isActive())
                 continue;
@@ -102,7 +102,7 @@ class EbookController extends BaseController
             // check if customer already buyed this product
             if (!is_null($ebook))
                 continue;
-            
+
             // create order
             $ebook = new OrderEbook();
             $ebook->order_id = $order->id;
@@ -126,7 +126,7 @@ class EbookController extends BaseController
         if ($anyAvalible) {
             $order->total = $total;
             $order->save();
-            
+
             $success["order_id"] = $order->id;
         } else {
             $order->delete();

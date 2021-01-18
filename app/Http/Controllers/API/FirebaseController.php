@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\Customer;
-use App\Models\CustomerDevice;
+use App\Models\Admin\Customer;
+use App\Models\Admin\CustomerDevice;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 
@@ -22,7 +22,7 @@ class FirebaseController extends BaseController
     {
         if (($error = $this->authDevice($request)) !== true)
             return $error;
-            
+
         $uid = $request->input("uid", null);
         if (!$uid) {
             return $this->sendError('Auth Error', ['error' => 'uid is not found'], 400);
@@ -81,7 +81,7 @@ class FirebaseController extends BaseController
             return $error;
 
         $email = $request->input("email");
-        if (!$email) 
+        if (!$email)
             return $this->sendError('Auth Error', ['error' => 'email must not be empty'], 400);
 
         $password = $request->input("password");
@@ -100,7 +100,7 @@ class FirebaseController extends BaseController
             return $error;
 
         // $email = $request->input("email");
-        // if (!$email) 
+        // if (!$email)
         //     return $this->sendError('Auth Error', ['error' => 'email must not be empty'], 400);
 
         // $password = $request->input("password");
@@ -119,7 +119,7 @@ class FirebaseController extends BaseController
         //     'photoUrl' => null,
         //     'disabled' => false,
         // ];
-        
+
         // $createdUser = $this->auth->createUser($userProperties);
         $createdUser = $this->auth->createUser($request->all());
 

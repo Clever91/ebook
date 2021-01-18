@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\Customer;
-use App\Models\Device;
+use App\Models\Admin\Customer;
+use App\Models\Admin\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Lunaweb\Localization\Facades\Localization;
 
 class BaseController extends Controller
 {
@@ -73,10 +72,10 @@ class BaseController extends Controller
             'status' => Device::STATUS_ACTIVE,
             'token' => $request->input('token'),
         ])->first();
-        
+
         if (is_null($this->_device))
             return $this->sendError('Device Error', ['error' => 'This token does not exists'], 403);
-            
+
         return true;
     }
 
@@ -85,7 +84,7 @@ class BaseController extends Controller
         $access_token = null;
         if ($request->has('access_token'))
             $access_token = trim($request->input('access_token'));
-        
+
         if (empty($access_token) || is_null($access_token))
             return $this->sendError('Device Error', ['error' => 'This access token must not empty'], 403);
 
@@ -93,23 +92,23 @@ class BaseController extends Controller
             'status' => Device::STATUS_ACTIVE,
             'api_token' => $request->input('access_token'),
         ])->first();
-        
+
         if (is_null($this->_device))
             return $this->sendError('Device Error', ['error' => 'This access token does not exists'], 403);
-            
+
         return true;
     }
 
     public function authCustomer($request)
     {
         $this->_customer = Customer::find($request->input('user_id'));
-        
+
         if (is_null($this->_customer))
             return $this->sendError('User Error', ['error' => 'This user does not found'], 403);
-        
+
         if (!$this->_customer->isActive())
             return $this->sendError('User Error', ['error' => 'This user is not active'], 403);
-            
+
         return true;
     }
 

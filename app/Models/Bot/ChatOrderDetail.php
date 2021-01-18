@@ -2,7 +2,7 @@
 
 namespace App\Models\Bot;
 
-use App\Models\Product;
+use App\Models\Admin\Product;
 use Illuminate\Database\Eloquent\Model;
 
 class ChatOrderDetail extends Model

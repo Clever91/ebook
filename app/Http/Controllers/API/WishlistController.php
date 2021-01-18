@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Wishlist;
+use App\Models\Admin\Wishlist;
 use Illuminate\Support\Facades\DB;
 
 class WishlistController extends BaseController
@@ -20,16 +20,16 @@ class WishlistController extends BaseController
         $success = [];
         $success["page"] = $this->_page;
         $success["limit"] = $this->_limit;
-        
+
         $query = DB::table('wishlists AS wish')
             ->where('wish.customer_id', '=', $this->_customer->id);
 
         $query->select('wish.id AS wishlist_id', 'wish.object_id', 'wish.type')
             ->orderBy('wish.created_at');
-        
+
         $success["total"] = $query->count();
         $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
-        
+
         return $this->sendResponse($success, null);
     }
 
@@ -86,7 +86,7 @@ class WishlistController extends BaseController
 
         $success = [];
         $wishlist = Wishlist::findOrFail($wishlistId);
-        
+
         if (!is_null($wishlist)) {
             $wishlist->delete();
             $success["user_id"] = $this->_customer->id;

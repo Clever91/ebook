@@ -13,8 +13,8 @@ use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatOrder;
 use App\Models\Bot\ChatOrderDetail;
 use App\Models\Bot\ChatPost;
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\Admin\Category;
+use App\Models\Admin\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
@@ -190,7 +190,7 @@ class BotController extends Controller
                                         $detail = ChatOrderDetail::create([
                                             "chat_order_id" => $order->id,
                                             "product_id" => $product->id,
-                                            "price" => $product->price,
+                                            "price" => $product->bookPrice(),
                                             "quantity" => $number,
                                         ]);
                                     }
@@ -204,7 +204,7 @@ class BotController extends Controller
                                         $detail = ChatOrderDetail::create([
                                             "chat_order_id" => $order->id,
                                             "product_id" => $product->id,
-                                            "price" => $product->price,
+                                            "price" => $product->bookPrice(),
                                             "quantity" => $number,
                                         ]);
                                     } else {
@@ -663,7 +663,7 @@ class BotController extends Controller
                                 $url = "https://".$request->getHttpHost() . "" . $thumbnail;
                                 $caption = "*Название:* ".$product->name."\n\n";
                                 $caption .= "*Описание: *" . $product->description . "\n\n";
-                                $caption .= "*Цена:* ". GlobalFunc::moneyFormat($product->price);
+                                $caption .= "*Цена:* ". GlobalFunc::moneyFormat($product->bookPrice());
 
                                 try {
                                     $reply_markup = BotKeyboard::product($product->id, $number);
@@ -682,7 +682,7 @@ class BotController extends Controller
                             } else {
                                 $text = "*Название:* ".$product->name."\n\n";
                                 $text .= "*Описание: *" . $product->description . "\n\n";
-                                $text .= "*Цена:* ".GlobalFunc::moneyFormat($product->price);
+                                $text .= "*Цена:* ".GlobalFunc::moneyFormat($product->bookPrice());
 
                                 try {
                                     $reply_markup = BotKeyboard::product($product->id, $number);
@@ -814,7 +814,7 @@ class BotController extends Controller
                                         'type' => $type
                                     ]);
 
-                                    if ($model) {
+                                    if (!is_null($model)) {
                                         try {
                                             $group_id = env("TELEGRAM_ORDER_GROUP");
                                             $text = 'This ['. $username . '](http://t.me/'.$username.') bot just added new '. $type .' (*'.$title.'*) by '.$fullname;
@@ -877,7 +877,7 @@ class BotController extends Controller
                                 'type' => $type
                             ]);
 
-                            if ($model) {
+                            if (!is_null($model)) {
                                 try {
                                     $fullname = "admin";
                                     $username = env("TELEGRAM_BOT_USERNAME");
@@ -993,11 +993,8 @@ class BotController extends Controller
                             $thumbnail = $product->image->getImageUrl("500x500");
                             $url = "https://".$request->getHttpHost() . "" . $thumbnail;
                             $caption = $post->caption;
-
                             try {
-
                                 $reply_markup = BotKeyboard::product($product->id, 1);
-
                                 // send message
                                 Telegram::sendPhoto([
                                     'chat_id' => $chat_id,
@@ -1454,8 +1451,6 @@ class BotController extends Controller
             }
         }
 
-        // header ( 'Content-Type:application/json' );
-        // echo '{"ok":true, "retry_after": 1}';
         return ["ok" => true];
     }
 }

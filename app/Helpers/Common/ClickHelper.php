@@ -2,11 +2,11 @@
 
 namespace App\Helpers\Common;
 
+use Exception;
 use App\Helpers\Log\TelegramLog;
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
 use App\Models\Helpers\ClickTransaction;
-use Exception;
 use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -55,7 +55,7 @@ class ClickHelper
         if ($data['error'] != 0) {
             return ClickTransaction::getResponse($data, -8);
         }
-        
+
         if ($data['action'] == ClickTransaction::ACTION_PREPARE) {
             if (!ClickHelper::checkSign($data)) {
                 return ClickTransaction::getResponse($data, -1);
@@ -133,14 +133,14 @@ class ClickHelper
                         $text = Lang::get('bot.thank_you_your_order_accepted') ." <b>". $order->id ."</b>";
                         if ($order->isPickUp())
                             $text .= "\n\n" .Lang::get("bot.our_geolocation");
-                            
+
                         $response = Telegram::sendMessage([
                             'chat_id' => $order->chat_id,
                             'text' => $text,
                             'parse_mode' => "HTML",
                             'reply_to_message_id' => $order->message_id
                         ]);
-                        
+
                         if ($order->isPickUp()) {
                             $lat = Setting::get('shop_lat');
                             $lng = Setting::get('shop_lng');

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\Comment;
-use App\Models\Product;
+use App\Models\Admin\Author;
+use App\Models\Admin\Category;
+use App\Models\Admin\Comment;
+use App\Models\Admin\Product;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -23,7 +23,7 @@ class CommentController extends BaseController
         $commentableId = $request->input('object_id');
         if (is_null($commentableId))
             return $this->sendError('Comment Error', ['error' => 'object_id must not be empty'], 400);
-        
+
         $type = $request->input('type');
         if (is_null($type))
             return $this->sendError('Comment Error', ['error' => 'type must not be empty'], 400);
@@ -57,7 +57,7 @@ class CommentController extends BaseController
             $comment["user_name"] = $reply->customer->displayName();
             $comment["replies"] = $reply->replies()->count();
         }
-        
+
         return $this->sendResponse($success, null);
     }
 

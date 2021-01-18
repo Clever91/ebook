@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\Device;
+use App\Models\Admin\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -39,7 +39,7 @@ class DeviceController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error:', $validator->errors(), 400);       
+            return $this->sendError('Validation Error:', $validator->errors(), 400);
         }
 
         $input = $request->all();
@@ -62,7 +62,7 @@ class DeviceController extends BaseController
         $success['token'] = $device->token;
         $success['name'] = $device->name;
         $success['device_id'] = $device->id;
-   
+
         return $this->sendResponse($success, $message);
     }
 
@@ -79,7 +79,7 @@ class DeviceController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error', $validator->errors(), 400);    
+            return $this->sendError('Validation Error', $validator->errors(), 400);
         }
 
         $device = Device::where([
@@ -89,14 +89,14 @@ class DeviceController extends BaseController
         ])->first();
 
         if (!is_null($device)) {
-            $success['token'] =  $device->token; 
+            $success['token'] =  $device->token;
             $success['name'] =  $device->name;
 
             return $this->sendResponse($success, 'This device has exists in server');
-        } 
-        else { 
+        }
+        else {
             return $this->sendError('Device Error', ['error'=>'This token does not exists'], 403);
-        } 
+        }
     }
 
     public function delete(Request $request)
@@ -107,7 +107,7 @@ class DeviceController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error', $validator->errors(), 400);    
+            return $this->sendError('Validation Error', $validator->errors(), 400);
         }
 
         $device = Device::where([
@@ -119,14 +119,14 @@ class DeviceController extends BaseController
         if (!is_null($device)) {
             $device->makeNotActive();
 
-            $success['token'] =  $device->token; 
+            $success['token'] =  $device->token;
             $success['name'] =  $device->name;
 
             return $this->sendResponse($success, 'This device has deleted successfully');
-        } 
-        else { 
+        }
+        else {
             return $this->sendError('Device Error', ['error'=>'This token does not exists'], 403);
-        } 
+        }
     }
 
     public function languages(Request $request)
@@ -135,7 +135,7 @@ class DeviceController extends BaseController
             return $error;
 
         $success['languages'] = config('translatable.locales');
-    
+
         return $this->sendResponse($success, null);
     }
 }
