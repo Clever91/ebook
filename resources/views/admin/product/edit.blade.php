@@ -178,6 +178,7 @@ $book = $model->book();
                 <!-- /.card-body -->
 
                 <div class="card-footer">
+                    <a href="{{ route('product.index') }}" class="btn btn-default">Назад</a>
                     <button type="submit" class="btn btn-info">Сохранить</button>
                 </div>
             </form>

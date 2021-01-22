@@ -38,7 +38,6 @@
                                         {{-- <th>Описание</th> --}}
                                         <th>Цена</th>
                                         <th>Активный</th>
-                                        <th width="90px">Прикреплять</th>
                                         <th width="190px">Действия</th>
                                     </tr>
                                 </thead>
@@ -53,45 +52,54 @@
                                         <td>@money_format($model->bookPrice())</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="btn btn-app">
-                                                <i class="fas fa-paperclip"></i> Доб. группу
-                                                @if ($model->relations->count())
-                                                <span class="badge bg-warning">{{ $model->relations->count() }}</span>
-                                                @else
-                                                <span class="badge bg-danger">{{ $model->relations->count() }}</span>
-                                                @endif
-                                            </a><br>
-                                            <a href="{{ route('admin.telegram.index', $model->id) }}" class="btn btn-app">
-                                                <i class="fas fa-bullhorn"></i> Отправить
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('product.edit', $model->id) }}" class="btn btn-app">
-                                                <i class="fas fa-edit"></i> Изм.
-                                            </a>
-                                            <a href="{{ route('product.eform', $model->id) }}" class="btn btn-app">
-                                                @if ($model->ebook())
-                                                <span class="badge bg-teal">@money_format($model->ebookPrice())</span>
-                                                @else
-                                                <span class="badge badge-danger">0</span>
-                                                @endif
-                                                <i class="fas fa-inbox"></i> ebook
-                                            </a>
-                                            <form action="{{ route('product.destroy', $model->id) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <a href="{{ route('product.image', $model->id) }}" class="btn btn-app">
-                                                @if ($model->hasImage())
-                                                    <span class="badge bg-purple">1</span>
-                                                @else
-                                                    <span class="badge bg-danger">0</span>
-                                                @endif
-                                                    <i class="fas fa-image"></i> Изоб.
-                                                </a>
-                                                <button type="submit" class="btn btn-app">
-                                                    <i class="fas fa-trash"></i> Удалить
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default">Действия</button>
+                                                <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                    <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
-                                            </form>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <a href="{{ route('product.edit', $model->id) }}" class="dropdown-item">
+                                                        <i class="fas fa-edit"></i> Изменить
+                                                    </a>
+                                                    <a href="{{ route('product.eform', $model->id) }}" class="dropdown-item">
+                                                        <i class="fas fa-eye"></i> Электронная книга (
+                                                        @if ($model->ebook())
+                                                        <span class="badge bg-teal">@money_format($model->ebookPrice())</span>
+                                                        @else
+                                                        <span class="badge badge-danger">0</span>
+                                                        @endif
+                                                        )
+                                                    </a>
+                                                    <a href="{{ route('product.image', $model->id) }}" class="dropdown-item">
+                                                        <i class="fas fa-image"></i> Изображение
+                                                        @if ($model->hasImage())
+                                                            <span class="badge bg-purple">Да</span>
+                                                        @else
+                                                            <span class="badge bg-danger">Нет</span>
+                                                        @endif
+                                                    </a>
+                                                    <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="dropdown-item">
+                                                        <i class="fas fa-paperclip"></i> Доб. группу
+                                                        @if ($model->relations->count())
+                                                        <span class="badge bg-warning">{{ $model->relations->count() }}</span>
+                                                        @else
+                                                        <span class="badge bg-danger">{{ $model->relations->count() }}</span>
+                                                        @endif
+                                                    </a>
+                                                    <a href="{{ route('admin.telegram.index', $model->id) }}" class="dropdown-item">
+                                                        <i class="fas fa-bullhorn"></i> Отправить
+                                                    </a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <form action="{{ route('product.destroy', $model->id) }}" method="POST">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="fas fa-trash"></i> Удалить
+                                                        </button>
+                                                    </form>
+                                                    {{-- <a class="dropdown-item" href="#">Separated link</a> --}}
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
