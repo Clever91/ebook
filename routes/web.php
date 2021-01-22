@@ -71,6 +71,15 @@ Localization::localizedRoutesGroup(function() {
         Route::resource('product', 'Admin\ProductController')->except('show');
         Route::resource('goods', 'Admin\GoodsController')->except('show');
 
+        // book route
+        Route::get('/book/list', 'Admin\BookController@list')->name('admin.book.list');
+        Route::get('/book/{product}/index', 'Admin\BookController@index')->name('admin.book.index');
+        Route::get('/book/{product}/add', 'Admin\BookController@add')->name('admin.book.add');
+        Route::patch('/book/{product}/store', 'Admin\BookController@store')->name('admin.book.store');
+        Route::get('/book/{book}/edit', 'Admin\BookController@edit')->name('admin.book.edit');
+        Route::patch('/book/{product}/update', 'Admin\BookController@update')->name('admin.book.update');
+        Route::delete('/book/{book}/destroy', 'Admin\BookController@destroy')->name('admin.book.destroy');
+
         // custom image route
         Route::get('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform');
         Route::patch('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform.patch');

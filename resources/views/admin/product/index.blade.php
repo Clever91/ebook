@@ -53,7 +53,7 @@
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-default">Действия</button>
+                                                <button type="button" class="btn btn-default">События</button>
                                                 <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                                                     <span class="sr-only">Toggle Dropdown</span>
                                                 </button>
@@ -62,13 +62,10 @@
                                                         <i class="fas fa-edit"></i> Изменить
                                                     </a>
                                                     <a href="{{ route('product.eform', $model->id) }}" class="dropdown-item">
-                                                        <i class="fas fa-eye"></i> Электронная книга (
-                                                        @if ($model->ebook())
-                                                        <span class="badge bg-teal">@money_format($model->ebookPrice())</span>
-                                                        @else
-                                                        <span class="badge badge-danger">0</span>
-                                                        @endif
-                                                        )
+                                                        <i class="fas fa-eye"></i> Электронная книга
+                                                        ( <span class="badge @if ($model->ebook()) bg-teal @else badge-danger @endif">
+                                                            @money_format($model->ebookPrice())
+                                                        </span> )
                                                     </a>
                                                     <a href="{{ route('product.image', $model->id) }}" class="dropdown-item">
                                                         <i class="fas fa-image"></i> Изображение
@@ -79,12 +76,16 @@
                                                         @endif
                                                     </a>
                                                     <a href="{{ route('admin.relation.index', [$model->id, 'P']) }}" class="dropdown-item">
-                                                        <i class="fas fa-paperclip"></i> Доб. группу
-                                                        @if ($model->relations->count())
-                                                        <span class="badge bg-warning">{{ $model->relations->count() }}</span>
-                                                        @else
-                                                        <span class="badge bg-danger">{{ $model->relations->count() }}</span>
-                                                        @endif
+                                                        <i class="fas fa-users"></i> Доб. группу
+                                                        <span class="badge @if ($model->relations->count()) bg-warning @else bg-danger @endif">
+                                                            {{ $model->relations->count() }}
+                                                        </span>
+                                                    </a>
+                                                    <a href="{{ route('admin.book.index', $model->id) }}" class="dropdown-item">
+                                                        <i class="fas fa-book"></i> Список книг
+                                                        <span class="badge @if ($model->books()->count()) bg-info  @else bg-danger @endif ">
+                                                            {{ $model->books()->count() }}
+                                                        </span>
                                                     </a>
                                                     <a href="{{ route('admin.telegram.index', $model->id) }}" class="dropdown-item">
                                                         <i class="fas fa-bullhorn"></i> Отправить
@@ -97,7 +98,6 @@
                                                             <i class="fas fa-trash"></i> Удалить
                                                         </button>
                                                     </form>
-                                                    {{-- <a class="dropdown-item" href="#">Separated link</a> --}}
                                                 </div>
                                             </div>
                                         </td>

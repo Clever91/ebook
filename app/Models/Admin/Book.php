@@ -2,10 +2,11 @@
 
 namespace App\Models\Admin;
 
+use App\Models\Helpers\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
 
-class Book extends Model
+class Book extends Base
 {
     const COVER_HARD = 'H'; // Hard
     const COVER_SOFT = 'S'; // Soft
@@ -18,11 +19,35 @@ class Book extends Model
     const COLOR_GREEN = 'Gr'; // Green
 
     protected $fillable = ['product_id', 'price', 'leftover', 'cover',
-    'paper_size', 'letter', 'color', 'status', 'updated_by', 'created_by'];
+    'paper_size', 'letter', 'color', 'status', 'deleted', 'updated_by', 'created_by'];
 
     public function product()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
+    }
+
+    public function coverLabel()
+    {
+        return self::coverTypes()[$this->cover];
+    }
+
+    public function letterLabel()
+    {
+        if (is_null($this->letter) || empty($this->letter))
+            return null;
+        return self::letterTypes()[$this->letter];
+    }
+
+    public function paperSize()
+    {
+        return $this->paper_size;
+    }
+
+    public function colorLabel()
+    {
+        if (is_null($this->color) || empty($this->color))
+            return null;
+        return self::colorTypes()[$this->color];
     }
 
     public static function coverTypes()

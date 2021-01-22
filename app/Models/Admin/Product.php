@@ -49,6 +49,11 @@ class Product extends Base implements TranslatableContract
         return Book::where('product_id', $this->id)->first();
     }
 
+    public function books()
+    {
+        return Book::where('product_id', $this->id)->get();
+    }
+
     public function ebook()
     {
         return Ebook::where('product_id', $this->id)->first();
