@@ -113,5 +113,22 @@ return [
             ],
         ]
     ],
+    'group' => [
+        'title' => 'Группа заказов',
+        'desc' => 'Настройка группы заказов',
+        'icon' => 'fas fa-users',
+
+        'elements' => [
+            [
+                'type' => 'text',
+                'data' => 'float',
+                'name' => 'order_group',
+                'label' => 'Группа ID',
+                'rules' => 'required',
+                'class' => '',
+                'value' => '-336591551'
+            ],
+        ]
+    ],
 ]
 ?>

@@ -446,7 +446,7 @@ class BotController extends Controller
 
                                     // ~~~~~~~~~~~~~~~~~ send group check
 
-                                    $group_id = env("TELEGRAM_ORDER_GROUP");
+                                    $group_id = Setting::get('order_group');
                                     $text = $order->telegramOrderList();
 
                                     try {
@@ -816,7 +816,7 @@ class BotController extends Controller
 
                                     if (!is_null($model)) {
                                         try {
-                                            $group_id = env("TELEGRAM_ORDER_GROUP");
+                                            $group_id = Setting::get('order_group');
                                             $text = 'This ['. $username . '](http://t.me/'.$username.') bot just added new '. $type .' (*'.$title.'*) by '.$fullname;
 
                                             Telegram::sendMessage([
@@ -862,6 +862,19 @@ class BotController extends Controller
 
                     }
 
+                    if (strtolower($command) == ("/chat_id" || "/chatid")) {
+                        try {
+                            $text = "This is your group chat ID: *".$chat_id."*";
+                            Telegram::sendMessage([
+                                'chat_id' => $chat_id,
+                                'text' => $text,
+                                'parse_mode' => "Markdown"
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                    }
+
                 } else if ($type == "channel") {
 
                     // save channel ID
@@ -881,7 +894,7 @@ class BotController extends Controller
                                 try {
                                     $fullname = "admin";
                                     $username = env("TELEGRAM_BOT_USERNAME");
-                                    $group_id = env("TELEGRAM_ORDER_GROUP");
+                                    $group_id = Setting::get('order_group');
                                     $text = 'This ['. $username . '](http://t.me/'.$username.') bot just added new '. $type .' (*'.$title.'*) by '.$fullname;
 
                                     Telegram::sendMessage([
@@ -956,7 +969,7 @@ class BotController extends Controller
 
                                 // ~~~~~~~~~~~~~~~~~ send group check
 
-                                $group_id = env("TELEGRAM_ORDER_GROUP");
+                                $group_id = Setting::get('order_group');
                                 $text = $order->telegramOrderList();
 
                                 try {
