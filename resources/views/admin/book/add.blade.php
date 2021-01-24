@@ -67,7 +67,7 @@ use App\Models\Admin\Book;
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="letter">Письмо из книги</label>
+                        <label for="letter">Надпись</label>
                         <select class="form-control select2bs4 @error('letter') is-invalid @enderror"
                             name="letter" style="width: 100%;">
                             <option value="">Выберите</option>
