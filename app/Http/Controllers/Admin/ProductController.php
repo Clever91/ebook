@@ -92,7 +92,7 @@ class ProductController extends BaseController
                 $book->cover = $request->input('cover');
                 $book->letter = $request->input('letter');
                 $book->paper_size = $request->input('paper_size', null);
-                $book->color = $request->input('color', null);
+                $book->color_id = $request->input('color_id', null);
                 $book->created_by = Auth::user()->id;
             } else {
                 $book->updated_by = Auth::user()->id;
@@ -164,7 +164,7 @@ class ProductController extends BaseController
             $book->cover = $request->input('cover');
             $book->letter = $request->input('letter');
             $book->paper_size = $request->input('paper_size', null);
-            $book->color = $request->input('color', null);
+            $book->color_id = $request->input('color_id', null);
             $book->price = $request->input('price', 0);
             $book->save();
         }

@@ -135,35 +135,27 @@ use App\Models\Admin\Book;
                     </div>
                     <div class="form-group">
                         <label for="paper_size">Размер страницы</label>
-                        <select class="form-control select2bs4 @error('paper_size') is-invalid @enderror"
-                            name="paper_size" style="width: 100%;">
-                            <option value="">Выберите размер страницы</option>
-                            @foreach (Book::paperSizeTypes() as $val)
-                                @if (old('paper_size') == $val)
-                            <option value="{{ $val }}" selected>{{ $val }}</option>
-                                @else
-                            <option value="{{ $val }}">{{ $val }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control @error('paper_size') is-invalid @enderror"
+                            id="paper_size" name="paper_size"  value="{{ old('paper_size') }}"
+                            placeholder="Введите размер">
                         @error('paper_size')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="color">Цвет книги</label>
-                        <select class="form-control select2bs4 @error('color') is-invalid @enderror"
-                            name="color" style="width: 100%;">
+                        <label for="color_id">Цвет книги</label>
+                        <select class="form-control select2bs4 @error('color_id') is-invalid @enderror"
+                            name="color_id" style="width: 100%;">
                             <option value="">Выберите цвет</option>
-                            @foreach (Book::colorTypes() as $color => $val)
-                                @if (old('color') == $val)
-                            <option value="{{ $color }}" selected>{{ $val }}</option>
+                            @foreach (Book::colorTypes() as $color)
+                                @if (old('color_id') == $color->id)
+                            <option value="{{ $color->id }}" selected>{{ $color->name }}</option>
                                 @else
-                            <option value="{{ $color }}">{{ $val }}</option>
+                            <option value="{{ $color->id }}">{{ $color->name }}</option>
                                 @endif
                             @endforeach
                         </select>
-                        @error('color')
+                        @error('color_id')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>

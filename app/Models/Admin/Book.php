@@ -3,7 +3,6 @@
 namespace App\Models\Admin;
 
 use App\Models\Helpers\Base;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Lang;
 
 class Book extends Base
@@ -14,16 +13,17 @@ class Book extends Base
     const LETTER_LATIN = 'L'; // Lotin
     const LETTER_KRILL = 'K'; // Krill
 
-    const COLOR_WHITE = 'Wh'; // White
-    const COLOR_BLACK = 'Bl'; // Black
-    const COLOR_GREEN = 'Gr'; // Green
-
     protected $fillable = ['product_id', 'price', 'leftover', 'cover',
-    'paper_size', 'letter', 'color', 'status', 'deleted', 'updated_by', 'created_by'];
+    'paper_size', 'letter', 'color_id', 'status', 'deleted', 'updated_by', 'created_by'];
 
     public function product()
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
+    }
+
+    public function color()
+    {
+        return $this->hasOne(Color::class, 'id', 'color_id');
     }
 
     public function coverLabel()
@@ -45,9 +45,10 @@ class Book extends Base
 
     public function colorLabel()
     {
-        if (is_null($this->color) || empty($this->color))
-            return null;
-        return self::colorTypes()[$this->color];
+        if (!is_null($this->color)) {
+            return $this->color->name;
+        }
+        return null;
     }
 
     public static function coverTypes()
@@ -66,19 +67,8 @@ class Book extends Base
         ];
     }
 
-    public static function paperSizeTypes()
-    {
-        return [
-            'A4', 'A5', 'A6'
-        ];
-    }
-
     public static function colorTypes()
     {
-        return [
-            self::COLOR_WHITE => Lang::get('admin.color_white'),
-            self::COLOR_BLACK => Lang::get('admin.color_black'),
-            self::COLOR_GREEN => Lang::get('admin.color_green'),
-        ];
+        return Color::where('status', Color::STATUS_ACTIVE)->get();
     }
 }

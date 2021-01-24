@@ -58,7 +58,7 @@ class BookController extends BaseController
         $book->cover = $request->input('cover');
         $book->letter = $request->input('letter');
         $book->paper_size = $request->input('paper_size', null);
-        $book->color = $request->input('color', null);
+        $book->color_id = $request->input('color_id', null);
         $book->created_by = Auth::user()->id;
         if ($book->save()) {
             return redirect()->route('product.index');
@@ -88,7 +88,7 @@ class BookController extends BaseController
         $book->cover = $request->input('cover');
         $book->letter = $request->input('letter');
         $book->paper_size = $request->input('paper_size', null);
-        $book->color = $request->input('color', null);
+        $book->color_id = $request->input('color_id', null);
         $book->updated_by = Auth::user()->id;
         if ($book->save()) {
             return redirect()->route('admin.book.index', $book->product->id);

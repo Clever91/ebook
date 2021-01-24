@@ -96,19 +96,19 @@ use App\Models\Admin\Book;
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="color">Цвет книги</label>
-                        <select class="form-control select2bs4 @error('color') is-invalid @enderror"
-                            name="color" style="width: 100%;">
+                        <label for="color_id">Цвет книги</label>
+                        <select class="form-control select2bs4 @error('color_id') is-invalid @enderror"
+                            name="color_id" style="width: 100%;">
                             <option value="">Выберите цвет</option>
-                            @foreach (Book::colorTypes() as $color => $val)
-                            @if ($model->color == $color)
-                            <option value="{{ $color }}" selected>{{ $val }}</option>
+                            @foreach (Book::colorTypes() as $color)
+                            @if ($model->color_id == $color->id)
+                            <option value="{{ $color->id }}" selected>{{ $color->name }}</option>
                             @else
-                            <option value="{{ $color }}">{{ $val }}</option>
+                            <option value="{{ $color->id }}">{{ $color->name }}</option>
                             @endif
                             @endforeach
                         </select>
-                        @error('color')
+                        @error('color_id')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>
