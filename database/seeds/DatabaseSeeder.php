@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateDefaultValueSeeder::class);
 
         // random params
-        $this->call(CreateRandomProductSeeder::class);
-        $this->call(CreateRandomCategorySeeder::class);
-        $this->call(CreateRandomGroupSeeder::class);
-        $this->call(CreateRandomAuthorSeeder::class);
-        $this->call(CreateRandomGroupRalationSeeder::class);
+        // $this->call(CreateRandomProductSeeder::class);
+        // $this->call(CreateRandomCategorySeeder::class);
+        // $this->call(CreateRandomGroupSeeder::class);
+        // $this->call(CreateRandomAuthorSeeder::class);
+        // $this->call(CreateRandomGroupRalationSeeder::class);
     }
 }
