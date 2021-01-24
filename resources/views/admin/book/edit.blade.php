@@ -88,17 +88,9 @@ use App\Models\Admin\Book;
                     </div>
                     <div class="form-group">
                         <label for="paper_size">Размер страницы</label>
-                        <select class="form-control select2bs4 @error('paper_size') is-invalid @enderror"
-                            name="paper_size" style="width: 100%;">
-                            <option value="">Выберите размер страницы</option>
-                            @foreach (Book::paperSizeTypes() as $val)
-                            @if ($model->paper_size == $val)
-                            <option value="{{ $val }}" selected>{{ $val }}</option>
-                            @else
-                            <option value="{{ $val }}">{{ $val }}</option>
-                            @endif
-                            @endforeach
-                        </select>
+                        <input type="text" class="form-control @error('paper_size') is-invalid @enderror"
+                            id="paper_size" name="paper_size"  value="{{ $model->paper_size }}"
+                            placeholder="Введите размер">
                         @error('paper_size')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
