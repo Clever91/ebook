@@ -4,17 +4,21 @@ return [
 
     // Add any language you want to support
     'locales' => [
-        'en' => [
-            'icon' => 'us',
-            'name' => 'English'
+        'uz' => [
+            'icon' => 'uz',
+            'name' => 'Uzbek'
+        ],
+        'oz' => [
+            'icon' => 'uz',
+            'name' => 'Ўзбек'
         ],
         'ru' => [
             'icon' => 'ru',
             'name' => 'Russion'
         ],
-        'uz' => [
-            'icon' => 'uz',
-            'name' => 'Uzbek'
+        'en' => [
+            'icon' => 'us',
+            'name' => 'English'
         ],
     ],
 

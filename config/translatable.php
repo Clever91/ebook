@@ -13,6 +13,7 @@ return [
     'locales' => [
         'en',
         'uz',
+        'oz',
         'ru',
     ],
 
@@ -34,6 +35,7 @@ return [
     'dt-locales' => [
         "en" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json",
         "uz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
+        "oz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
         "ru" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Russian.json"
     ],
 
