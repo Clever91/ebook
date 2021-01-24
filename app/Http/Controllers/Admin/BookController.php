@@ -42,7 +42,7 @@ class BookController extends BaseController
     {
         $attributes = $request->validate([
             'name' => 'required|min:3',
-            'cover' => 'required',
+            'cover_type_id' => 'required',
             'price' => 'required',
         ]);
 
@@ -54,7 +54,7 @@ class BookController extends BaseController
         $book->price = $request->input('price', 0);
         $book->status = Product::STATUS_ACTIVE;
         $book->leftover = $request->input('leftover', null);
-        $book->cover = $request->input('cover');
+        $book->cover_type_id = $request->input('cover_type_id');
         $book->letter = $request->input('letter', null);
         $book->paper_size = $request->input('paper_size', null);
         $book->color_id = $request->input('color_id', null);
@@ -75,7 +75,7 @@ class BookController extends BaseController
     {
         $attributes = $request->validate([
             'name' => 'required|min:3',
-            'cover' => 'required',
+            'cover_type_id' => 'required',
             'price' => 'required',
         ]);
 
@@ -83,7 +83,7 @@ class BookController extends BaseController
         $book->price = $request->input('price', 0);
         $book->status = Product::STATUS_ACTIVE;
         $book->leftover = $request->input('leftover', null);
-        $book->cover = $request->input('cover');
+        $book->cover_type_id = $request->input('cover_type_id');
         $book->letter = $request->input('letter', null);
         $book->paper_size = $request->input('paper_size', null);
         $book->color_id = $request->input('color_id', null);

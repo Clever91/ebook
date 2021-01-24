@@ -101,19 +101,19 @@ $book = $model->book();
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="cover">Обложка книги</label>
-                        <select class="form-control select2bs4 @error('cover') is-invalid @enderror"
-                            name="cover" style="width: 100%;" required>
+                        <label for="cover_type_id">Обложка книги</label>
+                        <select class="form-control select2bs4 @error('cover_type_id') is-invalid @enderror"
+                            name="cover_type_id" style="width: 100%;" required>
                             {{-- <option>Выберите обложка</option> --}}
-                            @foreach (Book::coverTypes() as $cover => $val)
-                                @if ($book->cover == $cover)
-                            <option value="{{ $cover }}" selected>{{ $val }}</option>
+                            @foreach (Book::coverTypes() as $cover)
+                                @if (!is_null($book->coverType) && $book->coverType->id == $cover->id)
+                            <option value="{{ $cover->id }}" selected>{{ $cover->translateOrNew(\App::getLocale())->name }}</option>
                                 @else
-                            <option value="{{ $cover }}">{{ $val }}</option>
+                            <option value="{{ $cover->id }}">{{ $cover->translateOrNew(\App::getLocale())->name }}</option>
                                 @endif
                             @endforeach
                         </select>
-                        @error('cover')
+                        @error('cover_type_id')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>

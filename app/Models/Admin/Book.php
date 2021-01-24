@@ -3,6 +3,7 @@
 namespace App\Models\Admin;
 
 use App\Models\Helpers\Base;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 
 class Book extends Base
@@ -13,8 +14,8 @@ class Book extends Base
     const LETTER_LATIN = 'L'; // Lotin
     const LETTER_KRILL = 'K'; // Krill
 
-    protected $fillable = ['product_id', 'price', 'leftover', 'cover',
-    'paper_size', 'letter', 'color_id', 'status', 'deleted', 'updated_by', 'created_by'];
+    protected $fillable = ['product_id', 'color_id', 'cover_type_id', 'price', 'leftover', 'cover',
+    'paper_size', 'letter', 'status', 'deleted', 'updated_by', 'created_by'];
 
     public function product()
     {
@@ -26,9 +27,16 @@ class Book extends Base
         return $this->hasOne(Color::class, 'id', 'color_id');
     }
 
+    public function coverType()
+    {
+        return $this->hasOne(CoverType::class, 'id', 'cover_type_id');
+    }
+
     public function coverLabel()
     {
-        return self::coverTypes()[$this->cover];
+        if (!is_null($this->coverType))
+            return $this->coverType->translateOrNew(App::getLocale())->name;
+        return null;
     }
 
     public function letterLabel()
@@ -53,10 +61,7 @@ class Book extends Base
 
     public static function coverTypes()
     {
-        return [
-            self::COVER_SOFT => Lang::get('admin.cover_soft'),
-            self::COVER_HARD => Lang::get('admin.cover_hard'),
-        ];
+        return CoverType::where('status', CoverType::STATUS_ACTIVE)->get();
     }
 
     public static function letterTypes()

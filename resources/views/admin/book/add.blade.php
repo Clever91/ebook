@@ -55,14 +55,14 @@ use App\Models\Admin\Book;
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="cover">Обложка книги</label>
-                        <select class="form-control select2bs4 @error('cover') is-invalid @enderror"
-                            name="cover" style="width: 100%;" required>
-                            @foreach (Book::coverTypes() as $cover => $val)
-                            <option value="{{ $cover }}">{{ $val }}</option>
+                        <label for="cover_type_id">Обложка книги</label>
+                        <select class="form-control select2bs4 @error('cover_type_id') is-invalid @enderror"
+                            name="cover_type_id" style="width: 100%;" required>
+                            @foreach (Book::coverTypes() as $cover)
+                            <option value="{{ $cover->id }}">{{ $cover->translateOrNew(\App::getLocale())->name }}</option>
                             @endforeach
                         </select>
-                        @error('cover')
+                        @error('cover_type_id')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>

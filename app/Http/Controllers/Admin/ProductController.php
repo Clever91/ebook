@@ -89,7 +89,7 @@ class ProductController extends BaseController
                 $book->product_id = $model->id;
                 $book->status = Product::STATUS_ACTIVE;
                 $book->leftover = $request->input('leftover', null);
-                $book->cover = $request->input('cover');
+                $book->cover_type_id = $request->input('cover_type_id');
                 $book->letter = $request->input('letter', null);
                 $book->paper_size = $request->input('paper_size', null);
                 $book->color_id = $request->input('color_id', null);
@@ -161,7 +161,7 @@ class ProductController extends BaseController
         if ($model->save()) {
             $book = $model->book();
             $book->leftover = $request->input('leftover', null);
-            $book->cover = $request->input('cover');
+            $book->cover_type_id = $request->input('cover_type_id');
             $book->letter = $request->input('letter', null);
             $book->paper_size = $request->input('paper_size', null);
             $book->color_id = $request->input('color_id', null);
