@@ -625,6 +625,7 @@ class BotController extends Controller
                         $text = Lang::get("bot.select_product");
                         $products = Product::where([
                             'status' => Product::STATUS_ACTIVE,
+                            'deleted' => Product::NO_DELETED,
                             'category_id' => $decode->cat,
                         ])->get();
 
