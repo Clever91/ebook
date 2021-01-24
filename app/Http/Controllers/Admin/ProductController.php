@@ -90,7 +90,7 @@ class ProductController extends BaseController
                 $book->status = Product::STATUS_ACTIVE;
                 $book->leftover = $request->input('leftover', null);
                 $book->cover = $request->input('cover');
-                $book->letter = $request->input('letter');
+                $book->letter = $request->input('letter', null);
                 $book->paper_size = $request->input('paper_size', null);
                 $book->color_id = $request->input('color_id', null);
                 $book->created_by = Auth::user()->id;
@@ -162,7 +162,7 @@ class ProductController extends BaseController
             $book = $model->book();
             $book->leftover = $request->input('leftover', null);
             $book->cover = $request->input('cover');
-            $book->letter = $request->input('letter');
+            $book->letter = $request->input('letter', null);
             $book->paper_size = $request->input('paper_size', null);
             $book->color_id = $request->input('color_id', null);
             $book->price = $request->input('price', 0);
@@ -297,7 +297,7 @@ class ProductController extends BaseController
                     // create thumbnails images
                     // $image->resizeImage(100, 100);
                     // $image->resizeImage(300, 300);
-                    // $image->resizeImage(600, 600);
+                    $image->resizeImage(500, 500);
                 }
             }
 

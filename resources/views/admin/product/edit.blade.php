@@ -120,8 +120,8 @@ $book = $model->book();
                     <div class="form-group">
                         <label for="letter">Письмо из книги</label>
                         <select class="form-control select2bs4 @error('letter') is-invalid @enderror"
-                            name="letter" style="width: 100%;" required>
-                            {{-- <option>Выберите обложка</option> --}}
+                            name="letter" style="width: 100%;">
+                            <option value="">Выберите</option>
                             @foreach (Book::letterTypes() as $letter => $val)
                                 @if ($book->letter == $letter)
                             <option value="{{ $letter }}" selected>{{ $val }}</option>

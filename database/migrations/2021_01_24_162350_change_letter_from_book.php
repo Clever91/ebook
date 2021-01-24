@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ChangeColorBook extends Migration
+class ChangeLetterFromBook extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class ChangeColorBook extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn('color');
-            $table->bigInteger('color_id')->unsigned()->nullable()->after('product_id');
+            $table->dropColumn('letter');
+            $table->string('letter', 2)->nullable()->comment('L -> Lotin, K -> Krill')->after('cover');
         });
     }
 
@@ -26,9 +26,9 @@ class ChangeColorBook extends Migration
      */
     public function down()
     {
-        Schema::table('books', function (Blueprint $table) {
-            $table->dropColumn('color_id');
-            $table->string('color')->nullable()->after('leftover');
+        Schema::table('book', function (Blueprint $table) {
+            $table->dropColumn('letter');
+            $table->string('letter', 2)->comment('L -> Lotin, K -> Krill')->after('cover');
         });
     }
 }

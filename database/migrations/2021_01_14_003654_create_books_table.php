@@ -19,7 +19,7 @@ class CreateBooksTable extends Migration
             $table->decimal('price', 12, 2, true);
             $table->bigInteger('leftover')->nullable();
             $table->string('cover', 2)->default('S')->comment('H -> hard, S -> Soft');
-            $table->string('letter', 2)->default('L')->comment('L -> Lotin, K -> Krill');
+            $table->string('letter', 2)->nullable()->comment('L -> Lotin, K -> Krill');
             $table->string('paper_size', 10)->nullable();
             $table->string('color', 2)->nullable()->comment('W -> white, Bl -> black');
             $table->tinyInteger('status')->default(0)->comment("0-not active, 1-active");
