@@ -10,6 +10,7 @@ use ImageResize as ImageResize;
 class Image extends Model
 {
     const TYPE_PRODUCT = "product";
+    const TYPE_BOOK = "book";
     const TYPE_AUTHOR = "author";
     const TYPE_CATEGORY = "category";
     const TYPE_GROUP = "group";

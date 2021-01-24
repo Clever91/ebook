@@ -66,6 +66,14 @@
                                                     <a href="{{ route('admin.book.edit', $model->id) }}" class="dropdown-item">
                                                         <i class="fas fa-edit"></i> Изменить
                                                     </a>
+                                                    <a href="{{ route('admin.book.image', $model->id) }}" class="dropdown-item">
+                                                        <i class="fas fa-image"></i> Изображение
+                                                        @if ($model->hasImage())
+                                                            <span class="badge bg-purple">Да</span>
+                                                        @else
+                                                            <span class="badge bg-danger">Нет</span>
+                                                        @endif
+                                                    </a>
                                                     <div class="dropdown-divider"></div>
                                                     <form action="{{ route('admin.book.destroy', $model->id) }}" method="POST">
                                                         @method('DELETE')

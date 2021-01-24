@@ -79,6 +79,8 @@ Localization::localizedRoutesGroup(function() {
         Route::get('/book/{book}/edit', 'Admin\BookController@edit')->name('admin.book.edit');
         Route::patch('/book/{product}/update', 'Admin\BookController@update')->name('admin.book.update');
         Route::delete('/book/{book}/destroy', 'Admin\BookController@destroy')->name('admin.book.destroy');
+        Route::get('/book/{book}/image', 'Admin\BookController@image')->name('admin.book.image');
+        Route::patch('/book/{book}/image', 'Admin\BookController@image')->name('admin.book.image.patch');
 
         // custom image route
         Route::get('/product/{product}/eform', 'Admin\ProductController@eform')->name('product.eform');

@@ -14,7 +14,7 @@ class Book extends Base
     const LETTER_LATIN = 'L'; // Lotin
     const LETTER_KRILL = 'K'; // Krill
 
-    protected $fillable = ['product_id', 'color_id', 'cover_type_id', 'price', 'leftover', 'cover',
+    protected $fillable = ['product_id', 'image_id', 'color_id', 'cover_type_id', 'price', 'leftover', 'cover',
     'paper_size', 'letter', 'status', 'deleted', 'updated_by', 'created_by'];
 
     public function product()
@@ -30,6 +30,11 @@ class Book extends Base
     public function coverType()
     {
         return $this->hasOne(CoverType::class, 'id', 'cover_type_id');
+    }
+
+    public function image()
+    {
+        return $this->belongsTo(Image::class)->where('type', Image::TYPE_BOOK);
     }
 
     public function coverLabel()
