@@ -14,12 +14,14 @@ class DatabaseSeeder extends Seeder
         // must be default values
         $this->call(CreateAdminUserSeeder::class);
         $this->call(CreateDefaultValueSeeder::class);
+        $this->call(CreateDefaultCoverTypes::class);
+        $this->call(CreateDefaultColors::class);
 
         // random params
-        // $this->call(CreateRandomProductSeeder::class);
-        // $this->call(CreateRandomCategorySeeder::class);
-        // $this->call(CreateRandomGroupSeeder::class);
-        // $this->call(CreateRandomAuthorSeeder::class);
-        // $this->call(CreateRandomGroupRalationSeeder::class);
+        $this->call(CreateRandomCategorySeeder::class);
+        $this->call(CreateRandomAuthorSeeder::class);
+        $this->call(CreateRandomProductSeeder::class);
+        $this->call(CreateRandomGroupSeeder::class);
+        $this->call(CreateRandomGroupRalationSeeder::class);
     }
 }

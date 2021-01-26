@@ -11,10 +11,10 @@ return [
     |
     */
     'locales' => [
-        'en',
-        'uz',
         'oz',
+        'uz',
         'ru',
+        'en',
     ],
 
     // 'getLocales' => [
@@ -33,9 +33,9 @@ return [
     // ],
 
     'dt-locales' => [
-        "en" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json",
-        "uz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
         "oz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
+        "uz" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Uzbek.json",
+        "en" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/English.json",
         "ru" => "//cdn.datatables.net/plug-ins/1.10.20/i18n/Russian.json"
     ],
 

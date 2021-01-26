@@ -1,10 +1,11 @@
 <?php
 
 return [
-    'cover_soft' => 'Мягкая обложка',
-    'cover_hard' => 'Твердая обложка',
-    'letter_krill' => 'Кирилл',
-    'letter_latin' => 'Латинская',
+    'cover_soft' => 'Мягкий переплет',
+    'cover_hard' => 'Твердый переплет',
+    'cover_skin' => 'Твердый переплет (кожа) ',
+    'letter_krill' => 'Кириллица',
+    'letter_latin' => 'Латиница',
     'color_white' => 'Белый',
     'color_black' => 'Черный',
     'color_green' => 'Зеленый',

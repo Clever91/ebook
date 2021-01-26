@@ -19,7 +19,7 @@ class Image extends Model
     const THUMBNAIL_PATH = "/thumbnails";
 
     protected $fillable = [
-        'name', 'type', 'orginal_name', 'size', 'extention'
+        'name', 'type', 'orginal_name', 'size', 'extension'
     ];
 
     public function deleteImage()

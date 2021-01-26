@@ -151,7 +151,7 @@ class GroupController extends BaseController
                 $image->type = Image::TYPE_GROUP;
                 $image->orginal_name = $upload->getClientOriginalName();
                 $image->size = $size;
-                $image->extantion = $ext;
+                $image->extension = $ext;
                 if ($image->save()) {
                     // check if model has already image, so delete it
                     if ($model->hasImage()) {

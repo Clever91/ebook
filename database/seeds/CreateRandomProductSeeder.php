@@ -4,6 +4,8 @@ use App\Models\Admin\AudioBook;
 use App\Models\Admin\Author;
 use App\Models\Admin\Book;
 use App\Models\Admin\Category;
+use App\Models\Admin\Color;
+use App\Models\Admin\CoverType;
 use App\Models\Admin\Ebook;
 use App\Models\Admin\Files;
 use App\Models\Admin\Good;
@@ -21,17 +23,19 @@ class CreateRandomProductSeeder extends Seeder
     public function run()
     {
         $admin = User::where('is_admin', 1)->first();
-        $category = Category::first();
-        $author = Author::first();
         $file_epub = Files::where('extension', 'epub')->first();
         $file_mp3 = Files::where('extension', 'mp3')->first();
+        $categories = Category::all();
+        $authors = Author::all();
+        $coverTypes = CoverType::all();
+        $colors = Color::all();
         $faker = Faker\Factory::create();
 
         // create random product
         foreach (range(1, 60) as $index) {
             $product = Product::create([
-                'category_id' => $category->id,
-                'author_id' => $author->id,
+                'category_id' => $categories[random_int(1, count($categories) - 1)]->id,
+                'author_id' => $authors[random_int(1, count($authors) - 1)]->id,
                 'en' => [
                     'name' => $faker->word() . " (en)",
                     'description' => $faker->paragraph() . " (en)",
@@ -56,10 +60,10 @@ class CreateRandomProductSeeder extends Seeder
                     'product_id' => $product->id,
                     'price' => $faker->randomFloat(null, 10000, 99000),
                     'leftover' => random_int(-1, 5) > 0 ? $faker->numberBetween(10, 90) : null,
-                    'cover' => Book::COVER_HARD,
-                    'paper_size' => "A5",
+                    'cover_type_id' => $coverTypes[random_int(1, count($coverTypes) - 1)]->id,
+                    'paper_size' => "17x24",
                     'letter' => random_int(-1, 1) > 0 ? Book::LETTER_LATIN : Book::LETTER_KRILL,
-                    'color' => random_int(-1, 2) == 0 ? Book::COLOR_WHITE : null,
+                    'color_id' => $colors[random_int(1, count($colors) - 1)]->id,
                     'status' => Product::STATUS_ACTIVE,
                     'created_by' => $admin->id,
                 ]);

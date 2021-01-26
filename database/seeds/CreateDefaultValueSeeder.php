@@ -4,6 +4,7 @@ use App\User;
 use App\Models\Admin\Author;
 use App\Models\Admin\Category;
 use App\Models\Admin\Files;
+use App\Models\Admin\Image;
 use App\Models\Admin\Product;
 use Illuminate\Database\Seeder;
 
@@ -63,5 +64,14 @@ class CreateDefaultValueSeeder extends Seeder
         $file->size = 4077980;
         $file->extension = "mp3";
         $file->save();
+
+        // create default audio file
+        $image = new Image();
+        $image->name = $faker->word();
+        $image->type = Image::TYPE_BOOK;
+        $image->orginal_name = "default_image.png";
+        $image->size = 477980;
+        $image->extension = "png";
+        $image->save();
     }
 }

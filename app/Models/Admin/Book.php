@@ -8,9 +8,6 @@ use Illuminate\Support\Facades\Lang;
 
 class Book extends Base
 {
-    const COVER_HARD = 'H'; // Hard
-    const COVER_SOFT = 'S'; // Soft
-
     const LETTER_LATIN = 'L'; // Lotin
     const LETTER_KRILL = 'K'; // Krill
 
