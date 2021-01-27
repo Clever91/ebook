@@ -147,7 +147,7 @@ return [
 📞 +99871 244 45 45
 ✉️ bookmedianashr@gmail.com
 
-Instagram (https://www.instagram.com/bookmarket24.uz/) | Facebook (https://www.facebook.com/bookmarket24) | Telegram (https://t.me/bookmarket24)"
+[Instagram](https://www.instagram.com/bookmarket24.uz/) | [Facebook](https://www.facebook.com/bookmarket24) | [Telegram](https://t.me/bookmarket24)"
             ],
         ]
     ],
