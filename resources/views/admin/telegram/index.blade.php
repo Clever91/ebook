@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label for="caption">Текст изображения здесь</label>
                         <textarea id="caption" class="form-control" rows="6" maxlength="1020"
-                            spellcheck="false" name="caption" required>{{ $postFooter }}</textarea>
+                            spellcheck="false" name="caption" required>{{ $caption }}</textarea>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Отправить в телеграмму</button>

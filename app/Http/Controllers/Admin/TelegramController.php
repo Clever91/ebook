@@ -20,7 +20,15 @@ class TelegramController extends BaseController
     {
         $model = Product::findOrFail($id);
         $groups = ChatGroup::all();
+
+        // calculate str
         $postFooter = Setting::get('post_footer');
+        $desc = $model->translateOrNew($this->_lang)->description;
+        $allowed = 1020 - (strlen($postFooter) + 2);
+
+        $caption = strlen($desc) > $allowed ? substr($desc, 0, $allowed) : $desc;
+        $caption .= "\n\n";
+        $caption .= $postFooter;
 
         if (!$model->hasImage())
             return back();
@@ -28,7 +36,7 @@ class TelegramController extends BaseController
         return view('admin.telegram.index')->with([
             'model' => $model,
             'groups' => $groups,
-            'postFooter' => $postFooter,
+            'caption' => $caption,
         ]);
     }
 
