@@ -233,8 +233,10 @@ class BotController extends Controller
 
                             if (isset($decode->remove) || isset($decode->cart)) {
                                 $text = Lang::get("bot.select_category");
-                                $categories = Category::where('status', Category::STATUS_ACTIVE)
-                                    ->orderBy('order_no')->get();
+                                $categories = Category::where([
+                                    'status' => Category::STATUS_ACTIVE,
+                                    'deleted' => Category::NO_DELETED
+                                ])->orderBy('order_no')->get();
 
                                 try {
                                     $reply_markup = BotKeyboard::categories($categories);
@@ -584,8 +586,10 @@ class BotController extends Controller
                         }
 
                         $text = Lang::get("bot.select_category");
-                        $categories = Category::where('status', Category::STATUS_ACTIVE)
-                            ->orderBy('order_no')->get();
+                        $categories = Category::where([
+                            'status' => Category::STATUS_ACTIVE,
+                            'deleted' => Category::NO_DELETED
+                        ])->orderBy('order_no')->get();
 
                         try {
                             $reply_markup = BotKeyboard::categories($categories);
@@ -1306,8 +1310,10 @@ class BotController extends Controller
 
                     } else if ($command == "/start") {
                         $text = Lang::get("bot.select_category");
-                        $categories = Category::where('status', Category::STATUS_ACTIVE)
-                            ->orderBy('order_no')->get();
+                        $categories = Category::where([
+                            'status' => Category::STATUS_ACTIVE,
+                            'deleted' => Category::NO_DELETED
+                        ])->orderBy('order_no')->get();
 
                         try {
                             $reply_markup = BotKeyboard::categories($categories);
@@ -1323,6 +1329,63 @@ class BotController extends Controller
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
+                    } else if (strpos($command, "🛒") !== false) {
+
+                        // check already exists
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+
+                        if (is_null($order)) {
+                            // home page
+                            $text = Lang::get("bot.select_category");
+                            $categories = Category::where([
+                                'status' => Category::STATUS_ACTIVE,
+                                'deleted' => Category::NO_DELETED
+                            ])->orderBy('order_no')->get();
+
+                            try {
+                                $reply_markup = BotKeyboard::categories($categories);
+                                // edit message reply markup
+                                Telegram::sendMessage([
+                                    "chat_id" => $chat_id,
+                                    "text" => $text,
+                                    "parse_mode" => "Markdown",
+                                    "reply_markup" => $reply_markup
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        } else {
+                            // cart list
+                            try {
+                                $total = 0;
+                                $details = $order->details;
+                                $text = Lang::get("bot.your_cart");
+                                foreach($details as $index => $detail) {
+                                    $amount = $detail->price * $detail->quantity;
+                                    $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                    . GlobalFunc::moneyFormat($detail->price) ."</i> x "
+                                    . $detail->quantity ." = <i>"
+                                    .GlobalFunc::moneyFormat($amount)."</i>\n";
+                                    $total += $amount;
+                                }
+                                $text .= "\n".Lang::get('bot.total')." ".GlobalFunc::moneyFormat($total);
+                                $reply_markup = BotKeyboard::cart($details, 2);
+                                // edit message reply markup
+                                Telegram::sendMessage([
+                                    "chat_id" => $chat_id,
+                                    "text" => $text,
+                                    "parse_mode" => "HTML",
+                                    "reply_markup" => $reply_markup
+                                ]);
+
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        }
+
                     }
 
                     // get location

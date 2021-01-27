@@ -199,11 +199,16 @@ class BotKeyboard {
             'request_contact' => true
         ]);
 
+        $cart = Keyboard::button([
+            'text' => Lang::get('bot.btn_cart'),
+        ]);
+
         $reply_markup = Keyboard::make([
             'resize_keyboard' => true,
             'one_time_keyboard' => true,
             'keyboard' => [
-                [ $contact ]
+                [ $contact ],
+                [ $cart ],
             ],
         ]);
 
