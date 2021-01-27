@@ -185,7 +185,7 @@ class BotKeyboard {
                 [ $express24 ],
                 [ $pochta ],
                 [ $pickup ],
-                [ $back ]
+                [ $back ],
             ],
         ]);
 
@@ -222,11 +222,16 @@ class BotKeyboard {
             'request_location' => true
         ]);
 
+        $cart = Keyboard::button([
+            'text' => Lang::get('bot.btn_cart'),
+        ]);
+
         $reply_markup = Keyboard::make([
             'resize_keyboard' => true,
             'one_time_keyboard' => true,
             'keyboard' => [
-                [ $location ]
+                [ $location ],
+                [ $cart ],
             ],
         ]);
 
@@ -256,6 +261,13 @@ class BotKeyboard {
         $payme_url = PaymeHelper::followingLink($amount, $order_id);
 
         $keyboard = [];
+
+        $backBtn = Keyboard::button([
+            'text' => '⬅️ '.Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":'.$back.'}'
+        ]);
+        array_push($keyboard, [ $backBtn ]);
+
         if (Setting::get("payme") == "on") {
             $payme = Keyboard::button([
                 'text' => 'Payme',
@@ -291,11 +303,11 @@ class BotKeyboard {
         ]);
         array_push($keyboard, [ $cash ]);
 
-        $backBtn = Keyboard::button([
-            'text' => '⬅️ '.Lang::get('bot.btn_back'),
-            'callback_data' => '{"back":'.$back.'}'
+        $cart = Keyboard::button([
+            'text' => Lang::get('bot.btn_cart'),
+            'callback_data' => '{"cart":"1"}'
         ]);
-        array_push($keyboard, [ $backBtn ]);
+        array_push($keyboard, [ $cart ]);
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
