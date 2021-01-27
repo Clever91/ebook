@@ -9,4 +9,6 @@ return [
     'color_white' => 'Oq',
     'color_black' => 'Qora',
     'color_green' => 'Yashil',
+    'yes' => 'Bor',
+    'no' => "Yo'q",
 ];

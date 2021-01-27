@@ -47,7 +47,7 @@
                                         <td>{{ $model->id }}</td>
                                         <td>{{ $model->translateorNew(\App::getLocale())->name }}</td>
                                         <td>{{ $model->category->translateorNew(\App::getLocale())->name }}</td>
-                                        <td>{{ $model->author->name }}</td>
+                                        <td>{{ $model->authorName() }}</td>
                                         {{-- <td>{{ substr($model->translateorNew(\App::getLocale())->description, 1, 50) }}...</td> --}}
                                         <td>@money_format($model->bookPrice())</td>
                                         <td>{{ $model->activeLabel() }}</td>

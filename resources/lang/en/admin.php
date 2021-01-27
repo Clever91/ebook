@@ -9,4 +9,6 @@ return [
     'color_white' => 'White',
     'color_black' => 'Black',
     'color_green' => 'Green',
+    'yes' => 'Yes',
+    'no' => 'No',
 ];

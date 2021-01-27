@@ -65,7 +65,6 @@ class ProductController extends BaseController
             'name' => 'required|min:3',
             'description' => 'required',
             'category_id' => 'required',
-            'author_id' => 'required',
             'price' => 'required',
         ]);
 
@@ -79,7 +78,7 @@ class ProductController extends BaseController
                 $model->translateOrNew($lang)->is_default = 1;
         }
         $model->category_id = $request->input('category_id');
-        $model->author_id = $request->input('author_id');
+        $model->author_id = $request->input('author_id', null);
         $model->status = Base::activeOn($request->input("status"));;
         $model->created_by = Auth::user()->id;
         if ($model->save()) {
@@ -145,17 +144,15 @@ class ProductController extends BaseController
             'name' => 'required|min:3',
             'description' => 'required',
             'category_id' => 'required',
-            'author_id' => 'required',
             'price' => 'required',
         ]);
-        // dd($request->all());
 
         // update product
         $model = Product::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->translateOrNew($this->_lang)->description = $request->input('description');
         $model->category_id = $request->input('category_id');
-        $model->author_id = $request->input('author_id');
+        $model->author_id = $request->input('author_id', null);
         $model->status = Base::activeOn($request->input("status"));
         $model->updated_by = Auth::user()->id;
         if ($model->save()) {

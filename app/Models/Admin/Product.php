@@ -88,4 +88,12 @@ class Product extends Base implements TranslatableContract
 
         return is_null($ebook) ? 0 : 1;
     }
+
+    public function authorName()
+    {
+        if (is_null($this->author))
+            return __('admin.no');
+
+        return $this->author->name;
+    }
 }

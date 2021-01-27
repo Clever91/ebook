@@ -58,8 +58,8 @@ $book = $model->book();
                     <div class="form-group">
                         <label for="author_id">Автор</label>
                         <select class="form-control select2bs4 @error('author_id') is-invalid @enderror"
-                            name="author_id" style="width: 100%;" required>
-                            <option>Выберите автор</option>
+                            name="author_id" style="width: 100%;">
+                            <option value="">Выберите автор</option>
                             @foreach ($authors as $author)
                                 @if ($model->author_id == $author->id)
                             <option value="{{ $author->id }}" selected>{{ $author->name }}</option>
