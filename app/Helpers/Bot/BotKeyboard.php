@@ -299,6 +299,24 @@ class BotKeyboard {
         return $reply_markup;
     }
 
+    public static function home()
+    {
+        $keyboard = [
+            [
+                Keyboard::button([
+                    'text' => Lang::get('bot.btn_home'),
+                    'callback_data' => '{"home":"1"}'
+                ])
+            ]
+         ];
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
     public static function hideKeyboard()
     {
         $reply_markup = Keyboard::make([

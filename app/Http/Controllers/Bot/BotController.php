@@ -421,10 +421,13 @@ class BotController extends Controller
                                         if ($order->isPickUp())
                                             $text .= "\n\n" .Lang::get("bot.our_geolocation");
 
+                                        $keyboard = BotKeyboard::home();
+
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $order->chat_id,
                                             'text' => $text,
                                             'parse_mode' => "HTML",
+                                            'reply_markup' => $keyboard,
                                             'reply_to_message_id' => $order->message_id
                                         ]);
 
@@ -945,10 +948,13 @@ class BotController extends Controller
                                     if ($order->isPickUp())
                                         $text .= "\n\n" .Lang::get("bot.our_geolocation");
 
+                                    $keyboard = BotKeyboard::home();
+
                                     $response = Telegram::sendMessage([
                                         'chat_id' => $order->chat_id,
                                         'text' => $text,
                                         'parse_mode' => "HTML",
+                                        'reply_markup' => $keyboard,
                                         'reply_to_message_id' => $order->message_id
                                     ]);
 
