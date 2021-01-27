@@ -130,5 +130,26 @@ return [
             ],
         ]
     ],
+    'group' => [
+        'title' => 'Опубликовать сообщение',
+        'desc' => 'Нижний колонтитул публикации сообщения',
+        'icon' => 'fas fa-comment-medical',
+
+        'elements' => [
+            [
+                'type' => 'textarea',
+                'data' => 'string',
+                'name' => 'post_footer',
+                'label' => 'Сообщение нижнего колонтитула',
+                'rules' => 'required',
+                'class' => '',
+                'value' => "Мурожаат учун:
+📞 +99871 244 45 45
+✉️ bookmedianashr@gmail.com
+
+Instagram (https://www.instagram.com/bookmarket24.uz/) | Facebook (https://www.facebook.com/bookmarket24) | Telegram (https://t.me/bookmarket24)"
+            ],
+        ]
+    ],
 ]
 ?>

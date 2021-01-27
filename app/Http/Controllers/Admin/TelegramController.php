@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Exception;
 use App\Helpers\Log\TelegramLog;
 use App\Models\Admin\Product;
+use App\Models\Admin\Setting;
 use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatPost;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class TelegramController extends BaseController
     {
         $model = Product::findOrFail($id);
         $groups = ChatGroup::all();
+        $postFooter = Setting::get('post_footer');
 
         if (!$model->hasImage())
             return back();
@@ -26,6 +28,7 @@ class TelegramController extends BaseController
         return view('admin.telegram.index')->with([
             'model' => $model,
             'groups' => $groups,
+            'postFooter' => $postFooter,
         ]);
     }
 

@@ -38,21 +38,21 @@
                     <div class="form-group">
                         <label>Выберите группу или канал</label>
                         <div class="select2-purple">
-                            <select class="select2" name="group_ids[]" multiple="multiple" 
-                                data-placeholder="Выберите группу или канал (по умолчанию все)" 
-                                data-dropdown-css-class="select2-purple" 
+                            <select class="select2" name="group_ids[]" multiple="multiple"
+                                data-placeholder="Выберите группу или канал (по умолчанию все)"
+                                data-dropdown-css-class="select2-purple"
                                 style="width: 100%;">
                                 @foreach ($groups as $group)
                                 <option value="{{ $group->id }}">{{ $group->title }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>   
+                    </div>
                     <div class="form-group">
                         <label for="image">Пришлю изображение</label>
                         @if ($model->hasImage())
                         <div class="row">
-                            <img class="img-fluid" src="{{ $model->image->getOrginalImage() }}" 
+                            <img class="img-fluid" src="{{ $model->image->getOrginalImage() }}"
                                 width="300px" alt="{{ $model->translateOrNew(\App::getLocale())->name }}" />
                         </div>
                         @endif
@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label for="caption">Текст изображения здесь</label>
                         <textarea id="caption" class="form-control" rows="6" maxlength="1020"
-                            spellcheck="false" name="caption" required></textarea>
+                            spellcheck="false" name="caption" required>{{ $postFooter }}</textarea>
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Отправить в телеграмму</button>
