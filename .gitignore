@@ -17,4 +17,6 @@ public/uploads/product/*
 public/uploads/author/*
 public/uploads/category/*
 public/uploads/group/*
+public/uploads/book/*
+public/uploads/good/*
 public/thumbnails/*
