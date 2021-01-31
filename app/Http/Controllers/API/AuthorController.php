@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Admin\Author;
-use App\Models\Admin\Base;
+use App\Models\Helpers\Base;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -68,7 +68,7 @@ class AuthorController extends BaseController
 
         $success = [];
         $success["id"] = $author->id;
-        $success["name"] = $author->name;
+        $success["name"] = $author->translateorNew($this->_lang)->name;
         $success["bio"] = $author->bio;
         $success["books"] = [];
 

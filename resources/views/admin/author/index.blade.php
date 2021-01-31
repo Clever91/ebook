@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Список автор</h3>
-                            <a href="{{ route('author.create') }}" 
+                            <a href="{{ route('author.create') }}"
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->
@@ -44,12 +44,12 @@
                                     @foreach ($models as $model)
                                     <tr>
                                         <td>{{ $model->id }}</td>
-                                        <td>{{ $model->name }}</td>
-                                        <td>{{ $model->bio }}</td>
+                                        <td>{{ $model->translateorNew(\App::getLocale())->name }}</td>
+                                        <td>{{ $model->translateorNew(\App::getLocale())->bio }}</td>
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
                                             <a href="{{ route('admin.relation.index', [$model->id, 'A']) }}" class="btn btn-sm btn-success">
-                                                <i class="fas fa-paperclip"></i> Доб. группу 
+                                                <i class="fas fa-paperclip"></i> Доб. группу
                                                 @if ($model->relations->count())
                                                 <span class="badge bg-warning">{{ $model->relations->count() }}</span>
                                                 @else

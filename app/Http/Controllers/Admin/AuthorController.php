@@ -6,6 +6,7 @@ use App\Models\Admin\Author;
 use App\Models\Admin\Image;
 use App\Models\Helpers\Base;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Lunaweb\Localization\Facades\Localization;
 
@@ -50,8 +51,8 @@ class AuthorController extends BaseController
 
         // create default category
         $model = new Author();
-        $model->name = $request->input('name');
-        $model->bio = $request->input('bio');
+        $model->translateorNew($this->_lang)->name = $request->input('name');
+        $model->translateorNew($this->_lang)->bio = $request->input('bio');
         $model->status = Base::activeOn($request->input("status"));;
         $model->created_by = Auth::user()->id;
         $model->save();
@@ -90,8 +91,8 @@ class AuthorController extends BaseController
 
 
         $model = Author::findOrFail($id);
-        $model->name = $request->input('name');
-        $model->bio = $request->input('bio');
+        $model->translateorNew($this->_lang)->name = $request->input('name');
+        $model->translateorNew($this->_lang)->bio = $request->input('bio');
         $model->status = Base::activeOn($request->input("status"));
         $model->updated_by = Auth::user()->id;
         $model->save();

@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name">Название</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                             id="name" name="name" value="{{ $model->translateorNew(\App::getLocale())->name }}" placeholder="Введите название" required>
                         @error('name')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="order_no">Порядковый номер</label>
-                        <input type="number" class="form-control @error('order_no') is-invalid @enderror" 
+                        <input type="number" class="form-control @error('order_no') is-invalid @enderror"
                             id="order_no" name="order_no" value="{{ $model->order_no }}" placeholder="Введите порядковый номер"
                             required>
                         @error('order_no')
@@ -41,13 +41,13 @@
                         @enderror
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror" 
+                        <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror"
                             id="status" @if($model->isActive()) checked @endif name="status">
                         <label class="form-check-label" for="status">Активный</label>
                     </div>
                 </div>
                 <!-- /.card-body -->
-        
+
                 <div class="card-footer">
                     <button type="submit" class="btn btn-info">Изменить</button>
                     <a href="{{ route('category.index') }}" class="btn btn-default">Назад</a>

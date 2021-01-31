@@ -3,11 +3,17 @@
 namespace App\Models\Admin;
 
 use App\Models\Helpers\Base;
+use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
+use Astrotomic\Translatable\Translatable;
 
-class Author extends Base
+class Author extends Base implements TranslatableContract
 {
+    use Translatable;
+
+    public $translatedAttributes = ['name', 'bio', 'is_default'];
+
     protected $fillable = [
-        'name', 'bio', 'image_id', 'status', 'deleted', 'updated_by', 'created_by'
+        'image_id', 'status', 'deleted', 'updated_by', 'created_by'
     ];
 
     public function products()

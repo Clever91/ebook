@@ -1,0 +1,34 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class DropColumnNameBioFromAuthors extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('authors', function (Blueprint $table) {
+            $table->dropColumn('name');
+            $table->dropColumn('bio');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('authors', function (Blueprint $table) {
+            $table->string('name');
+            $table->text('bio');
+        });
+    }
+}
