@@ -6,18 +6,22 @@ return [
     'locales' => [
         'uz' => [
             'icon' => 'uz',
+            'emoji' => '🇺🇿',
             'name' => 'Uzbek'
         ],
         'oz' => [
             'icon' => 'uz',
+            'emoji' => '🇺🇿',
             'name' => 'Ўзбек'
         ],
         'ru' => [
             'icon' => 'ru',
+            'emoji' => '🇷🇺',
             'name' => 'Russion'
         ],
         'en' => [
             'icon' => 'us',
+            'emoji' => '🇺🇸',
             'name' => 'English'
         ],
     ],

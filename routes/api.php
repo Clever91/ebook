@@ -14,14 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::group(['prefix' => 'v1'], function() {
-    
+
     Route::group(['prefix' => 'device'], function() {
         Route::post('register', 'API\DeviceController@register');
         Route::post('check', 'API\DeviceController@check');
         Route::delete('delete', 'API\DeviceController@delete');
         Route::post('languages', 'API\DeviceController@languages');
     });
-    
+
     Route::group(['prefix' => 'home'], function() {
         Route::post('store', 'API\HomeController@store');
     });
@@ -72,16 +72,13 @@ Route::group(['prefix' => 'v1'], function() {
         Route::post('/pay', 'API\PaymentController@pay');
         Route::post('/list', 'API\PaymentController@list');
     });
-    
+
 });
 
 // bot
 Route::group(['prefix' => 'bot'], function() {
     Route::get('/getme', 'Bot\BotController@getMe');
     Route::get('/getinfo', 'Bot\BotController@getInfo');
-    Route::get('/getupdate', 'Bot\BotController@getUpdate');
-    Route::post('/remove', 'Bot\BotController@removeWebhook');
-    Route::post('/set', 'Bot\BotController@setWebhook');
     Route::post('/', 'Bot\BotController@index');
     // Route::get('/', 'Bot\BotController@index'); // FOR TEST
 });

@@ -15,6 +15,7 @@ use App\Models\Bot\ChatOrderDetail;
 use App\Models\Bot\ChatPost;
 use App\Models\Admin\Category;
 use App\Models\Admin\Product;
+use App\Models\Bot\ChatUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
@@ -35,37 +36,13 @@ class BotController extends Controller
         return $response;
     }
 
-    public function getUpdate()
-    {
-        $response = Telegram::getUpdates();
-        return $response;
-    }
-
-    public function removeWebhook()
-    {
-        $response = Telegram::removeWebhook();
-        return $response;
-    }
-
-    public function setWebhook()
-    {
-        $response = Telegram::setWebhook([
-            'url' => "https://bookmedianashr.uz/api/bot"
-        ]);
-        return $response;
-    }
-
     public function index(Request $request)
     {
         $response = Telegram::getWebhookUpdates();
         $message = $response->getMessage();
         $callback = $response->getCallbackQuery();
         $preCheckQuery = $response->getPreCheckoutQuery();
-
         // TelegramLog::log($response);
-
-        // set russion language
-        App::setLocale("ru");
 
         if (!is_null($preCheckQuery)) {
 
@@ -100,6 +77,13 @@ class BotController extends Controller
                 $message_id = $message->getMessageId();
                 $caption = $message->getCaption();
                 // $reply_markup = $message->getReplyMarkup();
+
+                // set language
+                $locale = "ru";
+                $chatUser = ChatUser::where('chat_id', $chat->getId())->first();
+                if (!is_null($chatUser))
+                    $locale = $chatUser->locale;
+                App::setLocale($locale);
 
                 if (!is_null($chat) && $chat->getType() == "private") {
 
@@ -759,6 +743,44 @@ class BotController extends Controller
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
+                    } else if (isset($decode->lang)) {
+
+                        $locale = $decode->lang;
+                        $chatUser = ChatUser::where('chat_id', $chat_id)->first();
+                        if (is_null($chatUser)) {
+                            $attributes['chat_id'] = $from->getId();
+                            $attributes['first_name'] = $from->getFirstName();
+                            $attributes['last_name'] = $from->getLastName();
+                            $attributes['username'] = $from->getUsername();
+                            $attributes['language_code'] = $from->getLanguageCode();
+                            $attributes['locale'] = $locale;
+                            $chatUser = ChatUser::create($attributes);
+                        } else {
+                            $chatUser->locale = $locale;
+                            $chatUser->save();
+                        }
+                        //set language
+                        App::setLocale($locale);
+
+                        $text = Lang::get("bot.select_category");
+                        $categories = Category::where([
+                            'status' => Category::STATUS_ACTIVE,
+                            'deleted' => Category::NO_DELETED
+                        ])->orderBy('order_no')->get();
+
+                        try {
+                            $reply_markup = BotKeyboard::categories($categories);
+                            // send message reply markup
+                            Telegram::editMessageText([
+                                "chat_id" => $chat_id,
+                                "message_id" => $message_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
                     }
                 } else {
                     try {
@@ -784,6 +806,13 @@ class BotController extends Controller
             $new_member = $message->getNewChatParticipant();
             $left_member = $message->getLeftChatParticipant();
             $success_payment = $message->getSuccessfulPayment();
+
+            // set russion language
+            $locale = "ru";
+            $chatUser = ChatUser::where('chat_id', $chat->getId())->first();
+            if (!is_null($chatUser))
+                $locale = $chatUser->locale;
+            App::setLocale($locale);
 
             if (!is_null($chat)) {
                 $chat_id = $chat->getId();
@@ -1309,23 +1338,17 @@ class BotController extends Controller
                         }
 
                     } else if ($command == "/start") {
-                        $text = Lang::get("bot.select_category");
-                        $categories = Category::where([
-                            'status' => Category::STATUS_ACTIVE,
-                            'deleted' => Category::NO_DELETED
-                        ])->orderBy('order_no')->get();
 
+                        $text = Lang::get("bot.select_language");
                         try {
-                            $reply_markup = BotKeyboard::categories($categories);
-
-                            // edit message reply markup
+                            $reply_markup = BotKeyboard::welcome();
+                            // send message reply markup
                             Telegram::sendMessage([
                                 "chat_id" => $chat_id,
                                 "text" => $text,
                                 "parse_mode" => "Markdown",
                                 "reply_markup" => $reply_markup
                             ]);
-
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }

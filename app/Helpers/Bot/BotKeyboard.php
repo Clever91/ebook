@@ -7,9 +7,30 @@ use App\Helpers\Common\PaymeHelper;
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
 use Illuminate\Support\Facades\Lang;
+use Lunaweb\Localization\Facades\Localization;
 use Telegram\Bot\Keyboard\Keyboard;
 
 class BotKeyboard {
+
+    public static function welcome()
+    {
+        $keyboard = [];
+        $langs = Localization::getLocales();
+
+        foreach($langs as $code => $lang) {
+            $btn = Keyboard::button([
+                'text' => $lang['emoji'] ." ". $lang['name'],
+                'callback_data' => '{"lang":"'.$code.'"}'
+            ]);
+            array_push($keyboard, [ $btn ]);
+        }
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
 
     public static function alert($callback, $msg, $type = false)
     {
