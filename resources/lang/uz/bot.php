@@ -21,7 +21,7 @@ return [
     'make_order' => "Buyurtma berish",
     'delivery_mail' => "Pochta",
     'delivery_pickup' => "Olib ketish",
-    'btn_back' => "Orqaga",
+    'btn_back' => "◀️ Orqaga",
     'send_your_phone_number' => "📞 O'zingizni telefon raqamizni yuvoring",
     'send_your_location' => "📍 O'zingizni manzilizni yuvoring",
     'payment_cash' => "Naqt",
@@ -44,4 +44,8 @@ return [
     'empty_cart' => "Afsuski sizning savatingiz bo'sh. Iltimos, mahsulot tanlang",
     'our_geolocation' => "📍 Bizning do'konni manzili",
     'select_language' => "🚩 Xush kelibsiz, tilni tanlang",
+    'btn_setting' => "⚙️ Sozlash",
+    'btn_languages' => "🌍 Til",
+    'setting_text' => "Botni sozlash",
+    'change_language_text' => "Bot tilini o'zgartirish",
 ];

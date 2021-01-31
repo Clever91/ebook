@@ -781,6 +781,36 @@ class BotController extends Controller
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
+                    } else if (isset($decode->setting)) {
+                        $text = Lang::get("bot.setting_text");
+                        try {
+                            $reply_markup = BotKeyboard::settings();
+                            // edit message reply markup
+                            Telegram::editMessageText([
+                                "chat_id" => $chat_id,
+                                "message_id" => $message_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
+                    } else if (isset($decode->langs)) {
+                        $text = Lang::get("bot.change_language_text");
+                        try {
+                            $reply_markup = BotKeyboard::changeLang($locale);
+                            // edit message reply markup
+                            Telegram::editMessageText([
+                                "chat_id" => $chat_id,
+                                "message_id" => $message_id,
+                                "text" => $text,
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
+                        }
                     }
                 } else {
                     try {

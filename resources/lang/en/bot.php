@@ -21,7 +21,7 @@ return [
     'make_order' => "Make an order",
     'delivery_mail' => "mail",
     'delivery_pickup' => "Pickup",
-    'btn_back' => "Back",
+    'btn_back' => "◀️ Back",
     'send_your_phone_number' => "📞 Send your phone number",
     'send_your_location' => "📍 Submit your location",
     'payment_cash' => "Cash",
@@ -44,4 +44,8 @@ return [
     'empty_cart' => "Sorry, your cart is empty. Please add a product",
     'our_geolocation' => "📍 This is the geolocation of our store",
     'select_language' => "🚩 Welcome, choose your language",
+    'btn_setting' => "⚙️ Setting",
+    'btn_languages' => "🌍 Languages",
+    'setting_text' => "Change language",
+
 ];

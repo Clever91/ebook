@@ -32,6 +32,60 @@ class BotKeyboard {
         return $reply_markup;
     }
 
+    public static function changeLang($locale = "ru")
+    {
+        $keyboard = [];
+        $langs = Localization::getLocales();
+
+        foreach($langs as $code => $lang) {
+            $txt = $lang['emoji'] ." ". $lang['name'];
+            if ($code == $locale)
+                $txt = "✔️ " . $txt;
+            $btn = Keyboard::button([
+                'text' => $txt,
+                'callback_data' => '{"lang":"'.$code.'"}'
+            ]);
+            array_push($keyboard, [ $btn ]);
+        }
+
+        // back
+        $back = Keyboard::button([
+            'text' => Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":0}'
+        ]);
+        $keyboard[] = [ $back ];
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function settings()
+    {
+        $keyboard = [];
+
+        $langs = Keyboard::button([
+            'text' => Lang::get('bot.btn_languages'),
+            'callback_data' => '{"langs":1}'
+        ]);
+        array_push($keyboard, [ $langs ]);
+
+        // back
+        $back = Keyboard::button([
+            'text' => Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":0}'
+        ]);
+        $keyboard[] = [ $back ];
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
     public static function alert($callback, $msg, $type = false)
     {
         return [
@@ -97,6 +151,12 @@ class BotKeyboard {
             'callback_data' => '{"cart":"1"}'
         ]);
         $keyboard[] = [ $cart ];
+
+        $setting = Keyboard::button([
+            'text' => Lang::get('bot.btn_setting'),
+            'callback_data' => '{"setting":"1"}'
+        ]);
+        $keyboard[] = [ $setting ];
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
