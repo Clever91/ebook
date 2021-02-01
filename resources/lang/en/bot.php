@@ -34,7 +34,7 @@ return [
     'payment_type' => "💳 Payment method: ",
     'order_paid' => "❓ Order has been paid: ",
     'location' => "📍 Place of order: ",
-    'btn_home' => "Main",
+    'btn_home' => "🏠 Main",
     'select_category' => "Please select a category",
     'btn_cart' => "🛒 Cart",
     'select_product' => "Please select a product",

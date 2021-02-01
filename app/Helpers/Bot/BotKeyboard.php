@@ -32,6 +32,24 @@ class BotKeyboard {
         return $reply_markup;
     }
 
+    public static function main()
+    {
+        $keyboard = [];
+        $btn = Keyboard::button([
+            'text' => "🏠 Main "
+        ]);
+        array_push($keyboard, [ $btn ]);
+
+        $reply_markup = Keyboard::make([
+            'keyboard' => $keyboard,
+            'resize_keyboard' => true,
+            'one_time_keyboard' => false,
+            'selective' => true
+        ]);
+
+        return $reply_markup;
+    }
+
     public static function changeLang($locale = "ru")
     {
         $keyboard = [];
@@ -344,7 +362,7 @@ class BotKeyboard {
         $keyboard = [];
 
         $backBtn = Keyboard::button([
-            'text' => '⬅️ '.Lang::get('bot.btn_back'),
+            'text' => Lang::get('bot.btn_back'),
             'callback_data' => '{"back":'.$back.'}'
         ]);
         array_push($keyboard, [ $backBtn ]);
