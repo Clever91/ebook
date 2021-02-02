@@ -150,6 +150,8 @@ class BotKeyboard {
             $buttons = [];
             foreach($coverTypes as $obj) {
                 $type = CoverType::find($obj->cover_type_id);
+                if (is_null($type))
+                    continue;
                 $txt = $type->translateOrNew($locale)->name;
                 if ($selected->cover_type_id == $obj->cover_type_id) {
                     $txt = "✔️ " . $txt;
@@ -187,6 +189,8 @@ class BotKeyboard {
             $buttons = [];
             foreach($colors as $obj) {
                 $color = Color::find($obj->color_id);
+                if (is_null($color))
+                    continue;
                 $txt = $color->short;
                 if ($selected->color_id == $color->id) {
                     $txt = "✔️ " . $txt;

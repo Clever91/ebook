@@ -94,7 +94,7 @@ use App\Models\Admin\Book;
                             name="color_id" style="width: 100%;">
                             <option value="">Выберите цвет</option>
                             @foreach (Book::colorTypes() as $color)
-                            <option value="{{ $color->id }}">{{ $color->name }}</option>
+                            <option value="{{ $color->id }}">{{ $color->nameWithShort() }}</option>
                             @endforeach
                         </select>
                         @error('color_id')

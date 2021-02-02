@@ -103,9 +103,9 @@ use App\Models\Admin\Book;
                             <option value="">Выберите цвет</option>
                             @foreach (Book::colorTypes() as $color)
                             @if ($model->color_id == $color->id)
-                            <option value="{{ $color->id }}" selected>{{ $color->name }}</option>
+                            <option value="{{ $color->id }}" selected>{{ $color->nameWithShort() }}</option>
                             @else
-                            <option value="{{ $color->id }}">{{ $color->name }}</option>
+                            <option value="{{ $color->id }}">{{ $color->nameWithShort() }}</option>
                             @endif
                             @endforeach
                         </select>

@@ -52,7 +52,7 @@ class BookController extends BaseController
         // update product
         $book = new Book();
         $book->product_id = $model->id;
-        $book->price = $request->input('price', 0);
+        $book->price = (float) $request->input('price', 0);
         $book->status = Product::STATUS_ACTIVE;
         $book->leftover = $request->input('leftover', null);
         $book->cover_type_id = $request->input('cover_type_id');
@@ -81,7 +81,7 @@ class BookController extends BaseController
         ]);
 
         $book = Book::findOrFail($id);
-        $book->price = $request->input('price', 0);
+        $book->price = (float) $request->input('price', 0);
         $book->status = Product::STATUS_ACTIVE;
         $book->leftover = $request->input('leftover', null);
         $book->cover_type_id = $request->input('cover_type_id');

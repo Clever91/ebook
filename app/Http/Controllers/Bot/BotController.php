@@ -647,8 +647,6 @@ class BotController extends Controller
                         $text = "*Название:* ".$product->name."\n\n";
                         $text .= "*Описание: *" . $product->description . "\n\n";
                         $text .= "*Цена:* ".GlobalFunc::moneyFormat($book->price);
-                        TelegramLog::log($caption);
-                        TelegramLog::log($text);
                         try {
                             $reply_markup = BotKeyboard::product($product_id, $number, $locale, $book);
                             if (!is_null($product->image)) {
