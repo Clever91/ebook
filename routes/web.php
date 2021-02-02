@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Admin\Product;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Lunaweb\Localization\Facades\Localization;
 
@@ -24,6 +26,11 @@ Route::get('/denied', function() {
     return view('error._denied');
 })->name('denied');
 
+Route::get('/test', function() {
+    $pro = Product::find(1);
+    $books = $pro->getBookBy('paper_size');
+    dd($books);
+});
 
 // ~~~~~~~~~~~~~~~~~~~ Payment Callback ~~~~~~~~~~~~~~~~~~~
 

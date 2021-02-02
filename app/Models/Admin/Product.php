@@ -5,6 +5,7 @@ namespace App\Models\Admin;
 use App\Models\Helpers\Base;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Base implements TranslatableContract
 {
@@ -51,7 +52,10 @@ class Product extends Base implements TranslatableContract
 
     public function books()
     {
-        return Book::where('product_id', $this->id)->get();
+        return Book::where([
+            'product_id' => $this->id,
+            'deleted' => self::NO_DELETED,
+        ])->get();
     }
 
     public function ebook()
@@ -95,5 +99,21 @@ class Product extends Base implements TranslatableContract
             return __('admin.no');
 
         return $this->author->name;
+    }
+
+    public function getBookBy($column)
+    {
+        $books = DB::table('books')
+        ->select($column, DB::raw('MAX(id) as book_id'))
+        ->where([
+            ['product_id', '=', $this->id],
+            ['deleted', '=', self::NO_DELETED],
+            ['status', '=', self::STATUS_ACTIVE],
+            [$column, '<>', 'NULL'],
+            [$column, '<>', ''],
+        ])
+        ->groupBy($column)
+        ->get();
+        return $books;
     }
 }
