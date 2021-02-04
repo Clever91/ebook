@@ -857,7 +857,7 @@ class BotController extends Controller
                 }
             }
 
-        } else if (!is_null($message)) {
+        } else if (!is_null($message) && !$message->isEmpty()) {
 
             $command = $message->getText();
             $chat = $message->getChat();
