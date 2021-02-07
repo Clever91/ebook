@@ -11,6 +11,7 @@ use App\Models\Admin\CoverType;
 use App\Models\Admin\Product;
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Lunaweb\Localization\Facades\Localization;
 use Telegram\Bot\Keyboard\Keyboard;
@@ -246,7 +247,7 @@ class BotKeyboard {
         foreach($categories as $category) {
             if ($category->products->count()) {
                 $btn = Keyboard::button([
-                    'text' => $category->name,
+                    'text' => $category->translateorNew(App::getLocale())->name,
                     'callback_data' => '{"cat":'.$category->id.'}'
                 ]);
                 $keyboard[] = [ $btn ];
@@ -276,18 +277,12 @@ class BotKeyboard {
     {
         // $item = [];
         $keyboard = [];
-        foreach($products as $index => $product) {
+        foreach($products as $product) {
 
             $btn = Keyboard::button([
-                'text' => $product->name,
+                'text' => $product->translateorNew(App::getLocale())->name,
                 'callback_data' => '{"pro":'.$product->id.'}'
             ]);
-            // $item[] = $btn;
-
-            // if ($index % 2 != 0) {
-            //     $keyboard[] = $item;
-            //     $item = [];
-            // }
             $keyboard[] = [ $btn ];
         }
 
@@ -327,7 +322,7 @@ class BotKeyboard {
 
         foreach($details as $detail) {
             $btn = Keyboard::button([
-                'text' => $detail->product->name . " ❌",
+                'text' => $detail->product->translateorNew(App::getLocale())->name . " ❌",
                 'callback_data' => '{"remove":'.$detail->id.'}'
             ]);
             $keyboard[] = [ $btn ];

@@ -7,7 +7,7 @@ return [
         'uz' => [
             'icon' => 'uz',
             'emoji' => '🇺🇿',
-            'name' => 'Uzbek'
+            'name' => "O'zbek"
         ],
         'oz' => [
             'icon' => 'uz',
@@ -17,7 +17,7 @@ return [
         'ru' => [
             'icon' => 'ru',
             'emoji' => '🇷🇺',
-            'name' => 'Russion'
+            'name' => "Русский"
         ],
         'en' => [
             'icon' => 'us',

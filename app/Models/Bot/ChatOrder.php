@@ -4,6 +4,7 @@ namespace App\Models\Bot;
 
 use App\Helpers\Common\GlobalFunc;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 
 class ChatOrder extends Model
@@ -133,12 +134,12 @@ class ChatOrder extends Model
         $text = Lang::get("bot.new_order") . "<b>" . $this->id . "</b> \n\n";
         $text .= Lang::get("bot.client_phone") . "<b>" . $this->phone . "</b>\n";
         $text .= Lang::get("bot.delivery_type") . "<b>" . $this->deliveryLabel() . "</b>\n";
-        $text .= Lang::get("bot.payment_type") . "<b>". $this->paymentLabel() . "</b>\n"; 
+        $text .= Lang::get("bot.payment_type") . "<b>". $this->paymentLabel() . "</b>\n";
         $text .= Lang::get("bot.location") . "<b>". $this->getLatLng() . "</b>\n\n";
 
         foreach($this->details as $index => $detail) {
             // $amount = $detail->price * $detail->quantity;
-            $text .= ($index+1) .". ". $detail->product->name ." <i>"
+            $text .= ($index+1) .". ". $detail->product->translateorNew(App::getLocale())->name ." <i>"
             . GlobalFunc::moneyFormat($detail->price) ."</i> x "
             . $detail->quantity ."\n";
         }

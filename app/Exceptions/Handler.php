@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use App\Helpers\Log\TelegramLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -39,14 +40,18 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        // send error exception to telegram
-        $msg = " *Error*: " . get_class($exception) 
-        . "\n *Code*: " . $exception->getCode() 
-        . "\n *Message*: " . $exception->getMessage() 
-        . "\n *Line*: " . $exception->getLine()
-        . "\n *File*: " . $exception->getFile();
+        // if ($exception instanceof ValidationException) {
+        //     //
+        // } else {
+            // send error exception to telegram
+            $msg = " *Error*: " . get_class($exception)
+            . "\n *Code*: " . $exception->getCode()
+            . "\n *Message*: " . $exception->getMessage()
+            . "\n *Line*: " . $exception->getLine()
+            . "\n *File*: " . $exception->getFile();
 
-        TelegramLog::handler($msg, -388129393);
+            TelegramLog::handler($msg, -388129393);
+        // }
 
         parent::report($exception);
     }
@@ -71,7 +76,7 @@ class Handler extends ExceptionHandler
                     'data' => ['error' => 'Url is not found'],
                     'message' => 'Page is not found'
                 ];
-        
+
                 return response()->json($response, 404);
             }
 
@@ -82,7 +87,7 @@ class Handler extends ExceptionHandler
                     'data' => ['error' => 'Model is not found'],
                     'message' => 'Model is not found'
                 ];
-        
+
                 return response()->json($response, 404);
             }
 
@@ -91,8 +96,8 @@ class Handler extends ExceptionHandler
                     'success' => false,
                     'data' => ['error' => 'Server Error'],
                     'message' => $exception->getMessage()
-                ];  
-                  
+                ];
+
                 return response()->json($response, 500);
             }
         }
@@ -103,7 +108,7 @@ class Handler extends ExceptionHandler
                 // return response()->view('error._404', [], 4040);
                 return redirect()->route('error404');
             }
-            
+
             if ($exception->getStatusCode() == 500) {
                 // return response()->view('error._500', [], 500);
                 return redirect()->route('error500');

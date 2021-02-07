@@ -353,9 +353,7 @@ class BotController extends Controller
                     } else if (isset($decode->pay)) {
 
                         $type = $decode->type;
-
                         if ($type == "cash") {
-
                             // check order exists
                             $order = ChatOrder::where([
                                 "chat_id" => $chat_id,
@@ -363,7 +361,6 @@ class BotController extends Controller
                             ])->first();
 
                             if (!is_null($order)) {
-
                                 $delivery = 0;
                                 if (!$order->isPickUp())
                                     $delivery = (float) Setting::get("delivery_price");
@@ -1149,7 +1146,7 @@ class BotController extends Controller
                                     $total_with_delivery = $delivery;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
-                                        $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                        $text .= ($index+1) .". ". $detail->product->translateorNew($locale)->name ."  <i>"
                                         . GlobalFunc::moneyFormat($detail->price) ."</i> x "
                                         . $detail->quantity ." = <i>"
                                         .GlobalFunc::moneyFormat($amount)."</i>\n";
@@ -1294,7 +1291,7 @@ class BotController extends Controller
                                     $total_with_delivery = $delivery;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
-                                        $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                        $text .= ($index+1) .". ". $detail->product->translateorNew($locale)->name ."  <i>"
                                         . GlobalFunc::moneyFormat($detail->price) ."</i> x "
                                         . $detail->quantity ." = <i>"
                                         .GlobalFunc::moneyFormat($amount)."</i>\n";
@@ -1556,7 +1553,7 @@ class BotController extends Controller
                                     $total_with_delivery = $delivery;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
-                                        $text .= ($index+1) .". ". $detail->product->name ."  <i>"
+                                        $text .= ($index+1) .". ". $detail->product->translateorNew($locale)->name ."  <i>"
                                         . GlobalFunc::moneyFormat($detail->price) ."</i> x "
                                         . $detail->quantity ." = <i>"
                                         .GlobalFunc::moneyFormat($amount)."</i>\n";
