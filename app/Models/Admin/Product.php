@@ -50,8 +50,15 @@ class Product extends Base implements TranslatableContract
         return Book::where('product_id', $this->id)->first();
     }
 
-    public function books()
+    public function books($state = null)
     {
+        if (!is_null($state)) {
+            return Book::where([
+                'product_id' => $this->id,
+                'status' => self::STATUS_ACTIVE,
+                'deleted' => self::NO_DELETED,
+            ])->get();
+        }
         return Book::where([
             'product_id' => $this->id,
             'deleted' => self::NO_DELETED,

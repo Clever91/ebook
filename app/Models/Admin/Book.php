@@ -61,6 +61,20 @@ class Book extends Base
         return null;
     }
 
+    public function getBtnLabel()
+    {
+        $txt = "";
+        if (!is_null($this->color))
+            $txt .= $this->color->short." | ";
+        if (!empty($this->paperSize()))
+            $txt .= $this->paperSize()." | ";
+        if (!empty($this->letterLabel()))
+            $txt .= $this->letterLabel()." | ";
+        if (!is_null($this->coverType))
+            $txt .= $this->coverLabel();
+        return $txt;
+    }
+
     public static function coverTypes()
     {
         return CoverType::where('status', CoverType::STATUS_ACTIVE)->get();
