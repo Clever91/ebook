@@ -40,9 +40,9 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        // if ($exception instanceof ValidationException) {
-        //     //
-        // } else {
+        if ($exception instanceof ValidationException) {
+            //
+        } else {
             // send error exception to telegram
             $msg = " *Error*: " . get_class($exception)
             . "\n *Code*: " . $exception->getCode()
@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
             . "\n *File*: " . $exception->getFile();
 
             TelegramLog::handler($msg, -388129393);
-        // }
+        }
 
         parent::report($exception);
     }

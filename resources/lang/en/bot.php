@@ -47,5 +47,8 @@ return [
     'btn_setting' => "⚙️ Setting",
     'btn_languages' => "🌍 Languages",
     'setting_text' => "Change language",
+    'name' => "Name",
+    'description' => "Description",
+    'price' => "Price",
 
 ];

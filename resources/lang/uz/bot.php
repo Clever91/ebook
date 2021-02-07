@@ -48,4 +48,7 @@ return [
     'btn_languages' => "🌍 Til",
     'setting_text' => "Botni sozlash",
     'change_language_text' => "Bot tilini o'zgartirish",
+    'name' => "Nomi",
+    'description' => "Ma'lumot",
+    'price' => "Narxi",
 ];

@@ -641,9 +641,9 @@ class BotController extends Controller
                         $product = Product::find($product_id);
                         $book = Book::find($decode->b_id);
 
-                        $text = "*Название:* ".$product->name."\n\n";
-                        $text .= "*Описание: *" . $product->description . "\n\n";
-                        $text .= "*Цена:* ".GlobalFunc::moneyFormat($book->price);
+                        $text = "*".Lang::get('bot.name').":* ".$product->name."\n\n";
+                        $text .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                        $text .= "*".Lang::get('bot.price').":* ".GlobalFunc::moneyFormat($book->price);
                         try {
                             $reply_markup = BotKeyboard::product($product_id, $number, $locale, $book);
                             if (!is_null($product->image)) {
@@ -677,9 +677,9 @@ class BotController extends Controller
                             if (!is_null($product->image)) {
                                 $thumbnail = $product->image->getImageUrl("500x500");
                                 $url = "https://".$request->getHttpHost() . "" . $thumbnail;
-                                $caption = "*Название:* ".$product->name."\n\n";
-                                $caption .= "*Описание: *" . $product->description . "\n\n";
-                                $caption .= "*Цена:* ". GlobalFunc::moneyFormat($product->bookPrice());
+                                $caption = "*".Lang::get('bot.name').":* ".$product->name."\n\n";
+                                $caption .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                                $caption .= "*".Lang::get('bot.price').":* ". GlobalFunc::moneyFormat($product->bookPrice());
 
                                 try {
                                     $reply_markup = BotKeyboard::product($product->id, $number, $locale);
@@ -695,9 +695,9 @@ class BotController extends Controller
                                     TelegramLog::log($e->getMessage());
                                 }
                             } else {
-                                $text = "*Название:* ".$product->name."\n\n";
-                                $text .= "*Описание: *" . $product->description . "\n\n";
-                                $text .= "*Цена:* ".GlobalFunc::moneyFormat($product->bookPrice());
+                                $text = "*".Lang::get('bot.name').":* ".$product->name."\n\n";
+                                $text .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                                $text .= "*".Lang::get('bot.price').":* ".GlobalFunc::moneyFormat($product->bookPrice());
 
                                 try {
                                     $reply_markup = BotKeyboard::product($product->id, $number, $locale);
