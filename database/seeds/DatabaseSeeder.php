@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateDefaultColors::class);
 
         // random params
-        $this->call(CreateRandomCategorySeeder::class);
-        $this->call(CreateRandomAuthorSeeder::class);
-        $this->call(CreateRandomProductSeeder::class);
-        $this->call(CreateRandomGroupSeeder::class);
-        $this->call(CreateRandomGroupRalationSeeder::class);
+        // $this->call(CreateRandomCategorySeeder::class);
+        // $this->call(CreateRandomAuthorSeeder::class);
+        // $this->call(CreateRandomProductSeeder::class);
+        // $this->call(CreateRandomGroupSeeder::class);
+        // $this->call(CreateRandomGroupRalationSeeder::class);
     }
 }
