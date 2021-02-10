@@ -19,6 +19,7 @@ return [
     'success_code' => "✅ Muvaffaqiyatli",
     'not_revieced_code' => "⏱ Maxfiy raqam olmadim",
     'make_order' => "Buyurtma berish",
+    'delivery_text' => "Yetkazib berish (Toshkent)",
     'delivery_mail' => "Pochta",
     'delivery_pickup' => "Olib ketish",
     'btn_back' => "◀️ Orqaga",

@@ -19,6 +19,7 @@ return [
     'success_code' => "✅ Муваффақиятли",
     'not_revieced_code' => "⏱ Махфий рақам олмадим",
     'make_order' => "Буюртма бериш",
+    'delivery_text' => "Етказиб бериш (Тошкент)",
     'delivery_mail' => "Почта",
     'delivery_pickup' => "Олиб кетиш",
     'btn_back' => "◀️ Орқага",

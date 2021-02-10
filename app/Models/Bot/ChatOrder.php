@@ -9,9 +9,10 @@ use Illuminate\Support\Facades\Lang;
 
 class ChatOrder extends Model
 {
-    const DELIVERY_MAIL = 1;
-    const DELIVERY_EXPRESS24 = 2;
+    // const DELIVERY_MAIL = 1;
+    // const DELIVERY_EXPRESS24 = 2;
     const DELIVERY_PICKUP = 3;
+    const DELIVERY_DELIVERY = 4;
 
     const PAYMENT_PAYME = 1;
     const PAYMENT_CLICK = 2;
@@ -62,8 +63,9 @@ class ChatOrder extends Model
     public function deliveryTypes()
     {
         return [
-            self::DELIVERY_EXPRESS24 => 'Express24',
-            self::DELIVERY_MAIL => Lang::get('bot.delivery_mail'),
+            // self::DELIVERY_EXPRESS24 => 'Express24',
+            // self::DELIVERY_MAIL => Lang::get('bot.delivery_mail'),
+            self::DELIVERY_DELIVERY => Lang::get('bot.delivery_text'),
             self::DELIVERY_PICKUP => Lang::get('bot.delivery_pickup'),
         ];
     }
