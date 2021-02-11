@@ -51,8 +51,13 @@ class AuthorController extends BaseController
 
         // create default category
         $model = new Author();
-        $model->translateorNew($this->_lang)->name = $request->input('name');
-        $model->translateorNew($this->_lang)->bio = $request->input('bio');
+        foreach(Localization::getLocales() as $lang => $label) {
+            $model->translateOrNew($lang)->name = $request->input('name');
+            $model->translateorNew($lang)->bio = $request->input('bio');
+            $model->translateOrNew($lang)->is_default = 0;
+            if (env("LANG_DEFAULT") == $lang)
+                $model->translateOrNew($lang)->is_default = 1;
+        }
         $model->status = Base::activeOn($request->input("status"));;
         $model->created_by = Auth::user()->id;
         $model->save();
