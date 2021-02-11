@@ -156,7 +156,8 @@ class BotController extends Controller
                             $product_id = $decode->pro;
                             $number = intval($decode->num);
                             $product = Product::find($product_id);
-                            if (!is_null($product)) {
+                            $book = Book::find($decode->b_id);
+                            if (!is_null($product) && !is_null($book)) {
                                 if (is_null($order)) {
                                     // create new order
                                     $order = ChatOrder::create([
@@ -168,7 +169,8 @@ class BotController extends Controller
                                         $detail = ChatOrderDetail::create([
                                             "chat_order_id" => $order->id,
                                             "product_id" => $product->id,
-                                            "price" => $product->bookPrice(),
+                                            "book_id" => $book->id,
+                                            "price" => $book->price,
                                             "quantity" => $number,
                                         ]);
                                     }
@@ -176,13 +178,15 @@ class BotController extends Controller
                                     $detail = ChatOrderDetail::where([
                                         "chat_order_id" => $order->id,
                                         "product_id" => $product->id,
+                                        "book_id" => $book->id,
                                     ])->first();
                                     if (is_null($detail)) {
                                         // create detail
                                         $detail = ChatOrderDetail::create([
                                             "chat_order_id" => $order->id,
                                             "product_id" => $product->id,
-                                            "price" => $product->bookPrice(),
+                                            "book_id" => $book->id,
+                                            "price" => $book->price,
                                             "quantity" => $number,
                                         ]);
                                     } else {
@@ -237,10 +241,11 @@ class BotController extends Controller
                                 $text = Lang::get("bot.your_cart");
                                 foreach($details as $index => $detail) {
                                     $amount = $detail->price * $detail->quantity;
-                                    $text .= ($index+1) .". ". $detail->product->name ."  <i>"
-                                    . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-                                    . $detail->quantity ." = <i>"
-                                    .GlobalFunc::moneyFormat($amount)."</i>\n";
+                                    $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
+                                    $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                    $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
+                                    . $detail->quantity ." = <i>";
+                                    $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
                                     $total += $amount;
                                 }
                                 $text .= "\n".Lang::get('bot.total')." ".GlobalFunc::moneyFormat($total);
@@ -426,11 +431,13 @@ class BotController extends Controller
 
                                     // ~~~~~~~~~~~~~~~~~ send group check
 
+                                    // set default language
+                                    $locale = env('LANG_DEFAULT') || "ru";
+                                    App::setLocale($locale);
                                     $group_id = Setting::get('order_group');
                                     $text = $order->telegramOrderList();
 
                                     try {
-
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $group_id,
                                             'text' => $text,
@@ -445,7 +452,6 @@ class BotController extends Controller
                                                 'reply_to_message_id' => $response->getMessageId()
                                             ]);
                                         }
-
                                     } catch (Exception $e) {
                                         TelegramLog::log($e->getMessage());
                                     }
@@ -921,7 +927,6 @@ class BotController extends Controller
                                                 'text' => $text,
                                                 'parse_mode' => "Markdown"
                                             ]);
-
                                         } catch (Exception $e) {
                                             TelegramLog::log($e->getMessage());
                                         }
@@ -1069,11 +1074,13 @@ class BotController extends Controller
 
                                 // ~~~~~~~~~~~~~~~~~ send group check
 
+                                // set default language
+                                $locale = env('LANG_DEFAULT') || "ru";
+                                App::setLocale($locale);
                                 $group_id = Setting::get('order_group');
                                 $text = $order->telegramOrderList();
 
                                 try {
-
                                     $response = Telegram::sendMessage([
                                         'chat_id' => $group_id,
                                         'text' => $text,
@@ -1088,7 +1095,6 @@ class BotController extends Controller
                                             'reply_to_message_id' => $response->getMessageId()
                                         ]);
                                     }
-
                                 } catch (Exception $e) {
                                     TelegramLog::log($e->getMessage());
                                 }
@@ -1450,10 +1456,11 @@ class BotController extends Controller
                                 $text = Lang::get("bot.your_cart");
                                 foreach($details as $index => $detail) {
                                     $amount = $detail->price * $detail->quantity;
-                                    $text .= ($index+1) .". ". $detail->product->name ."  <i>"
-                                    . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-                                    . $detail->quantity ." = <i>"
-                                    .GlobalFunc::moneyFormat($amount)."</i>\n";
+                                    $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
+                                    $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                    $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
+                                    . $detail->quantity ." = <i>";
+                                    $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
                                     $total += $amount;
                                 }
                                 $text .= "\n".Lang::get('bot.total')." ".GlobalFunc::moneyFormat($total);

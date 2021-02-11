@@ -8,6 +8,7 @@ use App\Helpers\Log\TelegramLog;
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
 use App\Models\Helpers\ClickTransaction;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
@@ -163,6 +164,9 @@ class ClickHelper
 
                     // ~~~~~~~~~~~~~~~~~ send group check
 
+                    // set default language
+                    $locale = env('LANG_DEFAULT') || "ru";
+                    App::setLocale($locale);
                     $group_id = Setting::get('order_group');
                     $text = $order->telegramOrderList();
 

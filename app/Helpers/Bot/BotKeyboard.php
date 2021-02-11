@@ -245,7 +245,7 @@ class BotKeyboard {
 
         $add = Keyboard::button([
             'text' => Lang::get('bot.add_to_cart'),
-            'callback_data' => '{"add":"1","pro":'.$product_id.',"num":'.$number.'}'
+            'callback_data' => '{"add":"1","pro":'.$product_id.',"num":'.$number.',"b_id":'.$selected->id.'}'
         ]);
         array_push($keyboard, [ $add ]);
 
