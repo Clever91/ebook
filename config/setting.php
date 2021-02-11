@@ -130,7 +130,7 @@ return [
             ],
         ]
     ],
-    'group' => [
+    'publish' => [
         'title' => 'Опубликовать сообщение',
         'desc' => 'Нижний колонтитул публикации сообщения',
         'icon' => 'fas fa-comment-medical',
