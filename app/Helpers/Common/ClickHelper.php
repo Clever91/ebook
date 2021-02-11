@@ -48,7 +48,7 @@ class ClickHelper
     public static function run()
     {
         $data = request()->all();
-        // TelegramLog::log($data);
+        TelegramLog::log($data);
 
         if (empty($data))
             return ClickTransaction::getResponse($data, -8);
@@ -163,7 +163,7 @@ class ClickHelper
 
                     // ~~~~~~~~~~~~~~~~~ send group check
 
-                    $group_id = env("TELEGRAM_ORDER_GROUP");
+                    $group_id = Setting::get('order_group');
                     $text = $order->telegramOrderList();
 
                     try {
