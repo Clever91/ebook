@@ -33,7 +33,7 @@ return [
     'client_phone' => "📞 Customer phone: ",
     'delivery_type' => "🚚 Delivery type: ",
     'payment_type' => "💳 Payment method: ",
-    'order_paid' => "❓ Order has been paid: ",
+    'order_paid' => "⏳ Order has been paid: ",
     'location' => "📍 Place of order: ",
     'btn_home' => "🏠 Main",
     'select_category' => "Please select a category",

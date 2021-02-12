@@ -33,7 +33,7 @@ return [
     'client_phone' => "📞 Mijoz telefoni: ",
     'delivery_type' => "🚚 Yetkazib berish turi: ",
     'payment_type' => "💳 To'lov turi: ",
-    'order_paid' => "❓ Buyurtma to'landi: ",
+    'order_paid' => "⏳ Buyurtma to'landi: ",
     'location' => "📍 Buyurtma manzili: ",
     'btn_home' => "🏠 Asosiy",
     'select_category' => "Iltimos, toifani tanlang",
