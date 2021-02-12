@@ -141,9 +141,10 @@ class ChatOrder extends Model
 
         foreach($this->details as $index => $detail) {
             // $amount = $detail->price * $detail->quantity;
-            $text .= ($index+1) .". ". $detail->product->translateorNew(App::getLocale())->name ." <i>"
-            . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-            . $detail->quantity ."\n";
+            $text .= ($index+1) .". ". $detail->product->name;
+            if (!is_null($detail->book))
+                $text .= " (" .$detail->book->getBtnLabel() .")\n";
+            $text .= "✏️   ".$detail->quantity." x <i>" . GlobalFunc::moneyFormat($detail->price) ."</i>\n";
         }
 
         $text .= "\n";

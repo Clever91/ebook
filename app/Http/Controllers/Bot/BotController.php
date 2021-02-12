@@ -242,7 +242,8 @@ class BotController extends Controller
                                 foreach($details as $index => $detail) {
                                     $amount = $detail->price * $detail->quantity;
                                     $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
-                                    $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                    if (!is_null($detail->book))
+                                        $text .= $detail->book->getBtnLabel() .")</b>\n";
                                     $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
                                     . $detail->quantity ." = <i>";
                                     $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
@@ -1152,11 +1153,12 @@ class BotController extends Controller
                                     $total_with_delivery = $delivery;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
-                                        $text .= ($index+1) .". ". $detail->product->translateorNew($locale)->name ."  <i>"
-                                        . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-                                        . $detail->quantity ." = <i>"
-                                        .GlobalFunc::moneyFormat($amount)."</i>\n";
-
+                                        $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
+                                        if (!is_null($detail->book))
+                                            $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                        $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
+                                        . $detail->quantity ." = <i>";
+                                        $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
                                         // calculate total
                                         $total += $amount;
                                         $total_with_delivery += $amount;
@@ -1297,11 +1299,12 @@ class BotController extends Controller
                                     $total_with_delivery = $delivery;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
-                                        $text .= ($index+1) .". ". $detail->product->translateorNew($locale)->name ."  <i>"
-                                        . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-                                        . $detail->quantity ." = <i>"
-                                        .GlobalFunc::moneyFormat($amount)."</i>\n";
-
+                                        $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
+                                        if (!is_null($detail->book))
+                                            $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                        $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
+                                        . $detail->quantity ." = <i>";
+                                        $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
                                         // calculate total
                                         $total += $amount;
                                         $total_with_delivery += $amount;
@@ -1457,7 +1460,8 @@ class BotController extends Controller
                                 foreach($details as $index => $detail) {
                                     $amount = $detail->price * $detail->quantity;
                                     $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
-                                    $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                    if (!is_null($detail->book))
+                                        $text .= $detail->book->getBtnLabel() .")</b>\n";
                                     $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
                                     . $detail->quantity ." = <i>";
                                     $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
@@ -1560,11 +1564,12 @@ class BotController extends Controller
                                     $total_with_delivery = $delivery;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
-                                        $text .= ($index+1) .". ". $detail->product->translateorNew($locale)->name ."  <i>"
-                                        . GlobalFunc::moneyFormat($detail->price) ."</i> x "
-                                        . $detail->quantity ." = <i>"
-                                        .GlobalFunc::moneyFormat($amount)."</i>\n";
-
+                                        $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
+                                        if (!is_null($detail->book))
+                                            $text .= $detail->book->getBtnLabel() .")</b>\n";
+                                        $text .= "✏️   <i>" . GlobalFunc::moneyFormat($detail->price, false) ."</i> x "
+                                        . $detail->quantity ." = <i>";
+                                        $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
                                         // calculate total
                                         $total += $amount;
                                         $total_with_delivery += $amount;
