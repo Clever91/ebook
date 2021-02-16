@@ -5,6 +5,7 @@ namespace App\Models\Admin;
 use App\Models\Helpers\Base;
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class Product extends Base implements TranslatableContract
@@ -105,7 +106,7 @@ class Product extends Base implements TranslatableContract
         if (is_null($this->author))
             return __('admin.no');
 
-        return $this->author->name;
+        return $this->author->translateOrNew(App::getLocale())->name;
     }
 
     public function getBookBy($column)
