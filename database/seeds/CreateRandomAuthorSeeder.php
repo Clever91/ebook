@@ -4,6 +4,7 @@ use App\User;
 use App\Models\Admin\Author;
 use App\Models\Admin\Product;
 use Illuminate\Database\Seeder;
+use Lunaweb\Localization\Facades\Localization;
 
 class CreateRandomAuthorSeeder extends Seeder
 {
@@ -18,9 +19,16 @@ class CreateRandomAuthorSeeder extends Seeder
         $admin = User::where('is_admin', 1)->first();
 
         foreach (range(1, 20) as $index) {
+            $author_name = $faker->firstName() . " " . $faker->lastName();
+            $author_bio = $faker->paragraph();
             $author = new Author();
-            $author->name = $faker->firstName() . " " . $faker->lastName();
-            $author->bio = $faker->paragraph();
+            foreach(Localization::getLocales() as $lang => $label) {
+                $author->translateOrNew($lang)->name = $author_name;
+                $author->translateorNew($lang)->bio = $author_bio;
+                $author->translateOrNew($lang)->is_default = 0;
+                if (env("LANG_DEFAULT") == $lang)
+                    $author->translateOrNew($lang)->is_default = 1;
+            }
             $author->status = Author::STATUS_ACTIVE;
             $author->created_by = $admin->id;
             $author->save();

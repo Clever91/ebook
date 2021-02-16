@@ -80,7 +80,7 @@ class AuthorController extends BaseController
             $item['id'] = $product->id;
             $item['name'] = $product->translateOrNew($this->_lang)->name;
             $item['description'] = $product->translateOrNew($this->_lang)->description;
-            $item['author'] = $author->name;
+            $item['author'] = $author->translateorNew($this->_lang)->name;
             $item['price'] = $product->price;
             $item['eprice'] = $product->eprice;
 

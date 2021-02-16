@@ -61,9 +61,9 @@ use App\Models\Admin\Book;
                             <option value="">Выберите автор</option>
                             @foreach ($authors as $author)
                                 @if (old('author_id') == $author->id)
-                            <option value="{{ $author->id }}" selected>{{ $author->name }}</option>
+                            <option value="{{ $author->id }}" selected>{{ $author->translateorNew(\App::getLocale())->name }}</option>
                                 @else
-                            <option value="{{ $author->id }}">{{ $author->name }}</option>
+                            <option value="{{ $author->id }}">{{ $author->translateorNew(\App::getLocale())->name }}</option>
                                 @endif
                             @endforeach
                         </select>
