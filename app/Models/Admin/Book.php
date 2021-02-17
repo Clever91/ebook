@@ -92,4 +92,25 @@ class Book extends Base
     {
         return Color::where('status', Color::STATUS_ACTIVE)->get();
     }
+
+    public function getDescription($caption, $locale = "ru")
+    {
+        // author
+        if (!is_null($this->product->author))
+            $caption .= "*".Lang::get('bot.author').":* _" . $this->product->author->translateorNew($locale)->name . "_\n";
+        // cover type
+        if (!is_null($this->coverType))
+            $caption .= "*".Lang::get('bot.cover_type').":* _" . $this->coverType->translateorNew($locale)->name . "_\n";
+        // paper size
+        if (!empty($this->paperSize()))
+            $caption .= "*".Lang::get('bot.paper_size').":* _" . $this->paperSize() . "_\n";
+        // letter
+        if (!empty($this->letter))
+            $caption .= "*".Lang::get('bot.letter').":* _" . $this->letterLabel() . "_\n";
+        // color
+        if (!is_null($this->color))
+            $caption .= "*".Lang::get('bot.color').":* _" . $this->color->short . "_\n";
+
+        return $caption;
+    }
 }

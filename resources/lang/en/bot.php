@@ -48,8 +48,13 @@ return [
     'btn_setting' => "⚙️ Setting",
     'btn_languages' => "🌍 Languages",
     'setting_text' => "Change language",
+    'change_language_text' => "Change bot language",
     'name' => "Name",
     'description' => "Description",
     'price' => "Price",
-
+    'author' => "Author",
+    'cover_type' => "Cover type",
+    'paper_size' => "Size",
+    'letter' => "Letter",
+    'color' => "Color",
 ];

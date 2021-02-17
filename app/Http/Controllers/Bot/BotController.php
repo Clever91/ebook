@@ -653,8 +653,11 @@ class BotController extends Controller
                         $product = Product::find($product_id);
                         $book = Book::find($decode->b_id);
 
-                        $text = "*".Lang::get('bot.name').":* ".$product->name."\n\n";
-                        $text .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                        $text = "*".Lang::get('bot.name').":* ".$product->translateorNew($locale)->name."\n\n";
+                        // $text .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                        $text = $book->getDescription($text, $locale);
+                        // make enter
+                        $text .= "\n";
                         $text .= "*".Lang::get('bot.price').":* ".GlobalFunc::moneyFormat($book->price);
                         try {
                             $reply_markup = BotKeyboard::product($product_id, $number, $locale, $book);
@@ -689,9 +692,15 @@ class BotController extends Controller
                             if (!is_null($product->image)) {
                                 $thumbnail = $product->image->getImageUrl("500x500");
                                 $url = "https://".$request->getHttpHost() . "" . $thumbnail;
-                                $caption = "*".Lang::get('bot.name').":* ".$product->name."\n\n";
-                                $caption .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
-                                $caption .= "*".Lang::get('bot.price').":* ". GlobalFunc::moneyFormat($product->bookPrice());
+                                // make caption
+                                $caption = "*".Lang::get('bot.name').":* ".$product->translateorNew($locale)->name."\n\n";
+                                // $caption .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                                $book = $product->book();
+                                $caption = $book->getDescription($caption, $locale);
+                                // make enter
+                                $caption .= "\n";
+                                // price
+                                $caption .= "*".Lang::get('bot.price').":* ". GlobalFunc::moneyFormat($book->price);
 
                                 try {
                                     $reply_markup = BotKeyboard::product($product->id, $number, $locale);
@@ -707,9 +716,14 @@ class BotController extends Controller
                                     TelegramLog::log($e->getMessage());
                                 }
                             } else {
-                                $text = "*".Lang::get('bot.name').":* ".$product->name."\n\n";
-                                $text .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
-                                $text .= "*".Lang::get('bot.price').":* ".GlobalFunc::moneyFormat($product->bookPrice());
+                                $text = "*".Lang::get('bot.name').":* ".$product->translateorNew($locale)->name."\n\n";
+                                // $text .= "*".Lang::get('bot.description').":* " . $product->description . "\n\n";
+                                $book = $product->book();
+                                $text = $book->getDescription($text, $locale);
+                                // make enter
+                                $text .= "\n";
+                                // price
+                                $text .= "*".Lang::get('bot.price').":* ".GlobalFunc::moneyFormat($book->price);
 
                                 try {
                                     $reply_markup = BotKeyboard::product($product->id, $number, $locale);

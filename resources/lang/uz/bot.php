@@ -52,4 +52,9 @@ return [
     'name' => "Nomi",
     'description' => "Ma'lumot",
     'price' => "Narxi",
+    'author' => "Muallifi",
+    'cover_type' => "Muqovasi",
+    'paper_size' => "O'lchami",
+    'letter' => "Alifbosi",
+    'color' => "Rangi",
 ];

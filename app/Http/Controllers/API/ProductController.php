@@ -8,6 +8,7 @@ use App\Models\Helpers\Base;
 use App\Models\Admin\GroupRelation;
 use App\Models\Admin\OrderEbook;
 use App\Models\Admin\Product;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends BaseController
@@ -228,7 +229,7 @@ class ProductController extends BaseController
         // this is default epub for test
         // $path = public_path('default/free_book.epub');
         $path = $product->file->getFilePath();
-        return response()->download($path, $product->name);
+        return response()->download($path, $product->translateorNew(App::getLocale())->name);
     }
 
 }

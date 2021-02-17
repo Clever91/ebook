@@ -52,4 +52,9 @@ return [
     'name' => "Название",
     'description' => "Описание",
     'price' => "Цена",
+    'author' => "Автор",
+    'cover_type' => "Тип обложки",
+    'paper_size' => "Размер",
+    'letter' => "Letter",
+    'color' => "Цвет",
 ];
