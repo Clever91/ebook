@@ -3,6 +3,8 @@
 namespace App\Models\Bot;
 
 use App\Helpers\Common\GlobalFunc;
+use App\Models\Admin\Order;
+use App\Models\Admin\OrderItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
@@ -155,6 +157,46 @@ class ChatOrder extends Model
         $text .= Lang::get("bot.order_paid") . " " . ($this->isPaid() ? "✅" : "⛔️");
 
         return $text;
+    }
+
+    public function createOrder($chatUser)
+    {
+        if (is_null($chatUser))
+            return;
+        $customer = $chatUser->customer();
+        if (is_null($customer))
+            return;
+        // create order
+        $order = new Order();
+        $order->customer_id = $customer->id;
+        $order->state = Order::STATE_DRAF;
+        $order->order_type = Order::TYPE_BOOK;
+        if ($order->save()) {
+            // create order item
+            foreach($this->details as $detail) {
+                $amount = $detail->quantity * $detail->price;
+                $item = new OrderItem();
+                $item->order_id = $order->id;
+                $item->item_id = $detail->book_id;
+                $item->price = $detail->price;
+                $item->quantity = $detail->quantity;
+                $item->total_price = $amount;
+                $item->item_type = Order::TYPE_BOOK;;
+                if ($item->save()) {
+                    $order->total += $amount;
+                    $order->subtotal += $amount;
+                }
+            }
+            $order->state = Order::STATE_NEW;
+            $order->chat_order_id = $this->id;
+            $order->save();
+        }
+        return true;
+    }
+
+    public function chatUser()
+    {
+        return ChatUser::where('chat_id', $this->chat_id)->first();
     }
 
 }

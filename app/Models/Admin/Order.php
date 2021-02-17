@@ -6,14 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    const STATE_NEW = "N";
-    const STATE_PAYED = "P";
+    const STATE_DRAF = "D"; // draf
+    const STATE_NEW = "N"; // new
+    const STATE_ARCHIVE = "A"; // archive
+    const STATE_CANCEL = "C"; // cancel
+    const STATE_RETRUN = "R"; // return
 
-    const TYPE_PRODUCT = "P";
-    const TYPE_EBOOK = "E";
+    const TYPE_BOOK = "B"; // book
+    const TYPE_EBOOK = "E"; // ebook
+    const TYPE_AUDIO = "A"; // audio
+    const TYPE_GOOD = "G"; // good
 
     protected $fillable = [
-        'customer_id', 'total', 'subtotal', 'discount', 'state', 'type', 'updated_by'
+        'customer_id', 'total', 'subtotal', 'discount', 'state',
+        'order_type', 'chat_order_id', 'updated_by'
     ];
 
     public function customer()
@@ -38,8 +44,8 @@ class Order extends Model
         switch($this->state) {
             case self::STATE_NEW:
                 return "<span class='badge badge-primary'>{$title}</span>";
-            case self::STATE_PAYED:
-                return "<span class='badge badge-success'>{$title}</span>";
+            // case self::STATE_DRAF:
+            //     return "<span class='badge badge-success'>{$title}</span>";
         }
 
         return "None";
@@ -49,7 +55,7 @@ class Order extends Model
     {
         return [
             self::STATE_NEW => "Новый",
-            self::STATE_PAYED => "Оплачено",
+            // self::STATE_DRAF => "Оплачено",
         ];
     }
 }

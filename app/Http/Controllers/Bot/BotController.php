@@ -431,6 +431,9 @@ class BotController extends Controller
                                         TelegramLog::log($e->getMessage());
                                     }
 
+                                    // create order
+                                    $order->createOrder($chatUser);
+
                                     // ~~~~~~~~~~~~~~~~~ send group check
 
                                     // set default language
@@ -1049,7 +1052,6 @@ class BotController extends Controller
                                         $text .= "\n\n" .Lang::get("bot.our_geolocation");
 
                                     $keyboard = BotKeyboard::home();
-
                                     $response = Telegram::sendMessage([
                                         'chat_id' => $order->chat_id,
                                         'text' => $text,
@@ -1073,6 +1075,9 @@ class BotController extends Controller
                                 } catch (Exception $e) {
                                     TelegramLog::log($e->getMessage());
                                 }
+
+                                // create order
+                                $order->createOrder($chatUser);
 
                                 // ~~~~~~~~~~~~~~~~~ send group check
 

@@ -23,4 +23,9 @@ class ChatUser extends Model
 
         return true;
     }
+
+    public function customer()
+    {
+        return Customer::find($this->customer_id);
+    }
 }

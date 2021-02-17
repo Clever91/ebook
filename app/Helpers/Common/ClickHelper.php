@@ -7,6 +7,7 @@ use Exception;
 use App\Helpers\Log\TelegramLog;
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
+use App\Models\Bot\ChatUser;
 use App\Models\Helpers\ClickTransaction;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
@@ -161,6 +162,9 @@ class ClickHelper
                     } catch (Exception $e) {
                         TelegramLog::log($e->getMessage());
                     }
+
+                    // create order
+                    $order->createOrder($order->chatUser());
 
                     // ~~~~~~~~~~~~~~~~~ send group check
 
