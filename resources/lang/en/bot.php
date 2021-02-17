@@ -18,7 +18,7 @@ return [
     'total' => "💰 Total:",
     'success_code' => "✅ Succes",
     'not_revieced_code' => "⏱ I have not received the code",
-    'make_order' => "Make an order",
+    'make_order' => "🚀 Make an order",
     'delivery_text' => "Delivery (Toshkent)",
     'delivery_mail' => "mail",
     'delivery_pickup' => "Pickup",
