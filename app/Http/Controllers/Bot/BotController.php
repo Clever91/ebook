@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use Throwable;
 
 class BotController extends Controller
 {
@@ -1445,6 +1446,19 @@ class BotController extends Controller
                             TelegramLog::log($e->getMessage());
                         }
                     } else if (strpos($command, "🛒") !== false) {
+
+                        // remove cart keyboard
+                        try {
+                            $reply_markup = BotKeyboard::hideKeyboard();
+                            Telegram::sendMessage([
+                                "chat_id" => $chat_id,
+                                "text" => Lang::get('bot.btn_back'),
+                                "parse_mode" => "Markdown",
+                                "reply_markup" => $reply_markup
+                            ]);
+                        } catch (Throwable $th) {
+                            TelegramLog::log($th->getMessage());
+                        }
 
                         // check already exists
                         $order = ChatOrder::where([
