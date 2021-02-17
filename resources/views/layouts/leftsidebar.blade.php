@@ -138,15 +138,9 @@ use App\Models\Admin\Setting;
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.ebook.index') }}" class="nav-link">
-                                <i class="nav-icon fa fa-list-alt"></i>
-                                <p>Электронная книга</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('admin.order.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
-                                <p>Заказы книги</p>
+                                <p>Список заказы</p>
                             </a>
                         </li>
                         <li class="nav-item">

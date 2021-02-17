@@ -4,15 +4,15 @@
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
 <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
 
-@section('title', 'Список электронная книга')
+@section('title', 'Список заказы')
 
 @section('content')
 
 
 <!-- Content Header (Page header) -->
 @include('layouts.breadcrumb', [
-    'list' => route('admin.ebook.index'),
-    'title' => 'Список электронная книга'
+    'list' => route('admin.order.index'),
+    'title' => 'Список заказы'
 ])
 
 <!-- Main content -->
@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Список электронная книга</h3>
+                            <h3 class="card-title">Список заказы</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">

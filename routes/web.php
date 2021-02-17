@@ -107,7 +107,7 @@ Localization::localizedRoutesGroup(function() {
         Route::get('/category/{category}/image', 'Admin\CategoryController@image')->name('category.image');
         Route::patch('/category/{category}/image', 'Admin\CategoryController@image')->name('category.image.patch');
 
-        Route::get('/ebook/index', 'Admin\EbookController@index')->name('admin.ebook.index');
+        // order list
         Route::get('/order/index', 'Admin\OrderController@index')->name('admin.order.index');
 
         // group relation

@@ -42,10 +42,10 @@ class Order extends Model
         $title = $this->getState()[$this->state];
 
         switch($this->state) {
+            case self::STATE_DRAF:
+                return "<span class='badge badge-danger'>{$title}</span>";
             case self::STATE_NEW:
                 return "<span class='badge badge-primary'>{$title}</span>";
-            // case self::STATE_DRAF:
-            //     return "<span class='badge badge-success'>{$title}</span>";
         }
 
         return "None";
