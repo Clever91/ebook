@@ -15,6 +15,7 @@ use App\Models\Bot\ChatOrder;
 use App\Models\Bot\ChatOrderDetail;
 use App\Models\Bot\ChatPost;
 use App\Models\Admin\Category;
+use App\Models\Admin\Customer;
 use App\Models\Admin\Product;
 use App\Models\Bot\ChatUser;
 use Illuminate\Http\Request;
@@ -1267,10 +1268,8 @@ class BotController extends Controller
 
                     // if phone number format
                     } else if (preg_match("/^[0-9]{9}$/", $command)) {
-
                         // get phone
                         $phone = $command;
-
                         // save contact
                         $order = ChatOrder::where([
                             "chat_id" => $chat_id,
@@ -1280,7 +1279,24 @@ class BotController extends Controller
 
                             $order->phone = "998" . $phone;
                             if ($order->save()) {
-
+                                // create customer
+                                try {
+                                    if (!$chatUser->existCustomer()) {
+                                        $customer = Customer::create([
+                                            'uid' => $chat_id,
+                                            'phone_number' => $order->phone,
+                                            'status' => Customer::STATUS_ACTIVE,
+                                            'customer_type' => Customer::TYPE_TELEGRAM
+                                        ]);
+                                        if (!is_null($customer)) {
+                                            $chatUser->customer_id = $customer->id;
+                                            $chatUser->save();
+                                        }
+                                    }
+                                } catch (\Throwable $th) {
+                                    TelegramLog::log($th->getMessage());
+                                }
+                                // check order already exists
                                 $old_order_count = ChatOrder::where([
                                     [ "chat_id", "=", $chat_id ],
                                     [ "state", "!=", ChatOrder::STATE_DRAF ]
@@ -1542,12 +1558,33 @@ class BotController extends Controller
                             "state" => ChatOrder::STATE_DRAF
                         ])->first();
                         if (!is_null($order)) {
-
                             // remove plus if exists
                             $phone = GlobalFunc::removePlus($contact->getPhoneNumber());
                             $order->phone = $phone;
                             if ($order->save()) {
+                                // create customer
+                                try {
+                                    if (!$chatUser->existCustomer()) {
+                                        $fullname = $contact->getFirstName();
+                                        if (!empty($contact->getLastName()))
+                                            $fullname .= " ".$contact->getLastName();
+                                        $customer = Customer::create([
+                                            'uid' => $chat_id,
+                                            'phone_number' => $phone,
+                                            'status' => Customer::STATUS_ACTIVE,
+                                            'display_name' => $fullname,
+                                            'customer_type' => Customer::TYPE_TELEGRAM
+                                        ]);
+                                        if (!is_null($customer)) {
+                                            $chatUser->customer_id = $customer->id;
+                                            $chatUser->save();
+                                        }
+                                    }
+                                } catch (\Throwable $th) {
+                                    TelegramLog::log($th->getMessage());
+                                }
 
+                                // check order already exists
                                 $old_order_count = ChatOrder::where([
                                     [ "chat_id", "=", $chat_id ],
                                     [ "state", "!=", ChatOrder::STATE_DRAF ]

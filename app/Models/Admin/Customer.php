@@ -2,22 +2,18 @@
 
 namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Helpers\Base;
 use Illuminate\Support\Str;
 
-class Customer extends Model
+class Customer extends Base
 {
-    const STATUS_ACTIVE = 1;
-    const STATUS_NO_ACTIVE = 0;
+    const TYPE_TELEGRAM = 1; // telegram customer
+    const TYPE_FIREBASE = 2; // firebase customer
 
     protected $fillable = [
-        'uid', 'email', 'photo_url', 'phone_number', 'display_name', 'status', 'updated_by'
+        'uid', 'email', 'photo_url', 'phone_number', 'display_name',
+        'status', 'customer_type', 'updated_by'
     ];
-
-    public function isActive()
-    {
-        return $this->status == self::STATUS_ACTIVE;
-    }
 
     public function displayName()
     {

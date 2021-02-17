@@ -3,7 +3,7 @@
 return [
     'not_format_code' => "Iltimos, kodni to'g'ri formatda yuboring. Masalan: *9999*",
     'aler_min_product' => "Buyurtmada kamida 1 ta tovar bo'lishi kerak",
-    'send_phone' => "Buyurtmani qabul qilish uchun telefon raqamini yuboring. (X o'rniga raqam kiriting *+998XXXXXXX*)",
+    'send_phone' => "Buyurtmani qabul qilish uchun telefon raqamini yuboring. (kodsiz *+998*)",
     'send_location' => "Buyurtma olib borilishi kerak bo'lgan manzilni kiriting",
     'thanks' => "Rahmat, *:fullname* bu guruhga qo'shganingiz uchun 👍 \nСпасибо, *:fullname* добавил меня в эту группу 👍",
     'no_correct_code' => "Maxfiy raqam xato kiritildi, tekshirib ko'rib boshidan yuboring",
