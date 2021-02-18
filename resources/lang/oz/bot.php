@@ -54,7 +54,7 @@ return [
     'price' => "Нархи",
     'author' => "Муаллифи",
     'cover_type' => "Муқоваси",
-    'paper_size' => "Размер",
-    'letter' => "Letter",
-    'color' => "Rang",
+    'paper_size' => "Бичими",
+    'letter' => "Тили",
+    'color' => "Ранги",
 ];

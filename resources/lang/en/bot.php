@@ -55,6 +55,6 @@ return [
     'author' => "Author",
     'cover_type' => "Cover type",
     'paper_size' => "Size",
-    'letter' => "Letter",
+    'letter' => "Language",
     'color' => "Color",
 ];

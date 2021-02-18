@@ -55,6 +55,6 @@ return [
     'author' => "Автор",
     'cover_type' => "Тип обложки",
     'paper_size' => "Размер",
-    'letter' => "Letter",
+    'letter' => "Язык",
     'color' => "Цвет",
 ];
