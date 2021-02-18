@@ -67,7 +67,7 @@ class TelegramController extends BaseController
             $product->image->resizeImage(500, 500);
         }
 
-        $url = "https://".$request->getHttpHost() . "" . $thumbnail;
+        $url = env("APP_URL")."".$thumbnail;
         $caption = $request->input('caption');
 
         // write post log, only one time
