@@ -433,7 +433,7 @@ class BotController extends Controller
                                     }
 
                                     // create order
-                                    $order->createOrder($chatUser);
+                                    // $order->createOrder($chatUser);
 
                                     // ~~~~~~~~~~~~~~~~~ send group check
 
@@ -1092,7 +1092,7 @@ class BotController extends Controller
                                 }
 
                                 // create order
-                                $order->createOrder($chatUser);
+                                // $order->createOrder($chatUser);
 
                                 // ~~~~~~~~~~~~~~~~~ send group check
 

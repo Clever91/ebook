@@ -15,6 +15,10 @@
     'title' => 'Список заказы'
 ])
 
+@php
+    use App\Models\Admin\Order;
+@endphp
+
 <!-- Main content -->
 <section class="content">
     <div class="container-fluid">
@@ -35,7 +39,7 @@
                                         <th>Общая</th>
                                         <th>Общая со скидкой</th>
                                         <th>Скидка</th>
-                                        <th>Статус</th>
+                                        <th width="120px">Статус</th>
                                         <th>Создано на</th>
                                         <th width="120px">Действия</th>
                                     </tr>
@@ -51,7 +55,12 @@
                                         <td>{!! $model->stateHTML() !!}</td>
                                         <td>{{ $model->created_at }}</td>
                                         <td>
-                                            <a class="btn btn-sm btn-info">Change</a>
+                                            <a class="btn btn-sm btn-app btn-event-delivery">
+                                                <i class="fas fa-truck"></i> Delivery
+                                            </a>
+                                            <a class="btn btn-sm btn-app btn-event-cancel">
+                                                <i class="far fa-window-close"></i> Cancel
+                                            </a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -73,4 +82,11 @@
     </div>
 </section>
 @endsection
+
+<script src="">
+    $(".btn-event-delivery").on("click", function (event) {
+        event.preventDefault();
+        alert("ok");
+    });
+</script>
 

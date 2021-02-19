@@ -54,8 +54,11 @@ class Order extends Model
     public static function getState()
     {
         return [
+            self::STATE_DRAF => "Draf",
             self::STATE_NEW => "Новый",
-            // self::STATE_DRAF => "Оплачено",
+            self::STATE_ARCHIVE => "Archive",
+            self::STATE_CANCEL => "Cancel",
+            self::STATE_RETRUN => "Return",
         ];
     }
 }

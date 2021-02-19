@@ -164,7 +164,7 @@ class ClickHelper
                     }
 
                     // create order
-                    $order->createOrder($order->chatUser());
+                    // $order->createOrder($order->chatUser());
 
                     // ~~~~~~~~~~~~~~~~~ send group check
 
