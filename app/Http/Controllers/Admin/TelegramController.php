@@ -10,6 +10,7 @@ use App\Models\Bot\ChatGroup;
 use App\Models\Bot\ChatPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Lang;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -87,7 +88,7 @@ class TelegramController extends BaseController
         foreach($models as $model) {
             try {
                 $btn = Keyboard::button([
-                    'text' => 'Сделать заказ',
+                    'text' => Lang::get('admin.btn_make_order'), //'Сделать заказ',
                     'url' => "https://t.me/".env("TELEGRAM_BOT_USERNAME")."?start=product-" . $product->id,
                 ]);
 

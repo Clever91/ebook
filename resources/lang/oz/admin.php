@@ -11,4 +11,5 @@ return [
     'color_green' => 'Yashil',
     'yes' => 'Бор',
     'no' => 'Йок',
+    'btn_make_order' => 'Сотиб олиш'
 ];

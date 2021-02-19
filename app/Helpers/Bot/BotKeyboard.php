@@ -374,10 +374,10 @@ class BotKeyboard {
         //     'callback_data' => '{"del":"'.ChatOrder::DELIVERY_MAIL.'"}'
         // ]);
 
-        $pickup = Keyboard::button([
-            'text' => Lang::get('bot.delivery_pickup'),
-            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
-        ]);
+        // $pickup = Keyboard::button([
+        //     'text' => Lang::get('bot.delivery_pickup'),
+        //     'callback_data' => '{"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
+        // ]);
 
         $back = Keyboard::button([
             'text' => Lang::get('bot.btn_back'),
@@ -388,7 +388,7 @@ class BotKeyboard {
             'inline_keyboard' => [
                 [ $delivery ],
                 // [ $pochta ],
-                [ $pickup ],
+                // [ $pickup ],
                 [ $back ],
             ],
         ]);

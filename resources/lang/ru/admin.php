@@ -11,4 +11,5 @@ return [
     'color_green' => 'Зеленый',
     'yes' => 'Да',
     'no' => 'Нет',
+    'btn_make_order' => 'Сделать заказ'
 ];
