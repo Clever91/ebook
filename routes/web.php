@@ -125,6 +125,7 @@ Localization::localizedRoutesGroup(function() {
         Route::get('/chat/groups', 'Admin\ChatGroupController@index')->name('admin.chat.groups');
         Route::delete('/chat/groups/{id}/destroy', 'Admin\ChatGroupController@destroy')->name('admin.chat.groups.destroy');
         Route::get('/chat/order/index', 'Admin\ChatOrderController@index')->name('admin.chat.order.index');
+        Route::get('/chat/order/{order_id}/send', 'Admin\ChatOrderController@sendToTelegram')->name('admin.chat.order.send');
     });
 
 });

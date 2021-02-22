@@ -39,6 +39,7 @@
                                         <th>Тип доставки</th>
                                         <th>Способ оплаты</th>
                                         <th>Оплачен</th>
+                                        <th>Действие</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -53,6 +54,11 @@
                                         <td>{{ $model->deliveryLabel() }}</td>
                                         <td>{{ $model->paymentLabel() }}</td>
                                         <td>{!! $model->isPaidHtml() !!}</td>
+                                        <td>
+                                            <a href="{{ route('admin.chat.order.send', $model->id) }}" class="btn btn-app">
+                                                <i class="fab fa-telegram"></i> Отправить
+                                            </a>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
