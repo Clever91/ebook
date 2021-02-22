@@ -133,6 +133,11 @@ class ChatOrder extends Model
         return $this->amount + $this->delivery_price;
     }
 
+    public function isNotDraf()
+    {
+        return $this->state != self::STATE_DRAF;
+    }
+
     public function telegramOrderList()
     {
         $text = Lang::get("bot.new_order") . "<b>" . $this->id . "</b> \n\n";

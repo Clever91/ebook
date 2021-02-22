@@ -55,9 +55,11 @@
                                         <td>{{ $model->paymentLabel() }}</td>
                                         <td>{!! $model->isPaidHtml() !!}</td>
                                         <td>
+                                            @if ($model->isNotDraf())
                                             <a href="{{ route('admin.chat.order.send', $model->id) }}" class="btn btn-app">
                                                 <i class="fab fa-telegram"></i> Отправить
                                             </a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
