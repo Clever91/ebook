@@ -6,9 +6,8 @@ use App\Helpers\Log\TelegramLog;
 
 class PaymeHelper
 {
-    const MERCHANT_KEY = '5fe2f49d52312934ea4465dd';
-    // const MERCHANT_KEY = '5fb811504ef128e66ee32ab5';
-    const RETURN_URL = "https://bookmedianashr.uz/pay/payme/complete";
+    const MERCHANT_KEY = '5fb811504ef128e66ee32ab5';
+    const RETURN_URL = "https://admin.bookmarker24.uz/pay/payme/complete";
     const URL = "https://checkout.paycom.uz";
 
     public static function followingLink($amount, $order_id)
