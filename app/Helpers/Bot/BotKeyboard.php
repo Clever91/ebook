@@ -3,6 +3,7 @@
 namespace App\Helpers\Bot;
 
 use App\Helpers\Common\ClickHelper;
+use App\Helpers\Common\GlobalFunc;
 use App\Helpers\Common\PaymeHelper;
 use App\Helpers\Log\TelegramLog;
 use App\Models\Admin\Book;
@@ -459,10 +460,11 @@ class BotKeyboard {
         return $reply_markup;
     }
 
-    public static function totalCheck($amount, $order_id, $back = 7)
+    public static function totalCheck($amount, $order, $back = 7)
     {
-        $click_url = ClickHelper::followingLink($amount, $order_id);
-        $payme_url = PaymeHelper::followingLink($amount, $order_id);
+        $click_url = ClickHelper::followingLink($amount, $order->id);
+        $payme_url = PaymeHelper::followingLink($amount, $order->id);
+        $showCash = GlobalFunc::showCashPayment($order->distance);
 
         $keyboard = [];
 
@@ -501,11 +503,13 @@ class BotKeyboard {
             array_push($keyboard, [ $click_telegram ]);
         }
 
-        $cash = Keyboard::button([
-            'text' => Lang::get('bot.payment_cash'),
-            'callback_data' => '{"pay":true,"type":"cash"}'
-        ]);
-        array_push($keyboard, [ $cash ]);
+        if ($showCash == true) {
+            $cash = Keyboard::button([
+                'text' => Lang::get('bot.payment_cash'),
+                'callback_data' => '{"pay":true,"type":"cash"}'
+            ]);
+            array_push($keyboard, [ $cash ]);
+        }
 
         $cart = Keyboard::button([
             'text' => Lang::get('bot.btn_cart'),

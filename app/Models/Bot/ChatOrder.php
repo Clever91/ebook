@@ -28,7 +28,7 @@ class ChatOrder extends Model
     const PAID_SUCCESS = 1;
 
     protected $fillable = [
-        "chat_id", "delivery_type", "payment_type", "delivery_price",
+        "chat_id", "delivery_type", "payment_type", "delivery_price", "distance",
         "amount", "state", "status", "paid", "phone", "code", "updated_by",
         "lat", "long", "message_id"
     ];

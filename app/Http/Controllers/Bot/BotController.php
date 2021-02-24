@@ -1201,7 +1201,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order->id);
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order);
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
                                             'text' => $text,
@@ -1364,7 +1364,7 @@ class BotController extends Controller
                                         ]);
 
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order->id);
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order);
 
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
@@ -1564,7 +1564,19 @@ class BotController extends Controller
 
                             $order->lat = $location->getLatitude();
                             $order->long = $location->getLongitude();
-                            $order->save();
+                            if ($order->save()) {
+                                // save distance
+                                $shop_lat = Setting::get('shop_lat');
+                                $shop_lng = Setting::get('shop_lng');
+                                $distance = null;
+                                if (!empty($shop_lat) && !empty($shop_lng)) {
+                                    $distance = GlobalFunc::haversineGreatCircleDistance($shop_lat, $shop_lng, $order->lat, $order->long);
+                                    if (!is_null($distance) && $distance > 0) {
+                                        $order->distance = $distance;
+                                        $order->save();
+                                    }
+                                }
+                            }
 
                             $text = Lang::get("bot.send_phone");
                             try {
@@ -1660,7 +1672,7 @@ class BotController extends Controller
                                             'reply_markup' => $reply_markup
                                         ]);
                                         // send message
-                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order->id);
+                                        $reply_markup = BotKeyboard::totalCheck($total_with_delivery, $order);
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $chat_id,
                                             'text' => $text,

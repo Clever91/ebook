@@ -76,6 +76,15 @@ return [
                 'class' => '',
                 'value' => 10000
             ],
+            [
+                'type' => 'number',
+                'data' => 'float',
+                'name' => 'min_distance_for_cash',
+                'label' => 'Мин. Расстояние для наличных [m]',
+                'rules' => 'required',
+                'class' => '',
+                'value' => 10000
+            ],
         ]
     ],
     'payment' => [
