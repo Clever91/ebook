@@ -984,7 +984,7 @@ class BotController extends Controller
 
                     }
 
-                    if (strtolower($command) == ("/chat_id" || "/chatid")) {
+                    if (strtolower($command) == "/chat_id"  ||  strtolower($command) == "/chatid") {
                         try {
                             $text = "This is your group chat ID: *".$chat_id."*";
                             Telegram::sendMessage([
