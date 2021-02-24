@@ -30,6 +30,7 @@ return [
     'this_product_is_not_active' => "Sorry, this product is not active right now.",
     'thank_you_your_order_accepted' => "🏆 Thank you, your order has been accepted. Your order ID: ",
     'new_order' => "📋 New order: ",
+    'client' => "👤 Customer: ",
     'client_phone' => "📞 Customer phone: ",
     'delivery_type' => "🚚 Delivery type: ",
     'payment_type' => "💳 Payment method: ",

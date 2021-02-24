@@ -38,6 +38,11 @@ class ChatOrder extends Model
         return $this->hasMany(ChatOrderDetail::class);
     }
 
+    public function chatUser()
+    {
+        return ChatUser::where('chat_id', $this->chat_id)->first();
+    }
+
     public function deleteDetails()
     {
         if (empty($this->details))
@@ -140,8 +145,14 @@ class ChatOrder extends Model
 
     public function telegramOrderList()
     {
+        $full_name = "Клиент";
+        $chatUser = $this->chatUser();
+        if (!is_null($chatUser)) {
+            $full_name = $chatUser->getFullName();
+        }
         $text = Lang::get("bot.new_order") . "<b>" . $this->id . "</b> \n\n";
-        $text .= Lang::get("bot.client_phone") . "<b>" . $this->phone . "</b>\n";
+        $text .= Lang::get("bot.client") . " <a href='tg://user?id=".$this->chat_id."'>".$full_name."</a>\n";
+        $text .= Lang::get("bot.client_phone") . " <a href='tel:+".$this->phone."'>+".$this->phone."</a>\n";
         $text .= Lang::get("bot.delivery_type") . "<b>" . $this->deliveryLabel() . "</b>\n";
         $text .= Lang::get("bot.payment_type") . "<b>". $this->paymentLabel() . "</b>\n";
         $text .= Lang::get("bot.location") . "<b>". $this->getLatLng() . "</b>\n\n";
@@ -198,10 +209,4 @@ class ChatOrder extends Model
         }
         return true;
     }
-
-    public function chatUser()
-    {
-        return ChatUser::where('chat_id', $this->chat_id)->first();
-    }
-
 }

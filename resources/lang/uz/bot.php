@@ -30,6 +30,7 @@ return [
     'this_product_is_not_active' => "Uzr, ushbu mahsulot hozirda faol emas",
     'thank_you_your_order_accepted' => "🏆 Rahmat, sizning buyurtmangiz qabul qilindi. Buyurtma ID: ",
     'new_order' => "📋 Yangi buyurtma: ",
+    'client' => "👤 Mijoz: ",
     'client_phone' => "📞 Mijoz telefoni: ",
     'delivery_type' => "🚚 Yetkazib berish turi: ",
     'payment_type' => "💳 To'lov turi: ",

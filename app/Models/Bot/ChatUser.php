@@ -28,4 +28,12 @@ class ChatUser extends Model
     {
         return Customer::find($this->customer_id);
     }
+
+    public function getFullName()
+    {
+        $full_name = $this->first_name;
+        if (!empty($this->last_name))
+            $full_name .= " " . $this->last_name;
+        return $full_name;
+    }
 }

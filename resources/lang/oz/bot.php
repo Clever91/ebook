@@ -30,6 +30,7 @@ return [
     'this_product_is_not_active' => "Узр, ушбу маҳсулот ҳозирда фаол эмас",
     'thank_you_your_order_accepted' => "🏆 Раҳмат, сизнинг буюртмангиз қабул қилинди. Буюртма ID: ",
     'new_order' => "📋 Янги буюртма: ",
+    'client' => "👤 Мижоз: ",
     'client_phone' => "📞 Мижоз телефони: ",
     'delivery_type' => "🚚 Етказиб бериш тури: ",
     'payment_type' => "💳 Тўлов тури: ",

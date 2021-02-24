@@ -48,7 +48,10 @@ class Product extends Base implements TranslatableContract
 
     public function book()
     {
-        return Book::where('product_id', $this->id)->orderBy('price', 'asc')->first();
+        return Book::where([
+            'product_id' => $this->id,
+            'deleted' => Book::NO_DELETED,
+        ])->orderBy('price', 'asc')->first();
     }
 
     public function books($state = null)
