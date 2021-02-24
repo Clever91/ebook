@@ -34,10 +34,14 @@ class Book extends Base
         return $this->belongsTo(Image::class)->where('type', Image::TYPE_BOOK);
     }
 
-    public function coverLabel()
+    public function coverLabel($locale = null)
     {
-        if (!is_null($this->coverType))
-            return $this->coverType->translateOrNew(App::getLocale())->name;
+        if (!is_null($this->coverType)) {
+            if (is_null($locale))
+                return $this->coverType->name;
+            else
+                return $this->coverType->translateOrNew($locale)->name;
+        }
         return null;
     }
 
@@ -61,17 +65,23 @@ class Book extends Base
         return null;
     }
 
-    public function getBtnLabel()
+    public function getBtnLabel($locale = null)
     {
         $txt = "";
         if (!is_null($this->color))
-            $txt .= $this->color->short." | ";
+            $txt .= $this->color->short;
+        if (!empty($txt))
+            $txt .= " | ";
         if (!empty($this->paperSize()))
-            $txt .= $this->paperSize()." | ";
+            $txt .= $this->paperSize();
+        if (!empty($txt))
+            $txt .= " | ";
         if (!empty($this->letterLabel()))
-            $txt .= $this->letterLabel()." | ";
+            $txt .= $this->letterLabel();
+        if (!empty($txt))
+            $txt .= " | ";
         if (!is_null($this->coverType))
-            $txt .= $this->coverLabel();
+            $txt .= $this->coverLabel($locale);
         return $txt;
     }
 

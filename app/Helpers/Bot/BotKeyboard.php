@@ -136,7 +136,7 @@ class BotKeyboard {
             ])->orderBy('price', 'asc')->get();
             if ($books->count() > 1) {
                 foreach($books as $b) {
-                    $txt = $b->getBtnLabel();
+                    $txt = $b->getBtnLabel($locale);
                     if ($b->id == $selected->id)
                         $txt = "✔️ ".$txt;
                     $btn = Keyboard::button([
