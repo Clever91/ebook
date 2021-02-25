@@ -11,5 +11,11 @@ return [
     'color_green' => 'Yashil',
     'yes' => 'Бор',
     'no' => 'Йок',
-    'btn_make_order' => 'Сотиб олиш'
+    'btn_make_order' => 'Сотиб олиш',
+    'state_draf' => 'Draf',
+    'state_new' => 'New',
+    'state_on_the_way' => 'Йўлда',
+    'state_delivered' => 'Етказилди',
+    'state_complated' => 'Complated',
+    'state_canceled' => 'Бекор қилинди',
 ];

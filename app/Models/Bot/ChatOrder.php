@@ -96,6 +96,11 @@ class ChatOrder extends Model
         ];
     }
 
+    public function stateLabel()
+    {
+        return $this->states()[$this->state];
+    }
+
     public function stateHtml()
     {
         $label = $this->states()[$this->state];
@@ -118,12 +123,12 @@ class ChatOrder extends Model
     public function states()
     {
         return [
-            self::STATE_DRAF => "Черновой",
-            self::STATE_CANCEL => "Отменено",
-            self::STATE_NEW => "Новый",
-            self::STATE_ON_WAY => "В пути",
-            self::STATE_DELIVERED => "Доставлено",
-            self::STATE_COMPLATE => "Завершено",
+            self::STATE_DRAF => Lang::get('admin.state_draf'), //"Черновой",
+            self::STATE_CANCEL => Lang::get('admin.state_canceled'), //"Отменено",
+            self::STATE_NEW => Lang::get('admin.state_new'), //"Новый",
+            self::STATE_ON_WAY => Lang::get('admin.state_on_the_way'), //"В пути",
+            self::STATE_DELIVERED => Lang::get('admin.state_delivered'), //"Доставлено",
+            self::STATE_COMPLATE => Lang::get('admin.state_complated'), //"Завершено",
         ];
     }
 

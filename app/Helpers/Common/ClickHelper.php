@@ -173,12 +173,14 @@ class ClickHelper
                     App::setLocale($locale);
                     $group_id = Setting::get('order_group');
                     $text = $order->telegramOrderList();
+                    $keyboard = BotKeyboard::status($order);
 
                     try {
                         $response = Telegram::sendMessage([
                             'chat_id' => $group_id,
                             'text' => $text,
-                            'parse_mode' => "HTML"
+                            'parse_mode' => "HTML",
+                            'reply_markup' => $keyboard,
                         ]);
                         if (!$order->isPickUp()) {
                             $response = Telegram::sendLocation([

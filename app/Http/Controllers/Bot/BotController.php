@@ -83,10 +83,11 @@ class BotController extends Controller
 
                 // set language
                 $locale = "ru";
-                $chatUser = ChatUser::where('chat_id', $chat->getId())->first();
+                $chatUser = ChatUser::where('chat_id', $from->getId())->first();
                 if (!is_null($chatUser))
                     $locale = $chatUser->locale;
                 App::setLocale($locale);
+                // TelegramLog::log($chat);
 
                 if (!is_null($chat) && $chat->getType() == "private") {
 
@@ -886,9 +887,27 @@ class BotController extends Controller
                             } else if (isset($decode->del)) {
                                 $order->state = $decode->del;
                                 $order->save();
+
+                                // send client message for process
+                                if (GlobalFunc::sendableState($order->state)) {
+                                    $text = Lang::get('bot.client_notification_for_state', [
+                                        'code' => $order->id,
+                                        'state' => $order->stateLabel()
+                                    ]);
+                                    try {
+                                        $response = Telegram::sendMessage([
+                                            'chat_id' => $order->chat_id,
+                                            'text' => $text,
+                                            'parse_mode' => "Markdown",
+                                        ]);
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }
+                                }
                             }
 
-                            // set default language
+
+                            // change group
                             $locale = env('LANG_DEFAULT') || "ru";
                             App::setLocale($locale);
                             $text = $order->telegramOrderList();
@@ -925,7 +944,7 @@ class BotController extends Controller
 
             // set russion language
             $locale = "ru";
-            $chatUser = ChatUser::where('chat_id', $chat->getId())->first();
+            $chatUser = ChatUser::where('chat_id', $from->getId())->first();
             if (!is_null($chatUser))
                 $locale = $chatUser->locale;
             App::setLocale($locale);

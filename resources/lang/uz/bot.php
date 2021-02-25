@@ -58,4 +58,5 @@ return [
     'paper_size' => "O'lchami",
     'letter' => "Alifbosi",
     'color' => "Rangi",
+    'client_notification_for_state' => "#:code raqamli buyurtma: :state",
 ];

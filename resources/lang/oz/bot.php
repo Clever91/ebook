@@ -58,4 +58,5 @@ return [
     'paper_size' => "Бичими",
     'letter' => "Тили",
     'color' => "Ранги",
+    'client_notification_for_state' => "#:code рақамли буюртма: :state",
 ];

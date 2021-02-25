@@ -58,4 +58,5 @@ return [
     'paper_size' => "Size",
     'letter' => "Language",
     'color' => "Color",
+    'client_notification_for_state' => "Order #:code is :state",
 ];

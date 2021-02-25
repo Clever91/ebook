@@ -59,6 +59,11 @@ class GlobalFunc
     {
         return in_array($payment_type, [ ChatOrder::PAYMENT_CASH, ChatOrder::PAYMENT_PAYME]);
     }
+
+    public static function sendableState($state)
+    {
+        return in_array($state, [ChatOrder::STATE_ON_WAY, ChatOrder::STATE_DELIVERED, ChatOrder::STATE_CANCEL]);
+    }
 }
 
 

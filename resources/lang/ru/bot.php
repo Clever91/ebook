@@ -58,4 +58,5 @@ return [
     'paper_size' => "Размер",
     'letter' => "Язык",
     'color' => "Цвет",
+    'client_notification_for_state' => "Заказ с номером #:code: :state",
 ];

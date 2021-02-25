@@ -11,5 +11,11 @@ return [
     'color_green' => 'Зеленый',
     'yes' => 'Да',
     'no' => 'Нет',
-    'btn_make_order' => 'Сделать заказ'
+    'btn_make_order' => 'Сделать заказ',
+    'state_draf' => 'Draf',
+    'state_new' => 'New',
+    'state_on_the_way' => 'В пути',
+    'state_delivered' => 'Доставлено',
+    'state_complated' => 'Complated',
+    'state_canceled' => 'Отменено',
 ];
