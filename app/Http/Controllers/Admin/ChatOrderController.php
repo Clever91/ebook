@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Bot\BotKeyboard;
 use Exception;
 use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
@@ -27,12 +28,14 @@ class ChatOrderController extends Controller
         $group_id = Setting::get('order_group');
         $order = ChatOrder::findOrFail($order_id);
         $text = $order->telegramOrderList();
+        $keyboard = BotKeyboard::status($order);
 
         try {
             $response = Telegram::sendMessage([
                 'chat_id' => $group_id,
                 'text' => $text,
-                'parse_mode' => "HTML"
+                'parse_mode' => "HTML",
+                'reply_markup' => $keyboard,
             ]);
             if (!$order->isPickUp()) {
                 $response = Telegram::sendLocation([

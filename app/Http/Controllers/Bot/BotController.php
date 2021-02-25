@@ -442,12 +442,14 @@ class BotController extends Controller
                                     App::setLocale($locale);
                                     $group_id = Setting::get('order_group');
                                     $text = $order->telegramOrderList();
+                                    $keyboard = BotKeyboard::status($order);
 
                                     try {
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $group_id,
                                             'text' => $text,
-                                            'parse_mode' => "HTML"
+                                            'parse_mode' => "HTML",
+                                            'reply_markup' => $keyboard,
                                         ]);
 
                                         if (!$order->isPickUp()) {
@@ -868,14 +870,42 @@ class BotController extends Controller
                             TelegramLog::log($e->getMessage());
                         }
                     }
-                } else {
-                    try {
-                        Telegram::sendMessage([
-                            'chat_id' => $chat->getId(),
-                            'text' => Lang::get('bot.this_bot_work_only_private_chat')
-                        ]);
-                    } catch (Exception $e) {
-                        Telegram::log($e->getMessage());
+                } else if (!is_null($chat) && in_array(strtolower($chat->getType()), ["group", "supergroup"])) {
+
+                    $chat_id = $chat->getId();
+                    $decode = json_decode($data);
+                    // TelegramLog::log($decode);
+
+                    if (isset($decode->o)) {
+                        $order = ChatOrder::find($decode->o);
+                        if (!is_null($order)) {
+                            // make paid client, or not
+                            if (isset($decode->paid)) {
+                                $order->paid = $decode->paid;
+                                $order->save();
+                            } else if (isset($decode->del)) {
+                                $order->state = $decode->del;
+                                $order->save();
+                            }
+
+                            // set default language
+                            $locale = env('LANG_DEFAULT') || "ru";
+                            App::setLocale($locale);
+                            $text = $order->telegramOrderList();
+                            $keyboard = BotKeyboard::status($order);
+
+                            try {
+                                $response = Telegram::editMessageText([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id,
+                                    'text' => $text,
+                                    'parse_mode' => "HTML",
+                                    'reply_markup' => $keyboard,
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        }
                     }
                 }
             }
@@ -1101,14 +1131,15 @@ class BotController extends Controller
                                 App::setLocale($locale);
                                 $group_id = Setting::get('order_group');
                                 $text = $order->telegramOrderList();
+                                $keyboard = BotKeyboard::status($order);
 
                                 try {
                                     $response = Telegram::sendMessage([
                                         'chat_id' => $group_id,
                                         'text' => $text,
-                                        'parse_mode' => "HTML"
+                                        'parse_mode' => "HTML",
+                                        'reply_markup' => $keyboard,
                                     ]);
-
                                     if (!$order->isPickUp()) {
                                         $response = Telegram::sendLocation([
                                             'chat_id' => $group_id,

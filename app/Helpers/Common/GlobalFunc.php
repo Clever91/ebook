@@ -3,6 +3,7 @@
 namespace App\Helpers\Common;
 
 use App\Models\Admin\Setting;
+use App\Models\Bot\ChatOrder;
 
 class GlobalFunc
 {
@@ -52,6 +53,11 @@ class GlobalFunc
             return true;
         $min_distance = Setting::get('min_distance_for_cash');
         return $distance <= $min_distance;
+    }
+
+    public static function showPaid($payment_type)
+    {
+        return in_array($payment_type, [ ChatOrder::PAYMENT_CASH, ChatOrder::PAYMENT_PAYME]);
     }
 }
 

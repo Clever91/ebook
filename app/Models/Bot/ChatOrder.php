@@ -22,7 +22,10 @@ class ChatOrder extends Model
 
     const STATE_DRAF = "D"; // Draf
     const STATE_NEW = "N"; // New
-    const STATE_COMPLATE = "C"; // Complated
+    const STATE_ON_WAY = "OW"; // On the way
+    const STATE_DELIVERED = "DE"; // On the way
+    const STATE_COMPLATE = "CO"; // Complated
+    const STATE_CANCEL = "CA"; // Canceled
 
     const PAID_NOT = 0;
     const PAID_SUCCESS = 1;
@@ -97,10 +100,15 @@ class ChatOrder extends Model
     {
         $label = $this->states()[$this->state];
         switch($this->state) {
+            case self::STATE_DRAF:
+            case self::STATE_CANCEL:
+                return '<span class="badge bg-danger">'.$label.'</span>';
             case self::STATE_NEW:
                 return '<span class="badge bg-primary">'.$label.'</span>';
-            case self::STATE_DRAF:
-                return '<span class="badge bg-danger">'.$label.'</span>';
+            case self::STATE_ON_WAY:
+                return '<span class="badge bg-yellow">'.$label.'</span>';
+            case self::STATE_DELIVERED:
+                return '<span class="badge bg-info">'.$label.'</span>';
             case self::STATE_COMPLATE:
                 return '<span class="badge bg-success">'.$label.'</span>';
         }
@@ -111,7 +119,10 @@ class ChatOrder extends Model
     {
         return [
             self::STATE_DRAF => "Черновой",
+            self::STATE_CANCEL => "Отменено",
             self::STATE_NEW => "Новый",
+            self::STATE_ON_WAY => "В пути",
+            self::STATE_DELIVERED => "Доставлено",
             self::STATE_COMPLATE => "Завершено",
         ];
     }

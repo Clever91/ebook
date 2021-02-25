@@ -551,6 +551,66 @@ class BotKeyboard {
         return $reply_markup;
     }
 
+    public static function status($order)
+    {
+        // if order is complated, so hide keyborad
+        if ($order->state == ChatOrder::STATE_COMPLATE) {
+            return false;
+        }
+
+        $keyboard = [];
+        $labels = (new ChatOrder)->states();
+
+        if (GlobalFunc::showPaid($order->payment_type) && $order->state != ChatOrder::STATE_CANCEL) {
+            $noPaid = ($order->paid == ChatOrder::PAID_SUCCESS ? ChatOrder::PAID_NOT : ChatOrder::PAID_SUCCESS);
+            $paid = Keyboard::button([
+                'text' => "Оплачено " . ($noPaid == 0 ? '✅' : ''),
+                'callback_data' => '{"paid":'.$noPaid.',"o":'.$order->id.'}'
+            ]);
+            array_push($keyboard, [ $paid ]);
+        }
+
+        if ($order->state == ChatOrder::STATE_NEW) {
+            $btn = Keyboard::button([
+                'text' => $labels[ChatOrder::STATE_ON_WAY],
+                'callback_data' => '{"del":"'.ChatOrder::STATE_ON_WAY.'","o":'.$order->id.'}'
+            ]);
+            array_push($keyboard, [ $btn ]);
+        } else if ($order->state == ChatOrder::STATE_ON_WAY) {
+            $btn = Keyboard::button([
+                'text' => $labels[ChatOrder::STATE_DELIVERED],
+                'callback_data' => '{"del":"'.ChatOrder::STATE_DELIVERED.'","o":'.$order->id.'}'
+            ]);
+            array_push($keyboard, [ $btn ]);
+        } else if ($order->state == ChatOrder::STATE_DELIVERED) {
+            $btn = Keyboard::button([
+                'text' => $labels[ChatOrder::STATE_COMPLATE],
+                'callback_data' => '{"del":"'.ChatOrder::STATE_COMPLATE.'","o":'.$order->id.'}'
+            ]);
+            array_push($keyboard, [ $btn ]);
+        }
+
+        if ($order->state != ChatOrder::STATE_CANCEL) {
+            $cancel = Keyboard::button([
+                'text' => $labels[ChatOrder::STATE_CANCEL],
+                'callback_data' => '{"del":"'.ChatOrder::STATE_CANCEL.'","o":'.$order->id.'}'
+            ]);
+            array_push($keyboard, [ $cancel ]);
+        } else {
+            $new = Keyboard::button([
+                'text' => $labels[ChatOrder::STATE_NEW],
+                'callback_data' => '{"del":"'.ChatOrder::STATE_NEW.'","o":'.$order->id.'}'
+            ]);
+            array_push($keyboard, [ $new ]);
+        }
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
 }
 
 ?>
