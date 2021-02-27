@@ -12,10 +12,10 @@ return [
     'yes' => 'Да',
     'no' => 'Нет',
     'btn_make_order' => 'Сделать заказ',
-    'state_draf' => 'Draf',
-    'state_new' => 'New',
+    'state_draf' => 'Черновик',
+    'state_new' => 'Новый',
     'state_on_the_way' => 'В пути',
     'state_delivered' => 'Доставлено',
-    'state_complated' => 'Complated',
+    'state_complated' => 'Закончено',
     'state_canceled' => 'Отменено',
 ];

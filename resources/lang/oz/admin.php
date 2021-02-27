@@ -12,10 +12,11 @@ return [
     'yes' => 'Бор',
     'no' => 'Йок',
     'btn_make_order' => 'Сотиб олиш',
-    'state_draf' => 'Draf',
-    'state_new' => 'New',
+    'state_draf' => 'Қоралама',
+    'state_new' => 'Янги',
     'state_on_the_way' => 'Йўлда',
     'state_delivered' => 'Етказилди',
-    'state_complated' => 'Complated',
+    'state_complated' => 'Тугатилди',
     'state_canceled' => 'Бекор қилинди',
+
 ];

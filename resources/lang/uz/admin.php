@@ -12,10 +12,10 @@ return [
     'yes' => 'Bor',
     'no' => "Yo'q",
     'btn_make_order' => 'Sotib olish',
-    'state_draf' => 'Aniqlanmagan',
+    'state_draf' => 'Qoralama',
     'state_new' => 'Yangi',
     'state_on_the_way' => "Yo'lda",
     'state_delivered' => 'Yetqazildi',
-    'state_complated' => 'Yakunlandi',
+    'state_complated' => 'Tugatildi',
     'state_canceled' => 'Bekor qilindi',
 ];
