@@ -49,25 +49,26 @@ class CreateRandomProductSeeder extends Seeder
                     'name' => $faker->word() . " (uz)",
                     'description' => $faker->paragraph() . " (uz)",
                 ],
+                'oz' => [
+                    'name' => $faker->word() . " (oz)",
+                    'description' => $faker->paragraph() . " (oz)",
+                ],
                 'status' => Product::STATUS_ACTIVE,
                 'created_by' => $admin->id,
             ]);
 
             // create random books
-            $book = null;
-            if ($index % 10 != 0) {
-                $book = Book::create([
-                    'product_id' => $product->id,
-                    'price' => $faker->randomFloat(null, 10000, 99000),
-                    'leftover' => random_int(-1, 5) > 0 ? $faker->numberBetween(10, 90) : null,
-                    'cover_type_id' => $coverTypes[random_int(1, count($coverTypes) - 1)]->id,
-                    'paper_size' => "17x24",
-                    'letter' => random_int(-1, 1) > 0 ? Book::LETTER_LATIN : Book::LETTER_KRILL,
-                    'color_id' => $colors[random_int(1, count($colors) - 1)]->id,
-                    'status' => Product::STATUS_ACTIVE,
-                    'created_by' => $admin->id,
-                ]);
-            }
+            $book = Book::create([
+                'product_id' => $product->id,
+                'price' => $faker->randomFloat(null, 10000, 99000),
+                'leftover' => random_int(-1, 5) > 0 ? $faker->numberBetween(10, 90) : null,
+                'cover_type_id' => $coverTypes[random_int(1, count($coverTypes) - 1)]->id,
+                'paper_size' => "17x24",
+                'letter' => random_int(-1, 1) > 0 ? Book::LETTER_LATIN : Book::LETTER_KRILL,
+                'color_id' => $colors[random_int(1, count($colors) - 1)]->id,
+                'status' => Product::STATUS_ACTIVE,
+                'created_by' => $admin->id,
+            ]);
 
             // create random ebook
             if ($index % 3 == 0 && !is_null($book)) {
@@ -92,7 +93,7 @@ class CreateRandomProductSeeder extends Seeder
             }
 
             // create random goods
-            if (is_null($book)) {
+            if ($index % 10 == 0) {
                 Good::create([
                     'product_id' => $product->id,
                     'price' => $faker->randomFloat(null, 10000, 80000),
