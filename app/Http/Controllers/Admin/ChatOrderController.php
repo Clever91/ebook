@@ -8,8 +8,8 @@ use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Request;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 class ChatOrderController extends Controller
@@ -18,6 +18,16 @@ class ChatOrderController extends Controller
     {
         $models = ChatOrder::orderByDesc('id')->paginate(15);
         return view('admin.chatOrder.index', compact('models'));
+    }
+
+    public function detail(Request $request, $order_id)
+    {
+        $model = ChatOrder::findOrFail($order_id);
+        $print = $request->input('print', false);
+        return view('admin.chatOrder.detail', [
+            'model' => $model,
+            'isPrint' => $print,
+        ]);
     }
 
     public function sendToTelegram(Request $request, $order_id)

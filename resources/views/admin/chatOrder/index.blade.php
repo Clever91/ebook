@@ -45,9 +45,9 @@
                                 <tbody>
                                     @foreach ($models as $model)
                                     <tr>
-                                        <td>{{ $model->id }}</td>
+                                        <td><a href="{{ route('admin.chat.order.detail', $model->id) }}">{{ $model->id }}</a></td>
                                         <td>{{ $model->chat_id }}</td>
-                                        <td>{{ $model->phone }}</td>
+                                        <td><a href="{{ route('admin.chat.order.detail', $model->id) }}">{{ $model->phone }}</a></td>
                                         <td>@money_format($model->amount)</td>
                                         <td>@money_format($model->delivery_price)</td>
                                         <td>{!! $model->stateHtml() !!}</td>
