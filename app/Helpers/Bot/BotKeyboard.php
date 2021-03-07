@@ -463,7 +463,8 @@ class BotKeyboard {
     public static function totalCheck($amount, $order, $back = 7)
     {
         $click_url = ClickHelper::followingLink($amount, $order->id);
-        $payme_url = PaymeHelper::followingLink($amount, $order->id);
+        // $payme_url = PaymeHelper::followingLink($amount, $order->id);
+        // $payme_url = PaymeHelper::bm24Link($amount);
         $showCash = GlobalFunc::showCashPayment($order->distance);
 
         $keyboard = [];
@@ -475,11 +476,16 @@ class BotKeyboard {
         array_push($keyboard, [ $backBtn ]);
 
         if (Setting::get("payme") == "on") {
-            $payme = Keyboard::button([
+            // $payme = Keyboard::button([
+            //     'text' => 'Payme',
+            //     'url' => $payme_url
+            // ]);
+            // array_push($keyboard, [ $payme ]);
+            $bm24 = Keyboard::button([
                 'text' => 'Payme',
-                'url' => $payme_url
+                'callback_data' => '{"pay":true,"type":"bm24"}'
             ]);
-            array_push($keyboard, [ $payme ]);
+            array_push($keyboard, [ $bm24 ]);
         }
 
         // $payme_telegram = Keyboard::button([
@@ -603,6 +609,24 @@ class BotKeyboard {
             ]);
             array_push($keyboard, [ $new ]);
         }
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function bm24($amount)
+    {
+        $keyboard = [];
+        $payme_url = PaymeHelper::bm24Link($amount);
+
+        $payme = Keyboard::button([
+            'text' => 'Payme',
+            'url' => $payme_url
+        ]);
+        array_push($keyboard, [ $payme ]);
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,

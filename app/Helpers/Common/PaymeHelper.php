@@ -16,6 +16,11 @@ class PaymeHelper
         return self::URL . "/" . $encode;
     }
 
+    public static function bm24Link($amount)
+    {
+        return "https://payme.uz/@bm24/{$amount}00";
+    }
+
     public static function run()
     {
         $data = request()->all();

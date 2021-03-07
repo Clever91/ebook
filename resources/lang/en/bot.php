@@ -59,4 +59,5 @@ return [
     'letter' => "Language",
     'color' => "Color",
     'client_notification_for_state' => "Order #:code is :state",
+    'bm24_text' => "Your order is waiting, after the payment is successful, the order will be activated",
 ];

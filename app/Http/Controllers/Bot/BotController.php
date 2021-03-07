@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Bot;
 use Exception;
 use App\Helpers\Bot\BotKeyboard;
 use App\Helpers\Common\GlobalFunc;
+use App\Helpers\Common\PaymeHelper;
 use App\Helpers\Common\Sms;
 use App\Helpers\Log\TelegramLog;
 use App\Http\Controllers\Controller;
@@ -362,7 +363,8 @@ class BotController extends Controller
                     } else if (isset($decode->pay)) {
 
                         $type = $decode->type;
-                        if ($type == "cash") {
+                        // bm24: this is payme, We made it custom btn
+                        if ($type == "cash" || $type == "bm24") {
                             // check order exists
                             $order = ChatOrder::where([
                                 "chat_id" => $chat_id,
@@ -375,6 +377,8 @@ class BotController extends Controller
                                     $delivery = (float) Setting::get("delivery_price");
 
                                 $order->payment_type = ChatOrder::PAYMENT_CASH;
+                                if ($type == "bm24")
+                                    $order->payment_type = ChatOrder::PAYMENT_BM24;
                                 $order->delivery_price = $delivery;
                                 $order->state = ChatOrder::STATE_NEW;
                                 if ($order->save()) {
@@ -407,7 +411,14 @@ class BotController extends Controller
                                         if ($order->isPickUp())
                                             $text .= "\n\n" .Lang::get("bot.our_geolocation");
 
+                                        if ($type == "bm24") {
+                                            $text .= "\n\n" .Lang::get("bot.bm24_text");
+                                        }
                                         $keyboard = BotKeyboard::home();
+                                        if ($type == "bm24") {
+                                            $amount = $order->amountWithDelivery();
+                                            $keyboard = BotKeyboard::bm24($amount);
+                                        }
 
                                         $response = Telegram::sendMessage([
                                             'chat_id' => $order->chat_id,
@@ -883,7 +894,11 @@ class BotController extends Controller
                             // make paid client, or not
                             if (isset($decode->paid)) {
                                 $order->paid = $decode->paid;
-                                $order->save();
+                                if ($order->save()) {
+                                    if ($order->isPaid()) {
+                                        //
+                                    }
+                                }
                             } else if (isset($decode->del)) {
                                 $order->state = $decode->del;
                                 $order->save();

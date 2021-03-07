@@ -59,4 +59,5 @@ return [
     'letter' => "Alifbosi",
     'color' => "Rangi",
     'client_notification_for_state' => "#:code raqamli buyurtma: :state",
+    'bm24_text' => "Sizni buyurtmangiz ishlovda, muofaqiyatli to'lovdan so'ng, buyurtma faol bo'ladi",
 ];

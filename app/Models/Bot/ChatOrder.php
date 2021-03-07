@@ -19,6 +19,7 @@ class ChatOrder extends Model
     const PAYMENT_PAYME = 1;
     const PAYMENT_CLICK = 2;
     const PAYMENT_CASH = 3;
+    const PAYMENT_BM24 = 4;
 
     const STATE_DRAF = "D"; // Draf
     const STATE_NEW = "N"; // New
@@ -93,6 +94,7 @@ class ChatOrder extends Model
             self::PAYMENT_CASH => Lang::get('bot.payment_cash'),
             self::PAYMENT_CLICK => 'Click',
             self::PAYMENT_PAYME => 'Payme',
+            self::PAYMENT_BM24 => 'Payme (bm24)',
         ];
     }
 

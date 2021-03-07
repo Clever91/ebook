@@ -57,7 +57,7 @@ class GlobalFunc
 
     public static function showPaid($payment_type)
     {
-        return in_array($payment_type, [ ChatOrder::PAYMENT_CASH, ChatOrder::PAYMENT_PAYME]);
+        return in_array($payment_type, [ ChatOrder::PAYMENT_CASH, ChatOrder::PAYMENT_BM24]);
     }
 
     public static function sendableState($state)
