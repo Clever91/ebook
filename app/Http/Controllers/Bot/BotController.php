@@ -944,9 +944,11 @@ class BotController extends Controller
 
             // set russion language
             $locale = "ru";
-            $chatUser = ChatUser::where('chat_id', $from->getId())->first();
-            if (!is_null($chatUser))
-                $locale = $chatUser->locale;
+            if (isset($from)) {
+                $chatUser = ChatUser::where('chat_id', $from->getId())->first();
+                if (!is_null($chatUser))
+                    $locale = $chatUser->locale;
+            }
             App::setLocale($locale);
 
             if (!is_null($chat)) {
