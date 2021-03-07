@@ -428,6 +428,12 @@ class BotController extends Controller
                                             'reply_to_message_id' => $order->message_id
                                         ]);
 
+                                        if ($type == "bm24") {
+                                            // save message ID, after payme (bm24) to remove last message
+                                            $order->message_id = $response->getMessageId();
+                                            $order->save();
+                                        }
+
                                         if ($order->isPickUp()) {
                                             $lat = Setting::get('shop_lat');
                                             $lng = Setting::get('shop_lng');
@@ -896,7 +902,25 @@ class BotController extends Controller
                                 $order->paid = $decode->paid;
                                 if ($order->save()) {
                                     if ($order->isPaid()) {
-                                        //
+                                        $locale = "ru";
+                                        $chatUser = ChatUser::where('chat_id', $order->chat_id)->first();
+                                        if (!is_null($chatUser))
+                                            $locale = $chatUser->locale;
+                                        App::setLocale($locale);
+                                        $text = Lang::get('bot.thank_you_your_order_accepted') ." <b>". $order->id ."</b>";
+                                        try {
+                                            $keyboard = BotKeyboard::home();
+                                            // edit message text
+                                            Telegram::editMessageText([
+                                                'chat_id' => $order->chat_id,
+                                                'text' => $text,
+                                                'parse_mode' => "HTML",
+                                                'message_id' => $order->message_id,
+                                                'reply_markup' => $keyboard
+                                            ]);
+                                        } catch (Exception $e) {
+                                            TelegramLog::log($e->getMessage());
+                                        }
                                     }
                                 }
                             } else if (isset($decode->del)) {

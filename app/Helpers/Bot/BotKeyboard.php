@@ -628,6 +628,12 @@ class BotKeyboard {
         ]);
         array_push($keyboard, [ $payme ]);
 
+        $home = Keyboard::button([
+            'text' => Lang::get('bot.btn_home'),
+            'callback_data' => '{"home":"1"}'
+        ]);
+        array_push($keyboard, [ $home ]);
+
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
         ]);
