@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\Log\IgnoreException;
 use App\Helpers\Log\TelegramLog;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -40,8 +41,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Throwable $exception)
     {
-        if ($exception instanceof ValidationException) {
-            //
+        if (IgnoreException::ignoreExeption($exception)) {
+            // ignored exception
         } else {
             // send error exception to telegram
             $msg = " *Error*: " . get_class($exception)
