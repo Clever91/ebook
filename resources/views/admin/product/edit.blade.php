@@ -12,7 +12,9 @@
 
 @php
 use App\Models\Admin\Book;
+
 $book = $model->book();
+$detail = $book->detail;
 @endphp
 
 <!-- Main content -->
@@ -28,6 +30,7 @@ $book = $model->book();
                 @method("PATCH")
                 @csrf
                 <div class="card-body">
+
                     <div class="form-group">
                         <label for="name">Название</label>
                         <input type="text" class="form-control @error('name') is-invalid @enderror"
@@ -81,91 +84,24 @@ $book = $model->book();
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
                         @enderror
                     </div>
-                    <div class="form-group">
-                        <label for="price">Цена</label>
-                        <input type="text" class="form-control @error('price') is-invalid @enderror"
-                            id="price" name="price" value="{{ $book->price }}"
-                            placeholder="Введите цена" required>
-                        @error('price')
-                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                        @enderror
-                    </div>
-                    {{-- ~~~~~~~~~~~~~~~~~~~ Optional params ~~~~~~~~~~~~~~~~~~~ --}}
-                    <div class="form-group">
-                        <label for="leftover">Остатки</label>
-                        <input type="text" class="form-control @error('leftover') is-invalid @enderror"
-                            id="leftover" name="leftover" value="{{ $book->leftover }}"
-                            placeholder="Введите остаток">
-                        @error('leftover')
-                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="cover_type_id">Обложка книги</label>
-                        <select class="form-control select2bs4 @error('cover_type_id') is-invalid @enderror"
-                            name="cover_type_id" style="width: 100%;" required>
-                            {{-- <option>Выберите обложка</option> --}}
-                            @foreach (Book::coverTypes() as $cover)
-                                @if (!is_null($book->coverType) && $book->coverType->id == $cover->id)
-                            <option value="{{ $cover->id }}" selected>{{ $cover->translateOrNew(\App::getLocale())->name }}</option>
-                                @else
-                            <option value="{{ $cover->id }}">{{ $cover->translateOrNew(\App::getLocale())->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                        @error('cover_type_id')
-                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="letter">Надпись</label>
-                        <select class="form-control select2bs4 @error('letter') is-invalid @enderror"
-                            name="letter" style="width: 100%;">
-                            <option value="">Выберите</option>
-                            @foreach (Book::letterTypes() as $letter => $val)
-                                @if ($book->letter == $letter)
-                            <option value="{{ $letter }}" selected>{{ $val }}</option>
-                                @else
-                            <option value="{{ $letter }}">{{ $val }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                        @error('letter')
-                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="paper_size">Размер страницы</label>
-                        <input type="text" class="form-control @error('paper_size') is-invalid @enderror"
-                            id="paper_size" name="paper_size"  value="{{ $book->paper_size }}"
-                            placeholder="Введите размер">
-                        @error('paper_size')
-                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        <label for="color_id">Цвет книги</label>
-                        <select class="form-control select2bs4 @error('color_id') is-invalid @enderror"
-                            name="color_id" style="width: 100%;">
-                            <option value="">Выберите цвет</option>
-                            @foreach (Book::colorTypes() as $color)
-                                @if (!is_null($book->color) && $book->color->id === $color->id)
-                            <option value="{{ $color->id }}" selected>{{ $color->name }}</option>
-                                @else
-                            <option value="{{ $color->id }}">{{ $color->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                        @error('color_id')
-                            <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
-                        @enderror
-                    </div>
-                    {{-- ~~~~~~~~~~~~~~~~~~~ Optional params ~~~~~~~~~~~~~~~~~~~ --}}
+
+                    {{-- ~~~~~~~~~~~~~~~~~~~ edit field of book ~~~~~~~~~~~~~~~~~~~ --}}
+                    @includeIf('admin.extra.book.edit', [ 'book' => $book ])
+
+                    {{-- ~~~~~~~~~~~~~~~~~~~ status of product ~~~~~~~~~~~~~~~~~~~ --}}
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input @error('status') is-invalid @enderror"
                             id="status" @if ($model->isActive()) checked @endif name="status">
                         <label class="form-check-label" for="status">Активный</label>
                     </div>
+                    <hr>
+
+                    {{-- ~~~~~~~~~~~~~~~~~~~ create field of book detail ~~~~~~~~~~~~~~~~~~~ --}}
+                    @if (!is_null($detail))
+                        @includeIf('admin.extra.bookDetail.edit', [ 'detail' => $detail ])
+                    @else
+                        @includeIf('admin.extra.bookDetail.create')
+                    @endif
                 </div>
                 <!-- /.card-body -->
 

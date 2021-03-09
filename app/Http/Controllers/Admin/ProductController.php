@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Admin\Author;
 use App\Models\Admin\Book;
+use App\Models\Admin\BookDetail;
 use App\Models\Admin\Category;
 use App\Models\Admin\Ebook;
 use App\Models\Admin\Files;
@@ -68,7 +69,10 @@ class ProductController extends BaseController
             'price' => 'required',
         ]);
 
+        // dd($request->all());
+
         // create default product
+        DB::beginTransaction();
         $model = new Product();
         foreach(Localization::getLocales() as $lang => $item) {
             $model->translateOrNew($lang)->name = $request->input('name');
@@ -82,22 +86,38 @@ class ProductController extends BaseController
         $model->status = Base::activeOn($request->input("status"));;
         $model->created_by = Auth::user()->id;
         if ($model->save()) {
-            $book = $model->book();
-            if (is_null($book)) {
-                $book = new Book();
-                $book->product_id = $model->id;
-                $book->status = Product::STATUS_ACTIVE;
-                $book->leftover = $request->input('leftover', null);
-                $book->cover_type_id = $request->input('cover_type_id');
-                $book->letter = $request->input('letter', null);
-                $book->paper_size = $request->input('paper_size', null);
-                $book->color_id = $request->input('color_id', null);
-                $book->created_by = Auth::user()->id;
-            } else {
-                $book->updated_by = Auth::user()->id;
-            }
+            $book = new Book();
+            $book->product_id = $model->id;
+            $book->status = Product::STATUS_ACTIVE;
+            $book->leftover = $request->input('leftover', null);
+            $book->cover_type_id = $request->input('cover_type_id');
+            $book->letter = $request->input('letter', null);
+            $book->paper_size = $request->input('paper_size', null);
+            $book->color_id = $request->input('color_id', null);
+            $book->created_by = Auth::user()->id;
             $book->price = $request->input('price', 0);
-            $book->save();
+            if ($book->save()) {
+                $page_count = $request->input('page_count', 0);
+                $bookDetail = new BookDetail();
+                $bookDetail->page_count = (int) $page_count;
+                $bookDetail->weight = $request->input('weight', null);
+                $bookDetail->isbn = $request->input('isbn', null);
+                $bookDetail->bar_code = $request->input('bar_code', null);
+                $bookDetail->publisher = $request->input('publisher', null);
+                $bookDetail->year = $request->input('year', null);
+                $bookDetail->created_by = Auth::user()->id;
+                if ($bookDetail->save()) {
+                    $book->book_detail_id = $bookDetail->id;
+                    $book->save();
+                    DB::commit();
+                } else {
+                    DB::rollBack();
+                }
+            } else {
+                DB::rollBack();
+            }
+        } else {
+            DB::rollBack();
         }
 
         return redirect()->route('product.index');
@@ -148,6 +168,7 @@ class ProductController extends BaseController
         ]);
 
         // update product
+        DB::beginTransaction();
         $model = Product::findOrFail($id);
         $model->translateOrNew($this->_lang)->name = $request->input('name');
         $model->translateOrNew($this->_lang)->description = $request->input('description');
@@ -163,7 +184,32 @@ class ProductController extends BaseController
             $book->paper_size = $request->input('paper_size', null);
             $book->color_id = $request->input('color_id', null);
             $book->price = $request->input('price', 0);
-            $book->save();
+            if ($book->save()) {
+                $page_count = $request->input('page_count', 0);
+                $bookDetail = $book->detail;
+                if (is_null($bookDetail)) {
+                    $bookDetail = new BookDetail();
+                    $bookDetail->created_by = Auth::user()->id;
+                }
+                $bookDetail->page_count = (int) $page_count;
+                $bookDetail->weight = $request->input('weight', null);
+                $bookDetail->isbn = $request->input('isbn', null);
+                $bookDetail->bar_code = $request->input('bar_code', null);
+                $bookDetail->publisher = $request->input('publisher', null);
+                $bookDetail->year = $request->input('year', null);
+                $bookDetail->updated_by = Auth::user()->id;
+                if ($bookDetail->save()) {
+                    $book->book_detail_id = $bookDetail->id;
+                    $book->save();
+                    DB::commit();
+                } else {
+                    DB::rollBack();
+                }
+            } else {
+                DB::rollBack();
+            }
+        } else {
+            DB::rollBack();
         }
 
         return redirect()->route('product.index');
