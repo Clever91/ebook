@@ -62,7 +62,7 @@ class TelegramController extends BaseController
 
         // make ready params
         $product = Product::findOrFail($id);
-        $thumbnail = $product->image->getImageUrl("500x500");
+        $thumbnail = $product->image->getImageUrl("1080x1080");
         if (!file_exists($thumbnail)) {
             // make 500 x 500 image for telegram
             $product->image->resizeImage(500, 500);

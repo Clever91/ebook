@@ -530,7 +530,7 @@ class BotController extends Controller
 
                                         foreach($details as $detail) {
                                             if (!is_null($detail->product->image)) {
-                                                $thumbnail = $detail->product->image->getImageUrl("500x500");
+                                                $thumbnail = $detail->product->image->getImageUrl("1080x1080");
                                                 $image_url = "https://".$request->getHttpHost() . "" . $thumbnail;
                                             }
                                             $prices[] = [
@@ -710,7 +710,7 @@ class BotController extends Controller
                             $number = 1;
                             $thumbnail = "/public/images/no_image.jpg";
                             if (!is_null($product->image)) {
-                                $thumbnail = $product->image->getImageUrl("500x500");
+                                $thumbnail = $product->image->getImageUrl("1080x1080");
                                 $url = "https://".$request->getHttpHost() . "" . $thumbnail;
                                 // make caption
                                 $caption = "*".Lang::get('bot.name').":* ".$product->translateorNew($locale)->name."\n\n";
@@ -944,7 +944,6 @@ class BotController extends Controller
                                     }
                                 }
                             }
-
 
                             // change group
                             $locale = env('LANG_DEFAULT') || "ru";
@@ -1222,7 +1221,7 @@ class BotController extends Controller
                         if (!is_null($product)) {
                             $post = ChatPost::where(['product_id' => $product->id])
                                 ->orderByDesc("created_at")->first();
-                            $thumbnail = $product->image->getImageUrl("500x500");
+                            $thumbnail = $product->image->getImageUrl("1080x1080");
                             $url = "https://".$request->getHttpHost() . "" . $thumbnail;
                             $caption = $post->caption;
                             try {

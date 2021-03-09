@@ -46,8 +46,16 @@ class Image extends Model
 
     public function getImageUrl($size = "300x300")
     {
-        return self::THUMBNAIL_PATH . "/" . $this->type
+        $path = self::THUMBNAIL_PATH . "/" . $this->type
             . "/" . $size . "/" . $this->name;
+        $public_path = public_path($path);
+        if (!File::exists($public_path)) {
+            $str = explode("x", $size);
+            $width = $str[0];
+            $hight = $str[1];
+            $this->resizeImage($width, $hight);
+        }
+        return $path;
     }
 
     public function resizeImage($width = 300, $hight = 300)
