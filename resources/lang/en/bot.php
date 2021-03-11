@@ -59,5 +59,6 @@ return [
     'letter' => "Language",
     'color' => "Color",
     'client_notification_for_state' => "Order #:code is :state",
-    'bm24_text' => "Your order is waiting, after the payment is successful, the order will be activated",
+    'bm24_text' => "Dear customer, your order is pending. Pay the invoice for your order to be accepted.",
+    'book_page' => "Number of pages",
 ];

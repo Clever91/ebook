@@ -128,6 +128,9 @@ class Book extends Base
         // color
         if (!is_null($this->color))
             $caption .= "*".Lang::get('bot.color').":* _" . $this->color->short . "_\n";
+        // detail
+        if (isset($this->detail) && $this->detail->page_count > 0)
+            $caption .= "*".Lang::get('bot.book_page').":* _" . $this->detail->page_count . "_\n";
 
         return $caption;
     }
