@@ -61,4 +61,8 @@ return [
     'client_notification_for_state' => "#:code raqamli buyurtma: :state",
     'bm24_text' => "Hurmatli xaridor, buyurtmangiz qabul qilindi. Toʻlov qilganingizdan soʻng xaridingiz amalga oshadi.",
     'book_page' => "Sahifalar soni",
+    'btn_customer_phone' => "📱 Telefon nomer",
+    'send_customer_phone' => "Отправьте номер телефона, чтобы сохранить его, чтобы он использовался для оформления заказа",
+    'change_customer_phone' => "Это ваш номер телефона *:phone*, по которому можно сделать заказ",
+    'btn_change_phone' => "Изменить номер телефона",
 ];

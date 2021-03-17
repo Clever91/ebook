@@ -61,4 +61,8 @@ return [
     'client_notification_for_state' => "#:code рақамли буюртма: :state",
     'bm24_text' => "Хурматли харидор, буюртмангиз қабул қилинди. Тўлов қилганингиздан сўнг харидингиз амалга ошади.",
     'book_page' => "Саҳифалар сони",
+    'btn_customer_phone' => "📱 Phone number",
+    'send_customer_phone' => "Send the phone number to save it, so it will use to  make order",
+    'change_customer_phone' => "This is your phone number *:phone* which is to make an order",
+    'btn_change_phone' => "Change phone number",
 ];

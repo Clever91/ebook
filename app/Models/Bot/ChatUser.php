@@ -9,7 +9,7 @@ class ChatUser extends Model
 {
     protected $fillable = [
         'chat_id', 'customer_id', 'first_name', 'last_name',
-        'language_code', 'locale', 'username',
+        'language_code', 'locale', 'username', 'step'
     ];
 
     public function existCustomer()

@@ -91,11 +91,19 @@ class BotKeyboard {
     {
         $keyboard = [];
 
+        // language
         $langs = Keyboard::button([
             'text' => Lang::get('bot.btn_languages'),
             'callback_data' => '{"langs":1}'
         ]);
         array_push($keyboard, [ $langs ]);
+
+        // customer phone
+        $phone = Keyboard::button([
+            'text' => Lang::get('bot.btn_customer_phone'),
+            'callback_data' => '{"phone":1}'
+        ]);
+        array_push($keyboard, [ $phone ]);
 
         // back
         $back = Keyboard::button([
@@ -633,6 +641,57 @@ class BotKeyboard {
             'callback_data' => '{"home":"1"}'
         ]);
         array_push($keyboard, [ $home ]);
+
+        $reply_markup = Keyboard::make([
+            'inline_keyboard' => $keyboard,
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function addContact()
+    {
+        $contact = Keyboard::button([
+            'text' => Lang::get('bot.send_your_phone_number'),
+            'request_contact' => true
+        ]);
+
+        $home = Keyboard::button([
+            'text' => Lang::get('bot.btn_home'),
+        ]);
+
+        $reply_markup = Keyboard::make([
+            'resize_keyboard' => true,
+            'one_time_keyboard' => true,
+            'keyboard' => [
+                [ $contact ],
+                [ $home ],
+            ],
+        ]);
+
+        return $reply_markup;
+    }
+
+    public static function changeContact($phone, $back = 10)
+    {
+        $keyboard = [];
+        $phone = Keyboard::button([
+            'text' => '+'.$phone,
+            'callback_data' => '{"chan_ph":"1"}'
+        ]);
+        array_push($keyboard, [ $phone ]);
+
+        $change = Keyboard::button([
+            'text' => Lang::get('bot.btn_change_phone'),
+            'callback_data' => '{"chan_ph":"1"}'
+        ]);
+        array_push($keyboard, [ $change ]);
+
+        $back = Keyboard::button([
+            'text' => Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":'.$back.'}'
+        ]);
+        array_push($keyboard, [ $back ]);
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
