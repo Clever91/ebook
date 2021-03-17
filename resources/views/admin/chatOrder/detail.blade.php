@@ -43,9 +43,6 @@
                                     </div>
                                 <!-- /.col -->
                                 </div>
-                                @php
-                                    $chatUser = $model->chatUser();
-                                @endphp
                                 <!-- info row -->
                                 <div class="row invoice-info">
                                     <div class="col-sm-4 invoice-col">

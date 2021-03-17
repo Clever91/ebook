@@ -24,9 +24,13 @@ class ChatOrderController extends Controller
     {
         $model = ChatOrder::findOrFail($order_id);
         $print = $request->input('print', false);
+        $chatUser = $model->chatUser();
+        if (is_null($chatUser))
+            return back();
         return view('admin.chatOrder.detail', [
             'model' => $model,
             'isPrint' => $print,
+            'chatUser' => $chatUser,
         ]);
     }
 

@@ -82,18 +82,16 @@ class BotController extends Controller
                 $caption = $message->getCaption();
                 // $reply_markup = $message->getReplyMarkup();
 
-                // set language
-                $locale = "ru";
-                $chatUser = ChatUser::where('chat_id', $from->getId())->first();
-                if (!is_null($chatUser))
-                    $locale = $chatUser->locale;
-                App::setLocale($locale);
-                // TelegramLog::log($chat);
-
                 if (!is_null($chat) && $chat->getType() == "private") {
 
                     $chat_id = $from->getId();
                     $decode = json_decode($data);
+                    // set language
+                    $locale = "ru";
+                    $chatUser = ChatUser::where('chat_id', $chat_id)->first();
+                    if (!is_null($chatUser))
+                        $locale = $chatUser->locale;
+                    App::setLocale($locale);
 
                     if (isset($decode->btn) && $decode->btn == "add") {
 
@@ -980,15 +978,6 @@ class BotController extends Controller
             $left_member = $message->getLeftChatParticipant();
             $success_payment = $message->getSuccessfulPayment();
 
-            // set russion language
-            $locale = "ru";
-            if (isset($from)) {
-                $chatUser = ChatUser::where('chat_id', $from->getId())->first();
-                if (!is_null($chatUser))
-                    $locale = $chatUser->locale;
-            }
-            App::setLocale($locale);
-
             if (!is_null($chat)) {
                 $chat_id = $chat->getId();
                 $type = $chat->getType();
@@ -1125,6 +1114,13 @@ class BotController extends Controller
                     }
 
                 } else if ($type == "private") {
+
+                    // set russion language
+                    $locale = "ru";
+                    $chatUser = ChatUser::where('chat_id', $chat_id)->first();
+                    if (!is_null($chatUser))
+                        $locale = $chatUser->locale;
+                    App::setLocale($locale);
 
                     // check payment is successful
                     if (!is_null($success_payment)) {
