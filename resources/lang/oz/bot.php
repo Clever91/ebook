@@ -65,4 +65,5 @@ return [
     'send_customer_phone' => "Send the phone number to save it, so it will use to  make order",
     'change_customer_phone' => "This is your phone number *:phone* which is to make an order",
     'btn_change_phone' => "Change phone number",
+    'last_order_location' => "Last order location",
 ];

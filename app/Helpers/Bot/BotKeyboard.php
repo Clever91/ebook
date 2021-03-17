@@ -340,6 +340,21 @@ class BotKeyboard {
     public static function cart($details, $back = 2)
     {
         $keyboard = [];
+
+        $home = Keyboard::button([
+            'text' => Lang::get('bot.btn_home'),
+            'callback_data' => '{"home":"1"}'
+        ]);
+        $keyboard[] = [ $home ];
+
+        foreach($details as $detail) {
+            $btn = Keyboard::button([
+                'text' => "❌ ".$detail->product->translateorNew(App::getLocale())->name,
+                'callback_data' => '{"remove":'.$detail->id.'}'
+            ]);
+            $keyboard[] = [ $btn ];
+        }
+
         $makeOrder = Keyboard::button([
             'text' => Lang::get('bot.make_order'),
             'callback_data' => '{"order":"1"}'
@@ -349,20 +364,6 @@ class BotKeyboard {
             'callback_data' => '{"clear":1}'
         ]);
         $keyboard[] = [ $clear, $makeOrder ];
-
-        foreach($details as $detail) {
-            $btn = Keyboard::button([
-                'text' => $detail->product->translateorNew(App::getLocale())->name . " ❌",
-                'callback_data' => '{"remove":'.$detail->id.'}'
-            ]);
-            $keyboard[] = [ $btn ];
-        }
-
-        $home = Keyboard::button([
-            'text' => Lang::get('bot.btn_home'),
-            'callback_data' => '{"home":"1"}'
-        ]);
-        $keyboard[] = [ $home ];
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
@@ -428,24 +429,31 @@ class BotKeyboard {
         return $reply_markup;
     }
 
-    public static function location()
+    public static function location($lastOrder = null)
     {
+        $keyboard = [];
+        if (!is_null($lastOrder)) {
+            $last = Keyboard::button([
+                'text' => Lang::get('bot.last_order_location')
+            ]);
+            array_push($keyboard, [ $last ]);
+        }
+
         $location = Keyboard::button([
             'text' => Lang::get('bot.send_your_location'),
             'request_location' => true
         ]);
+        array_push($keyboard, [ $location ]);
 
         $cart = Keyboard::button([
             'text' => Lang::get('bot.btn_cart'),
         ]);
+        array_push($keyboard, [ $cart ]);
 
         $reply_markup = Keyboard::make([
             'resize_keyboard' => true,
             'one_time_keyboard' => true,
-            'keyboard' => [
-                [ $location ],
-                [ $cart ],
-            ],
+            'keyboard' => $keyboard,
         ]);
 
         return $reply_markup;
