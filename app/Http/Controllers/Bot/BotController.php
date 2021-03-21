@@ -2039,6 +2039,20 @@ class BotController extends Controller
                                 TelegramLog::log($th->getMessage());
                             }
 
+                            // send success message
+                            $text = Lang::get("bot.success_code");
+                            try {
+                                $reply_markup = BotKeyboard::hideKeyboard();
+                                Telegram::sendMessage([
+                                    "chat_id" => $chat_id,
+                                    "text" => $text,
+                                    "parse_mode" => "Markdown",
+                                    "reply_markup" => $reply_markup
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+
                             // send change phone message
                             $text = Lang::get("bot.change_customer_phone", ["phone" => "+".$customer->phone_number]);
                             try {

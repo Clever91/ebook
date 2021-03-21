@@ -609,11 +609,11 @@ class BotKeyboard {
     public static function changeContact($phone, $back = 10)
     {
         $keyboard = [];
-        $phone = Keyboard::button([
-            'text' => '+'.$phone,
-            'callback_data' => '{"chan_ph":"1"}'
-        ]);
-        array_push($keyboard, [ $phone ]);
+        // $phone = Keyboard::button([
+        //     'text' => '+'.$phone,
+        //     'callback_data' => '{"chan_ph":"1"}'
+        // ]);
+        // array_push($keyboard, [ $phone ]);
 
         $change = Keyboard::button([
             'text' => Lang::get('bot.btn_change_phone'),
