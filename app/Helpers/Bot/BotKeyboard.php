@@ -128,14 +128,13 @@ class BotKeyboard {
         ];
     }
 
-    public static function product($product_id, $number = 1, $locale = 'ru', $book = null)
+    public static function product($product_id, $number = 1, $locale = 'ru', $book = null, $back = 4)
     {
         $keyboard = [];
         $product = Product::find($product_id);
         $selected = $book;
         if (is_null($selected) && !is_null($product))
             $selected = $product->book();
-
         // get books by price
         if (!is_null($product)) {
             $books = Book::where([
@@ -156,114 +155,41 @@ class BotKeyboard {
                 }
             }
         }
-
-        // paper size
-        // $paperSizes = $product->getBookBy('paper_size');
-        // if ($paperSizes->count() > 1) {
-        //     $buttons = [];
-        //     foreach($paperSizes as $obj) {
-        //         $txt = $obj->paper_size;
-        //         if ($selected->paper_size == $txt) {
-        //             $txt = "✔️ " . $txt;
-        //         }
-        //         $btn = Keyboard::button([
-        //             'text' => $txt,
-        //             'callback_data' => '{"b_id":'.$obj->book_id.',"num":'.$number.',"pro":'.$product_id.',"ch":1}'
-        //         ]);
-        //         array_push($buttons, $btn);
-        //     }
-        //     array_push($keyboard, $buttons);
-        // }
-
-        // // cover types
-        // $coverTypes = $product->getBookBy('cover_type_id');
-        // if ($coverTypes->count() > 1) {
-        //     $buttons = [];
-        //     foreach($coverTypes as $obj) {
-        //         $type = CoverType::find($obj->cover_type_id);
-        //         if (is_null($type))
-        //             continue;
-        //         $txt = $type->translateOrNew($locale)->name;
-        //         if ($selected->cover_type_id == $obj->cover_type_id) {
-        //             $txt = "✔️ " . $txt;
-        //         }
-        //         $btn = Keyboard::button([
-        //             'text' => $txt,
-        //             'callback_data' => '{"b_id":'.$obj->book_id.',"num":'.$number.',"pro":'.$product_id.',"ch":1}'
-        //         ]);
-        //         array_push($buttons, $btn);
-        //     }
-        //     array_push($keyboard, $buttons);
-        // }
-
-        // // letters
-        // $letters = $product->getBookBy('letter');
-        // if ($letters->count() > 1) {
-        //     $buttons = [];
-        //     foreach($letters as $obj) {
-        //         $txt = Book::letterTypes()[$obj->letter];
-        //         if ($selected->letter == $obj->letter) {
-        //             $txt = "✔️ " . $txt;
-        //         }
-        //         $btn = Keyboard::button([
-        //             'text' => $txt,
-        //             'callback_data' => '{"b_id":'.$obj->book_id.',"num":'.$number.',"pro":'.$product_id.',"ch":1}'
-        //         ]);
-        //         array_push($buttons, $btn);
-        //     }
-        //     array_push($keyboard, $buttons);
-        // }
-
-        // // colors
-        // $colors = $product->getBookBy('color_id');
-        // if ($colors->count() > 1) {
-        //     $buttons = [];
-        //     foreach($colors as $obj) {
-        //         $color = Color::find($obj->color_id);
-        //         if (is_null($color))
-        //             continue;
-        //         $txt = $color->short;
-        //         if ($selected->color_id == $color->id) {
-        //             $txt = "✔️ " . $txt;
-        //         }
-        //         $btn = Keyboard::button([
-        //             'text' => $txt,
-        //             'callback_data' => '{"b_id":'.$obj->book_id.',"num":'.$number.',"pro":'.$product_id.',"ch":1}'
-        //         ]);
-        //         array_push($buttons, $btn);
-        //     }
-        //     array_push($keyboard, $buttons);
-        // }
-
         // default buttons
         $minus = Keyboard::button([
             'text' => '➖',
             'callback_data' => '{"b_id":'.$selected->id.',"btn":"sub","num":'.$number.',"pro":'.$product_id.'}'
         ]);
-
+        // show number
         $show = Keyboard::button([
             'text' => $number,
             'callback_data' => '{"num":"'.$number.'"}'
         ]);
-
+        // plus
         $plus = Keyboard::button([
             'text' => '➕',
             'callback_data' => '{"b_id":'.$selected->id.',"btn":"add","num":'.$number.',"pro":'.$product_id.'}'
         ]);
         array_push($keyboard, [ $minus, $show, $plus ]);
-
+        // add to cart
         $add = Keyboard::button([
             'text' => Lang::get('bot.add_to_cart'),
             'callback_data' => '{"add":"1","pro":'.$product_id.',"num":'.$number.',"b_id":'.$selected->id.'}'
         ]);
         array_push($keyboard, [ $add ]);
-
+        // back btn
+        $btnBack = Keyboard::button([
+            'text' => Lang::get('bot.btn_back'),
+            'callback_data' => '{"back":'.$back.',"cat":'.$product->category_id.'}'
+        ]);
+        array_push($keyboard, [ $btnBack ]);
+        // home
         $home = Keyboard::button([
             'text' => Lang::get('bot.btn_home'),
             'callback_data' => '{"home":"1"}'
         ]);
         array_push($keyboard, [ $home ]);
-
+        // reply markup
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
         ]);

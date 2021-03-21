@@ -646,7 +646,7 @@ class BotController extends Controller
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
-                    } else if (isset($decode->cat)) {
+                    } else if (isset($decode->cat) || (isset($decode->back) && $decode->back == 4)) {
 
                         $text = Lang::get("bot.select_product");
                         $products = Product::where([
