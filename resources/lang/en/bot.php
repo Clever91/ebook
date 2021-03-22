@@ -62,8 +62,8 @@ return [
     'bm24_text' => "Dear customer, your order is pending. Pay the invoice for your order to be accepted.",
     'book_page' => "Number of pages",
     'btn_customer_phone' => "📱 Phone number",
-    'send_customer_phone' => "Send the phone number to save it, so it will use to  make order",
-    'change_customer_phone' => "This is your phone number *:phone* which is to make an order",
+    'send_customer_phone' => "Send phone number",
+    'change_customer_phone' => "Currently phone number: *:phone*",
     'btn_change_phone' => "Change phone number",
-    'last_order_location' => "Last order location",
+    'last_order_location' => "Last order’s location",
 ];

@@ -2191,7 +2191,6 @@ class BotController extends Controller
                                 }
                             }
                         }
-
                     }
                 }
             }
