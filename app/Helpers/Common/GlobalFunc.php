@@ -4,6 +4,7 @@ namespace App\Helpers\Common;
 
 use App\Models\Admin\Setting;
 use App\Models\Bot\ChatOrder;
+use App\Models\Bot\ChatUser;
 
 class GlobalFunc
 {
@@ -72,6 +73,25 @@ class GlobalFunc
         ])->whereNotNull("lat")->whereNotNull('long')
         ->orderByDesc('id')->first();
         return $lastOrder;
+    }
+
+    public static function createChatUser($chat, $locale = "ru")
+    {
+        if (!empty($chat) && !is_null($chat)) {
+            $chatUser = ChatUser::where('chat_id', $chat->getId())->first();
+            if (is_null($chatUser)) {
+                $attributes['chat_id'] = $chat->getId();
+                $attributes['first_name'] = $chat->getFirstName();
+                $attributes['last_name'] = $chat->getLastName();
+                $attributes['username'] = $chat->getUsername();
+                $attributes['language_code'] = $locale;
+                $attributes['locale'] = $locale;
+                $chatUser = ChatUser::create($attributes);
+            } else {
+                $chatUser->locale = $locale;
+                $chatUser->save();
+            }
+        }
     }
 }
 

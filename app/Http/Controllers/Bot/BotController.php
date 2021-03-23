@@ -85,13 +85,16 @@ class BotController extends Controller
 
                 if (!is_null($chat) && $chat->getType() == "private") {
 
-                    $chat_id = $from->getId();
+                    $chat_id = $chat->getId();
                     $decode = json_decode($data);
                     // set language
                     $locale = "ru";
                     $chatUser = ChatUser::where('chat_id', $chat_id)->first();
-                    if (!is_null($chatUser))
+                    if (!is_null($chatUser)) {
                         $locale = $chatUser->locale;
+                    } else {
+                        GlobalFunc::createChatUser($chat);
+                    }
                     App::setLocale($locale);
 
                     if (isset($decode->btn) && $decode->btn == "add") {
@@ -1259,8 +1262,11 @@ class BotController extends Controller
                     // set russion language
                     $locale = "ru";
                     $chatUser = ChatUser::where('chat_id', $chat_id)->first();
-                    if (!is_null($chatUser))
+                    if (!is_null($chatUser)) {
                         $locale = $chatUser->locale;
+                    } else {
+                        GlobalFunc::createChatUser($chat);
+                    }
                     App::setLocale($locale);
 
                     // check payment is successful
