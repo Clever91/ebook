@@ -66,9 +66,10 @@ class GlobalFunc
         return in_array($state, [ChatOrder::STATE_ON_WAY, ChatOrder::STATE_DELIVERED, ChatOrder::STATE_CANCEL]);
     }
 
-    public static function getLastOrder()
+    public static function getLastOrder($chat_id)
     {
         $lastOrder = ChatOrder::where([
+            [ 'chat_id', '=', $chat_id ],
             [ 'state', '<>', ChatOrder::STATE_DRAF],
         ])->whereNotNull("lat")->whereNotNull('long')
         ->orderByDesc('id')->first();

@@ -339,7 +339,7 @@ class BotController extends Controller
                     //             }
                     //         } else {
                     //             // get last order
-                    //             $lastOrder = GlobalFunc::getLastOrder();
+                    //             $lastOrder = GlobalFunc::getLastOrder($chat_id);
                     //             $text = Lang::get("bot.send_location");
                     //             // update step
                     //             $chatUser->step = Step::LAST_ORDER;
@@ -811,7 +811,7 @@ class BotController extends Controller
                             $order->delivery_type = ChatOrder::DELIVERY_DELIVERY;
                             if ($order->save()) {
                                 // get last order
-                                $lastOrder = GlobalFunc::getLastOrder();
+                                $lastOrder = GlobalFunc::getLastOrder($chat_id);
                                 $text = Lang::get("bot.send_location");
                                 // update step
                                 if (!is_null($chatUser)) {
@@ -879,7 +879,7 @@ class BotController extends Controller
                             }
                         } else if (!is_null($customer)) {
                             // get last order
-                            $lastOrder = GlobalFunc::getLastOrder();
+                            $lastOrder = GlobalFunc::getLastOrder($chat_id);
                             $text = Lang::get("bot.send_location");
                             // update step
                             $chatUser->step = Step::LAST_ORDER;
@@ -1793,7 +1793,7 @@ class BotController extends Controller
                             TelegramLog::log($e->getMessage());
                         }
                     } else if (!is_null($chatUser) && $chatUser->step == Step::LAST_ORDER) {
-                        $lastOrder = GlobalFunc::getLastOrder();
+                        $lastOrder = GlobalFunc::getLastOrder($chat_id);
                         if (!is_null($lastOrder)) {
                             $order = ChatOrder::where([
                                 "chat_id" => $chat_id,
