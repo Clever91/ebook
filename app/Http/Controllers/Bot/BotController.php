@@ -805,14 +805,16 @@ class BotController extends Controller
                         ])->first();
 
                         if (!is_null($order)) {
-                            $order->delivery_type = ChatOrder::DELIVERY_FARGO;
+                            $order->delivery_type = ChatOrder::DELIVERY_DELIVERY;
                             if ($order->save()) {
                                 // get last order
                                 $lastOrder = GlobalFunc::getLastOrder();
                                 $text = Lang::get("bot.send_location");
                                 // update step
-                                $chatUser->step = Step::LAST_ORDER;
-                                $chatUser->save();
+                                if (!is_null($chatUser)) {
+                                    $chatUser->step = Step::LAST_ORDER;
+                                    $chatUser->save();
+                                }
                                 try {
                                     $reply_markup = BotKeyboard::location($lastOrder);
                                     // edit message reply markup
@@ -1389,8 +1391,10 @@ class BotController extends Controller
 
                                 if ($code == $order->code) {
                                     // update step
-                                    $chatUser->step = Step::CHECK_LIST;
-                                    $chatUser->save();
+                                    if (!is_null($chatUser)) {
+                                        $chatUser->step = Step::CHECK_LIST;
+                                        $chatUser->save();
+                                    }
 
                                     // check delivery type
                                     $delivery = 0;
