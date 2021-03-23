@@ -271,7 +271,11 @@ class BotKeyboard {
             'text' => Lang::get('bot.btn_home'),
             'callback_data' => '{"home":"1"}'
         ]);
-        $keyboard[] = [ $home ];
+        $clear = Keyboard::button([
+            'text' => Lang::get('bot.clear_cart'),
+            'callback_data' => '{"clear":1}'
+        ]);
+        $keyboard[] = [ $clear, $home ];
 
         foreach($details as $detail) {
             $btn = Keyboard::button([
@@ -285,11 +289,7 @@ class BotKeyboard {
             'text' => Lang::get('bot.make_order'),
             'callback_data' => '{"order":"1"}'
         ]);
-        $clear = Keyboard::button([
-            'text' => Lang::get('bot.clear_cart'),
-            'callback_data' => '{"clear":1}'
-        ]);
-        $keyboard[] = [ $clear, $makeOrder ];
+        $keyboard[] = [ $makeOrder ];
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,

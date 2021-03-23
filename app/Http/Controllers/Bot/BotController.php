@@ -1917,8 +1917,10 @@ class BotController extends Controller
                             $order->long = $location->getLongitude();
                             if ($order->save()) {
                                 // update step
-                                $chatUser->step = Step::LOCATION;
-                                $chatUser->save();
+                                if (!is_null($chatUser)) {
+                                    $chatUser->step = Step::LOCATION;
+                                    $chatUser->save();
+                                }
                                 // save distance
                                 $shop_lat = Setting::get('shop_lat');
                                 $shop_lng = Setting::get('shop_lng');
