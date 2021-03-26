@@ -127,6 +127,17 @@ Localization::localizedRoutesGroup(function() {
         Route::get('/chat/order/index', 'Admin\ChatOrderController@index')->name('admin.chat.order.index');
         Route::get('/chat/order/{order_id}/send', 'Admin\ChatOrderController@sendToTelegram')->name('admin.chat.order.send');
         Route::get('/chat/order/{order_id}/detail', 'Admin\ChatOrderController@detail')->name('admin.chat.order.detail');
+
+        // price type
+        Route::get('/priceType/index', 'Admin\PriceTypeController@index')->name('admin.priceType.index');
+        Route::get('/priceType/create', 'Admin\PriceTypeController@create')->name('admin.priceType.create');
+        Route::post('/priceType/store', 'Admin\PriceTypeController@store')->name('admin.priceType.store');
+        Route::get('/priceType/{id}/edit', 'Admin\PriceTypeController@edit')->name('admin.priceType.edit');
+        Route::patch('/priceType/{id}/update', 'Admin\PriceTypeController@update')->name('admin.priceType.update');
+        Route::delete('/priceType/{id}/destroy', 'Admin\PriceTypeController@destroy')->name('admin.priceType.destroy');
+
+        // price
+        Route::get('/price/index', 'Admin\PriceController@index')->name('admin.price.index');
     });
 
 });
