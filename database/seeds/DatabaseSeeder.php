@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CreateRandomProductSeeder::class);
         $this->call(CreateRandomGroupSeeder::class);
         $this->call(CreateRandomGroupRalationSeeder::class);
+
+        // set price to book
+        $this->call(BasePriceTypeSeeder::class);
     }
 }

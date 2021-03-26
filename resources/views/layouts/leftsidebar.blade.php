@@ -153,9 +153,8 @@ use App\Models\Admin\Setting;
                 </li>
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-tasks"></i>
-                        <p>
-                            Тип цены
+                        <i class="nav-icon fas fa-tasks"></i>
+                        <p> Цена
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -163,7 +162,7 @@ use App\Models\Admin\Setting;
                         <li class="nav-item">
                             <a href="{{ route('admin.priceType.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-list"></i>
-                                <p>Список</p>
+                                <p>Тип цены</p>
                             </a>
                         </li>
                     </ul>

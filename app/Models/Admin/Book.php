@@ -93,6 +93,15 @@ class Book extends Base
         return $txt;
     }
 
+    public function getNameWithBtnLabel($locale)
+    {
+        $txt = $this->product->translateorNew($locale)->name;
+        $txt .= " (";
+        $txt .= $this->getBtnLabel($locale);
+        $txt .= ")";
+        return $txt;
+    }
+
     public static function coverTypes()
     {
         return CoverType::where('status', CoverType::STATUS_ACTIVE)->get();

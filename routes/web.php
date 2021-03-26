@@ -137,7 +137,8 @@ Localization::localizedRoutesGroup(function() {
         Route::delete('/priceType/{id}/destroy', 'Admin\PriceTypeController@destroy')->name('admin.priceType.destroy');
 
         // price
-        Route::get('/price/index', 'Admin\PriceController@index')->name('admin.price.index');
+        Route::get('/price/{id}/index', 'Admin\PriceController@index')->name('admin.price.index');
+        Route::post('/price/{id}/set/price', 'Admin\PriceController@setPrice')->name('admin.price.setPrice');
     });
 
 });
