@@ -75,16 +75,28 @@ class PriceController extends BaseController
             // ignore book
             if (is_null($book))
                 continue;
-            $model = ProductPrice::create([
+            $pricePro = ProductPrice::where([
                 'price_type_id' => $priceType->id,
                 'object_id' => $book->id,
                 'object_type' => ProductPrice::TYPE_BOOK,
-                'price' => $price,
-                'status' => Base::STATUS_ACTIVE,
-                'created_by' => Auth::user()->id
-            ]);
-            if (is_null($model)) {
-                dd($request->all());
+                'status' => Base::STATUS_ACTIVE
+            ])->first();
+            if (is_null($pricePro)) {
+                // create new
+                $model = ProductPrice::create([
+                    'price_type_id' => $priceType->id,
+                    'object_id' => $book->id,
+                    'object_type' => ProductPrice::TYPE_BOOK,
+                    'price' => $price,
+                    'status' => Base::STATUS_ACTIVE,
+                    'created_by' => Auth::user()->id
+                ]);
+                if (is_null($model)) {
+                    dd($request->all());
+                }
+            } else {
+                $pricePro->price = $price;
+                $pricePro->save();
             }
         }
         return redirect()->route('admin.priceType.index');

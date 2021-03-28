@@ -3,7 +3,6 @@
 namespace App\Models\Admin;
 
 use App\Models\Helpers\Base;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
 
 class Book extends Base
@@ -142,5 +141,22 @@ class Book extends Base
             $caption .= "*".Lang::get('bot.book_page').":* _" . $this->detail->page_count . "_\n";
 
         return $caption;
+    }
+
+    public function getPrice()
+    {
+        $priceType = PriceType::where(['status' => Base::STATUS_ACTIVE])->first();
+        if (!is_null($priceType)) {
+            $price = ProductPrice::where([
+                'price_type_id' => $priceType->id,
+                'object_id' => $this->id,
+                'object_type' => ProductPrice::TYPE_BOOK,
+                'status' => Base::STATUS_ACTIVE
+            ])->first();
+            if (!is_null($price)) {
+                return $price->price;
+            }
+        }
+        return $this->price;
     }
 }

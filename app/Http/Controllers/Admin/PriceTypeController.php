@@ -58,7 +58,7 @@ class PriceTypeController extends BaseController
 
         $model = PriceType::findOrFail($id);
         $model->name = $request->input('name');
-        $model->status = Base::activeOn($request->input("status"));;
+        $model->status = Base::activeOn($request->input("status"));
         $model->updated_by = Auth::user()->id;
         if ($model->save()) {
             return redirect()->route('admin.priceType.index');

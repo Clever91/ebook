@@ -77,7 +77,7 @@ class Product extends Base implements TranslatableContract
     public function bookPrice()
     {
         if (!is_null($this->book()))
-            return $this->book()->price;
+            return $this->book()->getPrice();
 
         return 0;
     }
