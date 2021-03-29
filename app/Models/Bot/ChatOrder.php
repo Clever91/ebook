@@ -5,6 +5,8 @@ namespace App\Models\Bot;
 use App\Helpers\Common\GlobalFunc;
 use App\Models\Admin\Order;
 use App\Models\Admin\OrderItem;
+use App\Models\Admin\PriceType;
+use App\Models\Helpers\Base;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
@@ -197,14 +199,23 @@ class ChatOrder extends Model
 
     public function createOrder($chatUser)
     {
+        // check chat user
         if (is_null($chatUser))
             return;
+        // check customer
         $customer = $chatUser->customer();
         if (is_null($customer))
             return;
+        // check price type
+        $price_type_id = null;
+        $priceType = $this->getPriceType();
+        if (!is_null($priceType)) {
+            $price_type_id = $priceType->id;
+        }
         // create order
         $order = new Order();
         $order->customer_id = $customer->id;
+        $order->price_type_id = $price_type_id;
         $order->state = Order::STATE_DRAF;
         $order->order_type = Order::TYPE_BOOK;
         if ($order->save()) {
@@ -213,8 +224,10 @@ class ChatOrder extends Model
                 $amount = $detail->quantity * $detail->price;
                 $item = new OrderItem();
                 $item->order_id = $order->id;
+                $item->product_id = $detail->product_id;
                 $item->item_id = $detail->book_id;
                 $item->price = $detail->price;
+                $item->sold_price = $detail->price;
                 $item->quantity = $detail->quantity;
                 $item->total_price = $amount;
                 $item->item_type = Order::TYPE_BOOK;;
@@ -228,5 +241,16 @@ class ChatOrder extends Model
             $order->save();
         }
         return true;
+    }
+
+    public function getPriceType()
+    {
+        $priceType = PriceType::where([
+            'status' => Base::STATUS_ACTIVE
+        ])->first();
+        if (!is_null($priceType)) {
+            return $priceType;
+        }
+        return null;
     }
 }

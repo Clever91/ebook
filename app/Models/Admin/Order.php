@@ -18,7 +18,7 @@ class Order extends Model
     const TYPE_GOOD = "G"; // good
 
     protected $fillable = [
-        'customer_id', 'total', 'subtotal', 'discount', 'state',
+        'customer_id', 'price_type_id', 'total', 'subtotal', 'discount', 'state',
         'order_type', 'chat_order_id', 'updated_by'
     ];
 
