@@ -1427,7 +1427,7 @@ class BotController extends Controller
                                     $text .= "\n";
                                     $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
                                     $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery)
-                                    . "</i> " . Lang::get("bot.in_tashkent");
+                                    . "</i> \n"; //. Lang::get("bot.in_tashkent")
                                     $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
 
                                     try {
@@ -1591,7 +1591,7 @@ class BotController extends Controller
                                     $text .= "\n";
                                     $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
                                     $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery)
-                                    . "</i> " . Lang::get("bot.in_tashkent");
+                                    . "</i> \n"; //. Lang::get("bot.in_tashkent")
                                     $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
 
                                     try {
@@ -1868,7 +1868,7 @@ class BotController extends Controller
                                         $text .= "\n";
                                         $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
                                         $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery)
-                                        . "</i> " . Lang::get("bot.in_tashkent");
+                                        . "</i> \n"; //. Lang::get("bot.in_tashkent")
                                         $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
 
                                         try {
@@ -1983,7 +1983,7 @@ class BotController extends Controller
                                     $text .= "\n";
                                     $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
                                     $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery)
-                                    . "</i> " . Lang::get("bot.in_tashkent");
+                                    . "</i> \n"; //. Lang::get("bot.in_tashkent")
                                     $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
 
                                     try {
@@ -2146,7 +2146,7 @@ class BotController extends Controller
                                         $text .= "\n";
                                         $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
                                         $text .= Lang::get("bot.delivery") ." <i>" . GlobalFunc::moneyFormat($delivery)
-                                        . "</i> " . Lang::get("bot.in_tashkent");
+                                        . "</i> \n"; //. Lang::get("bot.in_tashkent")
                                         $text .= Lang::get("bot.total") . " <i>" . GlobalFunc::moneyFormat($total_with_delivery) ."</i>";
 
                                         try {
