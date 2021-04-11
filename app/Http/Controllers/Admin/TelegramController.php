@@ -25,10 +25,8 @@ class TelegramController extends BaseController
         // calculate str
         $postFooter = Setting::get('post_footer');
         $desc = $model->translateOrNew($this->_lang)->description;
-        $allowed = 1020 - (strlen($postFooter) + 2);
 
-        $caption = strlen($desc) > $allowed ? substr($desc, 0, $allowed) : $desc;
-        $caption .= "\n\n";
+        $caption = $desc . "\n\n";
         $caption .= $postFooter;
 
         if (!$model->hasImage())
@@ -101,7 +99,7 @@ class TelegramController extends BaseController
                     'chat_id' => $model->chat_id,
                     'photo' => new InputFile($url),
                     'caption' => $caption,
-                    'parse_mode' => "Markdown",
+                    'parse_mode' => "HTML", //MarkdownV2, HTML
                     'reply_markup' => $reply_markup
                 ]);
 
