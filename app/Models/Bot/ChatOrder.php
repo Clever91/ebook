@@ -226,7 +226,7 @@ class ChatOrder extends Model
                 $item->order_id = $order->id;
                 $item->product_id = $detail->product_id;
                 $item->item_id = $detail->book_id;
-                $item->price = $detail->price;
+                $item->made_price = $detail->book->price;
                 $item->sold_price = $detail->price;
                 $item->quantity = $detail->quantity;
                 $item->total_price = $amount;
