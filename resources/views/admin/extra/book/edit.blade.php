@@ -3,7 +3,7 @@ use App\Models\Admin\Book;
 @endphp
 <div>
     <div class="form-group">
-        <label for="price">Цена</label>
+        <label for="price">Оптовая цена</label>
         <input type="text" class="form-control @error('price') is-invalid @enderror"
             id="price" name="price" value="{{ $book->price }}"
             placeholder="Введите цена" required>

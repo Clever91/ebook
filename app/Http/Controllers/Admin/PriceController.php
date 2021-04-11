@@ -59,6 +59,7 @@ class PriceController extends BaseController
         $priceType = PriceType::findOrFail($id);
         $books = $request->input('books');
         $prices = $request->input('prices');
+        $bookPrices = $request->input('book_prices');
         // dd($request->all());
 
         if (empty($books)) {
@@ -71,10 +72,12 @@ class PriceController extends BaseController
 
         foreach($books as $index => $book_id) {
             $book = Book::find($book_id);
-            $price = (float) $prices[$index];
+            $sold_price = (float) $prices[$index];
+            $made_price = (float) $bookPrices[$index];
             // ignore book
             if (is_null($book))
                 continue;
+            // update or create ProductPrice
             $pricePro = ProductPrice::where([
                 'price_type_id' => $priceType->id,
                 'object_id' => $book->id,
@@ -87,7 +90,7 @@ class PriceController extends BaseController
                     'price_type_id' => $priceType->id,
                     'object_id' => $book->id,
                     'object_type' => ProductPrice::TYPE_BOOK,
-                    'price' => $price,
+                    'price' => $sold_price,
                     'status' => Base::STATUS_ACTIVE,
                     'created_by' => Auth::user()->id
                 ]);
@@ -95,9 +98,13 @@ class PriceController extends BaseController
                     dd($request->all());
                 }
             } else {
-                $pricePro->price = $price;
+                $pricePro->price = $sold_price;
                 $pricePro->save();
             }
+
+            // update book price
+            $book->price = $made_price;
+            $book->save();
         }
         return redirect()->route('admin.priceType.index');
     }

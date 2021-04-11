@@ -58,9 +58,10 @@
                                                     <table class="table table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width: 10px">#</th>
+                                                                <th width="5%">#</th>
                                                                 <th>Название книги</th>
-                                                                <th width="30%">Цена книги</th>
+                                                                <th width="25%">Оптовая цена</th>
+                                                                <th width="25%">Цена продажи</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -69,6 +70,9 @@
                                                             <tr>
                                                                 <td>{{ $book_id }} <input type="hidden" name="books[]" value="{{ $book_id }}" /></td>
                                                                 <td>{{ $book->getNameWithBtnLabel($lang) }}</td>
+                                                                <td><input name="book_prices[]" type="text" class="form-control"
+                                                                    value="{{ $book->price }}"
+                                                                    placeholder="0" autocomplete="off" /></td>
                                                                 <td><input name="prices[]" type="text" class="form-control"
                                                                     value="@if(isset($prices[$book_id])){{ $prices[$book_id] }}@endif"
                                                                     placeholder="0" autocomplete="off" /></td>
