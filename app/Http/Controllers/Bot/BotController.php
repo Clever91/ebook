@@ -1374,7 +1374,7 @@ class BotController extends Controller
                                     'chat_id' => $chat_id,
                                     'photo' => new InputFile($url),
                                     'caption' => $caption,
-                                    'parse_mode' => "Markdown",
+                                    'parse_mode' => "HTML",
                                     'reply_markup' => $reply_markup
                                 ]);
 
