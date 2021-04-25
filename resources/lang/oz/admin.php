@@ -11,7 +11,7 @@ return [
     'color_green' => 'Yashil',
     'yes' => 'Бор',
     'no' => 'Йок',
-    'btn_make_order' => 'Сотиб олиш',
+    'btn_make_order' => '🛍 Сотиб олиш 📚',
     'state_draf' => 'Қоралама',
     'state_new' => 'Янги',
     'state_on_the_way' => 'Йўлда',

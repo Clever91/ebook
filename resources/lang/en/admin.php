@@ -11,7 +11,7 @@ return [
     'color_green' => 'Green',
     'yes' => 'Yes',
     'no' => 'No',
-    'btn_make_order' => 'Make order',
+    'btn_make_order' => '🛍 Make order 📚',
     'state_draf' => 'Draf',
     'state_new' => 'New',
     'state_on_the_way' => 'On the way',
