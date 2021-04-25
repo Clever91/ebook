@@ -73,7 +73,8 @@ Localization::localizedRoutesGroup(function() {
     })->name('ptest');
 
     Route::get('/price', function() {
-        return Fargo::getPrice(2);
+        // return Fargo::getPrice(0.4, "CITY");
+        return Fargo::getPrice(6);
     })->name('ptest');
 
     // admin route
