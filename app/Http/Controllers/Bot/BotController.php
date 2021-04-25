@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Bot;
 
 use Exception;
 use App\Helpers\Bot\BotKeyboard;
+use App\Helpers\Common\Fargo;
 use App\Helpers\Common\GlobalFunc;
 use App\Helpers\Common\PaymeHelper;
 use App\Helpers\Common\Sms;
@@ -358,8 +359,7 @@ class BotController extends Controller
                             TelegramLog::log("Order is not found: chat_id = " . $chat_id);
                         }
 
-                    }
-                    else if (isset($decode->pay)) {
+                    } else if (isset($decode->pay)) {
 
                         $type = $decode->type;
                         // bm24: this is payme, We made it custom btn
@@ -369,16 +369,12 @@ class BotController extends Controller
                                 "chat_id" => $chat_id,
                                 "state" => ChatOrder::STATE_DRAF
                             ])->first();
-
                             if (!is_null($order)) {
-                                $delivery = 0;
-                                if (!$order->isPickUp())
-                                    $delivery = (float) Setting::get("delivery_price");
 
                                 $order->payment_type = ChatOrder::PAYMENT_CASH;
                                 if ($type == "bm24")
                                     $order->payment_type = ChatOrder::PAYMENT_BM24;
-                                $order->delivery_price = $delivery;
+                                // $order->delivery_price = $delivery;
                                 $order->state = ChatOrder::STATE_NEW;
                                 if ($order->save()) {
 
@@ -387,9 +383,30 @@ class BotController extends Controller
                                     ])->get();
 
                                     $total = 0;
+                                    $total_weight = 0;
                                     foreach($details as $detail) {
                                         $total += $detail->price * $detail->quantity;
+                                        // caculate weight
+                                        if (!is_null($detail->book)) {
+                                            $weight = 0.3; // kg
+                                            if (!empty($detail->book->detail)) {
+                                                $val = (float) $detail->book->detail->weight;
+                                                if ($val !== 0) {
+                                                    $weight = (float) $detail->book->detail->weight;
+                                                    $weight = $weight / 1000; //gr
+                                                    $weight = $weight * $detail->quantity;
+                                                }
+                                            }
+                                            $total_weight += $weight;
+                                        }
                                     }
+
+                                    $delivery = (float) Setting::get("delivery_price");
+                                    if ($total_weight > 0) {
+                                        $delivery = Fargo::getPrice($total_weight);
+                                        $order->delivery_price = $delivery;
+                                    }
+
                                     $order->amount = $total;
                                     $order->save();
 
@@ -503,14 +520,6 @@ class BotController extends Controller
                                     if ($type == "click")
                                         $order->payment_type = ChatOrder::PAYMENT_CLICK;
 
-                                    // check delivery type
-                                    $delivery = 0;
-                                    if (!$order->isPickUp())
-                                        $delivery = (float) Setting::get("delivery_price");
-
-                                    $order->delivery_price = $delivery;
-                                    $order->save();
-
                                     // start invoice
                                     $invoice_payload = $type . ':' . $order->id;
 
@@ -524,8 +533,8 @@ class BotController extends Controller
                                         $desc = "Мы всегда стараемся быть лучшими";
                                         $image_url = "";
                                         $total = 0;
+                                        $total_weight = 0;
                                         $prices = [];
-                                        $delivery = $delivery * 100;
 
                                         foreach($details as $detail) {
                                             if (!is_null($detail->product->image)) {
@@ -537,10 +546,32 @@ class BotController extends Controller
                                                 'amount' => (float) ($detail->price * $detail->quantity) * 100
                                             ];
                                             $total += $detail->price * $detail->quantity;
+                                            // caculate weight
+                                            if (!is_null($detail->book)) {
+                                                $weight = 0.3; // kg
+                                                if (!empty($detail->book->detail)) {
+                                                    $val = (float) $detail->book->detail->weight;
+                                                    if ($val !== 0) {
+                                                        $weight = (float) $detail->book->detail->weight;
+                                                        $weight = $weight / 1000; //gr
+                                                        $weight = $weight * $detail->quantity;
+                                                    }
+                                                }
+                                                $total_weight += $weight;
+                                            }
                                         }
+
+                                        // check delivery type
+                                        $delivery = (float) Setting::get("delivery_price");
+                                        if ($total_weight > 0 && $order->isFargo()) {
+                                            $delivery = Fargo::getPrice($total_weight);
+                                        }
+                                        $order->delivery_price = $delivery;
+                                        $order->save();
+
                                         $prices[] = [
                                             'label' => "Доставка",
-                                            'amount' => $delivery
+                                            'amount' => $delivery * 100 // must to
                                         ];
 
                                         $invoice = [];
@@ -1339,15 +1370,11 @@ class BotController extends Controller
                                         $chatUser->save();
                                     }
 
-                                    // check delivery type
-                                    $delivery = 0;
-                                    if (!$order->isPickUp())
-                                        $delivery = (float) Setting::get("delivery_price");
-
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
-                                    $total_with_delivery = $delivery;
+                                    $total_weight = 0;
+                                    $total_with_delivery = 0;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
                                         $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
@@ -1359,7 +1386,26 @@ class BotController extends Controller
                                         // calculate total
                                         $total += $amount;
                                         $total_with_delivery += $amount;
+                                        // caculate weight
+                                        if (!is_null($detail->book)) {
+                                            $weight = 0.3; // kg
+                                            if (!empty($detail->book->detail)) {
+                                                $val = (float) $detail->book->detail->weight;
+                                                if ($val !== 0) {
+                                                    $weight = (float) $detail->book->detail->weight;
+                                                    $weight = $weight / 1000; //gr
+                                                    $weight = $weight * $detail->quantity;
+                                                }
+                                            }
+                                            $total_weight += $weight;
+                                        }
                                     }
+
+                                    $delivery = (float) Setting::get("delivery_price");
+                                    if ($total_weight > 0 && $order->isFargo()) {
+                                        $delivery = Fargo::getPrice($total_weight);
+                                    }
+                                    $total_with_delivery += $delivery;
 
                                     $text .= "\n";
                                     $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
@@ -1503,15 +1549,11 @@ class BotController extends Controller
                                     $chatUser->step = Step::CHECK_LIST;
                                     $chatUser->save();
 
-                                    // check delivery type
-                                    $delivery = 0;
-                                    if (!$order->isPickUp())
-                                        $delivery = (float) Setting::get("delivery_price");
-
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
-                                    $total_with_delivery = $delivery;
+                                    $total_weight = 0;
+                                    $total_with_delivery = 0;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
                                         $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
@@ -1523,7 +1565,26 @@ class BotController extends Controller
                                         // calculate total
                                         $total += $amount;
                                         $total_with_delivery += $amount;
+                                        // caculate weight
+                                        if (!is_null($detail->book)) {
+                                            $weight = 0.3; // kg
+                                            if (!empty($detail->book->detail)) {
+                                                $val = (float) $detail->book->detail->weight;
+                                                if ($val !== 0) {
+                                                    $weight = (float) $detail->book->detail->weight;
+                                                    $weight = $weight / 1000; //gr
+                                                    $weight = $weight * $detail->quantity;
+                                                }
+                                            }
+                                            $total_weight += $weight;
+                                        }
                                     }
+
+                                    $delivery = (float) Setting::get("delivery_price");
+                                    if ($total_weight > 0 && $order->isFargo()) {
+                                        $delivery = Fargo::getPrice($total_weight);
+                                    }
+                                    $total_with_delivery += $delivery;
 
                                     $text .= "\n";
                                     $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
@@ -1781,14 +1842,11 @@ class BotController extends Controller
                                         $chatUser->step = Step::CHECK_LIST;
                                         $chatUser->save();
 
-                                        $delivery = 0;
-                                        if (!$order->isPickUp())
-                                            $delivery = (float) Setting::get("delivery_price");
-
                                         $text = Lang::get("bot.your_order");
 
                                         $total = 0;
-                                        $total_with_delivery = $delivery;
+                                        $total_weight = 0;
+                                        $total_with_delivery = 0;
                                         foreach($order->details as $index => $detail) {
                                             $amount = $detail->price * $detail->quantity;
                                             $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
@@ -1800,7 +1858,26 @@ class BotController extends Controller
                                             // calculate total
                                             $total += $amount;
                                             $total_with_delivery += $amount;
+                                            // caculate weight
+                                            if (!is_null($detail->book)) {
+                                                $weight = 0.3; // kg
+                                                if (!empty($detail->book->detail)) {
+                                                    $val = (float) $detail->book->detail->weight;
+                                                    if ($val !== 0) {
+                                                        $weight = (float) $detail->book->detail->weight;
+                                                        $weight = $weight / 1000; //gr
+                                                        $weight = $weight * $detail->quantity;
+                                                    }
+                                                }
+                                                $total_weight += $weight;
+                                            }
                                         }
+
+                                        $delivery = (float) Setting::get("delivery_price");
+                                        if ($total_weight > 0 && $order->isFargo()) {
+                                            $delivery = Fargo::getPrice($total_weight);
+                                        }
+                                        $total_with_delivery += $delivery;
 
                                         $text .= "\n";
                                         $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
@@ -1839,8 +1916,7 @@ class BotController extends Controller
                             }
 
                         }
-                    }
-
+                    } else
                     // get location
                     if (!is_null($location)) {
                         // save location
@@ -1896,14 +1972,11 @@ class BotController extends Controller
                                     $chatUser->step = Step::CHECK_LIST;
                                     $chatUser->save();
 
-                                    $delivery = 0;
-                                    if (!$order->isPickUp())
-                                        $delivery = (float) Setting::get("delivery_price");
-
                                     $text = Lang::get("bot.your_order");
 
                                     $total = 0;
-                                    $total_with_delivery = $delivery;
+                                    $total_weight = 0;
+                                    $total_with_delivery = 0;
                                     foreach($order->details as $index => $detail) {
                                         $amount = $detail->price * $detail->quantity;
                                         $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
@@ -1915,7 +1988,26 @@ class BotController extends Controller
                                         // calculate total
                                         $total += $amount;
                                         $total_with_delivery += $amount;
+                                        // caculate weight
+                                        if (!is_null($detail->book)) {
+                                            $weight = 0.3; // kg
+                                            if (!empty($detail->book->detail)) {
+                                                $val = (float) $detail->book->detail->weight;
+                                                if ($val !== 0) {
+                                                    $weight = (float) $detail->book->detail->weight;
+                                                    $weight = $weight / 1000; //gr
+                                                    $weight = $weight * $detail->quantity;
+                                                }
+                                            }
+                                            $total_weight += $weight;
+                                        }
                                     }
+
+                                    $delivery = (float) Setting::get("delivery_price");
+                                    if ($total_weight > 0 && $order->isFargo()) {
+                                        $delivery = Fargo::getPrice($total_weight);
+                                    }
+                                    $total_with_delivery += $delivery;
 
                                     $text .= "\n";
                                     $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";
@@ -2059,13 +2151,10 @@ class BotController extends Controller
                                         $chatUser->step = Step::CHECK_LIST;
                                         $chatUser->save();
 
-                                        $delivery = 0;
-                                        if (!$order->isPickUp())
-                                            $delivery = (float) Setting::get("delivery_price");
-
                                         $text = Lang::get("bot.your_order");
 
                                         $total = 0;
+                                        $total_weight = 0;
                                         $total_with_delivery = $delivery;
                                         foreach($order->details as $index => $detail) {
                                             $amount = $detail->price * $detail->quantity;
@@ -2078,7 +2167,26 @@ class BotController extends Controller
                                             // calculate total
                                             $total += $amount;
                                             $total_with_delivery += $amount;
+                                            // caculate weight
+                                            if (!is_null($detail->book)) {
+                                                $weight = 0.3; // kg
+                                                if (!empty($detail->book->detail)) {
+                                                    $val = (float) $detail->book->detail->weight;
+                                                    if ($val !== 0) {
+                                                        $weight = (float) $detail->book->detail->weight;
+                                                        $weight = $weight / 1000; //gr
+                                                        $weight = $weight * $detail->quantity;
+                                                    }
+                                                }
+                                                $total_weight += $weight;
+                                            }
                                         }
+
+                                        $delivery = (float) Setting::get("delivery_price");
+                                        if ($total_weight > 0 && $order->isFargo()) {
+                                            $delivery = Fargo::getPrice($total_weight);
+                                        }
+                                        $total_with_delivery += $delivery;
 
                                         $text .= "\n";
                                         $text .= Lang::get("bot.amount")." <i>" . GlobalFunc::moneyFormat($total) . "</i>\n";

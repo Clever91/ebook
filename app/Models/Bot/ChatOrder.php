@@ -67,6 +67,11 @@ class ChatOrder extends Model
         return $this->delivery_type == self::DELIVERY_PICKUP;
     }
 
+    public function isFargo()
+    {
+        return $this->delivery_type == self::DELIVERY_FARGO;
+    }
+
     public function deliveryLabel()
     {
         if (empty($this->delivery_type))
