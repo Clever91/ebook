@@ -85,6 +85,15 @@ return [
                 'class' => '',
                 'value' => 10000
             ],
+            [
+                'type' => 'number',
+                'data' => 'float',
+                'name' => 'delivery_nds',
+                'label' => 'НДС (%)',
+                'rules' => 'required',
+                'class' => '',
+                'value' => 15
+            ],
         ]
     ],
     'payment' => [
