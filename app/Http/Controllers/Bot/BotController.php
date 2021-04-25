@@ -402,7 +402,7 @@ class BotController extends Controller
                                     }
 
                                     $delivery = (float) Setting::get("delivery_price");
-                                    if ($total_weight > 0) {
+                                    if ($total_weight > 0 && $order->isFargo()) {
                                         $delivery = Fargo::getPrice($total_weight);
                                         $order->delivery_price = $delivery;
                                     }
