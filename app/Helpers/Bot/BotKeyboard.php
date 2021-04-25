@@ -300,15 +300,15 @@ class BotKeyboard {
 
     public static function delivery($back = 3)
     {
+        $fargo = Keyboard::button([
+            'text' => Lang::get('bot.delivery_fargo'),
+            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_FARGO.'"}'
+        ]);
+
         $delivery = Keyboard::button([
             'text' => Lang::get('bot.delivery_text'),
             'callback_data' => '{"del":"'.ChatOrder::DELIVERY_DELIVERY.'"}'
         ]);
-
-        // $pochta = Keyboard::button([
-        //     'text' => Lang::get('bot.delivery_mail'),
-        //     'callback_data' => '{"del":"'.ChatOrder::DELIVERY_MAIL.'"}'
-        // ]);
 
         // $pickup = Keyboard::button([
         //     'text' => Lang::get('bot.delivery_pickup'),
@@ -323,7 +323,7 @@ class BotKeyboard {
         $reply_markup = Keyboard::make([
             'inline_keyboard' => [
                 [ $delivery ],
-                // [ $pochta ],
+                [ $fargo ],
                 // [ $pickup ],
                 [ $back ],
             ],

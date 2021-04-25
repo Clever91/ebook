@@ -310,71 +310,55 @@ class BotController extends Controller
                                 TelegramLog::log($e->getMessage());
                             }
                         }
+                    } else if (isset($decode->del)) {
+                        $type = $decode->del;
+                        // get chat order
+                        $order = ChatOrder::where([
+                            "chat_id" => $chat_id,
+                            "state" => ChatOrder::STATE_DRAF
+                        ])->first();
+
+                        if (!is_null($order)) {
+                            $order->delivery_type = $type;
+                            if ($order->save()) {
+                                // get last order
+                                $lastOrder = GlobalFunc::getLastOrder($chat_id);
+                                $text = Lang::get("bot.send_location");
+                                // update step
+                                if (!is_null($chatUser)) {
+                                    $chatUser->step = Step::LAST_ORDER;
+                                    $chatUser->save();
+                                }
+                                try {
+                                    $reply_markup = BotKeyboard::location($lastOrder);
+                                    // edit message reply markup
+                                    Telegram::sendMessage([
+                                        "chat_id" => $chat_id,
+                                        "text" => $text,
+                                        "reply_markup" => $reply_markup
+                                    ]);
+
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
+                            }
+                            // edit message reply markup
+                            try {
+                                Telegram::editMessageReplyMarkup([
+                                    'chat_id' => $chat_id,
+                                    'message_id' => $message_id,
+                                    'inline_message_id' => $message_id,
+                                    'parse_mode' => "HTML",
+                                    'reply_markup' => false
+                                ]);
+                            } catch (Exception $e) {
+                                TelegramLog::log($e->getMessage());
+                            }
+                        } else {
+                            TelegramLog::log("Order is not found: chat_id = " . $chat_id);
+                        }
+
                     }
-                    // else if (isset($decode->del)) {
-                    //     $type = $decode->del;
-                    //     // get chat order
-                    //     $order = ChatOrder::where([
-                    //         "chat_id" => $chat_id,
-                    //         "state" => ChatOrder::STATE_DRAF
-                    //     ])->first();
-
-                    //     if (!is_null($order)) {
-                    //         $order->delivery_type = $type;
-                    //         $order->save();
-                    //         if ($type == ChatOrder::DELIVERY_PICKUP) {
-                    //             $text = Lang::get("bot.send_phone");
-                    //             try {
-                    //                 $reply_markup = BotKeyboard::contact();
-                    //                 // edit message reply markup
-                    //                 Telegram::sendMessage([
-                    //                     "chat_id" => $chat_id,
-                    //                     "text" => $text,
-                    //                     "parse_mode" => "Markdown",
-                    //                     "reply_markup" => $reply_markup
-                    //                 ]);
-
-                    //             } catch (Exception $e) {
-                    //                 TelegramLog::log($e->getMessage());
-                    //             }
-                    //         } else {
-                    //             // get last order
-                    //             $lastOrder = GlobalFunc::getLastOrder($chat_id);
-                    //             $text = Lang::get("bot.send_location");
-                    //             // update step
-                    //             $chatUser->step = Step::LAST_ORDER;
-                    //             $chatUser->save();
-                    //             try {
-                    //                 $reply_markup = BotKeyboard::location($lastOrder);
-                    //                 // edit message reply markup
-                    //                 Telegram::sendMessage([
-                    //                     "chat_id" => $chat_id,
-                    //                     "text" => $text,
-                    //                     "reply_markup" => $reply_markup
-                    //                 ]);
-
-                    //             } catch (Exception $e) {
-                    //                 TelegramLog::log($e->getMessage());
-                    //             }
-                    //         }
-
-                    //         // edit message reply markup
-                    //         try {
-                    //             Telegram::editMessageReplyMarkup([
-                    //                 'chat_id' => $chat_id,
-                    //                 'message_id' => $message_id,
-                    //                 'inline_message_id' => $message_id,
-                    //                 'parse_mode' => "HTML",
-                    //                 'reply_markup' => false
-                    //             ]);
-                    //         } catch (Exception $e) {
-                    //             TelegramLog::log($e->getMessage());
-                    //         }
-                    //     } else {
-                    //         TelegramLog::log("Order is not found: chat_id = " . $chat_id);
-                    //     }
-
-                    // }
                     else if (isset($decode->pay)) {
 
                         $type = $decode->type;
@@ -787,65 +771,18 @@ class BotController extends Controller
                             TelegramLog::log("Product is not found: " . $decode->pro);
                         }
                     } else if (isset($decode->order)) {
-                        // try {
-                        //     $reply_markup = BotKeyboard::delivery(3);
-                        //     // edit message reply markup
-                        //     Telegram::editMessageReplyMarkup([
-                        //         'chat_id' => $chat_id,
-                        //         'message_id' => $message_id,
-                        //         'inline_message_id' => $message_id,
-                        //         'parse_mode' => "Markdown",
-                        //         'reply_markup' => $reply_markup
-                        //     ]);
-                        // } catch (Exception $e) {
-                        //     TelegramLog::log($e->getMessage());
-                        // }
-
-                        // get chat order
-                        $order = ChatOrder::where([
-                            "chat_id" => $chat_id,
-                            "state" => ChatOrder::STATE_DRAF
-                        ])->first();
-
-                        if (!is_null($order)) {
-                            $order->delivery_type = ChatOrder::DELIVERY_DELIVERY;
-                            if ($order->save()) {
-                                // get last order
-                                $lastOrder = GlobalFunc::getLastOrder($chat_id);
-                                $text = Lang::get("bot.send_location");
-                                // update step
-                                if (!is_null($chatUser)) {
-                                    $chatUser->step = Step::LAST_ORDER;
-                                    $chatUser->save();
-                                }
-                                try {
-                                    $reply_markup = BotKeyboard::location($lastOrder);
-                                    // edit message reply markup
-                                    Telegram::sendMessage([
-                                        "chat_id" => $chat_id,
-                                        "text" => $text,
-                                        "reply_markup" => $reply_markup
-                                    ]);
-
-                                } catch (Exception $e) {
-                                    TelegramLog::log($e->getMessage());
-                                }
-                                // edit message reply markup
-                                try {
-                                    Telegram::editMessageReplyMarkup([
-                                        'chat_id' => $chat_id,
-                                        'message_id' => $message_id,
-                                        'inline_message_id' => $message_id,
-                                        'parse_mode' => "HTML",
-                                        'reply_markup' => false
-                                    ]);
-                                } catch (Exception $e) {
-                                    TelegramLog::log($e->getMessage());
-                                }
-                            }
-
-                        } else {
-                            TelegramLog::log("Order is not found: chat_id = " . $chat_id);
+                        try {
+                            $reply_markup = BotKeyboard::delivery(3);
+                            // edit message reply markup
+                            Telegram::editMessageReplyMarkup([
+                                'chat_id' => $chat_id,
+                                'message_id' => $message_id,
+                                'inline_message_id' => $message_id,
+                                'parse_mode' => "Markdown",
+                                'reply_markup' => $reply_markup
+                            ]);
+                        } catch (Exception $e) {
+                            TelegramLog::log($e->getMessage());
                         }
                     } else if (isset($decode->back) && $decode->back == 7) {
                         // agar nastroykada bermagan bo'lsa, ya'ni

@@ -20,6 +20,7 @@ return [
     'not_revieced_code' => "⏱ I have not received the code",
     'make_order' => "🚀 Make an order",
     'delivery_text' => "Delivery (Toshkent)",
+    'delivery_fargo' => "Delivery (Fargo)",
     'delivery_mail' => "mail",
     'delivery_pickup' => "Pickup",
     'btn_back' => "◀️ Back",
