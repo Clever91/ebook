@@ -3,33 +3,38 @@
 namespace App\Helpers\Common;
 
 use App\Models\Admin\Setting;
+use App\Models\Bot\ChatOrder;
 use Illuminate\Support\Facades\Storage;
 
 class Fargo
 {
     const FILENAME = "fargo_prices.txt";
 
+    const KEY_CITY = "CITY";
+    const KEY_OFFICE_OFFICE = "OFFICE_OFFICE";
+    const KEY_OFFICE_DOOR = "OFFICE_DOOR";
+
     public static function savePrices($content = [])
     {
         if (empty($content)) {
             $content = [
-                "CITY" => [
+                self::KEY_CITY => [
                     "name" => "По Городу",
-                    "key" => "CITY",
+                    "code" => ChatOrder::DELIVERY_FARGO_CITY,
                     "zero" => 15000,
                     "price" => 5000,
                     "step" => 3,
                 ],
-                "OFFICE_OFFICE" => [
+                self::KEY_OFFICE_OFFICE => [
                     "name" => "До Пункта Fargo",
-                    "key" => "OFFICE_OFFICE",
+                    "code" => ChatOrder::DELIVERY_FARGO_OFFICE,
                     "zero" => 0,
                     "price" => 5000,
                     "step" => 1,
                 ],
-                "OFFICE_DOOR" => [
+                self::KEY_OFFICE_DOOR => [
                     "name" => "До Двери",
-                    "key" => "OFFICE_DOOR",
+                    "code" => ChatOrder::DELIVERY_FARGO_DOOR,
                     "zero" => 20000,
                     "price" => 5000,
                     "step" => 1,
@@ -59,7 +64,7 @@ class Fargo
         $nds = Setting::get("delivery_nds") / 100 + 1;
         // calculate
         if (isset($content[$type])) {
-            $key = $content[$type]["key"];
+            $key = $type;
             $step = $content[$type]["step"];
             $zero = (float) $content[$type]["zero"];
             $price = (float) $content[$type]["price"];
@@ -75,5 +80,15 @@ class Fargo
         }
 
         return  0;
+    }
+
+    public static function isKeyToFargo($key)
+    {
+        return in_array($key, self::getKeys());
+    }
+
+    public static function getKeys()
+    {
+        return [ self::KEY_CITY, self::KEY_OFFICE_OFFICE, self::KEY_OFFICE_DOOR ];
     }
 }

@@ -403,10 +403,10 @@ class BotController extends Controller
 
                                     $delivery = (float) Setting::get("delivery_price");
                                     if ($total_weight > 0 && $order->isFargo()) {
-                                        $delivery = Fargo::getPrice($total_weight);
-                                        $order->delivery_price = $delivery;
+                                        $delivery = $order->setFargoPrice($total_weight);
                                     }
 
+                                    $order->delivery_price = $delivery;
                                     $order->amount = $total;
                                     $order->save();
 
@@ -564,7 +564,7 @@ class BotController extends Controller
                                         // check delivery type
                                         $delivery = (float) Setting::get("delivery_price");
                                         if ($total_weight > 0 && $order->isFargo()) {
-                                            $delivery = Fargo::getPrice($total_weight);
+                                            $delivery = $order->setFargoPrice($total_weight);
                                         }
                                         $order->delivery_price = $delivery;
                                         $order->save();
@@ -1403,7 +1403,7 @@ class BotController extends Controller
 
                                     $delivery = (float) Setting::get("delivery_price");
                                     if ($total_weight > 0 && $order->isFargo()) {
-                                        $delivery = Fargo::getPrice($total_weight);
+                                        $delivery = $order->setFargoPrice($total_weight);
                                     }
                                     $total_with_delivery += $delivery;
 
@@ -1582,7 +1582,7 @@ class BotController extends Controller
 
                                     $delivery = (float) Setting::get("delivery_price");
                                     if ($total_weight > 0 && $order->isFargo()) {
-                                        $delivery = Fargo::getPrice($total_weight);
+                                        $delivery = $order->setFargoPrice($total_weight);
                                     }
                                     $total_with_delivery += $delivery;
 
@@ -1875,7 +1875,7 @@ class BotController extends Controller
 
                                         $delivery = (float) Setting::get("delivery_price");
                                         if ($total_weight > 0 && $order->isFargo()) {
-                                            $delivery = Fargo::getPrice($total_weight);
+                                            $delivery = $order->setFargoPrice($total_weight);
                                         }
                                         $total_with_delivery += $delivery;
 
@@ -2005,7 +2005,7 @@ class BotController extends Controller
 
                                     $delivery = (float) Setting::get("delivery_price");
                                     if ($total_weight > 0 && $order->isFargo()) {
-                                        $delivery = Fargo::getPrice($total_weight);
+                                        $delivery = $order->setFargoPrice($total_weight);
                                     }
                                     $total_with_delivery += $delivery;
 
@@ -2184,7 +2184,7 @@ class BotController extends Controller
 
                                         $delivery = (float) Setting::get("delivery_price");
                                         if ($total_weight > 0 && $order->isFargo()) {
-                                            $delivery = Fargo::getPrice($total_weight);
+                                            $delivery = $order->setFargoPrice($total_weight);
                                         }
                                         $total_with_delivery += $delivery;
 

@@ -3,6 +3,7 @@
 namespace App\Helpers\Bot;
 
 use App\Helpers\Common\ClickHelper;
+use App\Helpers\Common\Fargo;
 use App\Helpers\Common\GlobalFunc;
 use App\Helpers\Common\PaymeHelper;
 use App\Helpers\Log\TelegramLog;
@@ -300,33 +301,39 @@ class BotKeyboard {
 
     public static function delivery($back = 3)
     {
-        $fargo = Keyboard::button([
-            'text' => Lang::get('bot.delivery_fargo'),
-            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_FARGO.'"}'
-        ]);
+        $keyboard = [];
+        $fargos = Fargo::getPrices();
 
-        $delivery = Keyboard::button([
-            'text' => Lang::get('bot.delivery_text'),
-            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_DELIVERY.'"}'
-        ]);
+        if (count($fargos) > 0) {
+            foreach($fargos as $key => $fargo) {
+                $btn = Keyboard::button([
+                    'text' => "Fargo (" . $fargo["name"] . ")",
+                    'callback_data' => '{"del":"'.$fargo["code"].'"}'
+                ]);
+                array_push($keyboard, [ $btn ]);
+            }
+        } else {
+            $delivery = Keyboard::button([
+                'text' => Lang::get('bot.delivery_text'),
+                'callback_data' => '{"del":"'.ChatOrder::DELIVERY_DELIVERY.'"}'
+            ]);
+            array_push($keyboard, [ $delivery ]);
 
-        // $pickup = Keyboard::button([
-        //     'text' => Lang::get('bot.delivery_pickup'),
-        //     'callback_data' => '{"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
-        // ]);
+            // $pickup = Keyboard::button([
+            //     'text' => Lang::get('bot.delivery_pickup'),
+            //     'callback_data' => '{"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
+            // ]);
+            // array_push($keyboard, [ $pickup ]);
+        }
 
         $back = Keyboard::button([
             'text' => Lang::get('bot.btn_back'),
             'callback_data' => '{"back":'.$back.'}'
         ]);
+        array_push($keyboard, [ $back ]);
 
         $reply_markup = Keyboard::make([
-            'inline_keyboard' => [
-                [ $delivery ],
-                [ $fargo ],
-                // [ $pickup ],
-                [ $back ],
-            ],
+            'inline_keyboard' => $keyboard,
         ]);
 
         return $reply_markup;

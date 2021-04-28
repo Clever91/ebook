@@ -2,6 +2,7 @@
 
 namespace App\Models\Bot;
 
+use App\Helpers\Common\Fargo;
 use App\Helpers\Common\GlobalFunc;
 use App\Models\Admin\Order;
 use App\Models\Admin\OrderItem;
@@ -17,7 +18,9 @@ class ChatOrder extends Model
     // const DELIVERY_EXPRESS24 = 2;
     const DELIVERY_PICKUP = 3;
     const DELIVERY_DELIVERY = 4;
-    const DELIVERY_FARGO = 5;
+    const DELIVERY_FARGO_CITY = 5;
+    const DELIVERY_FARGO_OFFICE = 6;
+    const DELIVERY_FARGO_DOOR = 7;
 
     const PAYMENT_PAYME = 1;
     const PAYMENT_CLICK = 2;
@@ -69,7 +72,27 @@ class ChatOrder extends Model
 
     public function isFargo()
     {
-        return $this->delivery_type == self::DELIVERY_FARGO;
+        return in_array($this->delivery_type, [self::DELIVERY_FARGO_CITY, self::DELIVERY_FARGO_OFFICE, self::DELIVERY_FARGO_DOOR]);
+    }
+
+    public function setFargoPrice($total_weight)
+    {
+        $type = $this->getFargoCode();
+        $delivery = Fargo::getPrice($total_weight, $type);
+        $this->delivery_price = $delivery;
+        return $delivery;
+    }
+
+    public function getFargoCode()
+    {
+        if ($this->delivery_type == self::DELIVERY_FARGO_CITY) {
+            return Fargo::KEY_CITY;
+        } else if ($this->delivery_type == self::DELIVERY_FARGO_OFFICE) {
+            return Fargo::KEY_OFFICE_OFFICE;
+        } else if ($this->delivery_type == self::DELIVERY_FARGO_DOOR) {
+            return Fargo::KEY_OFFICE_DOOR;
+        }
+        return Fargo::KEY_CITY;
     }
 
     public function deliveryLabel()
@@ -86,7 +109,9 @@ class ChatOrder extends Model
             // self::DELIVERY_MAIL => Lang::get('bot.delivery_mail'),
             self::DELIVERY_DELIVERY => Lang::get('bot.delivery_text'),
             self::DELIVERY_PICKUP => Lang::get('bot.delivery_pickup'),
-            self::DELIVERY_FARGO => "Fargo",
+            self::DELIVERY_FARGO_CITY => "Fargo (CITY)",
+            self::DELIVERY_FARGO_OFFICE => "Fargo (OFFICE TO OFFICE)",
+            self::DELIVERY_FARGO_DOOR => "Fargo (OFFICE TO DOOR)",
         ];
     }
 
