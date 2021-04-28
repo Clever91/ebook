@@ -250,6 +250,7 @@ class BotController extends Controller
                             // cart list
                             try {
                                 $total = 0;
+                                $total_weight = 0;
                                 $details = $order->details;
                                 $text = Lang::get("bot.your_cart");
                                 foreach($details as $index => $detail) {
@@ -261,8 +262,30 @@ class BotController extends Controller
                                     . $detail->quantity ." = <i>";
                                     $text .= GlobalFunc::moneyFormat($amount)."</i>\n";
                                     $total += $amount;
+                                    // caculate weight
+                                    if (!is_null($detail->book)) {
+                                        $weight = 0.3; // kg
+                                        if (!empty($detail->book->detail)) {
+                                            $val = (float) $detail->book->detail->weight;
+                                            if ($val !== 0) {
+                                                $weight = (float) $detail->book->detail->weight;
+                                                $weight = $weight / 1000; //gr
+                                                $weight = $weight * $detail->quantity;
+                                            }
+                                        }
+                                        $total_weight += $weight;
+                                    }
                                 }
                                 $text .= "\n".Lang::get('bot.total')." ".GlobalFunc::moneyFormat($total);
+                                $text .= "\n\n<b>".Lang::get('bot.delivery_type')."</b>\n";
+                                $fargos = Fargo::getPrices();
+                                foreach($fargos as $key => $fargo) {
+                                    $name = "Fargo (".$fargo["name"]."): ";
+                                    $price = Fargo::getPrice($total_weight, $key);
+                                    $name .= GlobalFunc::moneyFormat($price);
+                                    $text .= "{$name} \n";
+                                }
+
                                 $reply_markup = BotKeyboard::cart($details, 2);
                                 // edit message reply markup
                                 Telegram::sendMessage([
