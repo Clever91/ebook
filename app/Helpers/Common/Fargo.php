@@ -19,7 +19,7 @@ class Fargo
         if (empty($content)) {
             $content = [
                 self::KEY_CITY => [
-                    "name" => "По Городу",
+                    "name" => "Ташкент ш.", //"По Городу",
                     "code" => ChatOrder::DELIVERY_FARGO_CITY,
                     "zero" => 15000,
                     "price" => 5000,
