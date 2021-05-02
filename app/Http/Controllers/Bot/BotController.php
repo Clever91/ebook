@@ -1939,7 +1939,7 @@ class BotController extends Controller
                             }
 
                         }
-                    } else
+                    }
                     // get location
                     if (!is_null($location)) {
                         // save location
@@ -1948,7 +1948,11 @@ class BotController extends Controller
                             "state" => ChatOrder::STATE_DRAF
                         ])->first();
                         if (!is_null($order)) {
-
+                            // check any location
+                            if (empty($order->delivery_type)) {
+                                return ["ok" => true];
+                            }
+                            // save location
                             $order->lat = $location->getLatitude();
                             $order->long = $location->getLongitude();
                             if ($order->save()) {
@@ -2137,6 +2141,10 @@ class BotController extends Controller
                                 "state" => ChatOrder::STATE_DRAF
                             ])->first();
                             if (!is_null($order)) {
+                                // check any contact
+                                if (empty($order->delivery_type)) {
+                                    return ["ok" => true];
+                                }
                                 // remove plus if exists
                                 $phone = GlobalFunc::removePlus($contact->getPhoneNumber());
                                 $order->phone = $phone;
@@ -2178,7 +2186,7 @@ class BotController extends Controller
 
                                         $total = 0;
                                         $total_weight = 0;
-                                        $total_with_delivery = $delivery;
+                                        $total_with_delivery = 0;
                                         foreach($order->details as $index => $detail) {
                                             $amount = $detail->price * $detail->quantity;
                                             $text .= ($index+1) .". <b>". $detail->product->translateorNew($locale)->name ." (";
