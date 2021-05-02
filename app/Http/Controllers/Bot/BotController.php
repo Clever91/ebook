@@ -1262,6 +1262,7 @@ class BotController extends Controller
 
                     // check payment is successful
                     if (!is_null($success_payment)) {
+                        // TelegramLog::log($success_payment);
                         $order = ChatOrder::where([
                             "chat_id" => $chat_id,
                             "state" => ChatOrder::STATE_DRAF
@@ -1813,7 +1814,7 @@ class BotController extends Controller
                         } catch (Exception $e) {
                             TelegramLog::log($e->getMessage());
                         }
-                    } else if (!is_null($chatUser) && $chatUser->step == Step::LAST_ORDER) {
+                    } else if (!is_null($chatUser) && $chatUser->step == Step::LAST_ORDER && is_null($location)) {
                         $lastOrder = GlobalFunc::getLastOrder($chat_id);
                         if (!is_null($lastOrder)) {
                             $order = ChatOrder::where([
