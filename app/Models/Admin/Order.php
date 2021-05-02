@@ -61,4 +61,17 @@ class Order extends Model
             self::STATE_RETRUN => "Return",
         ];
     }
+
+    public function createPayment($data)
+    {
+        $payment = OrderPayment::create([
+            'order_id' => $this->id,
+            'amount' => $data['amount'],
+            'type' => $data['type'], // payme, click, cash, bm24
+            'currency' => isset($data['currency']) ? $data['currency'] : 'UZS',
+            'paid' => isset($data['paid']) ? $data['paid'] : false,
+            'json_data' => isset($data['json']) ? $data['json'] : null,
+        ]);
+        return $payment;
+    }
 }

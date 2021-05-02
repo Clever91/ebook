@@ -6,6 +6,7 @@ use App\Helpers\Common\Fargo;
 use App\Helpers\Common\GlobalFunc;
 use App\Models\Admin\Order;
 use App\Models\Admin\OrderItem;
+use App\Models\Admin\OrderPayment;
 use App\Models\Admin\PriceType;
 use App\Models\Helpers\Base;
 use Illuminate\Database\Eloquent\Model;
@@ -269,8 +270,9 @@ class ChatOrder extends Model
             $order->state = Order::STATE_NEW;
             $order->chat_order_id = $this->id;
             $order->save();
+            return $order;
         }
-        return true;
+        return false;
     }
 
     public function getPriceType()
@@ -282,5 +284,17 @@ class ChatOrder extends Model
             return $priceType;
         }
         return null;
+    }
+
+    public function changePayment()
+    {
+        $order = Order::where(['chat_order_id' => $this->id])->first();
+        if (!is_null($order)) {
+            $payment = OrderPayment::where(['order_id' => $order->id])->first();
+            if (!is_null($payment)) {
+                $payment->paid = $this->paid;
+                $payment->save();
+            }
+        }
     }
 }
