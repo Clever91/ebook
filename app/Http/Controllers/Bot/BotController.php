@@ -278,6 +278,8 @@ class BotController extends Controller
                                 }
                                 $text .= "\n".Lang::get('bot.total')." ".GlobalFunc::moneyFormat($total);
                                 $text .= "\n\n<b>".Lang::get('bot.delivery_type')."</b>\n";
+                                $delivery = (float) Setting::get("delivery_price");
+                                $text .= Lang::get('bot.delivery_text').": ".GlobalFunc::moneyFormat($delivery)."\n";
                                 $fargos = Fargo::getPrices();
                                 foreach($fargos as $key => $fargo) {
                                     $name = "Fargo (".$fargo["name"]."): ";

@@ -19,7 +19,7 @@ return [
     'success_code' => "✅ Успешно",
     'not_revieced_code' => "⏱ Я не получил код",
     'make_order' => "🚀 Сделать заказ",
-    'delivery_text' => "Доставка (Ташкент ш.)",
+    'delivery_text' => "BTS (Ташкент ш.)",
     'delivery_fargo' => "Доставка (Fargo)",
     'delivery_mail' => "Почта",
     'delivery_pickup' => "Самовывоз",

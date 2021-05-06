@@ -302,8 +302,14 @@ class BotKeyboard {
     public static function delivery($back = 3)
     {
         $keyboard = [];
-        $fargos = Fargo::getPrices();
 
+        $delivery = Keyboard::button([
+            'text' => Lang::get('bot.delivery_text'),
+            'callback_data' => '{"del":"'.ChatOrder::DELIVERY_DELIVERY.'"}'
+        ]);
+        array_push($keyboard, [ $delivery ]);
+
+        $fargos = Fargo::getPrices();
         if (count($fargos) > 0) {
             foreach($fargos as $key => $fargo) {
                 $btn = Keyboard::button([
@@ -313,12 +319,6 @@ class BotKeyboard {
                 array_push($keyboard, [ $btn ]);
             }
         } else {
-            $delivery = Keyboard::button([
-                'text' => Lang::get('bot.delivery_text'),
-                'callback_data' => '{"del":"'.ChatOrder::DELIVERY_DELIVERY.'"}'
-            ]);
-            array_push($keyboard, [ $delivery ]);
-
             // $pickup = Keyboard::button([
             //     'text' => Lang::get('bot.delivery_pickup'),
             //     'callback_data' => '{"del":"'.ChatOrder::DELIVERY_PICKUP.'"}'
