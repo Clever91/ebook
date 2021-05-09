@@ -326,11 +326,11 @@ class BotKeyboard {
             // array_push($keyboard, [ $pickup ]);
         }
 
-        $back = Keyboard::button([
-            'text' => Lang::get('bot.btn_back'),
-            'callback_data' => '{"back":'.$back.'}'
-        ]);
-        array_push($keyboard, [ $back ]);
+        // $back = Keyboard::button([
+        //     'text' => Lang::get('bot.btn_back'),
+        //     'callback_data' => '{"back":'.$back.'}'
+        // ]);
+        // array_push($keyboard, [ $back ]);
 
         $reply_markup = Keyboard::make([
             'inline_keyboard' => $keyboard,
