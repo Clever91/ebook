@@ -19,7 +19,7 @@ return [
     'success_code' => "✅ Muvaffaqiyatli",
     'not_revieced_code' => "⏱ Maxfiy raqam olmadim",
     'make_order' => "🚀 Buyurtma berish",
-    'delivery_text' => "Yetkazib berish (Toshkent)",
+    'delivery_text' => "BTS (Toshkent)",
     'delivery_fargo' => "Yetkazib berish (Fargo)",
     'delivery_mail' => "Pochta",
     'delivery_pickup' => "Olib ketish",
