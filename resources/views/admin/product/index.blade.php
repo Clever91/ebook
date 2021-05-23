@@ -19,6 +19,70 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
+                <form>
+                <div class="card card-default">
+                    <div class="card-header">
+                        <h3 class="card-title">Фильтры товаров</h3>
+
+                        <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- /.col -->
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Категории</label>
+                                    <select class="select2bs4" multiple="multiple"
+                                        data-placeholder="Выбрать категории"
+                                        name="categories[]"
+                                        style="width: 100%;">
+                                        @foreach ($categories as $cat)
+                                        @if (is_array(request()->get("categories")) && in_array($cat->id, request()->get("categories")))
+                                            <option value="{{ $cat->id }}" selected>
+                                                {{ $cat->translateorNew(\App::getLocale())->name }}</option>
+                                        @else
+                                            <option value="{{ $cat->id }}">{{ $cat->translateorNew(\App::getLocale())->name }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <!-- /.form-group -->
+                                <div class="form-group">
+                                    <label>Авторы</label>
+                                    <select class="select2bs4" multiple="multiple"
+                                        data-placeholder="Выбрать авторов"
+                                        name="authors[]"
+                                        style="width: 100%;">
+                                        @foreach ($authors as $author)
+                                        @if (is_array(request()->get("authors")) && in_array($author->id, request()->get("authors")))
+                                            <option value="{{ $author->id }}" selected>
+                                                {{ $author->translateorNew(\App::getLocale())->name }}</option>
+                                        @else
+                                            <option value="{{ $author->id }}">{{ $author->translateorNew(\App::getLocale())->name }}</option>
+                                        @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <!-- /.form-group -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        <a href="{{ route('product.index') }}" class="btn btn-default">Очистить</a>
+                        <button type="submit" class="btn btn-info float-right">Фильтр</button>
+                    </div>
+                </div>
+                </form>
+            </div>
+            <div class="col-12">
                 <div class="card">
                     <div class="card">
                         <div class="card-header">

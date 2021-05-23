@@ -23,12 +23,27 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $models = Product::where('deleted', Product::NO_DELETED)
-            ->orderByDesc('created_at')->get();
-            // ->paginate($this->_limit);
-        return view('admin.product.index', compact('models'));
+        $categories = Category::where('deleted', Product::NO_DELETED)->get();
+        $authors = Author::where('deleted', Product::NO_DELETED)->get();
+        // products
+        $models = Product::where('deleted', Product::NO_DELETED)->orderByDesc('created_at');
+        if ($request->has("categories")) {
+            if (count($request->get("categories")) > 0)
+                $models->whereIn("category_id", $request->get("categories"));
+        }
+        if ($request->get("authors")) {
+            if (count($request->get("authors")) > 0)
+                $models->whereIn("author_id", $request->get("authors"));
+        }
+        $models = $models->get();
+        // view
+        return view('admin.product.index', [
+            'models' => $models,
+            'categories' => $categories,
+            'authors' => $authors,
+        ]);
     }
 
     /**

@@ -10,7 +10,7 @@ use Lunaweb\Localization\Facades\Localization;
 
 class BaseController extends Controller
 {
-    protected $_lang = "en";
+    public $_lang = "en";
     protected $_limit = 15;
 
     public function __construct(Request $request)
@@ -21,13 +21,13 @@ class BaseController extends Controller
             $lang = $request->route()->getLocalization();
             if (!is_null($lang))
                 $this->_lang = $lang;
-    
+
             App::setLocale($this->_lang);
         }
 
         // set page limit
         if (env("APP_PAGELIMIT")) {
-            $this->_limit = (int) env("APP_PAGELIMIT"); 
+            $this->_limit = (int) env("APP_PAGELIMIT");
         }
     }
 }
