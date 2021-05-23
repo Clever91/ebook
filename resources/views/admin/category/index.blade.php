@@ -24,12 +24,12 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Список категорий</h3>
-                            <a href="{{ route('category.create') }}" 
+                            <a href="{{ route('category.create') }}"
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped datatables">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -49,7 +49,7 @@
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>
                                             <a href="{{ route('admin.relation.index', [$model->id, 'C']) }}" class="btn btn-sm btn-success">
-                                                <i class="fas fa-paperclip"></i> Доб. группу 
+                                                <i class="fas fa-paperclip"></i> Доб. группу
                                                 @if ($model->relations->count())
                                                 <span class="badge bg-warning">{{ $model->relations->count() }}</span>
                                                 @else
@@ -84,9 +84,9 @@
                         </div>
                         <!-- /.card-body -->
 
-                        <div class="card-footer">
+                        {{-- <div class="card-footer">
                             {{ $models->links() }}
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.card -->
                 </div>

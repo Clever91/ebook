@@ -29,7 +29,7 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table class="table table-bordered table-striped">
+                            <table class="table table-bordered table-striped datatables">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -84,9 +84,9 @@
                         </div>
                         <!-- /.card-body -->
 
-                        <div class="card-footer">
+                        {{-- <div class="card-footer">
                             {{ $models->links() }}
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.card -->
                 </div>

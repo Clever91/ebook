@@ -16,7 +16,8 @@ class ChatOrderController extends Controller
 {
     public function index()
     {
-        $models = ChatOrder::orderByDesc('id')->paginate(15);
+        $models = ChatOrder::orderByDesc('id')->get();
+            // ->paginate(15);
         return view('admin.chatOrder.index', compact('models'));
     }
 

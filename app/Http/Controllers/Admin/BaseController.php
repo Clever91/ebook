@@ -21,13 +21,13 @@ class BaseController extends Controller
             $lang = $request->route()->getLocalization();
             if (!is_null($lang))
                 $this->_lang = $lang;
-    
+
             App::setLocale($this->_lang);
         }
 
         // set page limit
         if (env("APP_PAGELIMIT")) {
-            $this->_limit = (int) env("APP_PAGELIMIT"); 
+            $this->_limit = (int) env("APP_PAGELIMIT");
         }
     }
 }
