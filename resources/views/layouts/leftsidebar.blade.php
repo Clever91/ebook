@@ -197,9 +197,33 @@ use App\Models\Admin\Setting;
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="{{ route('admin.settings') }}" class="nav-link">
-                        <i class="nav-icon fas fa-tools"></i> Настройка
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tools"></i>
+                        <p>
+                            Настройка
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.settings') }}" class="nav-link">
+                                <i class="fas fa-globe"></i>
+                                <p> Общее</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('color.index') }}" class="nav-link">
+                                <i class="fas fa-palette"></i>
+                                <p> Цвета</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('coverType.index') }}" class="nav-link">
+                                <i class="fas fa-paint-brush"></i>
+                                <p> Типы Цвета </p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 @endif
             </ul>
