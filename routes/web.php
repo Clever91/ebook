@@ -93,6 +93,8 @@ Localization::localizedRoutesGroup(function() {
         Route::resource('author', 'Admin\AuthorController')->except('show');
         Route::resource('product', 'Admin\ProductController')->except('show');
         Route::resource('goods', 'Admin\GoodsController')->except('show');
+        Route::resource('color', 'Admin\ColorController')->except('show');
+        Route::resource('coverType', 'Admin\CoverTypeController')->except('show');
 
         // book route
         Route::get('/book/list', 'Admin\BookController@list')->name('admin.book.list');
