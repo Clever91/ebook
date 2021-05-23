@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <!-- jQuery Cookie -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
@@ -37,6 +39,8 @@
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    {{-- Custom Cookie js --}}
+    {{-- <script src="{{ asset('js/cookie.js') }}"></script> --}}
 
 </head>
 <body class="hold-transition sidebar-mini layout-navbar-fixed">
@@ -107,6 +111,45 @@
                     }
                 },
             });
+
+            // Set a cookie
+            function setCookie(key, value) {
+                $.cookie(key, value, { expires : 20, path: '/' }); // 20 day
+            }
+
+            // Read the cookie
+            function getCookie(key) {
+                return $.cookie(key);
+            }
+
+            // Remove the cookie
+            function removeCookie(key) {
+                $.removeCookie(key);
+            }
+
+            $(".btn-filter-tool").on("click", function(e) {
+                e.preventDefault();
+                openFilter = !openFilter;
+                console.log(openFilter);
+                if (openFilter) {
+                    var coo = setCookie("hide_tool", 'true');
+                    console.log(coo);
+                } else {
+                    removeCookie("hide_tool");
+                }
+            });
+
+            var openFilter = true;
+            function initFilterTool() {
+                var hideTool = getCookie("hide_tool");
+                console.log(hideTool);
+                openFilter = true;
+                if (hideTool)
+                    openFilter = false;
+                if (!openFilter)
+                    $(".btn-hide-tool").click();
+            }
+            initFilterTool();
         })
     </script>
 
