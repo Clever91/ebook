@@ -93,6 +93,7 @@ class ClickHelper
                 return ClickTransaction::getResponse($data, -5);
             }
 
+            // TelegramLog::log($data);
             $amount = $order->amountWithDelivery();
             if ($amount != $data['amount']) {
                 $model->error = -2;
@@ -118,7 +119,6 @@ class ClickHelper
                 $order->state = ChatOrder::STATE_NEW;
                 $order->payment_type = ChatOrder::PAYMENT_CLICK;
                 if ($order->save()) {
-
                     try {
                         // edit message reply markup
                         Telegram::editMessageReplyMarkup([
@@ -163,7 +163,18 @@ class ClickHelper
                     }
 
                     // create order
-                    // $order->createOrder($order->chatUser());
+                    try {
+                        $real = $order->createOrder($order->chatUser());
+                        $real->createPayment([
+                            'amount' => $amount,
+                            'type' => "click",
+                            'currency' => "UZS",
+                            'paid' => true,
+                            'json' => $data,
+                        ]);
+                    } catch (Exception $e) {
+                        TelegramLog::log($e->getMessage());
+                    }
 
                     // ~~~~~~~~~~~~~~~~~ send group check
 
