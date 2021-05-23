@@ -18,8 +18,9 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $models = Category::where('deleted', Base::NO_DELETED)->orderByDesc('created_at')
-            ->paginate($this->_limit);
+        $models = Category::where('deleted', Base::NO_DELETED)
+            ->orderByDesc('created_at')->get();
+            // ->paginate($this->_limit);
         return view('admin.category.index', compact('models'));
     }
 

@@ -26,7 +26,8 @@ class ProductController extends BaseController
     public function index()
     {
         $models = Product::where('deleted', Product::NO_DELETED)
-            ->orderByDesc('created_at')->paginate($this->_limit);
+            ->orderByDesc('created_at')->get();
+            // ->paginate($this->_limit);
         return view('admin.product.index', compact('models'));
     }
 
