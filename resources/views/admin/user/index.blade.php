@@ -8,7 +8,6 @@
 
 @section('content')
 
-
 <!-- Content Header (Page header) -->
 @include('layouts.breadcrumb', [
     'list' => route('user.index'),
@@ -24,7 +23,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Список пользователей</h3>
-                            <a href="{{ route('user.create') }}" 
+                            <a href="{{ route('user.create') }}"
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->
@@ -49,7 +48,7 @@
                                         <td>{{ $model->activeLabel() }}</td>
                                         <td>{{ $model->roleLabel() }}</td>
                                         <td>
-                                            <a href="{{ route('user.edit', $model->id) }}" 
+                                            <a href="{{ route('user.edit', $model->id) }}"
                                             class="btn btn-sm btn-info">Изменить</a>
                                         </td>
                                     </tr>

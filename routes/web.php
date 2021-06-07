@@ -20,18 +20,12 @@ use Lunaweb\Localization\Facades\Localization;
 
 Auth::routes(['register' => false]);
 Route::get('/', function() {
-    return redirect('login');
+    return redirect()->route('front.home');
 });
 
 Route::get('/denied', function() {
     return view('error._denied');
 })->name('denied');
-
-Route::get('/test', function() {
-    $pro = Product::find(1);
-    $books = $pro->getBookBy('paper_size');
-    dd($books);
-});
 
 // ~~~~~~~~~~~~~~~~~~~ Payment Callback ~~~~~~~~~~~~~~~~~~~
 
@@ -41,7 +35,16 @@ Route::group(['prefix' => 'pay'], function () {
     Route::match(['get', 'post'], '/click/complete', 'Bot\ClickController@complete')->name('click.complete');
     // payme
     Route::match(['get', 'post'],'/payme/complete', 'Bot\PaymeController@complete')->name('payme.complete');
+});
 
+// ~~~~~~~~~~~~~~~~~~~ Front ~~~~~~~~~~~~~~~~~~~
+Localization::localizedRoutesGroup(function() {
+    // front route
+    Route::group(['prefix' => 'front'], function () {
+        // globale route
+        Route::get('/', 'Front\HomeController@index')->name('front.home');
+        Route::get('/category/{cat}/products', 'Front\CategoryController@products')->name('front.category.products');
+    });
 });
 
 // ~~~~~~~~~~~~~~~~~~~ Admin ~~~~~~~~~~~~~~~~~~~
@@ -62,31 +65,29 @@ Localization::localizedRoutesGroup(function() {
         return view('auth._500');
     })->name('error500');
 
-    Route::get('/test', function() {
-        $content = Fargo::savePrices();
-        return $content;
-    })->name('test');
+    // Route::get('/test', function() {
+    //     $content = Fargo::savePrices();
+    //     return $content;
+    // })->name('test');
 
-    Route::get('/ptest', function() {
-        $content = Fargo::getPrices();
-        return $content;
-    })->name('ptest');
+    // Route::get('/ptest', function() {
+    //     $content = Fargo::getPrices();
+    //     return $content;
+    // })->name('ptest');
 
-    Route::get('/price', function() {
-        // return Fargo::getPrice(0.4, "CITY");
-        return Fargo::getPrice(6);
-    })->name('ptest');
+    // Route::get('/price', function() {
+    //     // return Fargo::getPrice(0.4, "CITY");
+    //     return Fargo::getPrice(6);
+    // })->name('ptest');
 
     // admin route
     Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
         // globale route
         Route::get('/', 'Admin\DashboardController@index')->name('home');
-        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard')->middleware('auth');
+        Route::get('/dashboard', 'Admin\DashboardController@index')->name('dashboard');
         Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
         // resource route
-        // Route::group(['middleware' => ['sadmin', 'admin']], function() {
-        // });
         Route::resource('user', 'Admin\UserController')->except('show');
         Route::resource('category', 'Admin\CategoryController')->except('show');
         Route::resource('group', 'Admin\GroupController')->except('show');
@@ -158,22 +159,20 @@ Localization::localizedRoutesGroup(function() {
         Route::get('/price/{id}/index', 'Admin\PriceController@index')->name('admin.price.index');
         Route::post('/price/{id}/set/price', 'Admin\PriceController@setPrice')->name('admin.price.setPrice');
     });
-
 });
 
 
 // ~~~~~~~~~~~~~~~~~~~ Firebase Auth ~~~~~~~~~~~~~~~~~~~
 
+// Route::group(['prefix' => "firebase"], function() {
 
-Route::group(['prefix' => "firebase"], function() {
+//     Route::get('/auth', function() {
+//         return view('auth.firebase');
+//     });
 
-    Route::get('/auth', function() {
-        return view('auth.firebase');
-    });
+//     Route::get('/', 'Auth\FirebaseController@index');
+//     Route::get('/check', 'Auth\FirebaseController@check');
+//     Route::get('/create', 'Auth\FirebaseController@create');
+//     Route::get('/success', 'Auth\FirebaseController@success');
 
-    Route::get('/', 'Auth\FirebaseController@index');
-    Route::get('/check', 'Auth\FirebaseController@check');
-    Route::get('/create', 'Auth\FirebaseController@create');
-    Route::get('/success', 'Auth\FirebaseController@success');
-
-});
+// });
