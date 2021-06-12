@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.front.front')
 
 @section('title', 'Category {{ App::getLocale() }}')
 

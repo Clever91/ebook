@@ -3,13 +3,13 @@
         <div class="container-fluid px-3 px-md-5">
             <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
                 <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
-                    <li class="nav-item"><a href="#" class="nav-link text-dark"><i class="font-size-3 glph-icon flaticon-question mr-2"></i>Can we help you?</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link text-dark"><i class="font-size-3 glph-icon flaticon-phone mr-2"></i>+1 246-345-0695</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-dark"><i class="font-size-3 glph-icon flaticon-question mr-2"></i>{{ Lang::get('front.can_we_help_you') }}</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link text-dark"><i class="font-size-3 glph-icon flaticon-phone mr-2"></i>+998 71 244-45-45</a></li>
                 </ul>
                 <ul class="topbar__nav--right nav justify-content-center">
-                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>Store Location</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>{{ Lang::get('front.store_location') }}</a></li>
                     <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <div class="position-relative h-100">
                             <a id="basicDropdownHoverInvoker" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="javascript:;" role="button"
                                 aria-controls="basicDropdownHover"
@@ -32,7 +32,7 @@
                                 <a class="dropdown-item" href="#">Yen</a>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <div class="position-relative h-100">
                             <a id="basicDropdownHoverInvoker1" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="javascript:;" role="button"
@@ -47,13 +47,21 @@
                                 data-unfold-hide-on-scroll="true"
                                 data-unfold-animation-in="slideInUp"
                                 data-unfold-animation-out="fadeOut">
-                                English <i class=""></i>
+                                {{ Localization::getLocales()[App::getLocale()]["name"] }} <i class=""></i>
                             </a>
 
                             <div id="basicDropdownHover1" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker1">
-                                <a class="dropdown-item active" href="#">Tamil</a>
-                                <a class="dropdown-item" href="#">Arabic</a>
-                                <a class="dropdown-item" href="#">French</a>
+                                @foreach (Localization::getLocales() as $code => $lang)
+                                @if ($code == App::getLocale())
+                                <a href="{{ Localization::getLocaleUrl($code, true) }}" class="dropdown-item active">
+                                    <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["name"] }}
+                                </a>
+                                @else
+                                <a href="{{ Localization::getLocaleUrl($code, true) }}" class="dropdown-item">
+                                    <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["name"] }}
+                                </a>
+                                @endif
+                            @endforeach
                             </div>
                         </div>
                     </li>
@@ -382,7 +390,7 @@
                                                 <span class="flaticon-loupe"></span>
                                             </span>
                                         </div>
-                                        <input type="search" class="form-control px-3" placeholder="Search BookWorm" aria-label="Search BookWorm">
+                                        <input type="search" class="form-control px-3" placeholder="Search BookMarket24" aria-label="Search BookMarket24">
                                         <div class="input-group-append">
                                             <a class="input-group-text px-4" href="javascript:;"
                                                 aria-label="close"
@@ -408,7 +416,7 @@
                                     <!-- Suggestions Content -->
                                     <div class="rounded bg-white u-search-slide-down__suggestions py-3 px-3">
                                         <ul class="list-group list-unstyled list-group-flush list-group-borderless mb-0">
-                                            <li><a class="list-group-item list-group-item-action text-dark font-size-2" href="#">About BookWorm</a></li>
+                                            <li><a class="list-group-item list-group-item-action text-dark font-size-2" href="#">About BookMarket24</a></li>
                                             <li><a class="list-group-item list-group-item-action text-dark font-size-2" href="#">Getting Started</a></li>
                                             <li><a class="list-group-item list-group-item-action text-dark font-size-2" href="#">Documentation</a></li>
                                         </ul>

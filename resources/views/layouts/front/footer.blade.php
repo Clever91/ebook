@@ -17,8 +17,8 @@
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Contact</h4>
                         <div class="mb-4">
                             <a href="mailto:sale@bookworm.com" class="font-size-2 d-block mb-1 link-black-100">sale@bookworm.com</a>
-                            <a href="tel:+1246-345-0695" class="font-size-2 d-block link-black-100">
-                            +1 246-345-0695</a>
+                            <a href="tel:+998712444545" class="font-size-2 d-block link-black-100">
+                            +998 71 244-45-45</a>
                         </div>
                     </div>
                 </div>

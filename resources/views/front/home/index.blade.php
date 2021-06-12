@@ -1,6 +1,6 @@
 @extends('layouts.front.front')
 
-@section('title', 'Home {{ App::getLocale() }}')
+@section('title', Lang::get("front.home"))
 
 @section('content')
 

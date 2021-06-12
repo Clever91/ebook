@@ -10,7 +10,7 @@ use Lunaweb\Localization\Facades\Localization;
 
 class BaseController extends Controller
 {
-    protected $_lang = "en";
+    protected $_lang = "uz";
     protected $_limit = 20;
 
     public function __construct(Request $request)

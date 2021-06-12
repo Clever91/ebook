@@ -31,7 +31,7 @@ return [
     // / -> English page, /de -> German page
     // If disabled:
     // /en -> English Page, /de -> German page
-    'hide_default_locale_in_url' => true,
+    'hide_default_locale_in_url' => false,
 
     // Use query parameter if there are no localized routes available.
     // Set it to null to disable usage of query parameter.
