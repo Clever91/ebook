@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -10,7 +10,7 @@
 
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('category.index'),
     'title' => 'Список категорий'
 ])

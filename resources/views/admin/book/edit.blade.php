@@ -1,10 +1,10 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Изменить книгу')
 
 @section('content')
 
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('product.index'),
     'title' => 'Изменить книгу'
 ])

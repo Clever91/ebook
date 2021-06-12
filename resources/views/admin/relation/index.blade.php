@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Присоединить группы')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('admin.relation.index', [$relation_id, $type]),
     'title' => 'Присоединить группы'
 ])
@@ -25,8 +25,8 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="groups">Группы</label>
-                        <select class="form-control select2bs4 @error('groups') is-invalid @enderror" 
-                            name="groups[]" style="width: 100%;" title="Выберите группы" 
+                        <select class="form-control select2bs4 @error('groups') is-invalid @enderror"
+                            name="groups[]" style="width: 100%;" title="Выберите группы"
                             multiple required>
                             @foreach ($groups as $group)
                                 @if (in_array($group->id, $related))
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label for="order_no">Порядковый номер</label>
-                        <input type="number" class="form-control @error('order_no') is-invalid @enderror" 
+                        <input type="number" class="form-control @error('order_no') is-invalid @enderror"
                             id="order_no" name="order_no" value="{{ old("order_no") }}" placeholder="Введите порядковый номер"
                             required>
                         @error('order_no')
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <!-- /.card-body -->
-        
+
                 <div class="card-footer">
                     <button type="submit" class="btn btn-info">Прикреплять</button>
                 </div>

@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Изменить категорию')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('category.index'),
     'title' => 'Изменить категорию'
 ])

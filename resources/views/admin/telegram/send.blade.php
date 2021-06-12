@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Список группы')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('product.index'),
     'title' => 'Список группы'
 ])
@@ -24,7 +24,7 @@
                         <div class="card-body">
                             @foreach ($result as $item)
                                 @if ($item["success"])
-                            <div class="callout callout-success">  
+                            <div class="callout callout-success">
                                 <h5>{{ $item["name"] }}</h5>
                                 <p>{{ $item["caption"] }}</p>
                             </div>
@@ -71,7 +71,7 @@
 </section>
 
 <script>
-    setTimeout(function() { 
+    setTimeout(function() {
         $("#next").submit();
     }, 1000);
 </script>

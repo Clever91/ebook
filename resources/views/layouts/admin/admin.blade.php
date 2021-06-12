@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Book Media Nashr | @yield('title')</title>
+    <title>Book Market 24 | @yield('title')</title>
     <link rel="icon" href="{{ asset('images/logo.png') }}">
 
     <!-- Google Font: Source Sans Pro -->
@@ -47,9 +47,9 @@
     <!-- Site wrapper -->
     <div class="wrapper">
 
-        @include('layouts.navbar')
+        @include('layouts.admin.navbar')
 
-        @include('layouts.leftsidebar')
+        @include('layouts.admin.leftsidebar')
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -57,7 +57,7 @@
         </div>
         <!-- /.content-wrapper -->
 
-        @include('layouts.footer')
+        @include('layouts.admin.footer')
 
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

@@ -1,4 +1,4 @@
-@extends('layouts.front')
+@extends('layouts.front.front')
 
 @section('title', 'Home {{ App::getLocale() }}')
 
@@ -124,7 +124,7 @@
                                 <span class="product__add-to-cart d-inline-block">Shop Now</span>
                             </a>
                             <div class="d-flex justify-content-end">
-                                <img src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                <img src="http://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                             </div>
                         </div>
                     </div>
@@ -164,7 +164,7 @@
                             <span class="product__add-to-cart d-inline-block">Shop Now</span>
                         </a>
                         <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-30 right-md-30">
-                            <img src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                            <img src="http://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                         </div>
                     </div>
                 </div>
@@ -181,7 +181,7 @@
                                 </a>
                             </div>
                             <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-65 right-0">
-                                <img src="https://placehold.it/250x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                <img src="http://placehold.it/250x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                             </div>
                             <div class="d-flex align-items-stretch pb-1">
                                 <div class="py-2d75 text-primary-home-v3 mr-5">
@@ -252,7 +252,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -291,7 +291,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -320,7 +320,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -359,7 +359,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -388,7 +388,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -427,7 +427,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -456,7 +456,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -495,7 +495,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -549,7 +549,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -588,7 +588,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -617,7 +617,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -656,7 +656,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -685,7 +685,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -724,7 +724,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -753,7 +753,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -792,7 +792,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -846,7 +846,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -885,7 +885,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -914,7 +914,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -953,7 +953,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -982,7 +982,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1021,7 +1021,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1050,7 +1050,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1089,7 +1089,7 @@
                         <div class="product__inner overflow-hidden px-3 px-md-4d875">
                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                 <div class="woocommerce-loop-product__thumbnail">
-                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                    <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                 </div>
                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                     <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1147,7 +1147,7 @@
                 <div class="product product__card product__card-v2 border-right">
                     <div class="media d-block d-md-flex px-4 px-md-6 px-xl-8d75">
                         <div class="woocommerce-loop-product__thumbnail mb-4 mb-md-0">
-                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body media-body ml-md-5d25">
                             <div class="mb-3">
@@ -1201,7 +1201,7 @@
                 <div class="product product__card product__card-v2 border-right">
                     <div class="media d-block d-md-flex px-4 px-md-6 px-xl-8d75">
                         <div class="woocommerce-loop-product__thumbnail mb-4 mb-md-0">
-                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body media-body ml-md-5d25">
                             <div class="mb-3">
@@ -1255,7 +1255,7 @@
                 <div class="product product__card product__card-v2 border-right">
                     <div class="media d-block d-md-flex px-4 px-md-6 px-xl-8d75">
                         <div class="woocommerce-loop-product__thumbnail mb-4 mb-md-0">
-                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body media-body ml-md-5d25">
                             <div class="mb-3">
@@ -1309,7 +1309,7 @@
                 <div class="product product__card product__card-v2 border-right">
                     <div class="media d-block d-md-flex px-4 px-md-6 px-xl-8d75">
                         <div class="woocommerce-loop-product__thumbnail mb-4 mb-md-0">
-                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body media-body ml-md-5d25">
                             <div class="mb-3">
@@ -1368,7 +1368,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-5 col-lg-4 col-xl-3 mb-4 mb-md-0">
-                <div class="bg-img-hero min-height-440 rounded" style="background-image: url(https://placehold.it/300x440);">
+                <div class="bg-img-hero min-height-440 rounded" style="background-image: url(http://placehold.it/300x440);">
                     <div class="p-5">
                         <h4 class="font-size-22">Romance</h4>
                         <p>Lorem ipsum dolor consectetu eiusmo tempor ametsum.</p>
@@ -1404,7 +1404,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1444,7 +1444,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1474,7 +1474,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1514,7 +1514,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1544,7 +1544,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1584,7 +1584,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1614,7 +1614,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1654,7 +1654,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1690,7 +1690,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-5 col-lg-4 col-xl-3 mb-4 mb-md-0">
-                <div class="bg-img-hero min-height-440 rounded" style="background-image: url(https://placehold.it/300x440);">
+                <div class="bg-img-hero min-height-440 rounded" style="background-image: url(http://placehold.it/300x440);">
                     <div class="p-5">
                         <h4 class="font-size-22">Health</h4>
                         <p>Lorem ipsum dolor consectetu eiusmo tempor ametsum.</p>
@@ -1726,7 +1726,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1766,7 +1766,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1796,7 +1796,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1836,7 +1836,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1866,7 +1866,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1906,7 +1906,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -1936,7 +1936,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -1976,7 +1976,7 @@
                             <div class="product__inner overflow-hidden px-3 px-md-4d875">
                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                     <div class="woocommerce-loop-product__thumbnail">
-                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                        <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -2017,7 +2017,7 @@
                     <h2 class="banner__title font-size-10 font-weight-bold text-white mb-4">Get 50% off on orders over $139</h2>
                     <a href="../shop/v7.html" class="banner_btn btn btn-wide btn-primary text-white">Explore Books</a>
                 </div>
-                <img src="https://placehold.it/400x200" class="img-fluid" alt="image-description">
+                <img src="http://placehold.it/400x200" class="img-fluid" alt="image-description">
             </div>
         </div>
     </div>
@@ -2054,7 +2054,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -2093,7 +2093,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -2122,7 +2122,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -2161,7 +2161,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -2190,7 +2190,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -2229,7 +2229,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -2258,7 +2258,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Paperback</a></div>
@@ -2297,7 +2297,7 @@
                 <div class="product__inner overflow-hidden px-3 px-md-4d875">
                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                         <div class="woocommerce-loop-product__thumbnail">
-                            <a href="../shop/single-product-v7.html" class="d-block"><img src="https://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                            <a href="../shop/single-product-v7.html" class="d-block"><img src="http://placehold.it/120x180" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                         </div>
                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                             <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html">Kindle Edition</a></div>
@@ -2352,7 +2352,7 @@
             }]'>
             <div class="product product__card product__card-v2 border-right">
                 <div class="media p-3 p-md-4d875">
-                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/120x183" alt="image-description"></a>
+                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/120x183" alt="image-description"></a>
                     <div class="media-body ml-4d875">
                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html" tabindex="0">Hard Cover</a></div>
                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="../shop/single-product-v7.html" tabindex="0">The Ride of a Lifetime: Lessons Learned from 15 Years as CEO...</a></h2>
@@ -2365,7 +2365,7 @@
             </div>
             <div class="product product__card product__card-v2 border-right">
                 <div class="media p-3 p-md-4d875">
-                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/120x183" alt="image-description"></a>
+                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/120x183" alt="image-description"></a>
                     <div class="media-body ml-4d875">
                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html" tabindex="0">Hard Cover</a></div>
                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="../shop/single-product-v7.html" tabindex="0">The Rural Diaries: Love, Livestock, and Big Life Lessons Down on Mischief Farm</a></h2>
@@ -2378,7 +2378,7 @@
             </div>
             <div class="product product__card product__card-v2 border-right">
                 <div class="media p-3 p-md-4d875">
-                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/120x183" alt="image-description"></a>
+                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/120x183" alt="image-description"></a>
                     <div class="media-body ml-4d875">
                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html" tabindex="0">Hard Cover</a></div>
                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="../shop/single-product-v7.html" tabindex="0">Russians Among Us: Sleeper Cells, Ghost Stories, and the Hunt...</a></h2>
@@ -2391,7 +2391,7 @@
             </div>
             <div class="product product__card product__card-v2 border-right">
                 <div class="media p-3 p-md-4d875">
-                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/120x183" alt="image-description"></a>
+                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/120x183" alt="image-description"></a>
                     <div class="media-body ml-4d875">
                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html" tabindex="0">Hard Cover</a></div>
                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="../shop/single-product-v7.html" tabindex="0">The Ride of a Lifetime: Lessons Learned from 15 Years as CEO...</a></h2>
@@ -2404,7 +2404,7 @@
             </div>
             <div class="product product__card product__card-v2 border-right">
                 <div class="media p-3 p-md-4d875">
-                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="https://placehold.it/120x183" alt="image-description"></a>
+                    <a href="../shop/single-product-v7.html" class="d-block" tabindex="0"><img src="http://placehold.it/120x183" alt="image-description"></a>
                     <div class="media-body ml-4d875">
                         <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="../shop/single-product-v7.html" tabindex="0">Hard Cover</a></div>
                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="../shop/single-product-v7.html" tabindex="0">The Rural Diaries: Love, Livestock, and Big Life Lessons Down on Mischief Farm</a></h2>

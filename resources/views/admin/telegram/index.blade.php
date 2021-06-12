@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Отправить продукт')
 
@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/summernote/summernote-bs4.min.css') }}">
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('product.index'),
     'title' => 'Отправить продукт'
 ])

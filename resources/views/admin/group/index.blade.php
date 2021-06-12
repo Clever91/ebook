@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 <!-- DataTables -->
 <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -10,7 +10,7 @@
 
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('group.index'),
     'title' => 'Список группы'
 ])
@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Список группы</h3>
-                            <a href="{{ route('group.create') }}" 
+                            <a href="{{ route('group.create') }}"
                                 class="btn btn-sm btn-primary float-right">Создать</a>
                         </div>
                         <!-- /.card-header -->

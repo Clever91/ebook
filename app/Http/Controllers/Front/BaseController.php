@@ -23,10 +23,5 @@ class BaseController extends Controller
 
             App::setLocale($this->_lang);
         }
-
-        // set page limit
-        // if (env("APP_PAGELIMIT")) {
-        //     $this->_limit = (int) env("APP_PAGELIMIT");
-        // }
     }
 }

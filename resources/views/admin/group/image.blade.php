@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Изменить группа')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('group.index'),
     'title' => 'Изменить группа'
 ])
@@ -29,14 +29,14 @@
             <!-- /.card-header -->
             <div class="card-body">
                 <!-- form start -->
-                <form role="form" action="{{ route('group.image.patch', $model->id) }}" 
+                <form role="form" action="{{ route('group.image.patch', $model->id) }}"
                     method="POST" enctype="multipart/form-data">
                     @method("PATCH")
                     @csrf
                         @if ($model->hasImage())
                         <div class="row">
                             <div class="col-md-3">
-                                <strong>Исходное изображение:</strong>                        
+                                <strong>Исходное изображение:</strong>
                                 <br/>
                                 <img src="{{ $model->image->getOrginalImage() }}" width="300px" />
                             </div>
@@ -49,7 +49,7 @@
                                 <div class="custom-file">
                                     <input type="file" class="custom-file-input" name="image">
                                     <label class="custom-file-label" for="image">
-                                        @if ($model->hasImage()) 
+                                        @if ($model->hasImage())
                                            {{ $model->image->name }}
                                         @else
                                             Выберите файл
@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <!-- /.card-body -->
-            
+
                     <div class="card-footer">
                         <button type="submit" class="btn btn-info">Сохранить</button>
                     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.login')
+@extends('layouts.auth.login')
 
 @section('title', 'Login')
 
@@ -15,7 +15,7 @@
             <form action="{{ route('login') }}" method="post">
                 {{ csrf_field() }}
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control @error('username') is-invalid @enderror" 
+                    <input type="text" class="form-control @error('username') is-invalid @enderror"
                         name="username" placeholder="Введите логин" value="{{ old('username') }}">
                     <div class="input-group-append">
                         <div class="input-group-text">
@@ -27,7 +27,7 @@
                     @enderror
                 </div>
                 <div class="input-group mb-3">
-                    <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                    <input type="password" class="form-control @error('password') is-invalid @enderror"
                         name="password" placeholder="Введите пароль">
                     <div class="input-group-append">
                         <div class="input-group-text">

@@ -1,11 +1,11 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Создать пользователя')
 
 @section('content')
 
 <!-- Content Header (Page header) -->
-@include('layouts.breadcrumb', [
+@include('layouts.admin.breadcrumb', [
     'list' => route('user.index'),
     'title' => 'Создать пользователя'
 ])
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="name">Имя</label>
-                        <input type="text" class="form-control @error('name') is-invalid @enderror" 
+                        <input type="text" class="form-control @error('name') is-invalid @enderror"
                             id="name" name="name" value="{{ old("name") }}" placeholder="Введите имя" required>
                         @error('name')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="username">Логин</label>
-                        <input type="text" class="form-control @error('username') is-invalid @enderror" 
+                        <input type="text" class="form-control @error('username') is-invalid @enderror"
                             id="username" name="username" value="{{ old("username") }}" placeholder="Введите логин"
                             required>
                         @error('username')
@@ -42,7 +42,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Пароль</label>
-                        <input type="password" name="password" id="password" value="" 
+                        <input type="password" name="password" id="password" value=""
                             class="form-control @error('password') is-invalid @enderror" required>
                         @error('password')
                             <p>{{ __('app.error') }}: <code>{{ $message }}</code></p>
@@ -64,13 +64,13 @@
                         @enderror
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input @error('active') is-invalid @enderror" 
+                        <input type="checkbox" class="form-check-input @error('active') is-invalid @enderror"
                             id="active" checked name="active">
                         <label class="form-check-label" for="active">Активный</label>
                     </div>
                 </div>
                 <!-- /.card-body -->
-        
+
                 <div class="card-footer">
                     <button type="submit" class="btn btn-info">Сохранить</button>
                 </div>

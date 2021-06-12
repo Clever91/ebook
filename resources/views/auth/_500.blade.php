@@ -1,4 +1,4 @@
-@extends('layouts.login')
+@extends('layouts.auth.login')
 
 @section('title', 'Ошибка')
 
@@ -15,7 +15,7 @@
             </h3>
             <p>
             Мы будем работать над исправлением этого сразу.
-            Вы можете вернуться <a href="{{ route('dashborad') }}">на панель инструментов</a> 
+            Вы можете вернуться <a href="{{ route('dashborad') }}">на панель инструментов</a>
             </p>
         </div>
     </div>

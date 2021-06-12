@@ -41,7 +41,6 @@ Route::group(['prefix' => 'pay'], function () {
 Localization::localizedRoutesGroup(function() {
     // front route
     Route::group(['prefix' => 'front'], function () {
-        // globale route
         Route::get('/', 'Front\HomeController@index')->name('front.home');
         Route::get('/category/{cat}/products', 'Front\CategoryController@products')->name('front.category.products');
     });

@@ -1,4 +1,4 @@
-@extends('layouts.login')
+@extends('layouts.auth.login')
 
 @section('title', 'Ошибка')
 
@@ -15,8 +15,8 @@
                 <i class="fas fa-exclamation-triangle text-warning"></i> К сожалению! Страница не найдена.
             </h3>
             <p>
-                Мы не смогли найти страницу, которую вы искали. 
-                Вы можете вернуться <a href="{{ route('dashboard') }}">на панель инструментов</a> 
+                Мы не смогли найти страницу, которую вы искали.
+                Вы можете вернуться <a href="{{ route('dashboard') }}">на панель инструментов</a>
             </p>
         </div>
         <!-- /.error-content -->
