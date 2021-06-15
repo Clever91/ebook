@@ -109,7 +109,7 @@
         </ul>
     </div>
 </div>
-<section class="space-bottom-2 space-bottom-lg-3">
+{{-- <section class="space-bottom-2 space-bottom-lg-3">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
@@ -207,7 +207,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> --}}
 <section class="space-bottom-2">
     <div class="container">
         <header class="border-bottom mb-8d75 pb-4d75 d-md-flex justify-content-between align-items-center">
@@ -2008,7 +2008,7 @@
     </div>
 </section>
 
-<div class="banner space-bottom-2 space-bottom-lg-3">
+{{-- <div class="banner space-bottom-2 space-bottom-lg-3">
     <div class="container">
         <div class="bg-dark pl-xl-10 px-6 py-5 pt-lg-8 pb-lg-7s rounded-md">
             <div class="media d-block d-lg-flex">
@@ -2021,7 +2021,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <section class="space-bottom-3">
     <div class="container">

@@ -72,6 +72,8 @@
 
     <!-- JS Bookworm -->
     <!-- <script src="../../assets/js/bookworm.js"></script> -->
+    <!-- JS Vue3 -->
+    {{-- <script src="https://unpkg.com/vue@next"></script> --}}
 
     <script>
         $(document).on('ready', function () {
