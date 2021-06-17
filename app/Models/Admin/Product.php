@@ -127,4 +127,11 @@ class Product extends Base implements TranslatableContract
         ->get();
         return $books;
     }
+
+    public function getImageUrl($size)
+    {
+        if ($this->hasImage())
+            return $this->image->getImageUrl($size);
+        return "http://placehold.it/{$size}";
+    }
 }

@@ -22,6 +22,9 @@ Auth::routes(['register' => false]);
 Route::get('/', function() {
     return redirect()->route('front.home');
 });
+Route::get('/admin', function() {
+    return redirect('login');
+});
 
 Route::get('/denied', function() {
     return view('error._denied');
