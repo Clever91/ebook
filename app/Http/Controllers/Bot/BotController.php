@@ -1722,7 +1722,7 @@ class BotController extends Controller
 
                     } else if ($command == "/start") {
 
-                        $text = "🙏 Assalomu aleykum, Bu bot orqali siz juda qiziq va ko'p kitoblarni arzon narxlarda sotib olishingiz mumkin\n\n🙏 Ассаламу алейкум, этот бот поможет вам купить много интересных книг и дешовый кника можна купить\n\n🙏 Assalomu aleykum, this bot will help you buy a lot of interesting books and you can buy a cheap book";
+                        $text = "📚 Assalomu alaykum, siz ushbu bot orqali turli mavzudagi kitoblarni arzon va qulay narxlarda xarid qilishingiz mumkin.\n\n📚 Здравствуйте, с помощью этого бота можете покупать книги на самые разные темы по дешевым и доступным ценам.\n\n📚 Hello, with this bot you can buy books on a wide variety of topics at cheap and affordable prices.";
                         try {
                             $reply_markup = BotKeyboard::main();
                             // send message reply markup
