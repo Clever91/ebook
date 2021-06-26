@@ -7,7 +7,7 @@
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Store</h4>
                         <address class="font-size-2">
                             <span class="mb-2 font-weight-normal">
-                                1418 River Drive, Suite 35 Cottonhall, CA 9622 <br> United States
+                                Alisher Navoiy shoh ko'chasi, 44, Тошкент <br> Uzbekiston
                             </span>
                         </address>
                     </div>
@@ -16,7 +16,7 @@
                     <div class="mb-5 mb-lg-0">
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Contact</h4>
                         <div class="mb-4">
-                            <a href="mailto:sale@bookworm.com" class="font-size-2 d-block mb-1 link-black-100">sale@bookworm.com</a>
+                            <a href="mailto:bookmarket24.uz@gmail.com" class="font-size-2 d-block mb-1 link-black-100">bookmarket24.uz@gmail.com</a>
                             <a href="tel:+998712444545" class="font-size-2 d-block link-black-100">
                             +998 71 244-45-45</a>
                         </div>
@@ -27,16 +27,16 @@
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1">Follow</h4>
                         <ul class="list-unstyled mb-0 d-flex">
                             <li class="btn pl-0">
-                                <a class="link-black-100" href="#">
+                                <a class="link-black-100" href="https://www.instagram.com/bookmarket24.uz">
                                     <span class="fab fa-instagram"></span>
                                 </a>
                             </li>
                             <li class="btn">
-                                <a class="link-black-100" href="#">
+                                <a class="link-black-100" href="https://www.facebook.com/bookmarket24">
                                     <span class="fab fa-facebook-f"></span>
                                 </a>
                             </li>
-                            <li class="btn">
+                            {{-- <li class="btn">
                                 <a class="link-black-100" href="#">
                                     <span class="fab fa-youtube"></span>
                                 </a>
@@ -45,10 +45,10 @@
                                 <a class="link-black-100" href="#">
                                     <span class="fab fa-twitter"></span>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="btn">
-                                <a class="link-black-100" href="#">
-                                    <span class="fab fa-pinterest"></span>
+                                <a class="link-black-100" href="https://t.me/bookmarket24">
+                                    <span class="fab fa-telegram"></span>
                                 </a>
                             </li>
                         </ul>
@@ -81,22 +81,22 @@
         <div class="container">
             <div class="d-md-flex text-center text-lg-left justify-content-between align-items-center">
                 <!-- Copyright -->
-                <p class="mb-3 mb-lg-0 font-size-2 text-gray-500">©2020 Book Worm. All rights reserved</p>
+                <p class="mb-3 mb-lg-0 font-size-2 text-gray-500">©2021 BookMarket24. All rights reserved</p>
                 <!-- End Copyright -->
                 <div class="d-md-flex justify-content-end align-items-center">
                     <!-- Select -->
-                    <select class="js-select selectpicker dropdown-select mb-3 mb-md-0"
+                    {{-- <select class="js-select selectpicker dropdown-select mb-3 mb-md-0"
                         data-style="bg-transparent border-0 text-dark px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
                         data-dropdown-align-right="true">
                         <option value="one" selected>English (United States)</option>
                         <option value="two">Deutsch</option>
                         <option value="three">Français</option>
                         <option value="four">Español</option>
-                    </select>
+                    </select> --}}
                     <!-- End Select -->
 
                     <!-- Select -->
-                    <select class="js-select selectpicker dropdown-select ml-md-3"
+                    {{-- <select class="js-select selectpicker dropdown-select ml-md-3"
                         data-style="bg-transparent border-0 text-dark px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
                         data-dropdown-align-right="true"
                         data-width="fit">
@@ -104,7 +104,7 @@
                         <option value="two">€ EUR</option>
                         <option value="three">₺ TL</option>
                         <option value="four">₽ RUB</option>
-                    </select>
+                    </select> --}}
                     <!-- End Select -->
                 </div>
             </div>

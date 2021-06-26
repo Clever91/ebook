@@ -688,23 +688,23 @@
                             <!-- Social Networks -->
                             <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
-                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                    <a class="h-primary pr-2 font-size-2" href="https://www.facebook.com/bookmarket24">
                                         <span class="fab fa-facebook-f btn-icon__inner"></span>
                                     </a>
                                 </li>
-                                <li class="list-inline-item">
+                                {{-- <li class="list-inline-item">
                                     <a class="h-primary pr-2 font-size-2" href="#">
                                         <span class="fab fa-google btn-icon__inner"></span>
                                     </a>
-                                </li>
+                                </li> --}}
                                 <li class="list-inline-item">
-                                    <a class="h-primary pr-2 font-size-2" href="#">
-                                        <span class="fab fa-twitter btn-icon__inner"></span>
+                                    <a class="h-primary pr-2 font-size-2" href="https://www.instagram.com/bookmarket24.uz">
+                                        <span class="fab fa-instagram btn-icon__inner"></span>
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a class="h-primary pr-2 font-size-2" href="#">
-                                        <span class="fab fa-github btn-icon__inner"></span>
+                                    <a class="h-primary pr-2 font-size-2" href="https://t.me/bookmarket24">
+                                        <span class="fab fa-telegram btn-icon__inner"></span>
                                     </a>
                                 </li>
                             </ul>

@@ -7,8 +7,8 @@
                     <li class="nav-item"><a href="#" class="nav-link text-dark"><i class="font-size-3 glph-icon flaticon-phone mr-2"></i>+998 71 244-45-45</a></li>
                 </ul>
                 <ul class="topbar__nav--right nav justify-content-center">
-                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>{{ Lang::get('front.store_location') }}</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li>
+                    {{-- <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>{{ Lang::get('front.store_location') }}</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li> --}}
                     {{-- <li class="nav-item">
                         <div class="position-relative h-100">
                             <a id="basicDropdownHoverInvoker" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="javascript:;" role="button"
@@ -51,7 +51,7 @@
                             </a>
 
                             <div id="basicDropdownHover1" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker1">
-                                @foreach (Localization::getLocales() as $code => $lang)
+                            @foreach (Localization::getLocales() as $code => $lang)
                                 @if ($code == App::getLocale())
                                 <a href="{{ Localization::getLocaleUrl($code, true) }}" class="dropdown-item active">
                                     <i class="flag-icon flag-icon-{{ $lang["icon"] }} mr-2"></i> {{ $lang["name"] }}
