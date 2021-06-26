@@ -492,7 +492,16 @@ class BotController extends Controller
                                     }
 
                                     // create order
-                                    // $order->createOrder($chatUser);
+                                    try {
+                                        $real = $order->createOrder($chatUser);
+                                        $real->createPayment([
+                                            'amount' => $order->amount,
+                                            'type' => $type,
+                                            'paid' => false,
+                                        ]);
+                                    } catch (Exception $e) {
+                                        TelegramLog::log($e->getMessage());
+                                    }
 
                                     // ~~~~~~~~~~~~~~~~~ send group check
 
@@ -1036,6 +1045,7 @@ class BotController extends Controller
                             if (isset($decode->paid)) {
                                 $order->paid = $decode->paid;
                                 if ($order->save()) {
+                                    $order->changePayment();
                                     if ($order->isPaid()) {
                                         $locale = "ru";
                                         $chatUser = ChatUser::where('chat_id', $order->chat_id)->first();
@@ -1318,7 +1328,21 @@ class BotController extends Controller
                                 }
 
                                 // create order
-                                // $order->createOrder($chatUser);
+                                try {
+                                    $real = $order->createOrder($chatUser);
+                                    $amount = $success_payment["total_amount"] / 100;
+                                    $currency = $success_payment["currency"];
+                                    $json = $success_payment;
+                                    $real->createPayment([
+                                        'amount' => $amount,
+                                        'type' => "click", // telegram payment only click
+                                        'currency' => $currency,
+                                        'paid' => true,
+                                        'json' => $json,
+                                    ]);
+                                } catch (Exception $e) {
+                                    TelegramLog::log($e->getMessage());
+                                }
 
                                 // ~~~~~~~~~~~~~~~~~ send group check
 
@@ -1698,7 +1722,7 @@ class BotController extends Controller
 
                     } else if ($command == "/start") {
 
-                        $text = "🙏 Assalomu aleykum, Bu bot orqali siz juda qiziq va ko'p kitoblarni arzon narxlarda sotib olishingiz mumkin\n\n🙏 Ассаламу алейкум, этот бот поможет вам купить много интересных книг и дешовый кника можна купить\n\n🙏 Assalomu aleykum, this bot will help you buy a lot of interesting books and you can buy a cheap book";
+                        $text = "📚 Assalomu alaykum, siz ushbu bot orqali turli mavzudagi kitoblarni arzon va qulay narxlarda xarid qilishingiz mumkin.\n\n📚 Здравствуйте, с помощью этого бота можете покупать книги на самые разные темы по дешевым и доступным ценам.\n\n📚 Hello, with this bot you can buy books on a wide variety of topics at cheap and affordable prices.";
                         try {
                             $reply_markup = BotKeyboard::main();
                             // send message reply markup
@@ -2289,4 +2313,5 @@ class BotController extends Controller
 
         return ["ok" => true];
     }
+
 }
