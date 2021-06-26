@@ -673,7 +673,7 @@
                         </div>
 
                         <div class="px-4 px-md-5 py-5">
-                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
+                            {{-- <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
                                 <option selected>English (United States)</option>
                                 <option value="1">English (UK)</option>
                                 <option value="2">Arabic (Saudi Arabia)</option>
@@ -684,7 +684,7 @@
                                 <option value="1">د.إ AED</option>
                                 <option value="2">¥ CNY</option>
                                 <option value="3">€ EUR</option>
-                            </select>
+                            </select> --}}
                             <!-- Social Networks -->
                             <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
