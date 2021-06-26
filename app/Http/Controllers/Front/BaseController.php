@@ -12,6 +12,7 @@ class BaseController extends Controller
 {
     protected $_lang = "uz";
     protected $_limit = 20;
+    protected $_currency = "сум";
 
     public function __construct(Request $request)
     {

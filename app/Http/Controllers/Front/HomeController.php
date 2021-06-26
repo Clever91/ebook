@@ -12,7 +12,7 @@ class HomeController extends BaseController
 {
     public function index()
     {
-        $currency = "UZS";
+        $currency = $this->_currency;
         $lang = App::getLocale();
         $featured = Product::where([
             'status' => Base::STATUS_ACTIVE,
@@ -31,6 +31,14 @@ class HomeController extends BaseController
             'status' => Base::STATUS_ACTIVE,
             'deleted' => Base::NO_DELETED,
         ])->take(10)->skip(30)->get();
+        $productsByTag = Product::where([
+            'status' => Base::STATUS_ACTIVE,
+            'deleted' => Base::NO_DELETED,
+        ])->take(15)->skip(0)->get();
+        $biographiesBook = Product::where([
+            'status' => Base::STATUS_ACTIVE,
+            'deleted' => Base::NO_DELETED,
+        ])->take(15)->skip(15)->get();
 
         return view('front.home.index', [
             'lang' => $lang,
@@ -39,6 +47,8 @@ class HomeController extends BaseController
             'onSale' => $onSale,
             'mostVieved' => $mostVieved,
             'dealsOfWeek' => $dealsOfWeek,
+            'productsByTag' => $productsByTag,
+            'biographiesBook' => $biographiesBook,
         ]);
     }
 }
