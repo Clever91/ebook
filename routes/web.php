@@ -72,6 +72,10 @@ Localization::localizedRoutesGroup(function() {
         return view('page.contact');
     })->name('page.contact');
 
+    Route::get('/page/about', function() {
+        return view('page.about');
+    })->name('page.about');
+
     // Route::get('/test', function() {
     //     $content = Fargo::savePrices();
     //     return $content;

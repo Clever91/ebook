@@ -13,7 +13,8 @@
                 <h6 class="font-size-4 font-weight-medium mb-2">Woops, looks like this page does not exist</h6>
                 <span class="font-size-2 mb-6">You could either go back or go to homepage</span>
                 <div class="d-flex align-items-center flex-column">
-                    <a href="{{ route('front.home') }}" class="btn btn-dark rounded-0 btn-wide height-60 width-250 font-weight-medium">Go Home</a>
+                    <a href="{{ route('front.home') }}" class="btn btn-dark rounded-0 btn-wide height-60 width-250 font-weight-medium">Go Back
+                    </a>
                 </div>
             </div>
         </div>
