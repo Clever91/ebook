@@ -29,9 +29,10 @@
                     <!-- Filter -->
                     <ul id="filterControls" class="d-flex justify-content-between list-inline cbp-l-filters-alignRight cbp-l-filters-alignRight__custom text-left pl-lg-8 pt-4 pt-lg-8 mb-5 mb-lg-8 overflow-auto">
                         <li class="list-inline-item bg-white text-secondary-gray-700 px-2 px-md-0 font-size-2 border-0 cbp-filter-item m-0 cbp-filter-item-active u-cubeportfolio__item" data-filter="*">All</li>
-                        @foreach($alphabets as $alphabet)
+                        @forelse($alphabets as $alphabet)
                         <li class="list-inline-item bg-white text-secondary-gray-700 px-2 px-md-0 font-size-2 border-0 cbp-filter-item m-0 u-cubeportfolio__item" data-filter=".{{ $alphabet }}">{{ $alphabet }}</li>
-                        @endforeach
+                        @empty
+                        @endforelse
                     </ul>
                     <!-- End Filter -->
 
@@ -49,7 +50,7 @@
                         ]'>
                         @foreach ($models as $author)
                         <!-- Item -->
-                        <div class="cbp-item @forelse($author->getFirstAlphabets() as $alphabet) {{ $alphabet }} @empty @endforelse">
+                        <div class="cbp-item @foreach($author->getFirstAlphabets() as $alphabet) {{ $alphabet }} @endforeach">
                             <a class="cbp-caption" href="../others/authors-single.html">
                                 {{-- <img class="rounded-circle img-fluid mb-3" src="https://placehold.it/140x140" alt="Image Description"> --}}
                                 <img class="rounded-circle img-fluid mb-3" src="{{ $author->getImageUrl('140x140') }}" alt="{{ $author->translateorNew($lang)->bio }}">
