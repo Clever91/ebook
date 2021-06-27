@@ -25,6 +25,7 @@ class AuthorsController extends BaseController
             $alphabets = array_merge($alphabets, $alps);
         }
         sort($alphabets);
+        $alphabets = array_filter($alphabets, fn($value) => !is_null($value) && trim($value) !== '');
 
         $lang = $this->_lang;
         return view('front.authors.index', [
