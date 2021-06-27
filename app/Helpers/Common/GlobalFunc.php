@@ -94,6 +94,11 @@ class GlobalFunc
             }
         }
     }
+
+    public static function firstUpperStr($string)
+    {
+        return strtoupper(substr($string, 0, 1));
+    }
 }
 
 

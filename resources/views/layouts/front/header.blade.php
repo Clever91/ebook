@@ -105,10 +105,10 @@
                                     <a href="{{ route('front.home') }}" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Categories</a>
+                                    <a href="{{ route('front.authors') }}" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Categories</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Authors</a>
+                                    <a href="{{ route('front.authors') }}" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Authors</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Blog</a>

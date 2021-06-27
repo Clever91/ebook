@@ -21,9 +21,13 @@
     <link rel="stylesheet" href="{{ asset('front/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/assets/vendor/slick-carousel/slick/slick.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/assets/vendor/cubeportfolio/css/cubeportfolio.min.css') }}">
 
     <!-- CSS Bookworm Template -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/theme.css') }}">
+
+    {{-- Custom styles --}}
+    @stack('stylesheets')
 </head>
 <body>
 
@@ -61,7 +65,6 @@
     <script src="{{ asset('front/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}"></script>
     <script src="{{ asset('front/assets/vendor/slick-carousel/slick/slick.min.js') }}"></script>
 
-
     <!-- JS HS Components -->
     <script src="{{ asset('front/assets/js/hs.core.js') }}"></script>
     <script src="{{ asset('front/assets/js/components/hs.unfold.js') }}"></script>
@@ -69,11 +72,6 @@
     <script src="{{ asset('front/assets/js/components/hs.slick-carousel.js') }}"></script>
     <script src="{{ asset('front/assets/js/components/hs.show-animation.js') }}"></script>
     <script src="{{ asset('front/assets/js/components/hs.selectpicker.js') }}"></script>
-
-    <!-- JS Bookworm -->
-    <!-- <script src="../../assets/js/bookworm.js"></script> -->
-    <!-- JS Vue3 -->
-    {{-- <script src="https://unpkg.com/vue@next"></script> --}}
 
     <script>
         $(document).on('ready', function () {
@@ -120,5 +118,8 @@
             });
         });
     </script>
+
+    <!-- JS Custom Script -->
+    @stack('scripts')
 </body>
 </html>

@@ -35,19 +35,17 @@ class CreateDefaultValueSeeder extends Seeder
         $category->save();
 
         // create default author
-        Author::create([
-            'name' => "Народное",
-            'bio' => "Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                when an unknown printer took a galley of type and scrambled it to make a type
-                specimen book. It has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was popularised
-                in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                and more recently with desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.",
-            'status' => Author::STATUS_ACTIVE,
-            'created_by' => $admin->id
-        ]);
+        $author = new Author();
+        foreach(config('translatable.locales') as $locale) {
+            $author->translateOrNew($locale)->name = "{$locale}-Народное";
+            $author->translateOrNew($locale)->bio = $faker->paragraph() . $locale;
+            $author->translateOrNew($locale)->is_default = 0;
+            if ($defaultLang == $locale)
+                $author->translateOrNew($locale)->is_default = 1;
+        }
+        $author->status = Category::STATUS_ACTIVE;
+        $author->created_by = $admin->id;
+        $author->save();
 
         // create default epub file
         $file = new Files();

@@ -4,7 +4,16 @@
 
 @section('content')
 
-@include('layouts.front.breadcrumb')
+@include('layouts.front.breadcrumb', [
+    'title' => "Products",
+    'links' => [
+        [
+            'title' => "Home",
+            'url' => route("front.home"),
+            'end' => "Products",
+        ]
+    ]
+])
 
 <div class="site-content" id="content">
     <div class="container">

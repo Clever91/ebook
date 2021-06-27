@@ -46,6 +46,7 @@ Localization::localizedRoutesGroup(function() {
     Route::group(['prefix' => 'front'], function () {
         Route::get('/', 'Front\HomeController@index')->name('front.home');
         Route::get('/category/{cat}/products', 'Front\CategoryController@products')->name('front.category.products');
+        Route::get('/authors/index', 'Front\AuthorsController@index')->name('front.authors');
     });
 });
 
