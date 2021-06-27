@@ -117,7 +117,7 @@
                                     <a href="#" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">About Us</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Contact</a>
+                                    <a href="{{ route('page.contact') }}" class="nav-link link-black-100 mx-2 mx-wd-4 px-0 py-3 font-weight-medium">Contact</a>
                                 </li>
                             </ul>
                         </div>

@@ -81,7 +81,7 @@
         <div class="container">
             <div class="d-md-flex text-center text-lg-left justify-content-between align-items-center">
                 <!-- Copyright -->
-                <p class="mb-3 mb-lg-0 font-size-2 text-gray-500">©2021 BookMarket24. All rights reserved</p>
+                <p class="mb-3 mb-lg-0 font-size-2 text-gray-500">©2021 Book Market 24. All rights reserved</p>
                 <!-- End Copyright -->
                 <div class="d-md-flex justify-content-end align-items-center">
                     <!-- Select -->

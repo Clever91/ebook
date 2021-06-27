@@ -68,6 +68,10 @@ Localization::localizedRoutesGroup(function() {
         return view('auth._500');
     })->name('error500');
 
+    Route::get('/page/contact', function() {
+        return view('page.contact');
+    })->name('page.contact');
+
     // Route::get('/test', function() {
     //     $content = Fargo::savePrices();
     //     return $content;
