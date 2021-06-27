@@ -51,6 +51,8 @@ class Author extends Base implements TranslatableContract
         $alphabets = [];
         foreach($arr as $a) {
             $key = GlobalFunc::firstUpperStr(trim($a));
+            if (empty($key))
+                continue;
             $alphabets[$key] = $key;
         }
         return $alphabets;

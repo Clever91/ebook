@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="{{ asset('front/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/assets/vendor/slick-carousel/slick/slick.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('front/assets/vendor/cubeportfolio/css/cubeportfolio.min.css') }}">
 
     <!-- CSS Bookworm Template -->
     <link rel="stylesheet" href="{{ asset('front/assets/css/theme.css') }}">
