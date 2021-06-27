@@ -97,7 +97,7 @@ class GlobalFunc
 
     public static function firstUpperStr($string)
     {
-        return strtoupper(substr($string, 0, 1));
+        return strtoupper(mb_substr($string, 0, 1));
     }
 }
 
