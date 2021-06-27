@@ -51,7 +51,8 @@
                         <!-- Item -->
                         <div class="cbp-item @foreach($author->getFirstAlphabets() as $alphabet) {{ $alphabet }} @endforeach">
                             <a class="cbp-caption" href="../others/authors-single.html">
-                                <img class="rounded-circle img-fluid mb-3" src="https://placehold.it/140x140" alt="Image Description">
+                                {{-- <img class="rounded-circle img-fluid mb-3" src="https://placehold.it/140x140" alt="Image Description"> --}}
+                                <img class="rounded-circle img-fluid mb-3" src="{{ $author->getImageUrl('140x140') }}" alt="{{ $author->translateorNew($lang)->bio }}">
                                 <div class="py-3 text-center">
                                     <h4 class="h6 text-dark">{{ $author->translateorNew($lang)->name }}</h4>
                                     <span class="font-size-2 text-secondary-gray-700">21,658 Published Books</span>

@@ -56,4 +56,11 @@ class Author extends Base implements TranslatableContract
         return $alphabets;
     }
 
+    public function getImageUrl($size)
+    {
+        if ($this->hasImage())
+            return $this->image->getImageUrl($size);
+        return "http://placehold.it/{$size}";
+    }
+
 }
