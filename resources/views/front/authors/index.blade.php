@@ -49,7 +49,7 @@
                         ]'>
                         @foreach ($models as $author)
                         <!-- Item -->
-                        <div class="cbp-item @foreach($author->getFirstAlphabets() as $alphabet) {{ $alphabet }} @endforeach">
+                        <div class="cbp-item @forelse($author->getFirstAlphabets() as $alphabet) {{ $alphabet }} @empty @endforelse">
                             <a class="cbp-caption" href="../others/authors-single.html">
                                 {{-- <img class="rounded-circle img-fluid mb-3" src="https://placehold.it/140x140" alt="Image Description"> --}}
                                 <img class="rounded-circle img-fluid mb-3" src="{{ $author->getImageUrl('140x140') }}" alt="{{ $author->translateorNew($lang)->bio }}">
