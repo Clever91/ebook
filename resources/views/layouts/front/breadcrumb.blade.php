@@ -7,7 +7,7 @@
                 <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span> --}}
                 @foreach ($links as $link)
                 <a href="{{ $link['url'] }}" class="h-primary">{{ $link['title'] }}</a>
-                <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span>{{ $link['end'] }}
+                <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span>@if (isset($link['end'])) {{ $link['end'] }} @endif
                 @endforeach
             </nav>
         </div>

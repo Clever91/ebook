@@ -42,11 +42,23 @@ Route::group(['prefix' => 'pay'], function () {
 
 // ~~~~~~~~~~~~~~~~~~~ Front ~~~~~~~~~~~~~~~~~~~
 Localization::localizedRoutesGroup(function() {
+
+    // page contect
+    Route::get('/page/contact', function() {
+        return view('page.contact');
+    })->name('page.contact');
+
+    // page about
+    Route::get('/page/about', function() {
+        return view('page.about');
+    })->name('page.about');
+
     // front route
     Route::group(['prefix' => 'front'], function () {
         Route::get('/', 'Front\HomeController@index')->name('front.home');
         Route::get('/category/{cat}/products', 'Front\CategoryController@products')->name('front.category.products');
         Route::get('/authors/index', 'Front\AuthorsController@index')->name('front.authors');
+        Route::get('/product/{product}/single', 'Front\ProductController@single')->name('front.product.single');
     });
 });
 
@@ -67,14 +79,6 @@ Localization::localizedRoutesGroup(function() {
 
         return view('auth._500');
     })->name('error500');
-
-    Route::get('/page/contact', function() {
-        return view('page.contact');
-    })->name('page.contact');
-
-    Route::get('/page/about', function() {
-        return view('page.about');
-    })->name('page.about');
 
     // Route::get('/test', function() {
     //     $content = Fargo::savePrices();

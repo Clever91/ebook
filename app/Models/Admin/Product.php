@@ -69,6 +69,15 @@ class Product extends Base implements TranslatableContract
         ])->get();
     }
 
+    public function booksBySort($sort = 'asc')
+    {
+        return Book::where([
+            'product_id' => $this->id,
+            'status' => Product::STATUS_ACTIVE,
+            'deleted' => Product::NO_DELETED,
+        ])->orderBy('price', $sort)->get();
+    }
+
     public function ebook()
     {
         return Ebook::where('product_id', $this->id)->first();
@@ -133,5 +142,10 @@ class Product extends Base implements TranslatableContract
         if ($this->hasImage())
             return $this->image->getImageUrl($size);
         return "http://placehold.it/{$size}";
+    }
+
+    public static function getDefaultImageUrl($path)
+    {
+        return "https://demo2.madrasthemes.com/bookworm-html/redesigned-octo-fiesta/".$path;
     }
 }
