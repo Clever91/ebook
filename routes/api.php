@@ -27,21 +27,21 @@ Route::group(['prefix' => 'v1'], function() {
     });
 
     Route::group(['prefix' => 'category'], function() {
-        Route::post('category_list', 'API\CategoryController@categories');
-        Route::post('image', 'API\CategoryController@image');
+        Route::post('list', 'API\CategoryController@categories');
+        Route::put('image', 'API\CategoryController@image');
     });
 
     Route::group(['prefix' => 'product'], function() {
-        Route::post('product_list', 'API\ProductController@products');
-        Route::post('product_info', 'API\ProductController@product');
-        Route::post('download', 'API\ProductController@download');
-        Route::post('image', 'API\ProductController@image');
+        Route::post('list', 'API\ProductController@products');
+        Route::post('info', 'API\ProductController@product');
+        Route::put('download', 'API\ProductController@download');
+        Route::put('image', 'API\ProductController@image');
     });
 
     Route::group(['prefix' => 'author'], function() {
-        Route::post('author_list', 'API\AuthorController@authors');
-        Route::post('author_info', 'API\AuthorController@author');
-        Route::post('image', 'API\AuthorController@image');
+        Route::post('list', 'API\AuthorController@authors');
+        Route::post('info', 'API\AuthorController@author');
+        Route::put('image', 'API\AuthorController@image');
     });
 
     Route::group(['prefix' => "auth"], function() {

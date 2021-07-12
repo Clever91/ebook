@@ -43,7 +43,8 @@ class ProductController extends BaseController
         $lang = $this->_lang;
         $type = GroupRelation::TYPE_PRODUCT;
 
-        // ager access_token bilan auth qilgan bo'lsa, demak olingan kitoblarni berish kerak
+        // ager access_token bilan auth qilgan bo'lsa,
+        // demak olingan kitoblarni berish kerak
         $customer_id = null;
         if (!is_null($this->_customer)) {
             $customer_id = $this->_customer->id;
@@ -53,17 +54,21 @@ class ProductController extends BaseController
         ->join('authors AS au', function($join) {
             $join->on('pro.author_id', '=', 'au.id');
         })
+        ->leftJoin('author_translations AS aut', function ($join) use ($lang) {
+            $join->on('au.id', '=', 'aut.author_id')
+                ->where('aut.locale', '=', $lang);
+        })
         ->leftJoin('product_translations AS pt', function ($join) use ($lang) {
             $join->on('pro.id', '=', 'pt.product_id')
                 ->where('pt.locale', '=', $lang);
         })
-        ->leftJoin('order_ebooks AS oe', function ($join) use ($customer_id) {
-            $join->on('pro.id', '=', 'oe.product_id')
-                ->where([
-                    'oe.customer_id' => $customer_id,
-                    'oe.state' => OrderEbook::STATE_PAYED
-                ]);
-        })
+        // ->leftJoin('order_ebooks AS oe', function ($join) use ($customer_id) {
+        //     $join->on('pro.id', '=', 'oe.product_id')
+        //         ->where([
+        //             'oe.customer_id' => $customer_id,
+        //             'oe.state' => OrderEbook::STATE_PAYED
+        //         ]);
+        // })
         ->leftJoin('group_relations AS grel', function ($join) use ($type) {
             $join->on('pro.id', '=', 'grel.related_id')
                 ->where('grel.type', '=', $type);
@@ -102,8 +107,9 @@ class ProductController extends BaseController
 
         $query->select(
             'pro.id', 'pt.name', 'pt.description',
-            'au.name AS author', 'pro.price', 'pro.eprice',
-            DB::raw("IF (oe.id IS NULL, false, true) AS 'bought'"))
+            'aut.name AS author', DB::raw("0 AS 'price'"), DB::raw("0 AS 'eprice'"),
+            // DB::raw("IF (oe.id IS NULL, false, true) AS 'bought'")
+            )
             ->orderBy('pt.name');
 
         $success["total"] = $query->count();
@@ -136,17 +142,16 @@ class ProductController extends BaseController
         $success["id"] = $product->id;
         $success["name"] = $product->translateOrNew($this->_lang)->name;
         $success["description"] = $product->translateOrNew($this->_lang)->description;
-        $success["author"] = $product->author->name;
-        $success["price"] = $product->price;
-        $success["eprice"] = $product->eprice;
-        $success["ebook"] = $product->hasEbook();
+        $success["author"] = $product->authorName();
+        $success["price"] = $product->bookPrice();
+        $success["eprice"] = $product->ebookPrice();
+        // $success["ebook"] = $product->hasEbook();
 
-        $customer_id = null;
-        if (!is_null($this->_customer)) {
-            $customer_id = $this->_customer->id;
-        }
-
-        $success["bought"] = $product->isBought($customer_id);
+        // $customer_id = null;
+        // if (!is_null($this->_customer)) {
+        //     $customer_id = $this->_customer->id;
+        // }
+        // $success["bought"] = $product->isBought($customer_id);
         $success["recommended"] = [];
 
         return $this->sendResponse($success, null);
@@ -213,8 +218,8 @@ class ProductController extends BaseController
             return $this->sendError('Product Error', ['error' => 'Product is not found'], 400);
 
         // check this has ebook
-        if (!$product->hasEbook())
-            return $this->sendError('Product Error', ['error' => 'This product has not ebook'], 400);
+        // if (!$product->hasEbook())
+        //     return $this->sendError('Product Error', ['error' => 'This product has not ebook'], 400);
 
         // must to check this product is payed
         $ebook = OrderEbook::where([

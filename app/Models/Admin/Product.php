@@ -94,7 +94,7 @@ class Product extends Base implements TranslatableContract
     public function ebookPrice()
     {
         if (!is_null($this->ebook()))
-            return $this->ebook()->price;
+            return (float) $this->ebook()->price;
 
         return 0;
     }

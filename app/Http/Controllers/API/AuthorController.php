@@ -19,7 +19,12 @@ class AuthorController extends BaseController
         $success["page"] = $this->_page;
         $success["limit"] = $this->_limit;
 
+        $lang = $this->_lang;
         $query = DB::table('authors AS au')
+            ->leftJoin('author_translations AS aut', function ($join) use ($lang) {
+                $join->on('au.id', '=', 'aut.author_id')
+                ->where('aut.locale', '=', $lang);
+            })
             ->where([
                 'au.status' => Base::STATUS_ACTIVE,
                 'au.deleted' => Base::NO_DELETED,
@@ -28,17 +33,17 @@ class AuthorController extends BaseController
         // make filter by text
         $txt = $this->_text;
         if (!is_null($txt)) {
-            $query->where('au.name', 'LIKE', '%'.$txt.'%');
+            $query->where('aut.name', 'LIKE', '%'.$txt.'%');
             // or like
             $query->orWhere([
                 [ 'au.status', '=', Base::STATUS_ACTIVE ],
                 [ 'au.deleted', '=', Base::NO_DELETED ],
-                [ 'au.bio', 'LIKE', '%'.$txt.'%' ]
+                [ 'aut.bio', 'LIKE', '%'.$txt.'%' ]
             ]);
         }
 
-        $query->select('au.id', 'au.name')
-            ->orderBy('au.name');
+        $query->select('au.id', 'aut.name', 'aut.bio')
+            ->orderBy('aut.name');
 
         $success["total"] = $query->count();
         $success["items"] = $query->offset($this->_offset)->take($this->_limit)->get()->toArray();
@@ -69,7 +74,7 @@ class AuthorController extends BaseController
         $success = [];
         $success["id"] = $author->id;
         $success["name"] = $author->translateorNew($this->_lang)->name;
-        $success["bio"] = $author->bio;
+        $success["bio"] = $author->translateorNew($this->_lang)->bio;
         $success["books"] = [];
 
         $item = [];
@@ -81,14 +86,14 @@ class AuthorController extends BaseController
             $item['name'] = $product->translateOrNew($this->_lang)->name;
             $item['description'] = $product->translateOrNew($this->_lang)->description;
             $item['author'] = $author->translateorNew($this->_lang)->name;
-            $item['price'] = $product->price;
-            $item['eprice'] = $product->eprice;
+            $item['price'] = $product->bookPrice();
+            $item['eprice'] = $product->ebookPrice();
 
-            $customer_id = null;
-            if (!is_null($this->_customer)) {
-                $customer_id = $this->_customer->id;
-            }
-            $item["bought"] = $product->isBought($customer_id);
+            // $customer_id = null;
+            // if (!is_null($this->_customer)) {
+            //     $customer_id = $this->_customer->id;
+            // }
+            // $item["bought"] = $product->isBought($customer_id);
 
             array_push($success["books"], $item);
         }

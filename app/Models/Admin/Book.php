@@ -154,9 +154,9 @@ class Book extends Base
                 'status' => Base::STATUS_ACTIVE
             ])->first();
             if (!is_null($price)) {
-                return $price->price;
+                return (float) $price->price;
             }
         }
-        return $this->price;
+        return (float) $this->price;
     }
 }
