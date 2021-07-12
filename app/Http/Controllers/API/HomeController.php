@@ -40,7 +40,7 @@ class HomeController extends BaseController
                 $item["type"] = GroupRelation::TYPE_CATEGORY;
 
                 $index = 0;
-                $item["item"] = [];
+                $item["items"] = [];
                 foreach($categories as $groupcat) {
 
                     if (is_null($groupcat->category))
@@ -49,9 +49,9 @@ class HomeController extends BaseController
                     if (!$groupcat->category->isActive())
                         continue;
 
-                    $item["item"][$index]["id"] = $groupcat->category->id;
-                    $item["item"][$index]["name"] = $groupcat->category->translateOrNew($this->_lang)->name;
-                    $item["item"][$index]["order_no"] = $groupcat->order_no;
+                    $item["items"][$index]["id"] = $groupcat->category->id;
+                    $item["items"][$index]["name"] = $groupcat->category->translateOrNew($this->_lang)->name;
+                    $item["items"][$index]["order_no"] = $groupcat->order_no;
                     $index++;
                 }
 
@@ -63,7 +63,7 @@ class HomeController extends BaseController
                 $item["type"] = GroupRelation::TYPE_AUTHOR;
 
                 $index = 0;
-                $item["item"] = [];
+                $item["items"] = [];
                 foreach($authors as $groAuthor) {
 
                     if (is_null($groAuthor->author))
@@ -72,10 +72,10 @@ class HomeController extends BaseController
                     if (!$groAuthor->author->isActive())
                         continue;
 
-                    $item["item"][$index]["id"] = $groAuthor->author->id;
-                    $item["item"][$index]["name"] = $groAuthor->author->name;
-                    $item["item"][$index]["bio"] = $groAuthor->author->bio;
-                    $item["item"][$index]["order_no"] = $groAuthor->order_no;
+                    $item["items"][$index]["id"] = $groAuthor->author->id;
+                    $item["items"][$index]["name"] = $groAuthor->author->translateOrNew($this->_lang)->name;
+                    $item["items"][$index]["bio"] = $groAuthor->author->translateOrNew($this->_lang)->bio;
+                    $item["items"][$index]["order_no"] = $groAuthor->order_no;
                     $index++;
                 }
 
@@ -87,7 +87,7 @@ class HomeController extends BaseController
                 $item["type"] = GroupRelation::TYPE_PRODUCT;
 
                 $index = 0;
-                $item["item"] = [];
+                $item["items"] = [];
                 foreach($products as $index => $gropro) {
 
                     if (is_null($gropro->product))
@@ -96,19 +96,19 @@ class HomeController extends BaseController
                     if (!$gropro->product->isActive())
                         continue;
 
-                    $item["item"][$index]["id"] = $gropro->product->id;
-                    $item["item"][$index]["name"] = $gropro->product->translateOrNew($this->_lang)->name;
-                    $item["item"][$index]["price"] = (float) $gropro->product->price;
-                    $item["item"][$index]["eprice"] = (float) $gropro->product->eprice;
-                    $item["item"][$index]["order_no"] = $gropro->order_no;
+                    $item["items"][$index]["id"] = $gropro->product->id;
+                    $item["items"][$index]["name"] = $gropro->product->translateOrNew($this->_lang)->name;
+                    $item["items"][$index]["price"] = (float) $gropro->product->bookPrice();
+                    $item["items"][$index]["eprice"] = (float) $gropro->product->ebookPrice();
+                    $item["items"][$index]["order_no"] = $gropro->order_no;
 
                     // tekshirish kerak auth bo'lganini, agar bo'lgan bo'lsa
                     // demak olgan kitoblarini berishimiz kerak
-                    $customer_id = null;
-                    if (!is_null($this->_customer)) {
-                        $customer_id = $this->_customer->id;
-                    }
-                    $item["item"][$index]["bought"] = $gropro->product->isBought($customer_id);
+                    // $customer_id = null;
+                    // if (!is_null($this->_customer)) {
+                    //     $customer_id = $this->_customer->id;
+                    // }
+                    // $item["items"][$index]["bought"] = $gropro->product->isBought($customer_id);
                     $index++;
                 }
 

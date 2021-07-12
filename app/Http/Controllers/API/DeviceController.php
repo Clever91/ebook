@@ -39,7 +39,7 @@ class DeviceController extends BaseController
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error:', $validator->errors(), 400);
+            return $this->sendError('Validation Error', $validator->errors(), 400);
         }
 
         $input = $request->all();
