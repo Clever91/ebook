@@ -80,10 +80,10 @@ Localization::localizedRoutesGroup(function() {
         return view('auth._500');
     })->name('error500');
 
-    // Route::get('/test', function() {
-    //     $content = Fargo::savePrices();
-    //     return $content;
-    // })->name('test');
+    Route::get('/test', function() {
+        $content = Fargo::savePrices();
+        return $content;
+    })->name('test');
 
     // Route::get('/ptest', function() {
     //     $content = Fargo::getPrices();
