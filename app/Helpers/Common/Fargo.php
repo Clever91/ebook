@@ -28,7 +28,7 @@ class Fargo
                 self::KEY_OFFICE_OFFICE => [
                     "name" => "До Пункта Fargo",
                     "code" => ChatOrder::DELIVERY_FARGO_OFFICE,
-                    "zero" => 0,
+                    "zero" => 5000,
                     "price" => 5000,
                     "step" => 1,
                 ],
